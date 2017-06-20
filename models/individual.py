@@ -1,3 +1,5 @@
+from models.genes import GenesAs32BitArray
+
 class Individual:
     def __init__(self, config, birth_year):
         self.config = config
@@ -12,4 +14,4 @@ class Individual:
 
     def canBreed(self, current_year):
         age = self.age(current_year)
-        return (age >= self.config.min_breading_age && age <= self.config.max_breeding_age)
+        return (age >= self.config.min_breeding_age and age <= self.config.max_breeding_age)

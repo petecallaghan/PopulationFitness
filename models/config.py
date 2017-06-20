@@ -11,10 +11,10 @@ class Config:
 
         # Probability that an individual gene code will mutate
         self.mutation_probability = 1.0 / (self.size_of_each_gene * self.number_of_genes)
-        
+
         self.max_age = 50
         self.max_year = 2150
         self.max_breeding_age = 35
-        self.min_breading_age = 16
+        self.min_breeding_age = 16
         self.float_lower = ZERO
         self.float_upper = PI
