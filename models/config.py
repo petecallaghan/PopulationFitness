@@ -18,3 +18,5 @@ class Config:
         self.min_breeding_age = 16
         self.float_lower = ZERO
         self.float_upper = PI
+
+        self.initial_population_size = 4000

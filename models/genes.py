@@ -32,6 +32,13 @@ class GenesAs32BitArray:
         self.genetic_code = array.array('I')
         self.genetic_code.extend((0,) * self.number_of_code_fragments)
 
+    def buildFromRandom(self): # Generate an initial code randomly
+        for index in self.codeIndexRange():
+            code = 0
+            if (random.uniform(0, 1) > 0.5):
+                code = 1
+            self.setCode(index, code)
+
     def codeIndexRange(self): # Returns the code index range
         return range(0, self.number_of_codes)
 
