@@ -9,7 +9,7 @@ def test_old_guy_ready_to_die():
     individual = Individual(config, birth_year)
 
     # Then they are ready to die
-    assert True == individual.readyToDie(current_year)
+    assert True == individual.isReadyToDie(current_year)
 
 def test_young_guy_not_ready_to_die():
     # Given a young individual
@@ -19,7 +19,7 @@ def test_young_guy_not_ready_to_die():
     individual = Individual(config, birth_year)
 
     # Then they are ready to die
-    assert False == individual.readyToDie(current_year)
+    assert False == individual.isReadyToDie(current_year)
 
 def test_can_breed():
     # Given a breeding age individual

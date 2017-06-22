@@ -108,3 +108,9 @@ class GenesAs32BitArray:
         # Remaining codes from father
         for code in range(cross_over_index, self.number_of_codes):
             self.setCode(code, father.getCode(code))
+
+    def areEmpty(self): # Returns true if the genes are all zero
+        for code in self.codeIndexRange():
+            if (1 == self.getCode(code)):
+                return False
+        return True

@@ -22,8 +22,7 @@ def test_new_genes_are_empty():
     genes = GenesAs32BitArray(config)
 
     # When they are tested, they are all zero
-    for code in genes.codeIndexRange():
-        assert 0 == genes.getCode(code)
+    assert True == genes.areEmpty()
 
 def test_mutated_genes_are_not_all_zero():
     # Given a set of genes with zero values that will likely mutate

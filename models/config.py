@@ -20,3 +20,6 @@ class Config:
         self.float_upper = PI
 
         self.initial_population_size = 4000
+
+        # Probability that a pair will produce offspring in a year
+        self.probability_of_breeding = 0.6
