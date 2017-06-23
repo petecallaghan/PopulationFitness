@@ -62,6 +62,6 @@ def test_create_a_new_generation_from_the_current_one():
     babies = population.addNewGeneration(current_year)
 
     # The right number of babies are produced and the babies are added
-    assert len(babies) >= (config.initial_population_size * config.probability_of_breeding / 2) - 2
-    assert len(babies) < (config.initial_population_size * config.probability_of_breeding) + 2
+    assert len(babies) >= (config.initial_population_size * config.probability_of_breeding / 2) - config.initial_population_size / 5
+    assert len(babies) <= (config.initial_population_size * config.probability_of_breeding) + config.initial_population_size / 5
     assert (config.initial_population_size * 3) + len(babies) == len(population.individuals)
