@@ -13,7 +13,6 @@ class Config:
         self.mutation_probability = 1.0 / (self.size_of_each_gene * self.number_of_genes)
 
         self.max_age = 50
-        self.max_year = 2150
         self.max_breeding_age = 35
         self.min_breeding_age = 16
         self.float_lower = ZERO
@@ -23,3 +22,6 @@ class Config:
 
         # Probability that a pair will produce offspring in a year
         self.probability_of_breeding = 0.6
+
+        # Number of years in the simulation
+        self.number_of_years = 2150

@@ -1,12 +1,15 @@
 from models.population import Population
 from models.config import Config
 
+INITIAL_POPULATION_SIZE = 30
+BIRTH_YEAR = 1964
+
 def test_create_new_non_empty_population():
     # Given a small population
     config = Config()
-    config.initial_population_size = 10
+    config.initial_population_size = INITIAL_POPULATION_SIZE
     population = Population(config)
-    birth_year = 1964
+    birth_year = BIRTH_YEAR
 
     # When the population is created from scratch
     population.addNewIndividuals(birth_year)
@@ -18,12 +21,12 @@ def test_create_new_non_empty_population():
         assert birth_year == individual.birth_year
         assert False == individual.genes.areEmpty()
 
-def test_oldies_die_off():
+def test_kill_off_oldies():
     # Given a population that is a mixture of oldies and babies
     config = Config()
-    config.initial_population_size = 10
+    config.initial_population_size = INITIAL_POPULATION_SIZE
     population = Population(config)
-    birth_year = 1964
+    birth_year = BIRTH_YEAR
     population.addNewIndividuals(birth_year)
     current_year = birth_year + config.max_age
     population.addNewIndividuals(current_year)
@@ -43,10 +46,9 @@ def test_oldies_die_off():
 def test_create_a_new_generation_from_the_current_one():
     # Given a population that is a mix of ages...
     config = Config()
-    population_chunk_size = 10
-    config.initial_population_size = population_chunk_size
+    config.initial_population_size = INITIAL_POPULATION_SIZE
     population = Population(config)
-    birth_year = 1964
+    birth_year = BIRTH_YEAR
     current_year = birth_year + config.max_breeding_age
     breeding_birth_year = current_year - config.min_breeding_age
     # .. some who will be too old to breed
@@ -60,6 +62,6 @@ def test_create_a_new_generation_from_the_current_one():
     babies = population.addNewGeneration(current_year)
 
     # The right number of babies are produced and the babies are added
-    assert len(babies) >= (population_chunk_size * config.probability_of_breeding / 2) - 2
-    assert len(babies) < (population_chunk_size * config.probability_of_breeding) + 2
-    assert (population_chunk_size * 3) + len(babies) == len(population.individuals)
+    assert len(babies) >= (config.initial_population_size * config.probability_of_breeding / 2) - 2
+    assert len(babies) < (config.initial_population_size * config.probability_of_breeding) + 2
+    assert (config.initial_population_size * 3) + len(babies) == len(population.individuals)
