@@ -39,12 +39,12 @@ def test_epoch_fitness_factors():
     # Given a set of epochs
     epochs = Epochs()
     epochs.addNextEpoch(-50, 1)
-    epochs.addNextEpoch(400, 2)
-    epochs.addNextEpoch(550, 3)
-    epochs.addNextEpoch(1086, 4)
+    epochs.addNextEpoch(400, "2")
+    epochs.addNextEpoch(550, 3.0)
+    epochs.addNextEpoch(1086, -4)
 
     # When we iterate over the epochs we find the right fitness factor
     assert 1 == epochs.epochs[0].fitness_factor
-    assert 2 == epochs.epochs[1].fitness_factor
-    assert 3 == epochs.epochs[2].fitness_factor
-    assert 4 == epochs.epochs[3].fitness_factor
+    assert "2" == epochs.epochs[1].fitness_factor
+    assert 3.0 == epochs.epochs[2].fitness_factor
+    assert -4 == epochs.epochs[3].fitness_factor
