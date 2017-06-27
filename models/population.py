@@ -1,5 +1,6 @@
 import random
 from models.individual import Individual
+from models.fitness import calculateFitnessWithinPopulationForEpoch
 
 class Population:
     def __init__(self, config):
@@ -28,12 +29,19 @@ class Population:
         self.individuals.extend(babies)
         return babies
 
+    def isUnfit(self, individual, epoch):
+        fitness = calculateFitnessWithinPopulationForEpoch(individual.genes, epoch, len(self.individuals))
+        if (fitness < random.uniform(0, 1) * epoch.kill_constant):
+            return True
+
+        return False
+
     # Kills those in the population who are ready to die and returns the fatalities
-    def killThoseUnfitOrReadyToDie(self, current_year):
+    def killThoseUnfitOrReadyToDie(self, current_year, epoch):
         survivors = []
         fatalities = []
         for individual in self.individuals:
-            if (individual.isUnfitOrReadyToDie(current_year)):
+            if (individual.isReadyToDie(current_year) or self.isUnfit(individual, epoch)):
                 fatalities.append(individual)
             else:
                 survivors.append(individual)

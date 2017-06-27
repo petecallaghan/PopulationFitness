@@ -1,5 +1,8 @@
 from models.population import Population
 from models.config import Config
+from models.epoch import Epoch
+from models.epoch import Epochs
+
 
 INITIAL_POPULATION_SIZE = 30
 BIRTH_YEAR = 1964
@@ -22,8 +25,12 @@ def test_create_new_non_empty_population():
         assert False == individual.genes.areEmpty()
 
 def test_kill_off_oldies():
-    # Given a population that is a mixture of oldies and babies
+    # Given a population that is a mixture of oldies and babies, where fitness is ignored
     config = Config()
+    epochs = Epochs()
+    epochs.addNextEpoch(-50, 1, 1)
+    # Ignore fitness
+    epochs.epochs[0].enable_fitness = False
     config.initial_population_size = INITIAL_POPULATION_SIZE
     population = Population(config)
     birth_year = BIRTH_YEAR
@@ -33,7 +40,7 @@ def test_kill_off_oldies():
 
     # When we kill off the elderly
     assert 2 * config.initial_population_size == len(population.individuals)
-    fatalities = population.killThoseUnfitOrReadyToDie(current_year)
+    fatalities = population.killThoseUnfitOrReadyToDie(current_year, epochs.epochs[0])
 
     # Just the babies remain and the elderly were killed
     assert config.initial_population_size == len(population.individuals)
