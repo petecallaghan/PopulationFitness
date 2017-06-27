@@ -50,6 +50,23 @@ def test_kill_off_oldies():
     for individual in population.individuals:
         assert 0 == individual.age(current_year)
 
+def test_kill_off_unfit():
+    # Given a population that contains just babies
+    config = Config()
+    epochs = Epochs()
+    epochs.addNextEpoch(-50, 1, 1)
+    config.initial_population_size = INITIAL_POPULATION_SIZE
+    population = Population(config)
+    current_year = BIRTH_YEAR
+    population.addNewIndividuals(current_year)
+
+    # When we kill off the unfit
+    fatalities = population.killThoseUnfitOrReadyToDie(current_year, epochs.epochs[0])
+
+    # Some remain and some were killed
+    assert 0 > len(population.individuals)
+    assert 0 < len(fatalities)
+
 def test_create_a_new_generation_from_the_current_one():
     # Given a population that is a mix of ages...
     config = Config()
