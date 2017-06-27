@@ -28,7 +28,7 @@ def test_kill_off_oldies():
     # Given a population that is a mixture of oldies and babies, where fitness is ignored
     config = Config()
     epochs = Epochs()
-    epochs.addNextEpoch(-50, 1, 1)
+    epochs.addNextEpoch(-50)
     # Ignore fitness
     epochs.epochs[0].enable_fitness = False
     config.initial_population_size = INITIAL_POPULATION_SIZE
@@ -54,7 +54,7 @@ def test_kill_off_unfit():
     # Given a population that contains just babies
     config = Config()
     epochs = Epochs()
-    epochs.addNextEpoch(-50, 1, 1)
+    epochs.addNextEpoch(-50)
     config.initial_population_size = INITIAL_POPULATION_SIZE
     population = Population(config)
     current_year = BIRTH_YEAR

@@ -1,4 +1,4 @@
-from math import asin
+from math import sin
 
 ALWAYS_FIT = 100000
 
@@ -8,13 +8,16 @@ def calculateFitnessWithinPopulationForEpoch(genes, epoch, population_size):
         return ALWAYS_FIT
 
     fitness = 1
-    for float in genes.toFloat():
-        fitness = fitness * asin(float)**epoch.fitness_factor
+    for float_value in genes.toFloat():
+        fitness = fitness * sin(float_value)**epoch.fitness_factor
+        print("Float ", float_value, " fitness ", fitness)
 
     if (epoch.isCapacityUnlimited() == False):
         fitness = fitness * epoch.environment_capacity / population_size
 
     if (fitness < 0):
         fitness = 0
+
+    print ("Fitness ", fitness)
 
     return fitness
