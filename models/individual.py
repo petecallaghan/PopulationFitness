@@ -14,7 +14,8 @@ class Individual:
 
     def canBreed(self, current_year):
         age = self.age(current_year)
-        return (age >= self.config.min_breeding_age and age <= self.config.max_breeding_age)
+        config = self.config # optimize
+        return (age >= config.min_breeding_age and age <= config.max_breeding_age)
 
     def inheritFromParentsAndMutate(self, father, mother):
         self.genes.inheritFrom(father.genes, mother.genes)

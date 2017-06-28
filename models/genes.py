@@ -37,12 +37,14 @@ class GenesAs32BitArray:
         self.genetic_code.extend((0,) * self.number_of_code_fragments)
 
     def buildFromRandom(self): # Generate an initial code randomly
+        setCode = self.setCode # optimize
+
         self.buildEmpty()
         for index in self.codeIndexRange():
             code = 0
             if (random.uniform(0, 1) > 0.5):
                 code = 1
-            self.setCode(index, code)
+            setCode(index, code)
 
     def codeIndexRange(self): # Returns the code index range
         return range(0, self.number_of_codes)
@@ -93,16 +95,23 @@ class GenesAs32BitArray:
     def toFloat(self): # represents genetic code as real numbers
         # Differs from BASIC implementation by mapping the code fragments, not
         # the individual genes
+
         float_genes = []
+
+        append = float_genes.append # optimize
+        interpolate = self.linearFloatInterpolation # optimize
+        max_code_fragment_value = self.max_code_fragment_value #optimize
+
         for code_fragment in self.genetic_code[:-1]: # All but the last in the list
-            float_genes.append(self.linearFloatInterpolation(code_fragment, self.max_code_fragment_value))
+            append(interpolate(code_fragment, max_code_fragment_value))
         #Add the last in the list
-        float_genes.append(self.linearFloatInterpolation(self.genetic_code[-1], self.max_last_fragment_value))
+        append(interpolate(self.genetic_code[-1], self.max_last_fragment_value))
         return float_genes
 
     def mutate(self):
+        mutate = self.randomlyMutateCode # optimize
         for gene_code in self.codeIndexRange():
-            self.randomlyMutateCode(gene_code)
+            mutate(gene_code)
 
     def inheritFrom(self, mother, father): # Copies a random set from mother and father
         # Randomly picks the code index that crosses over from mother to father
@@ -111,12 +120,17 @@ class GenesAs32BitArray:
         # First set of codes from mother
         self.genetic_code.extend(mother.genetic_code)
 
+        setCode = self.setCode # optimize
+        getCode = father.getCode #optimize
+
         # Remaining codes from father
         for code in range(cross_over_index, self.number_of_codes):
-            self.setCode(code, father.getCode(code))
+            setCode(code, getCode(code))
 
     def areEmpty(self): # Returns true if the genes are all zero
+        getCode = self.getCode #optimize
+
         for code in self.codeIndexRange():
-            if (1 == self.getCode(code)):
+            if (1 == getCode(code)):
                 return False
         return True

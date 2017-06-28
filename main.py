@@ -13,14 +13,15 @@ def main():
     epochs = Epochs()
     epochs.addNextEpoch(-50, 1, 1, 4000)
     epochs.addNextEpoch(400, 1.5, DEFAULT_KILL_CONSTANT)
-    epochs.addNextEpoch(550, 1, DEFAULT_KILL_CONSTANT, 2000)
-    epochs.addNextEpoch(1086, 1.1, DEFAULT_KILL_CONSTANT)
-    epochs.addNextEpoch(1300, 1.1, DEFAULT_KILL_CONSTANT)
-    epochs.addNextEpoch(1348, 3, DEFAULT_KILL_CONSTANT)
-    epochs.addNextEpoch(1400, 1, DEFAULT_KILL_CONSTANT)
-    epochs.addNextEpoch(2016, 3, DEFAULT_KILL_CONSTANT)
-    epochs.addNextEpoch(2068, 1, DEFAULT_KILL_CONSTANT)
-    epochs.setFinalEpochYear(-50 + config.number_of_years - 1)
+    epochs.setFinalEpochYear(450)
+    #epochs.addNextEpoch(550, 1, DEFAULT_KILL_CONSTANT, 2000)
+    #epochs.addNextEpoch(1086, 1.1, DEFAULT_KILL_CONSTANT)
+    #epochs.addNextEpoch(1300, 1.1, DEFAULT_KILL_CONSTANT)
+    #epochs.addNextEpoch(1348, 3, DEFAULT_KILL_CONSTANT)
+    #epochs.addNextEpoch(1400, 1, DEFAULT_KILL_CONSTANT)
+    #epochs.addNextEpoch(2016, 3, DEFAULT_KILL_CONSTANT)
+    #epochs.addNextEpoch(2068, 1, DEFAULT_KILL_CONSTANT)
+    #epochs.setFinalEpochYear(-50 + config.number_of_years - 1)
 
     # When the simulation runs through the epochs
     for epoch in epochs.epochs:

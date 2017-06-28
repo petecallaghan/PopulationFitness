@@ -8,24 +8,33 @@ class Population:
         self.individuals = []
 
     def addNewIndividuals(self, birth_year): # Adds new individuals to the population
-        for person in range(0, self.config.initial_population_size):
-            individual = Individual(self.config, birth_year)
+        config = self.config # optimize
+        append = self.individuals.append # optimize
+
+        for person in range(0, config.initial_population_size):
+            individual = Individual(config, birth_year)
             individual.genes.buildFromRandom()
-            self.individuals.append(individual)
+            append(individual)
 
     # Produces a new generation. Adds the generation to the population and
     # returns the newly created set of babies
     def addNewGeneration(self, current_year):
         babies = []
+
+        config = self.config # optimize
+        probability_of_breeding = config.probability_of_breeding # optmize
+        append = babies.append # optimize
+        individuals = self.individuals # optimize
+
         for pairIndex in range(0, len(self.individuals)-1, 2):
             # Selects a pair and breeds if they are both of breeding age
-            father = self.individuals[pairIndex]
-            mother = self.individuals[pairIndex + 1]
-            pairCanBreed = (random.uniform(0, 1) < self.config.probability_of_breeding)
+            father = individuals[pairIndex]
+            mother = individuals[pairIndex + 1]
+            pairCanBreed = (random.uniform(0, 1) < probability_of_breeding)
             if (father.canBreed(current_year) and mother.canBreed(current_year) and pairCanBreed):
-                baby = Individual(self.config, current_year)
+                baby = Individual(config, current_year)
                 baby.inheritFromParentsAndMutate(father, mother)
-                babies.append(baby)
+                append(baby)
 
         # Add the babies to the set of individuals
         self.individuals.extend(babies)
@@ -42,16 +51,20 @@ class Population:
     def killThoseUnfitOrReadyToDie(self, current_year, epoch):
         survivors = []
         fatalities = []
+
+        die = fatalities.append # optimize
+        survive = survivors.append # optimize
+
         self.total_fitness = 0
         self.max_fitness = 0
         for individual in self.individuals:
             if (individual.isReadyToDie(current_year) or self.isUnfit(individual, epoch)):
-                fatalities.append(individual)
+                die(individual)
             else:
                 self.total_fitness = self.total_fitness + individual.fitness
                 if (individual.fitness > self.max_fitness):
                     self.max_fitness = individual.fitness
-                survivors.append(individual)
+                survive(individual)
         self.individuals = survivors
         return fatalities
 
