@@ -32,8 +32,8 @@ class Population:
         return babies
 
     def isUnfit(self, individual, epoch):
-        fitness = calculateFitnessWithinPopulationForEpoch(individual.genes, epoch, len(self.individuals))
-        if (fitness < random.uniform(0, 1) * epoch.kill_constant):
+        individual.fitness = calculateFitnessWithinPopulationForEpoch(individual.genes, epoch, len(self.individuals))
+        if (individual.fitness < random.uniform(0, 1) * epoch.kill_constant):
             return True
 
         return False
@@ -42,10 +42,18 @@ class Population:
     def killThoseUnfitOrReadyToDie(self, current_year, epoch):
         survivors = []
         fatalities = []
+        self.total_fitness = 0
+        self.max_fitness = 0
         for individual in self.individuals:
             if (individual.isReadyToDie(current_year) or self.isUnfit(individual, epoch)):
                 fatalities.append(individual)
             else:
+                self.total_fitness = self.total_fitness + individual.fitness
+                if (individual.fitness > self.max_fitness):
+                    self.max_fitness = individual.fitness
                 survivors.append(individual)
         self.individuals = survivors
         return fatalities
+
+    def averageFitness(self):
+        return self.total_fitness / len(self.individuals)

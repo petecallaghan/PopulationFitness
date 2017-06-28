@@ -15,6 +15,9 @@ class GenerationHistory:
         self.epoch = epoch
         self.born_time = born_time
         self.kill_time = kill_time
+        self.total_fitness = 0
+        self.average_fitness = 0
+        self.max_fitness = 0
 
     def bornElapsedInHundredths(self):
         return int(self.born_time * 100) / 100
@@ -42,10 +45,14 @@ class Generations:
         babies = self.population.addNewGeneration(year)
         born_elapsed = timeit.default_timer() - start_time
 
-        return self.addHistory(epoch, year, len(self.population.individuals), len(babies), len(fatalities), born_elapsed, kill_elapsed)
+        return self.addHistory(epoch, year, len(babies), len(fatalities), born_elapsed, kill_elapsed)
 
-    def addHistory(self, epoch, year, population, number_born, number_killed, born_time, kill_time):
-        generation = GenerationHistory(epoch, year, population, number_born, number_killed, born_time, kill_time)
+    def addHistory(self, epoch, year, number_born, number_killed, born_time, kill_time):
+        generation = GenerationHistory(epoch, year, len(self.population.individuals), number_born, number_killed, born_time, kill_time)
+        generation.total_fitness = self.population.total_fitness
+        generation.average_fitness = self.population.averageFitness()
+        generation.max_fitness = self.population.max_fitness
+        
         self.history.append(generation)
         print('Year', generation.year, 'Pop', generation.population, 'Born', generation.number_born, 'in', generation.bornElapsedInHundredths(), 's Killed', generation.number_killed, 'in', generation.killElapsedInHundredths(), 's')
         return generation
