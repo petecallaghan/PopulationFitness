@@ -59,16 +59,24 @@ def test_mutation_can_be_disabled():
 
 def then_they_fall_into_the_float_range(config, genes):
     float_genes = genes.toFloat()
-    total = 0.0
     for gene in float_genes:
-        total += gene
-    assert total > config.float_lower * genes.number_of_integers
-    assert total < config.float_upper * genes.number_of_integers
-
+        assert config.float_lower <= gene
+        assert config.float_upper >= gene
+    assert genes.number_of_code_fragments == len(float_genes)
 
 def test_genes_as_float_using_default_range():
     # Given a set of genes with non zero values
     config = Config()
+    genes = GenesAs32BitArray(config)
+    genes.buildFromRandom()
+
+    then_they_fall_into_the_float_range(config, genes)
+
+def test_genes__with_large_bit_coding_as_float():
+    # Given a set of genes with non zero values
+    config = Config()
+    config.number_of_genes = 111
+    config.size_of_each_gene = 111
     genes = GenesAs32BitArray(config)
     genes.buildFromRandom()
 

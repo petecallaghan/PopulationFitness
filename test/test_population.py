@@ -64,7 +64,7 @@ def test_kill_off_unfit():
     fatalities = population.killThoseUnfitOrReadyToDie(current_year, epochs.epochs[0])
 
     # Some remain and some were killed
-    assert 0 > len(population.individuals)
+    assert 0 < len(population.individuals)
     assert 0 < len(fatalities)
 
 def test_create_a_new_generation_from_the_current_one():

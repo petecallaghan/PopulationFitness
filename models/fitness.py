@@ -10,14 +10,11 @@ def calculateFitnessWithinPopulationForEpoch(genes, epoch, population_size):
     fitness = 1
     for float_value in genes.toFloat():
         fitness = fitness * sin(float_value)**epoch.fitness_factor
-        print("Float ", float_value, " fitness ", fitness)
 
     if (epoch.isCapacityUnlimited() == False):
         fitness = fitness * epoch.environment_capacity / population_size
 
     if (fitness < 0):
         fitness = 0
-
-    print ("Fitness ", fitness)
 
     return fitness

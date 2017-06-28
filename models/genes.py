@@ -2,7 +2,8 @@ import array, random
 
 DIVIDE_BY_32 = 5
 MASK_UNITS_FOR_32_BITS = 31
-MAX_32_BIT_VALUE = 0x7FFFFFFF
+MAX_32_BIT_VALUE = 0xFFFFFFFF
+NUMBER_OF_BITS_IN_A_WORD = 32
 
 # Represents a set of genes as a bit array, using 32 bit integers to contain
 # 32 bit fragments of the genetic  code.
@@ -19,9 +20,12 @@ class GenesAs32BitArray:
         # The entire code is mapped to bits stored across a number of 32 bit integers
         # Each integer is a code fragment
         self.max_code_fragment_value = MAX_32_BIT_VALUE
+        self.max_last_fragment_value = MAX_32_BIT_VALUE
         self.number_of_code_fragments = self.number_of_codes >> DIVIDE_BY_32
-        if (self.number_of_code_fragments & MASK_UNITS_FOR_32_BITS): # if bit size is not divisible by 32, add one
+        number_of_bits_in_last_word = self.number_of_codes % NUMBER_OF_BITS_IN_A_WORD
+        if (number_of_bits_in_last_word > 0): # if bit size is not divisible by 32, add one
             self.number_of_code_fragments += 1
+            self.max_last_fragment_value = MAX_32_BIT_VALUE >> (NUMBER_OF_BITS_IN_A_WORD - number_of_bits_in_last_word)
 
         # The integers so which the code maps is currently the code fragments
         # (Not the individual genes, in contrast to the original BASIC implementation)
@@ -82,15 +86,17 @@ class GenesAs32BitArray:
         if (random.uniform(0, 1) < self.config.mutation_probability):
             self.toggleCode(index)
 
-    def linearFloatInterpolation(self, code_fragment):
-        return self.config.float_lower + (code_fragment * (self.config.float_upper - self.config.float_lower)) / self.max_code_fragment_value
+    def linearFloatInterpolation(self, code_fragment, max_code_fragment_value):
+        return self.config.float_lower + (code_fragment * (self.config.float_upper - self.config.float_lower)) / max_code_fragment_value
 
     def toFloat(self): # represents genetic code as real numbers
         # Differs from BASIC implementation by mapping the code fragments, not
         # the individual genes
         float_genes = []
-        for code_fragment in self.genetic_code:
-            float_genes.append(self.linearFloatInterpolation(code_fragment))
+        for code_fragment in self.genetic_code[:-1]: # All but the last in the list
+            float_genes.append(self.linearFloatInterpolation(code_fragment, self.max_code_fragment_value))
+        #Add the last in the list
+        float_genes.append(self.linearFloatInterpolation(self.genetic_code[-1], self.max_last_fragment_value))
         return float_genes
 
     def mutate(self):

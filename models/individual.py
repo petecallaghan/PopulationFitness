@@ -20,10 +20,3 @@ class Individual:
     def inheritFromParentsAndMutate(self, father, mother):
         self.genes.inheritFrom(father.genes, mother.genes)
         self.genes.mutate()
-
-    def isUnfit(self, current_year): # Applies the fitness function for the year
-        # TO DO!
-        return False
-
-    def isUnfitOrReadyToDie(self, current_year):
-        return self.isUnfit(current_year) or self.isReadyToDie(current_year)
