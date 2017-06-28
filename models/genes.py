@@ -111,7 +111,7 @@ class GenesAs32BitArray:
         append(interpolate(self.genetic_code[-1], self.max_last_fragment_value))
         return float_genes
 
-    def mutate(self):
+    def mutate(self): # TODO optimize
         mutate = self.randomlyMutateCode # optimize
         for gene_code in self.codeIndexRange():
             mutate(gene_code)
@@ -127,6 +127,7 @@ class GenesAs32BitArray:
         getCode = father.getCode #optimize
 
         # Remaining codes from father
+        # TODO optimize - apply as words not bits
         for code in range(cross_over_index, self.number_of_codes):
             setCode(code, getCode(code))
 
