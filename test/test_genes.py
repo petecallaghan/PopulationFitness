@@ -6,6 +6,8 @@ def test_set_and_get_code():
     # Given a set of genes with random values
     config = Config()
     genes = GenesAs32BitArray(config)
+
+    genes.buildEmpty()
     values = []
     for code in genes.codeIndexRange():
         values.append(random.randint(0, 1))
@@ -20,6 +22,7 @@ def test_new_genes_are_empty():
     # Given a set of genes with zero values
     config = Config()
     genes = GenesAs32BitArray(config)
+    genes.buildEmpty()
 
     # When they are tested, they are all zero
     assert True == genes.areEmpty()
@@ -28,6 +31,7 @@ def test_mutated_genes_are_not_all_zero():
     # Given a set of genes with zero values that will likely mutate
     config = Config()
     genes = GenesAs32BitArray(config)
+    genes.buildEmpty()
     config.mutation_probability = config.mutation_probability * 10
 
     # When they are mutated
@@ -45,6 +49,7 @@ def test_mutation_can_be_disabled():
     # Given a set of genes with zero values that will not mutate
     config = Config()
     genes = GenesAs32BitArray(config)
+    genes.buildEmpty()
     config.mutation_probability = 0
 
     # When they are mutated

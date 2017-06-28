@@ -31,12 +31,13 @@ class GenesAs32BitArray:
         # (Not the individual genes, in contrast to the original BASIC implementation)
         # This may need to change
         self.number_of_integers = self.number_of_code_fragments
-
-        # fill the genes with zero
         self.genetic_code = array.array('I')
+
+    def buildEmpty(self):
         self.genetic_code.extend((0,) * self.number_of_code_fragments)
 
     def buildFromRandom(self): # Generate an initial code randomly
+        self.buildEmpty()
         for index in self.codeIndexRange():
             code = 0
             if (random.uniform(0, 1) > 0.5):
@@ -108,8 +109,7 @@ class GenesAs32BitArray:
         cross_over_index = 1 + int(random.uniform(0, 1) * (self.max_code_index - 1))
 
         # First set of codes from mother
-        for code in range(0, cross_over_index):
-            self.setCode(code, mother.getCode(code))
+        self.genetic_code.extend(mother.genetic_code)
 
         # Remaining codes from father
         for code in range(cross_over_index, self.number_of_codes):

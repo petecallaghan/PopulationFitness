@@ -9,13 +9,15 @@ class Population:
 
     def addNewIndividuals(self, birth_year): # Adds new individuals to the population
         for person in range(0, self.config.initial_population_size):
-            self.individuals.append(Individual(self.config, birth_year))
+            individual = Individual(self.config, birth_year)
+            individual.genes.buildFromRandom()
+            self.individuals.append(individual)
 
     # Produces a new generation. Adds the generation to the population and
     # returns the newly created set of babies
     def addNewGeneration(self, current_year):
         babies = []
-        for pairIndex in range(0, int(len(self.individuals) / 2)):
+        for pairIndex in range(0, len(self.individuals)-1, 2):
             # Selects a pair and breeds if they are both of breeding age
             father = self.individuals[pairIndex]
             mother = self.individuals[pairIndex + 1]

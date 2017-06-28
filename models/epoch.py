@@ -22,7 +22,7 @@ class Epoch:
         self.enable_fitness = True
 
     # Returns the range of years
-    def getRangeOfYears(self, step = 1):
+    def getRangeOfYears(self, step=1):
         if (self.end_year == UNDEFINED_YEAR):
             raise ValueError("Epoch end year is not defined")
 
