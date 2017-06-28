@@ -1,6 +1,7 @@
 import random
 from models.individual import Individual
 from models.fitness import calculateFitnessWithinPopulationForEpoch
+from models.fitness import calculateFitnessForEpoch
 
 uniform = random.uniform # optimize
 
@@ -28,6 +29,7 @@ class Population:
         append = babies.append # optimize
         individuals = self.individuals # optimize
 
+        # TODO find a way of optimizing this loop
         for pairIndex in range(0, len(self.individuals)-1, 2):
             # Selects a pair and breeds if they are both of breeding age
             father = individuals[pairIndex]
@@ -42,12 +44,32 @@ class Population:
         self.individuals.extend(babies)
         return babies
 
+    def isNeverUnFit(self, individual, epoch):
+        individual.fitness = 0
+        return False
+
     def isUnfit(self, individual, epoch):
         individual.fitness = calculateFitnessWithinPopulationForEpoch(individual.genes, epoch, len(self.individuals))
         if (individual.fitness < uniform(0, 1) * epoch.kill_constant):
             return True
 
         return False
+
+    def isUnfitUnlimited(self, individual, epoch):
+        individual.fitness = calculateFitnessForEpoch(individual.genes, epoch, len(self.individuals))
+        if (individual.fitness < uniform(0, 1) * epoch.kill_constant):
+            return True
+
+        return False
+
+    def selectFitnessFunction(self, epoch):
+        if (epoch.isFitnessEnabled() == False):
+            return self.isNeverUnFit
+
+        if (epoch.isCapacityUnlimited()):
+            return self.isUnfitUnlimited
+
+        return self.isUnfit
 
     # Kills those in the population who are ready to die and returns the fatalities
     def killThoseUnfitOrReadyToDie(self, current_year, epoch):
@@ -57,10 +79,14 @@ class Population:
         die = fatalities.append # optimize
         survive = survivors.append # optimize
 
+        # Pick the right fitness function depending on the epoch
+        isUnfit = self.selectFitnessFunction(epoch)
+
+        # TODO find a way of optimizing this loop
         self.total_fitness = 0
         self.max_fitness = 0
         for individual in self.individuals:
-            if (individual.isReadyToDie(current_year) or self.isUnfit(individual, epoch)):
+            if (individual.isReadyToDie(current_year) or isUnfit(individual, epoch)):
                 die(individual)
             else:
                 self.total_fitness = self.total_fitness + individual.fitness

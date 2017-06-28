@@ -92,7 +92,8 @@ class GenesAs32BitArray:
             self.toggleCode(index)
 
     def linearFloatInterpolation(self, code_fragment, max_code_fragment_value):
-        return self.config.float_lower + (code_fragment * (self.config.float_upper - self.config.float_lower)) / max_code_fragment_value
+        config = self.config # optimize
+        return config.float_lower + (code_fragment * (config.float_upper - config.float_lower)) / max_code_fragment_value
 
     def toFloat(self): # represents genetic code as real numbers
         # Differs from BASIC implementation by mapping the code fragments, not
