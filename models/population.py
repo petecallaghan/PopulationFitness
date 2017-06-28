@@ -2,6 +2,8 @@ import random
 from models.individual import Individual
 from models.fitness import calculateFitnessWithinPopulationForEpoch
 
+uniform = random.uniform # optimize
+
 class Population:
     def __init__(self, config):
         self.config = config
@@ -30,7 +32,7 @@ class Population:
             # Selects a pair and breeds if they are both of breeding age
             father = individuals[pairIndex]
             mother = individuals[pairIndex + 1]
-            pairCanBreed = (random.uniform(0, 1) < probability_of_breeding)
+            pairCanBreed = (uniform(0, 1) < probability_of_breeding)
             if (father.canBreed(current_year) and mother.canBreed(current_year) and pairCanBreed):
                 baby = Individual(config, current_year)
                 baby.inheritFromParentsAndMutate(father, mother)
@@ -42,7 +44,7 @@ class Population:
 
     def isUnfit(self, individual, epoch):
         individual.fitness = calculateFitnessWithinPopulationForEpoch(individual.genes, epoch, len(self.individuals))
-        if (individual.fitness < random.uniform(0, 1) * epoch.kill_constant):
+        if (individual.fitness < uniform(0, 1) * epoch.kill_constant):
             return True
 
         return False

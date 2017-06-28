@@ -5,6 +5,8 @@ MASK_UNITS_FOR_32_BITS = 31
 MAX_32_BIT_VALUE = 0xFFFFFFFF
 NUMBER_OF_BITS_IN_A_WORD = 32
 
+uniform = random.uniform # optimize
+
 # Represents a set of genes as a bit array, using 32 bit integers to contain
 # 32 bit fragments of the genetic  code.
 
@@ -42,7 +44,7 @@ class GenesAs32BitArray:
         self.buildEmpty()
         for index in self.codeIndexRange():
             code = 0
-            if (random.uniform(0, 1) > 0.5):
+            if (uniform(0, 1) > 0.5):
                 code = 1
             setCode(index, code)
 
@@ -86,7 +88,7 @@ class GenesAs32BitArray:
         self.genetic_code[code_fragment_index] ^= code_bit_mask
 
     def randomlyMutateCode(self, index): # Randomly toogles the code at the index, or leaves it unchanged
-        if (random.uniform(0, 1) < self.config.mutation_probability):
+        if (uniform(0, 1) < self.config.mutation_probability):
             self.toggleCode(index)
 
     def linearFloatInterpolation(self, code_fragment, max_code_fragment_value):
@@ -115,7 +117,7 @@ class GenesAs32BitArray:
 
     def inheritFrom(self, mother, father): # Copies a random set from mother and father
         # Randomly picks the code index that crosses over from mother to father
-        cross_over_index = 1 + int(random.uniform(0, 1) * (self.max_code_index - 1))
+        cross_over_index = 1 + int(uniform(0, 1) * (self.max_code_index - 1))
 
         # First set of codes from mother
         self.genetic_code.extend(mother.genetic_code)

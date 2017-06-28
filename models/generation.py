@@ -4,6 +4,8 @@ from models.epoch import Epoch
 
 import timeit
 
+default_timer = timeit.default_timer # optimize
+
 UNDEFINED_YEAR = -1
 
 class GenerationHistory:
@@ -37,13 +39,13 @@ class Generations:
             # Add an initial population
             self.population.addNewIndividuals(year)
 
-        start_time = timeit.default_timer()
+        start_time = default_timer()
         fatalities = self.population.killThoseUnfitOrReadyToDie(year, epoch)
-        kill_elapsed = timeit.default_timer() - start_time
+        kill_elapsed = default_timer() - start_time
 
-        start_time = timeit.default_timer()
+        start_time = default_timer()
         babies = self.population.addNewGeneration(year)
-        born_elapsed = timeit.default_timer() - start_time
+        born_elapsed = default_timer() - start_time
 
         return self.addHistory(epoch, year, len(babies), len(fatalities), born_elapsed, kill_elapsed)
 
@@ -52,7 +54,7 @@ class Generations:
         generation.total_fitness = self.population.total_fitness
         generation.average_fitness = self.population.averageFitness()
         generation.max_fitness = self.population.max_fitness
-        
+
         self.history.append(generation)
         print('Year', generation.year, 'Pop', generation.population, 'Born', generation.number_born, 'in', generation.bornElapsedInHundredths(), 's Killed', generation.number_killed, 'in', generation.killElapsedInHundredths(), 's')
         return generation
