@@ -43,33 +43,19 @@ class GenesAs32BitArray:
 
         self.buildEmpty()
         for index in self.codeIndexRange():
-            code = 0
             if (uniform(0, 1) > 0.5):
-                code = 1
-            setCode(index, code)
+                setCode(index, 1)
 
     def codeIndexRange(self): # Returns the code index range
         return range(0, self.number_of_codes)
 
-    def rejectInvalidIndex(self, index):
-        if (index < 0):
-            raise ValueError("Gene code index of less than zero")
-        if (index > self.max_code_index):
-            raise ValueError("Gene code index greater than max")
-
     def getCode(self, index): # returns the code at the index in the gene as either 1 or 0
-        self.rejectInvalidIndex(index)
-
         code_fragment_index = index >> DIVIDE_BY_32
         bit_offset_of_code_in_gene = index & MASK_UNITS_FOR_32_BITS
         code_bit_mask = 1 << bit_offset_of_code_in_gene
-        if (self.genetic_code[code_fragment_index] & code_bit_mask):
-            return 1
-        return 0
+        return 1 if self.genetic_code[code_fragment_index] & code_bit_mask else 0
 
     def setCode(self, index, boolean_value): # sets the code at the index as either 1 or 0
-        self.rejectInvalidIndex(index)
-
         code_fragment_index = index >> DIVIDE_BY_32
         bit_offset_of_code_in_gene = index & MASK_UNITS_FOR_32_BITS
         if (boolean_value == 0):
@@ -80,20 +66,13 @@ class GenesAs32BitArray:
             self.genetic_code[code_fragment_index] |= code_bit_mask
 
     def toggleCode(self, index): # Toggles the code at the index between 1 and 0
-        self.rejectInvalidIndex(index)
-
         code_fragment_index = index >> DIVIDE_BY_32
         bit_offset_of_code_in_gene = index & MASK_UNITS_FOR_32_BITS
         code_bit_mask = 1 << bit_offset_of_code_in_gene
         self.genetic_code[code_fragment_index] ^= code_bit_mask
 
-    def randomlyMutateCode(self, index): # Randomly toogles the code at the index, or leaves it unchanged
-        if (uniform(0, 1) < self.config.mutation_probability):
-            self.toggleCode(index)
-
-    def linearFloatInterpolation(self, code_fragment, max_code_fragment_value):
-        config = self.config # optimize
-        return config.float_lower + (code_fragment * (config.float_upper - config.float_lower)) / max_code_fragment_value
+    def linearFloatInterpolation(self, code_fragment, lower, value_range, max_code_fragment_value):
+        return lower + (code_fragment * (value_range)) / max_code_fragment_value
 
     def toFloat(self): # represents genetic code as real numbers
         # Differs from BASIC implementation by mapping the code fragments, not
@@ -105,16 +84,22 @@ class GenesAs32BitArray:
         interpolate = self.linearFloatInterpolation # optimize
         max_code_fragment_value = self.max_code_fragment_value #optimize
 
+        lower = self.config.float_lower
+        value_range = self.config.float_upper - lower
+
         for code_fragment in self.genetic_code[:-1]: # All but the last in the list
-            append(interpolate(code_fragment, max_code_fragment_value))
+            append(interpolate(code_fragment, lower, value_range, max_code_fragment_value))
         #Add the last in the list
-        append(interpolate(self.genetic_code[-1], self.max_last_fragment_value))
+        append(interpolate(self.genetic_code[-1], lower, value_range, self.max_last_fragment_value))
         return float_genes
 
-    def mutate(self): # TODO optimize
-        mutate = self.randomlyMutateCode # optimize
+    def mutate(self):
+        probability = self.config.mutation_probability # optimize
+        toggle = self.toggleCode # optimize
+
         for gene_code in self.codeIndexRange():
-            mutate(gene_code)
+            if (uniform(0, 1) < probability):
+                toggle(gene_code)
 
     def inheritFrom(self, mother, father): # Copies a random set from mother and father
         # Randomly picks the code index that crosses over from mother to father
