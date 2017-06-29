@@ -1,12 +1,10 @@
+from models.genes import GenesAs8BitArray
 from models.genes import GenesAs32BitArray
 from models.config import Config
 import random
 
-def test_set_and_get_code():
+def check_set_and_get_code(genes):
     # Given a set of genes with random values
-    config = Config()
-    genes = GenesAs32BitArray(config)
-
     genes.buildEmpty()
     values = []
     for code in genes.codeIndexRange():
@@ -18,19 +16,25 @@ def test_set_and_get_code():
     for code in genes.codeIndexRange():
         assert values[code] == genes.getCode(code)
 
-def test_new_genes_are_empty():
-    # Given a set of genes with zero values
+def test_set_and_get_code():
     config = Config()
-    genes = GenesAs32BitArray(config)
+    check_set_and_get_code(GenesAs8BitArray(config))
+    check_set_and_get_code(GenesAs32BitArray(config))
+
+def check_genes_are_empty(genes):
+    # Given a set of genes with zero values
     genes.buildEmpty()
 
     # When they are tested, they are all zero
     assert True == genes.areEmpty()
 
-def test_mutated_genes_are_not_all_zero():
-    # Given a set of genes with zero values that will likely mutate
+def test_new_genes_are_empty():
     config = Config()
-    genes = GenesAs32BitArray(config)
+    check_genes_are_empty(GenesAs8BitArray(config))
+    check_genes_are_empty(GenesAs32BitArray(config))
+
+def check_mutated_genes_are_not_all_zero(genes, config):
+    # Given a set of genes with zero values that will likely mutate
     genes.buildEmpty()
     config.mutation_probability = config.mutation_probability * 10
 
@@ -45,10 +49,13 @@ def test_mutated_genes_are_not_all_zero():
     assert mutated_count > 0
     assert mutated_count <= 2.0 * genes.number_of_codes * config.mutation_probability
 
-def test_mutation_can_be_disabled():
-    # Given a set of genes with zero values that will not mutate
+def test_mutated_genes_are_not_all_zero():
     config = Config()
-    genes = GenesAs32BitArray(config)
+    check_mutated_genes_are_not_all_zero(GenesAs8BitArray(config), config)
+    check_mutated_genes_are_not_all_zero(GenesAs32BitArray(config), config)
+
+def check_mutation_can_be_disabled(genes, config):
+    # Given a set of genes with zero values that will not mutate
     genes.buildEmpty()
     config.mutation_probability = 0
 
@@ -62,7 +69,13 @@ def test_mutation_can_be_disabled():
             mutated_count += 1
     assert mutated_count == 0
 
+def test_mutation_can_be_disabled():
+    config = Config()
+    check_mutation_can_be_disabled(GenesAs8BitArray(config), config)
+    check_mutation_can_be_disabled(GenesAs32BitArray(config), config)
+
 def then_they_fall_into_the_float_range(config, genes):
+    genes.buildFromRandom()
     float_genes = genes.toFloat()
     for gene in float_genes:
         assert config.float_lower <= gene
@@ -72,30 +85,27 @@ def then_they_fall_into_the_float_range(config, genes):
 def test_genes_as_float_using_default_range():
     # Given a set of genes with non zero values
     config = Config()
-    genes = GenesAs32BitArray(config)
-    genes.buildFromRandom()
 
-    then_they_fall_into_the_float_range(config, genes)
+    then_they_fall_into_the_float_range(config, GenesAs8BitArray(config))
+    then_they_fall_into_the_float_range(config, GenesAs32BitArray(config))
 
 def test_genes__with_large_bit_coding_as_float():
     # Given a set of genes with non zero values
     config = Config()
     config.number_of_genes = 111
     config.size_of_each_gene = 111
-    genes = GenesAs32BitArray(config)
-    genes.buildFromRandom()
 
-    then_they_fall_into_the_float_range(config, genes)
+    then_they_fall_into_the_float_range(config, GenesAs8BitArray(config))
+    then_they_fall_into_the_float_range(config, GenesAs32BitArray(config))
 
 def test_configurable_float_range():
     # Given a set of genes with non zero values and a different float range
     config = Config()
-    genes = GenesAs32BitArray(config)
-    genes.buildFromRandom()
     config.float_lower = 1.5
     config.float_upper = 4.5
 
-    then_they_fall_into_the_float_range(config, genes)
+    then_they_fall_into_the_float_range(config, GenesAs8BitArray(config))
+    then_they_fall_into_the_float_range(config, GenesAs32BitArray(config))
 
 def are_genes_the_same(individual1, individual2):
     for code in individual1.codeIndexRange():
@@ -104,7 +114,7 @@ def are_genes_the_same(individual1, individual2):
     return True
 
 def create_father_different_to_mother(config, mother):
-    father = GenesAs32BitArray(config)
+    father = GenesAs8BitArray(config)
     father.buildFromRandom()
     while(are_genes_the_same(father, mother)):
         father.mutate()
@@ -114,10 +124,10 @@ def test_baby_is_not_identical_to_mother_or_father():
     # Given a mother with some mutated genes, a father with some mutated genes and a baby
     config = Config()
     config.mutation_probability = config.mutation_probability * 10
-    mother = GenesAs32BitArray(config)
+    mother = GenesAs8BitArray(config)
     mother.buildFromRandom()
     father = create_father_different_to_mother(config, mother)
-    baby = GenesAs32BitArray(config)
+    baby = GenesAs8BitArray(config)
     different_to_mother = False
     different_to_father = False
 
@@ -138,10 +148,10 @@ def test_baby_is_not_zero():
     # Given a mother with some mutated genes, a father with some mutated genes and a baby
     config = Config()
     config.mutation_probability = config.mutation_probability * 10
-    mother = GenesAs32BitArray(config)
+    mother = GenesAs8BitArray(config)
     mother.buildFromRandom()
     father = create_father_different_to_mother(config, mother)
-    baby = GenesAs32BitArray(config)
+    baby = GenesAs8BitArray(config)
     non_zero = False
 
     # When the baby inherits from the mother and father
@@ -157,10 +167,10 @@ def test_baby_is_similar_to_mother_and_father():
     # Given a mother with some mutated genes, a father with some mutated genes and a baby
     config = Config()
     config.mutation_probability = config.mutation_probability * 10
-    mother = GenesAs32BitArray(config)
+    mother = GenesAs8BitArray(config)
     mother.buildFromRandom()
     father = create_father_different_to_mother(config, mother)
-    baby = GenesAs32BitArray(config)
+    baby = GenesAs8BitArray(config)
     similar_to_mother = False
     similar_to_father = False
 
