@@ -1,8 +1,10 @@
 import array, random
 from bitarray import bitarray
 from struct import *
+from math import sin
+from functools import reduce
 
-uniform = random.uniform # optimize
+getRandom = random.uniform # optimize
 
 DIVIDE_BY_8 = 3
 MAX_8_BIT_VALUE = 0xFF
@@ -45,7 +47,7 @@ class GenesAs32BitArray:
 
         self.buildEmpty()
         for index in self.codeIndexRange():
-            if (uniform(0, 1) > 0.5):
+            if (getRandom(0, 1) > 0.5):
                 setCode(index, 1)
 
     def codeIndexRange(self): # Returns the code index range
@@ -73,8 +75,8 @@ class GenesAs32BitArray:
         code_bit_mask = 1 << bit_offset_of_code_in_gene
         self.genetic_code[code_fragment_index] ^= code_bit_mask
 
-    def linearFloatInterpolation(self, code_fragment, lower, value_range, max_code_fragment_value):
-        return lower + (code_fragment * (value_range)) / max_code_fragment_value
+    def linearFloatInterpolation(self, code_fragment, lower, ratio):
+        return lower + (code_fragment * ratio)
 
     def toFloat(self): # represents genetic code as real numbers
         # Differs from BASIC implementation by mapping the code fragments, not
@@ -88,11 +90,12 @@ class GenesAs32BitArray:
 
         lower = self.config.float_lower
         value_range = self.config.float_upper - lower
+        ratio = value_range / max_code_fragment_value
 
         for code_fragment in self.genetic_code[:-1]: # All but the last in the list
-            append(interpolate(code_fragment, lower, value_range, max_code_fragment_value))
+            append(interpolate(code_fragment, lower, ratio))
         #Add the last in the list
-        append(interpolate(self.genetic_code[-1], lower, value_range, self.max_last_fragment_value))
+        append(interpolate(self.genetic_code[-1], lower, value_range / self.max_last_fragment_value))
         return float_genes
 
     def mutate(self):
@@ -100,12 +103,12 @@ class GenesAs32BitArray:
         toggle = self.toggleCode # optimize
 
         for gene_code in self.codeIndexRange():
-            if (uniform(0, 1) < probability):
+            if (getRandom(0, 1) < probability):
                 toggle(gene_code)
 
     def inheritFrom(self, mother, father): # Copies a random set from mother and father
         # Randomly picks the code index that crosses over from mother to father
-        cross_over_index = 1 + int(uniform(0, 1) * (self.max_code_index - 1))
+        cross_over_index = 1 + int(getRandom(0, 1) * (self.max_code_index - 1))
 
         # First set of codes from mother
         self.genetic_code.extend(mother.genetic_code)
@@ -124,6 +127,11 @@ class GenesAs32BitArray:
             if (1 == getCode(code)):
                 return False
         return True
+
+    def fitness(self, fitness_factor):
+        fitness = reduce(lambda x, y : x * sin(y)**fitness_factor, self.toFloat(), 1)
+
+        return 0 if fitness < 0 else fitness
 
 class GenesAs8BitArray:
     def __init__(self, config):
@@ -151,7 +159,7 @@ class GenesAs8BitArray:
         self.genetic_code.setall(0)
 
     def getCode(self, index):
-        return True if self.genetic_code[index] == 1 else False
+        return self.genetic_code[index]
 
     def setCode(self, index, value):
         self.genetic_code[index] = value
@@ -159,11 +167,11 @@ class GenesAs8BitArray:
     def buildFromRandom(self): # Generate an initial code randomly
         self.buildEmpty()
 
-        code = self.genetic_code # optimize
+        genetic_code = self.genetic_code # optimize
 
         for index in self.codeIndexRange():
-            if (uniform(0, 1) > 0.5):
-                code[index] = 1
+            if (getRandom(0, 1) > 0.5):
+                genetic_code[index] = 1
 
     def codeIndexRange(self): # Returns the code index range
         return range(0, self.number_of_codes)
@@ -171,34 +179,17 @@ class GenesAs8BitArray:
     def linearFloatInterpolation(self, code_fragment, lower, value_range, max_code_fragment_value):
         return lower + (code_fragment * value_range) / max_code_fragment_value
 
-    def toFloat(self): # represents genetic code as real numbers
-        # Differs from BASIC implementation by mapping the code fragments, not
-        # the individual genes
-
-        float_genes = []
-
-        append = float_genes.append # optimize
-        interpolate = self.linearFloatInterpolation # optimize
-        max_code_fragment_value = self.max_code_fragment_value #optimize
-
-        lower = self.config.float_lower
-        value_range = self.config.float_upper - lower
-
-        for code_fragment in self.genetic_code.tobytes(): # All but the last in the list
-            append(interpolate(code_fragment, lower, value_range, max_code_fragment_value))
-        return float_genes
-
     def mutate(self):
         probability = self.config.mutation_probability # optimize
         genetic_code = self.genetic_code # optimize
 
         for index in self.codeIndexRange():
-            if (uniform(0, 1) < probability):
+            if (getRandom(0, 1) < probability):
                 genetic_code[index] = ~genetic_code[index]
 
     def inheritFrom(self, mother, father): # Copies a random set from mother and father
         # Randomly picks the code index that crosses over from mother to father
-        cross_over_index = 1 + int(uniform(0, 1) * (self.max_code_index - 1))
+        cross_over_index = 1 + int(getRandom(0, 1) * (self.max_code_index - 1))
 
         # First set of codes from mother
         self.genetic_code = mother.genetic_code.copy()
@@ -213,3 +204,11 @@ class GenesAs8BitArray:
         getCode = self.getCode #optimize
 
         return False if self.genetic_code.any() else True
+
+    def fitness(self, fitness_factor):
+        lower = self.config.float_lower
+        ratio = (self.config.float_upper - lower) / self.max_code_fragment_value
+
+        fitness = reduce(lambda x, y : x * sin(lower + y * ratio)**fitness_factor, self.genetic_code.tobytes(), 1)
+
+        return 0 if fitness < 0 else fitness

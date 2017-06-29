@@ -1,9 +1,7 @@
 import random
 from models.individual import Individual
-from models.fitness import calculateFitnessWithinPopulationForEpoch
-from models.fitness import calculateFitnessForEpoch
 
-uniform = random.uniform # optimize
+getRandom = random.uniform # optimize
 
 class Population:
     def __init__(self, config):
@@ -34,7 +32,7 @@ class Population:
             # Selects a pair and breeds if they are both of breeding age
             father = individuals[pairIndex]
             mother = individuals[pairIndex + 1]
-            pairCanBreed = (uniform(0, 1) < probability_of_breeding)
+            pairCanBreed = (getRandom(0, 1) < probability_of_breeding)
             if (father.canBreed(current_year) and mother.canBreed(current_year) and pairCanBreed):
                 baby = Individual(config, current_year)
                 baby.inheritFromParentsAndMutate(father, mother)
@@ -44,23 +42,17 @@ class Population:
         self.individuals.extend(babies)
         return babies
 
-    def isNeverUnFit(self, individual, epoch):
+    def isNeverUnFit(self, individual, fitness_factor, environment_capacity, kill_constant):
         individual.fitness = 0
         return False
 
-    def isUnfit(self, individual, epoch):
-        individual.fitness = calculateFitnessWithinPopulationForEpoch(individual.genes, epoch, len(self.individuals))
-        if (individual.fitness < uniform(0, 1) * epoch.kill_constant):
-            return True
+    def isUnfit(self, individual, fitness_factor, environment_capacity, kill_constant):
+        individual.fitness = individual.genes.fitness(fitness_factor) * environment_capacity
+        return True if individual.fitness < getRandom(0, 1) * kill_constant else False
 
-        return False
-
-    def isUnfitUnlimited(self, individual, epoch):
-        individual.fitness = calculateFitnessForEpoch(individual.genes, epoch, len(self.individuals))
-        if (individual.fitness < uniform(0, 1) * epoch.kill_constant):
-            return True
-
-        return False
+    def isUnfitUnlimited(self, individual, fitness_factor, environment_capacity, kill_constant):
+        individual.fitness = individual.genes.fitness(fitness_factor)
+        return True if individual.fitness < getRandom(0, 1) * kill_constant else False
 
     def selectFitnessFunction(self, epoch):
         if (epoch.isFitnessEnabled() == False):
@@ -78,21 +70,28 @@ class Population:
 
         die = fatalities.append # optimize
         survive = survivors.append # optimize
+        environment_capacity = epoch.environment_capacity / len(self.individuals) # optimize
+        fitness_factor = epoch.fitness_factor # optimize
+        kill_constant = epoch.kill_constant # optimize
 
         # Pick the right fitness function depending on the epoch
         isUnfit = self.selectFitnessFunction(epoch)
 
         # TODO find a way of optimizing this loop
-        self.total_fitness = 0
-        self.max_fitness = 0
+        total_fitness = 0
+        max_fitness = 0
         for individual in self.individuals:
-            if (individual.isReadyToDie(current_year) or isUnfit(individual, epoch)):
+            if (individual.isReadyToDie(current_year)):
                 die(individual)
             else:
-                self.total_fitness = self.total_fitness + individual.fitness
-                if (individual.fitness > self.max_fitness):
-                    self.max_fitness = individual.fitness
-                survive(individual)
+                if (isUnfit(individual, fitness_factor, environment_capacity, kill_constant)):
+                    die(individual)
+                else:
+                    total_fitness = total_fitness + individual.fitness
+                    max_fitness = individual.fitness if individual.fitness > max_fitness else max_fitness
+                    survive(individual)
+        self.total_fitness = total_fitness
+        self.max_fitness = max_fitness
         self.individuals = survivors
         return fatalities
 

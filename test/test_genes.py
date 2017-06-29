@@ -76,11 +76,11 @@ def test_mutation_can_be_disabled():
 
 def then_they_fall_into_the_float_range(config, genes):
     genes.buildFromRandom()
-    float_genes = genes.toFloat()
-    for gene in float_genes:
-        assert config.float_lower <= gene
-        assert config.float_upper >= gene
-    assert genes.number_of_code_fragments == len(float_genes)
+
+    fitness = genes.fitness(1)
+
+    assert 0.0 <= fitness
+    assert 1.0 >= fitness
 
 def test_genes_as_float_using_default_range():
     # Given a set of genes with non zero values
@@ -113,21 +113,21 @@ def are_genes_the_same(individual1, individual2):
             return False
     return True
 
-def create_father_different_to_mother(config, mother):
-    father = GenesAs8BitArray(config)
+def create_father_different_to_mother(config, mother, genesBuilder):
+    father = genesBuilder(config)
     father.buildFromRandom()
     while(are_genes_the_same(father, mother)):
         father.mutate()
     return father
 
-def test_baby_is_not_identical_to_mother_or_father():
+def check_baby_is_not_identical_to_mother_or_father(genesBuilder):
     # Given a mother with some mutated genes, a father with some mutated genes and a baby
     config = Config()
     config.mutation_probability = config.mutation_probability * 10
-    mother = GenesAs8BitArray(config)
+    mother = genesBuilder(config)
     mother.buildFromRandom()
-    father = create_father_different_to_mother(config, mother)
-    baby = GenesAs8BitArray(config)
+    father = create_father_different_to_mother(config, mother, genesBuilder)
+    baby = genesBuilder(config)
     different_to_mother = False
     different_to_father = False
 
@@ -143,15 +143,19 @@ def test_baby_is_not_identical_to_mother_or_father():
     assert different_to_father == True
     assert different_to_mother == True
 
-def test_baby_is_not_zero():
+def test_baby_is_not_identical_to_mother_or_father():
+    check_baby_is_not_identical_to_mother_or_father(GenesAs8BitArray)
+    check_baby_is_not_identical_to_mother_or_father(GenesAs32BitArray)
+
+def check_baby_is_not_zero(genesBuilder):
     # Given a mother, a father and a baby
     # Given a mother with some mutated genes, a father with some mutated genes and a baby
     config = Config()
     config.mutation_probability = config.mutation_probability * 10
-    mother = GenesAs8BitArray(config)
+    mother = genesBuilder(config)
     mother.buildFromRandom()
-    father = create_father_different_to_mother(config, mother)
-    baby = GenesAs8BitArray(config)
+    father = create_father_different_to_mother(config, mother, genesBuilder)
+    baby = genesBuilder(config)
     non_zero = False
 
     # When the baby inherits from the mother and father
@@ -163,14 +167,19 @@ def test_baby_is_not_zero():
             non_zero = True
     assert non_zero == True
 
-def test_baby_is_similar_to_mother_and_father():
+def test_baby_is_not_zero():
+    check_baby_is_not_zero(GenesAs8BitArray)
+    check_baby_is_not_zero(GenesAs32BitArray)
+
+def check_baby_is_similar_to_mother_and_father(genesBuilder):
     # Given a mother with some mutated genes, a father with some mutated genes and a baby
     config = Config()
     config.mutation_probability = config.mutation_probability * 10
-    mother = GenesAs8BitArray(config)
+    genesBuilder = genesBuilder
+    mother = genesBuilder(config)
     mother.buildFromRandom()
-    father = create_father_different_to_mother(config, mother)
-    baby = GenesAs8BitArray(config)
+    father = create_father_different_to_mother(config, mother, genesBuilder)
+    baby = genesBuilder(config)
     similar_to_mother = False
     similar_to_father = False
 
@@ -185,3 +194,7 @@ def test_baby_is_similar_to_mother_and_father():
             similar_to_mother = True
     assert similar_to_mother == True
     assert similar_to_father == True
+
+def test_baby_is_similar_to_mother_and_father():
+    check_baby_is_similar_to_mother_and_father(GenesAs8BitArray)
+    check_baby_is_similar_to_mother_and_father(GenesAs32BitArray)
