@@ -66,5 +66,5 @@ class Generations:
         generation.max_fitness = self.population.max_fitness
 
         self.history.append(generation)
-        print('Year', generation.year, 'Pop', generation.population, 'Born', generation.number_born, 'in', generation.bornElapsedInHundredths(), 's Killed', generation.number_killed, 'in', generation.killElapsedInHundredths(), 's')
+        print('Year', generation.year, 'Pop', generation.population, 'Expected', epoch.expected_max_population, 'Born', generation.number_born, 'in', generation.bornElapsedInHundredths(), 's Killed', generation.number_killed, 'in', generation.killElapsedInHundredths(), 's')
         return generation

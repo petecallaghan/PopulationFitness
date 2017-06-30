@@ -63,8 +63,8 @@ def test_epoch_kill_constants():
 def test_epoch_environment_capacity():
     # Given a set of epochs
     epochs = Epochs()
-    epochs.addNextEpoch(-50, 1, DEFAULT_KILL_CONSTANT, 1000)
-    epochs.addNextEpoch(400, 1, DEFAULT_KILL_CONSTANT, 2000)
+    epochs.addNextEpoch(-50, 1, DEFAULT_KILL_CONSTANT, 0, 1000)
+    epochs.addNextEpoch(400, 1, DEFAULT_KILL_CONSTANT, 0, 2000)
     epochs.addNextEpoch(550, 1, DEFAULT_KILL_CONSTANT)
 
     # When we iterate over the epochs we find the right environment capacity
