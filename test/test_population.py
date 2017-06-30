@@ -43,9 +43,7 @@ def test_kill_off_oldies():
 
     # Just the babies remain and the elderly were killed
     assert config.initial_population_size == len(population.individuals)
-    assert config.initial_population_size == len(fatalities)
-    for individual in fatalities:
-        assert config.max_age <= individual.age(current_year)
+    assert config.initial_population_size == fatalities
     for individual in population.individuals:
         assert 0 == individual.age(current_year)
 
@@ -64,7 +62,7 @@ def test_kill_off_unfit():
 
     # Some remain and some were killed
     assert 0 < len(population.individuals)
-    assert 0 < len(fatalities)
+    assert 0 < fatalities
 
 def test_create_a_new_generation_from_the_current_one():
     # Given a population that is a mix of ages...

@@ -8,7 +8,8 @@ default_timer = timeit.default_timer # optimize
 
 UNDEFINED_YEAR = -1
 
-class GenerationHistory:
+# The statistics for a generation
+class GenerationStatistics:
     def __init__(self, epoch, year, population, number_born, number_killed, born_time, kill_time):
         self.number_born = number_born
         self.number_killed = number_killed
@@ -27,13 +28,22 @@ class GenerationHistory:
     def killElapsedInHundredths(self):
         return int(self.kill_time * 100) / 100
 
+# The generations recorded for a population
 class Generations:
     def __init__(self, population):
         self.history = []
         self.population = population
         self.first_year = UNDEFINED_YEAR
 
-    def addNextGeneration(self, year, epoch):
+    # Iterates over all the years in the epochs and produces the generations
+    def createForAllEpochs(self, epochs):
+        nextYear = self.createForYear # optimize
+
+        for epoch in epochs.epochs:
+            for year in epoch.getRangeOfYears():
+                nextYear(year, epoch)
+
+    def createForYear(self, year, epoch):
         if (self.first_year == UNDEFINED_YEAR):
             self.first_year = year
             # Add an initial population
@@ -47,10 +57,10 @@ class Generations:
         babies = self.population.addNewGeneration(year)
         born_elapsed = default_timer() - start_time
 
-        return self.addHistory(epoch, year, len(babies), len(fatalities), born_elapsed, kill_elapsed)
+        return self.addHistory(epoch, year, len(babies), fatalities, born_elapsed, kill_elapsed)
 
     def addHistory(self, epoch, year, number_born, number_killed, born_time, kill_time):
-        generation = GenerationHistory(epoch, year, len(self.population.individuals), number_born, number_killed, born_time, kill_time)
+        generation = GenerationStatistics(epoch, year, len(self.population.individuals), number_born, number_killed, born_time, kill_time)
         generation.total_fitness = self.population.total_fitness
         generation.average_fitness = self.population.averageFitness()
         generation.max_fitness = self.population.max_fitness

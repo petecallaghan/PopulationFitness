@@ -3,12 +3,14 @@ from models.genes32bitarray import *
 from models.config import Config
 import random
 
+
+
 def check_set_and_get_code(genes):
     # Given a set of genes with random values
-    genes.buildEmpty()
     values = []
     for code in genes.codeIndexRange():
         values.append(random.randint(0, 1))
+    genes.buildEmpty()
     for code in genes.codeIndexRange():
         genes.setCode(code, values[code])
 

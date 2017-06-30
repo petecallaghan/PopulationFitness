@@ -70,9 +70,6 @@ class GenesAs32BitArray:
         code_bit_mask = 1 << bit_offset_of_code_in_gene
         self.genetic_code[code_fragment_index] ^= code_bit_mask
 
-    def linearFloatInterpolation(self, code_fragment, lower, ratio):
-        return lower + (code_fragment * ratio)
-
     def toFloat(self): # represents genetic code as real numbers
         # Differs from BASIC implementation by mapping the code fragments, not
         # the individual genes
@@ -80,7 +77,6 @@ class GenesAs32BitArray:
         float_genes = []
 
         append = float_genes.append # optimize
-        interpolate = self.linearFloatInterpolation # optimize
         max_code_fragment_value = self.max_code_fragment_value #optimize
 
         lower = self.config.float_lower
@@ -88,9 +84,10 @@ class GenesAs32BitArray:
         ratio = value_range / max_code_fragment_value
 
         for code_fragment in self.genetic_code[:-1]: # All but the last in the list
-            append(interpolate(code_fragment, lower, ratio))
+            append(lower + (code_fragment * ratio))
+
         #Add the last in the list
-        append(interpolate(self.genetic_code[-1], lower, value_range / self.max_last_fragment_value))
+        append(lower + (self.genetic_code[-1] * value_range / self.max_last_fragment_value))
         return float_genes
 
     def mutate(self):
@@ -124,6 +121,4 @@ class GenesAs32BitArray:
         return True
 
     def fitness(self, fitness_factor):
-        fitness = reduce(lambda x, y : x * sin(y)**fitness_factor, self.toFloat(), 1)
-
-        return 0 if fitness < 0 else fitness
+        return max(0, reduce(lambda x, y : x * sin(y)**fitness_factor, self.toFloat(), 1))

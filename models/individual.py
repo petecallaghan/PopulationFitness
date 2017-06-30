@@ -6,6 +6,7 @@ class Individual:
         self.config = config
         self.birth_year = birth_year
         self.genes = GenesAs32BitArray(config)
+        self.fitness = 0
 
     def age(self, current_year):
         return current_year - self.birth_year

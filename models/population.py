@@ -1,3 +1,4 @@
+from functools import reduce
 import random
 from models.individual import Individual
 
@@ -7,6 +8,8 @@ class Population:
     def __init__(self, config):
         self.config = config
         self.individuals = []
+        self.total_fitness = 0
+        self.max_fitness = 0
 
     def addNewIndividuals(self, birth_year): # Adds new individuals to the population
         config = self.config # optimize
@@ -65,36 +68,21 @@ class Population:
 
     # Kills those in the population who are ready to die and returns the fatalities
     def killThoseUnfitOrReadyToDie(self, current_year, epoch):
-        survivors = []
-        fatalities = []
-
-        die = fatalities.append # optimize
-        survive = survivors.append # optimize
-        environment_capacity = epoch.environment_capacity / len(self.individuals) # optimize
+        population_size = len(self.individuals) # optimize
+        environment_capacity = epoch.environment_capacity / population_size # optimize
         fitness_factor = epoch.fitness_factor # optimize
         kill_constant = epoch.kill_constant # optimize
 
         # Pick the right fitness function depending on the epoch
         isUnfit = self.selectFitnessFunction(epoch)
 
-        # TODO find a way of optimizing this loop
-        total_fitness = 0
-        max_fitness = 0
-        for individual in self.individuals:
-            if (individual.isReadyToDie(current_year)):
-                die(individual)
-            else:
-                if (isUnfit(individual, fitness_factor, environment_capacity, kill_constant)):
-                    die(individual)
-                else:
-                    total_fitness = total_fitness + individual.fitness
-                    max_fitness = individual.fitness if individual.fitness > max_fitness else max_fitness
-                    survive(individual)
-                    
-        self.total_fitness = total_fitness
-        self.max_fitness = max_fitness
-        self.individuals = survivors
-        return fatalities
+        self.individuals = list(filter(lambda x : not (x.isReadyToDie(current_year) or isUnfit(x, fitness_factor, environment_capacity, kill_constant)), self.individuals))
+
+        return population_size - len(self.individuals)
+
+    def getStatistics(self):
+        self.total_fitness = reduce(lambda x, y: x + y.fitness, self.individuals, 0)
+        self.max_fitness = reduce(lambda x, y: max(x, y.fitness), self.individuals, 0)
 
     def averageFitness(self):
         return self.total_fitness / len(self.individuals)

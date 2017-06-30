@@ -15,10 +15,8 @@ def test_produce_generation_history(capsys):
     epochs.setFinalEpochYear(-40)
 
     # When the simulation runs through the epochs
-    for epoch in epochs.epochs:
-        for year in epoch.getRangeOfYears():
-            with capsys.disabled():
-                generation = generations.addNextGeneration(year, epoch)
+    with capsys.disabled():
+        generations.createForAllEpochs(epochs)
 
     # Then we get a history of the simulation
     assert 11 == len(generations.history)

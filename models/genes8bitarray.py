@@ -51,9 +51,6 @@ class GenesAs8BitArray:
     def codeIndexRange(self): # Returns the code index range
         return range(0, self.number_of_codes)
 
-    def linearFloatInterpolation(self, code_fragment, lower, value_range, max_code_fragment_value):
-        return lower + (code_fragment * value_range) / max_code_fragment_value
-
     def mutate(self):
         probability = self.config.mutation_probability # optimize
         genetic_code = self.genetic_code # optimize
@@ -68,6 +65,7 @@ class GenesAs8BitArray:
 
         # First set of codes from mother
         self.genetic_code = mother.genetic_code.copy()
+
         genetic_code = self.genetic_code # optimize
         father = father.genetic_code # optimize
 
@@ -76,14 +74,10 @@ class GenesAs8BitArray:
             genetic_code[index] = father[index]
 
     def areEmpty(self): # Returns true if the genes are all zero
-        getCode = self.getCode #optimize
-
         return False if self.genetic_code.any() else True
 
     def fitness(self, fitness_factor):
         lower = self.config.float_lower
         ratio = (self.config.float_upper - lower) / self.max_code_fragment_value
 
-        fitness = reduce(lambda x, y : x * sin(lower + y * ratio)**fitness_factor, self.genetic_code.tobytes(), 1)
-
-        return 0 if fitness < 0 else fitness
+        return max(0, reduce(lambda x, y : x * sin(lower + y * ratio)**fitness_factor, self.genetic_code.tobytes(), 1))

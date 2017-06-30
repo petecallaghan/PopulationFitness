@@ -23,10 +23,7 @@ def main():
     #epochs.addNextEpoch(2068, 1, DEFAULT_KILL_CONSTANT)
     #epochs.setFinalEpochYear(-50 + config.number_of_years - 1)
 
-    # When the simulation runs through the epochs
-    for epoch in epochs.epochs:
-        for year in epoch.getRangeOfYears():
-            generation = generations.addNextGeneration(year, epoch)
+    generations.createForAllEpochs(epochs)
 
 if __name__ == "__main__":
     main()
