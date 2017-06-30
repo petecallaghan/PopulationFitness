@@ -1,5 +1,5 @@
-from models.genes import GenesAs8BitArray
-from models.genes import GenesAs32BitArray
+from models.genes8bitarray import *
+from models.genes32bitarray import *
 from models.config import Config
 import random
 

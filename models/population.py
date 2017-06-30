@@ -90,6 +90,7 @@ class Population:
                     total_fitness = total_fitness + individual.fitness
                     max_fitness = individual.fitness if individual.fitness > max_fitness else max_fitness
                     survive(individual)
+                    
         self.total_fitness = total_fitness
         self.max_fitness = max_fitness
         self.individuals = survivors

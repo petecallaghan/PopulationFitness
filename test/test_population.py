@@ -3,7 +3,6 @@ from models.config import Config
 from models.epoch import Epoch
 from models.epoch import Epochs
 
-
 INITIAL_POPULATION_SIZE = 30
 BIRTH_YEAR = 1964
 

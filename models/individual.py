@@ -1,10 +1,11 @@
-from models.genes import GenesAs8BitArray
+from models.genes8bitarray import *
+from models.genes32bitarray import *
 
 class Individual:
     def __init__(self, config, birth_year):
         self.config = config
         self.birth_year = birth_year
-        self.genes = GenesAs8BitArray(config)
+        self.genes = GenesAs32BitArray(config)
 
     def age(self, current_year):
         return current_year - self.birth_year
