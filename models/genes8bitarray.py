@@ -74,7 +74,7 @@ class GenesAs8BitArray:
             genetic_code[index] = father[index]
 
     def areEmpty(self): # Returns true if the genes are all zero
-        return False if self.genetic_code.any() else True
+        return not self.genetic_code.any()
 
     def fitness(self, fitness_factor):
         lower = self.config.float_lower

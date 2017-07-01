@@ -51,11 +51,11 @@ class Population:
 
     def isUnfit(self, individual, fitness_factor, environment_capacity, kill_constant):
         individual.fitness = individual.genes.fitness(fitness_factor) * environment_capacity
-        return True if individual.fitness < getRandom(0, kill_constant) else False
+        return individual.fitness < getRandom(0, kill_constant)
 
     def isUnfitUnlimited(self, individual, fitness_factor, environment_capacity, kill_constant):
         individual.fitness = individual.genes.fitness(fitness_factor)
-        return True if individual.fitness < getRandom(0, kill_constant)  else False
+        return individual.fitness < getRandom(0, kill_constant)
 
     def selectFitnessFunction(self, epoch):
         if (epoch.isFitnessEnabled() == False):
