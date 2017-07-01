@@ -51,11 +51,11 @@ class Population:
 
     def isUnfit(self, individual, fitness_factor, environment_capacity, kill_constant):
         individual.fitness = individual.genes.fitness(fitness_factor) * environment_capacity
-        return True if individual.fitness < getRandom(0, 1) * kill_constant else False
+        return True if individual.fitness < getRandom(0, kill_constant) else False
 
     def isUnfitUnlimited(self, individual, fitness_factor, environment_capacity, kill_constant):
         individual.fitness = individual.genes.fitness(fitness_factor)
-        return True if individual.fitness < getRandom(0, 1) * kill_constant else False
+        return True if individual.fitness < getRandom(0, kill_constant)  else False
 
     def selectFitnessFunction(self, epoch):
         if (epoch.isFitnessEnabled() == False):
@@ -66,7 +66,7 @@ class Population:
 
         return self.isUnfit
 
-    # Kills those in the population who are ready to die and returns the fatalities
+    # Kills those in the population who are ready to die and returns the number of fatalities
     def killThoseUnfitOrReadyToDie(self, current_year, epoch):
         population_size = len(self.individuals) # optimize
         environment_capacity = epoch.environment_capacity / population_size # optimize
