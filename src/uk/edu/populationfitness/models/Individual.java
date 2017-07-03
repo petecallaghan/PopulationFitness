@@ -8,13 +8,14 @@ public class Individual {
 
     private int birth_year;
 
-    private Genes genes;
+    public Genes genes;
 
     public double fitness;
 
     public Individual(Config config, int birth_year){
         this.config = config;
         this.birth_year = birth_year;
+        this.genes = new Genes(config);
     }
 
     public int age(int current_year){

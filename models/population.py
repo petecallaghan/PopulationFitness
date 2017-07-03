@@ -38,7 +38,7 @@ class Population:
             pairCanBreed = (getRandom(0, 1) < probability_of_breeding)
             if (father.canBreed(current_year) and mother.canBreed(current_year) and pairCanBreed):
                 baby = Individual(config, current_year)
-                baby.inheritFromParentsAndMutate(father, mother)
+                baby.inheritFromParentsAndMutate(mother, father)
                 append(baby)
 
         # Add the babies to the set of individuals

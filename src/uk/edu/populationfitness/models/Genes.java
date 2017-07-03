@@ -11,14 +11,12 @@ public class Genes {
 
     private BitSet genes;
 
-    private Random random;
+    private Random random = new Random();
 
     private static final double HALF_PROBABILITY = 0.5;
 
     public Genes(Config config){
         this.config = config;
-
-        this.random = new Random();
     }
 
     public void buildEmpty(){
