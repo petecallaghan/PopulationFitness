@@ -19,6 +19,6 @@ class Individual:
         config = self.config # optimize
         return (age >= config.min_breeding_age and age <= config.max_breeding_age)
 
-    def inheritFromParentsAndMutate(self, father, mother):
-        self.genes.inheritFrom(father.genes, mother.genes)
+    def inheritFromParentsAndMutate(self, mother, father):
+        self.genes.inheritFrom(mother.genes, father.genes)
         self.genes.mutate()

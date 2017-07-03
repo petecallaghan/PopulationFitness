@@ -41,7 +41,7 @@ def test_youngster_cannot_breed():
     # Then they cannot breed
     assert False == individual.canBreed(current_year)
 
-def test_oldgster_cannot_breed():
+def test_oldster_cannot_breed():
     # Given an above breeding age individual
     config = Config()
     birth_year = 1964

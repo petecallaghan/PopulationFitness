@@ -4,11 +4,7 @@ import org.junit.jupiter.api.Test;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Genes;
 
-import java.util.BitSet;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by pete.callaghan on 03/07/2017.
@@ -24,7 +20,7 @@ public class GenesTest {
         assertTrue(genes.areEmpty());
     }
 
-    @Test public void TestMutatedGenesAreNotAllZero(){
+    @Test public void testMutatedGenesAreNotAllZero(){
         // Given a set of genes that are empty and a high probability that they will mutate
         Config config = new Config();
         Genes genes = new Genes(config);
@@ -46,7 +42,7 @@ public class GenesTest {
         assertTrue(mutated_count <= 2.0 * genes.numberOfBits() * config.mutation_probability);
     }
 
-    @Test public void TestMutationCanBeDisabled(){
+    @Test public void testMutationCanBeDisabled(){
         // Given a set of genes with zero values that will not mutate
         Config config = new Config();
         Genes genes = new Genes(config);
@@ -67,20 +63,20 @@ public class GenesTest {
         assertEquals(0, mutated_count);
     }
 
-    private void ThenTheyFallIntoTheFloatRange(Genes genes) {
+    private void thenTheyFallIntoTheFloatRange(Genes genes) {
         // Then they fall into the float range
         double fitness = genes.fitness(1.0);
         assertTrue(0.0 <= fitness);
         assertTrue( 1.0 >= fitness);
     }
 
-    @Test public void TestGenesAsFloatUseDefaultRange(){
+    @Test public void testGenesAsFloatUseDefaultRange(){
         // Given a set of genes with non zero values
         Config config = new Config();
         Genes genes = new Genes(config);
         genes.buildFromRandom();
 
-        ThenTheyFallIntoTheFloatRange(genes);
+        thenTheyFallIntoTheFloatRange(genes);
     }
 
     @Test public void TestGenesWithLargeBitCoding(){
@@ -91,7 +87,7 @@ public class GenesTest {
         Genes genes = new Genes(config);
         genes.buildFromRandom();
 
-        ThenTheyFallIntoTheFloatRange(genes);
+        thenTheyFallIntoTheFloatRange(genes);
     }
 
     @Test public void TestGenesWithConfiguredFloatRange(){
@@ -102,10 +98,10 @@ public class GenesTest {
         Genes genes = new Genes(config);
         genes.buildFromRandom();
 
-        ThenTheyFallIntoTheFloatRange(genes);
+        thenTheyFallIntoTheFloatRange(genes);
     }
 
-    private Genes CreateFatherDifferentFromMother(Config config, Genes mother){
+    private Genes createFatherDifferentFromMother(Config config, Genes mother){
         Genes father = new Genes(config);
         father.buildFromRandom();
 
@@ -115,13 +111,13 @@ public class GenesTest {
         return father;
     }
 
-    @Test public void TestBabyIsNotIdenticalToMotherOrFather() {
+    @Test public void testBabyIsNotIdenticalToMotherOrFather() {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
         Genes mother = new Genes(config);
         mother.buildFromRandom();
-        Genes father = CreateFatherDifferentFromMother(config, mother);
+        Genes father = createFatherDifferentFromMother(config, mother);
         Genes baby = new Genes(config);
 
         // When the baby inherits from the mother and father
@@ -132,13 +128,13 @@ public class GenesTest {
         assertFalse(baby.isEqual(father));
     }
 
-    @Test public void TestBabyIsNotZero(){
+    @Test public void testBabyIsNotZero(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
         Genes mother = new Genes(config);
         mother.buildFromRandom();
-        Genes father = CreateFatherDifferentFromMother(config, mother);
+        Genes father = createFatherDifferentFromMother(config, mother);
         Genes baby = new Genes(config);
 
         // When the baby inherits from the mother and father
@@ -148,13 +144,13 @@ public class GenesTest {
         assertFalse(baby.areEmpty());
     }
 
-    @Test public void TestBabyIsSimilarToMotherAndFather(){
+    @Test public void testBabyIsSimilarToMotherAndFather(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
         Genes mother = new Genes(config);
         mother.buildFromRandom();
-        Genes father = CreateFatherDifferentFromMother(config, mother);
+        Genes father = createFatherDifferentFromMother(config, mother);
         Genes baby = new Genes(config);
 
         // When the baby inherits from the mother and father
