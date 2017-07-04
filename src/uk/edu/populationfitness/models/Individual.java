@@ -1,5 +1,7 @@
 package uk.edu.populationfitness.models;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by pete.callaghan on 03/07/2017.
  */
@@ -19,7 +21,7 @@ public class Individual {
     }
 
     public int age(int current_year){
-        return current_year - birth_year;
+        return abs(current_year - birth_year);
     }
 
     public boolean isReadyToDie(int current_year){

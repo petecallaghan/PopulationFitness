@@ -89,6 +89,9 @@ public class Population {
      * @return
      */
     public int killThoseUnfitOrReadyToDie(int current_year, Epoch epoch){
+        if (individuals.size() < 1)
+            return 0;
+
         if (!epoch.isFitnessEnabled()){
             return addSurvivors(i -> !i.isReadyToDie(current_year));
         }
