@@ -12,6 +12,7 @@ public class GenerationsTest {
     @Test public void testProduceGenerationHistory(){
         // Given a standard configuration ...
         Config config = new Config();
+        config.min_breeding_age = 1; // so we get some babies
         Population population = new Population(config);
         Generations generations = new Generations(population);
         // ... with some epochs
