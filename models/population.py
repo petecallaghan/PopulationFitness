@@ -85,4 +85,7 @@ class Population:
         self.max_fitness = reduce(lambda x, y: max(x, y.fitness), self.individuals, 0)
 
     def averageFitness(self):
-        return self.total_fitness / len(self.individuals)
+        population_size - len(self.individuals);
+        if (population_size > 0):
+            return self.total_fitness / population_size
+        return 0

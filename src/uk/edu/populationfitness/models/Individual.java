@@ -6,9 +6,9 @@ package uk.edu.populationfitness.models;
 public class Individual {
     private Config config;
 
-    private int birth_year;
+    public final int birth_year;
 
-    public Genes genes;
+    public final Genes genes;
 
     public double fitness;
 
