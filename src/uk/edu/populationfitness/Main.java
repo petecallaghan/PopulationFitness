@@ -9,11 +9,12 @@ public class Main {
         Population population = new Population(config);
         Generations generations = new Generations(population);
 
-        config.initial_population_size = 40;
+        config.initial_population_size = 400;
 
         Epochs epochs = new Epochs();
         epochs.addNextEpoch(new Epoch(-50).fitnessFactor(1.0).killConstant(1.0).maxPopulation(40000).environmentCapacity(config.initial_population_size));
         epochs.addNextEpoch(new Epoch(400).fitnessFactor(1.5).maxPopulation(20000).environmentCapacity(config.initial_population_size / 2));
+       //epochs.setFinalEpochYear(450);
         epochs.addNextEpoch(new Epoch(550).fitnessFactor(1.0).maxPopulation(20000));
         epochs.addNextEpoch(new Epoch(1086).fitnessFactor(1.1).maxPopulation(20000));
         epochs.addNextEpoch(new Epoch(1300).fitnessFactor(1.1).maxPopulation(40000));

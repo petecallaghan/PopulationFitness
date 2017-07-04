@@ -1,7 +1,9 @@
 package uk.edu.populationfitness.models;
 
 import java.util.BitSet;
-import java.util.Random;
+import java.util.SplittableRandom;
+
+import static java.lang.Math.abs;
 
 /**
  * Created by pete.callaghan on 03/07/2017.
@@ -11,12 +13,19 @@ public class Genes {
 
     private BitSet genes;
 
-    private Random random = new Random();
+    private SplittableRandom random = new SplittableRandom();
+
+    private final double configured_fitness_ratio;
 
     private static final double HALF_PROBABILITY = 0.5;
 
+    private double stored_fitness = 0;
+
+    private double stored_fitness_factor = 0;
+
     public Genes(Config config){
         this.config = config;
+        this.configured_fitness_ratio = (config.float_upper - config.float_lower) / Long.MAX_VALUE;
     }
 
     public void buildEmpty(){
@@ -40,6 +49,7 @@ public class Genes {
                 genes.flip(i);
             }
         }
+        stored_fitness_factor = 0;
     }
 
     public int numberOfBits(){
@@ -52,6 +62,7 @@ public class Genes {
                 genes.flip(i);
             }
         }
+        stored_fitness_factor = 0;
     }
 
     public void inheritFrom(Genes mother, Genes father) {
@@ -77,6 +88,7 @@ public class Genes {
                 genes.set(i, mother.genes.get(i));
             }
         }
+        mutate();
     }
 
     public boolean areEmpty(){
@@ -84,17 +96,21 @@ public class Genes {
     }
 
     public double fitness(double fitness_factor){
-        double ratio = (config.float_upper - config.float_lower) / Long.MAX_VALUE;
-
-        long[] integer_values = genes.toLongArray();
+        if (abs(fitness_factor - stored_fitness_factor) < 0.01) {
+            return stored_fitness;
+        }
+        // We need to calculate the fitness again
+        stored_fitness_factor = fitness_factor;
 
         double fitness = 1.0;
+        long[] integer_values = genes.toLongArray();
 
         for(int i = 0; i < integer_values.length; i++){
-            fitness *= Math.pow(Math.sin(config.float_lower + ratio * integer_values[i]), fitness_factor);
+            fitness *= Math.pow(Math.sin(config.float_lower + configured_fitness_ratio * integer_values[i]), fitness_factor);
         }
 
-        return Math.max(0.0, fitness);
+        stored_fitness = Math.max(0.0, fitness);
+        return stored_fitness;
     }
 
     public boolean isEqual(Genes other){

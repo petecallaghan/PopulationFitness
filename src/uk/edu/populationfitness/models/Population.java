@@ -2,7 +2,7 @@ package uk.edu.populationfitness.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.SplittableRandom;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -18,7 +18,7 @@ public class Population {
 
     public double max_fitness = 0.0;
 
-    private Random random = new Random();
+    private SplittableRandom random = new SplittableRandom();
 
     public Population(Config config){
         this.config = config;
