@@ -1,12 +1,13 @@
 package uk.edu.populationfitness.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by pete.callaghan on 04/07/2017.
  */
 public class Epochs {
-    public ArrayList<Epoch> epochs;
+    public final List<Epoch> epochs;
 
     public Epochs(){
         epochs = new ArrayList<>();

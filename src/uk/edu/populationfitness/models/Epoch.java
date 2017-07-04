@@ -62,4 +62,9 @@ public class Epoch {
         this.enable_fitness = false;
         return this;
     }
+
+    public Epoch maxPopulation(int expected_max_population){
+        this.expected_max_population = expected_max_population;
+        return this;
+    }
 }
