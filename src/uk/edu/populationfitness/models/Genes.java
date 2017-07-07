@@ -1,7 +1,6 @@
 package uk.edu.populationfitness.models;
 
 import java.util.BitSet;
-import java.util.SplittableRandom;
 
 import static java.lang.Math.abs;
 
@@ -13,8 +12,6 @@ public class Genes {
     private Config config;
 
     private BitSet genes;
-
-    private SplittableRandom random = new SplittableRandom();
 
     private final double configured_fitness_ratio;
 
@@ -46,7 +43,7 @@ public class Genes {
         buildEmpty();
 
         for(int i = 0; i < genes.size(); i++){
-            if (random.nextDouble() > HALF_PROBABILITY){
+            if (RepeatableRandom.generateNext() > HALF_PROBABILITY){
                 genes.flip(i);
             }
         }
@@ -59,7 +56,7 @@ public class Genes {
 
     public void mutate(){
         for(int i = 0; i < genes.size(); i++){
-            if (random.nextDouble() < config.mutation_probability){
+            if (RepeatableRandom.generateNext() < config.mutation_probability){
                 genes.flip(i);
             }
         }
@@ -70,7 +67,7 @@ public class Genes {
         // Randomly picks the code index that crosses over from mother to father
         int length = mother.genes.size();
 
-        int cross_over_index = 1 + (int)(random.nextDouble() * (length - 1));
+        int cross_over_index = 1 + (int)(RepeatableRandom.generateNext() * (length - 1));
 
         // Minimise the bit-wise copying
         if (cross_over_index > length / 2){

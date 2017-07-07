@@ -2,7 +2,6 @@ package uk.edu.populationfitness.models;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SplittableRandom;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -17,8 +16,6 @@ public class Population {
     public double total_fitness = 0.0;
 
     public double max_fitness = 0.0;
-
-    private SplittableRandom random = new SplittableRandom();
 
     public Population(Config config){
         this.config = config;
@@ -50,7 +47,7 @@ public class Population {
         for(int i = 0; i < individuals.size() - 1; i+=2){
             Individual father = individuals.get(i);
             Individual mother = individuals.get(i + 1);
-            boolean pairCanBreed = random.nextDouble() < config.probability_of_breeding;
+            boolean pairCanBreed = RepeatableRandom.generateNext() < config.probability_of_breeding;
             if (pairCanBreed && father.canBreed(current_year) && mother.canBreed(current_year)){
                 Individual baby = new Individual(config, current_year);
                 baby.inheritFromParentsAndMutate(mother, father);
@@ -62,7 +59,7 @@ public class Population {
     }
 
     private boolean isUnfit(double fitness, double kill_constant){
-        return fitness < random.nextDouble() * kill_constant;
+        return fitness < RepeatableRandom.generateNext() * kill_constant;
     }
 
     private boolean isUnfitForEnvironment(Individual individual, double fitness_factor, double environment_capacity, double kill_constant){
