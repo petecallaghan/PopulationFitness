@@ -36,6 +36,9 @@ public class Config {
     // Number of years in the simulation
     public int number_of_years;
 
+    // A scaling fitness factor that applies across epochs
+    public double fitness_factor;
+
     public Config(){
         number_of_genes = 4;
         size_of_each_gene = 10;
@@ -48,5 +51,6 @@ public class Config {
         initial_population_size = 4000;
         probability_of_breeding = 0.6;
         number_of_years = 2150;
+        fitness_factor = 1.0;
     }
 }

@@ -1,18 +1,15 @@
 package uk.edu.populationfitness;
 
+import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.RepeatableRandom;
+
 /**
  * Created by pete.callaghan on 07/07/2017.
  */
 public class Commands {
-    private static final String HELP = "Commands: -s [seed] -p [population size]";
+    private static final String HELP = "Commands: -s [seed] -p [population size] -f [fitness factor]";
 
-    public long seed;
-
-    public int population;
-
-    public Commands(long defaultSeed, int defaultPopulation, String[] args){
-        seed = defaultSeed;
-        population = defaultPopulation;
+    public static void configure(Config config, String[] args){
 
         if (args.length % 2 == 1){
             System.out.println(HELP);
@@ -23,11 +20,18 @@ public class Commands {
             String argument = args[i].toLowerCase();
             try {
                 if (argument.startsWith("-s")){
-                    seed = Long.decode(args[i + 1]);
+                    long seed = Long.decode(args[i + 1]);
+                    RepeatableRandom.setSeed(seed);
                     continue;
                 }
                 if (argument.startsWith("-p")){
-                    population = Integer.decode(args[i + 1]);
+                    int population = Integer.decode(args[i + 1]);
+                    config.initial_population_size = population;
+                    continue;
+                }
+                if (argument.startsWith("-f")){
+                    double fitness = Double.parseDouble(args[i + 1]);
+                    config.fitness_factor = fitness;
                     continue;
                 }
             }

@@ -18,15 +18,15 @@ public class EpochsTest {
         Config config = new Config();
         Epochs epochs = new Epochs();
 
-        epochs.addNextEpoch(new Epoch(-50));
-        epochs.addNextEpoch(new Epoch(400));
-        epochs.addNextEpoch(new Epoch(550));
-        epochs.addNextEpoch(new Epoch(1086));
-        epochs.addNextEpoch(new Epoch(1300));
-        epochs.addNextEpoch(new Epoch(1348));
-        epochs.addNextEpoch(new Epoch(1400));
-        epochs.addNextEpoch(new Epoch(2016));
-        epochs.addNextEpoch(new Epoch(2068));
+        epochs.addNextEpoch(new Epoch(config, -50));
+        epochs.addNextEpoch(new Epoch(config, 400));
+        epochs.addNextEpoch(new Epoch(config, 550));
+        epochs.addNextEpoch(new Epoch(config, 1086));
+        epochs.addNextEpoch(new Epoch(config, 1300));
+        epochs.addNextEpoch(new Epoch(config, 1348));
+        epochs.addNextEpoch(new Epoch(config, 1400));
+        epochs.addNextEpoch(new Epoch(config, 2016));
+        epochs.addNextEpoch(new Epoch(config, 2068));
         epochs.setFinalEpochYear(-50 + config.number_of_years - 1);
 
         // When we iterate over the epochs
@@ -52,21 +52,25 @@ public class EpochsTest {
 
     @Test public void testEpochFitnessFactors(){
         // Given a set of epochs
+        Config config = new Config();
         Epochs epochs = new Epochs();
 
-        epochs.addNextEpoch(new Epoch(-50));
-        epochs.addNextEpoch(new Epoch(400).fitnessFactor(2.0));
+        config.fitness_factor = 2.0;
+
+        epochs.addNextEpoch(new Epoch(config, -50));
+        epochs.addNextEpoch(new Epoch(config, 400).fitnessFactor(2.0));
 
         // When we iterate over the epochs we find the right fitness factors
-        assertEquals(1.0, epochs.epochs.get(0).fitness_factor);
-        assertEquals(2.0, epochs.epochs.get(1).fitness_factor);
+        assertEquals(2.0, epochs.epochs.get(0).fitnessFactor());
+        assertEquals(4.0, epochs.epochs.get(1).fitnessFactor());
     }
 
     @Test public void testEpochKillConstants(){
         // Given a set of epochs
         Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(-50));
-        epochs.addNextEpoch(new Epoch(400).killConstant(2.0));
+        Config config = new Config();
+        epochs.addNextEpoch(new Epoch(config, -50));
+        epochs.addNextEpoch(new Epoch(config, 400).killConstant(2.0));
 
         // When we iterate over the epochs we find the right kill constants
         assertEquals(Epoch.DEFAULT_KILL_CONSTANT, epochs.epochs.get(0).kill_constant);
@@ -76,8 +80,9 @@ public class EpochsTest {
     @Test public void testEpochEnvironmentCapacity(){
         // Given a set of epochs
         Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(-50).environmentCapacity(1000));
-        epochs.addNextEpoch(new Epoch(400));
+        Config config = new Config();
+        epochs.addNextEpoch(new Epoch(config, -50).environmentCapacity(1000));
+        epochs.addNextEpoch(new Epoch(config, 400));
 
         // When we iterate over the epochs we find the right environment capacity
         assertEquals(1000, epochs.epochs.get(0).environment_capacity);

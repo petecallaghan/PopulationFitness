@@ -36,7 +36,7 @@ public class PopulationTest {
         // Given a population that is a mixture of oldies and babies, where fitness is ignored
         Config config = new Config();
         Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(-50).disableFitness());
+        epochs.addNextEpoch(new Epoch(config, -50).disableFitness());
         config.initial_population_size = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);
         population.addNewIndividuals(BIRTH_YEAR);
@@ -59,7 +59,7 @@ public class PopulationTest {
         // Given a population that contains just babies
         Config config = new Config();
         Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(-50));
+        epochs.addNextEpoch(new Epoch(config, -50));
         config.initial_population_size = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);
         population.addNewIndividuals(BIRTH_YEAR);

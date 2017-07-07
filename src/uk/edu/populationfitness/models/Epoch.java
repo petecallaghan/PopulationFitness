@@ -13,6 +13,8 @@ public class Epoch {
     // The default kill constant
     public static final double DEFAULT_KILL_CONSTANT = 1.0255;
 
+    private final Config config;
+
     public int start_year;
     public int end_year = UNDEFINED_YEAR;
 
@@ -20,7 +22,7 @@ public class Epoch {
     public double kill_constant = DEFAULT_KILL_CONSTANT;
 
     // Defines the fitness adjustment for this epoch
-    public double fitness_factor = 1.0;
+    private double fitness_factor;
 
     // Defines the holding capacity of the environment for this epoch
     public int environment_capacity = UNLIMITED_CAPACITY;
@@ -31,8 +33,10 @@ public class Epoch {
     // Max population actually expected for this epoch
     public int expected_max_population = 0;
 
-    public Epoch(int start_year){
+    public Epoch(Config config, int start_year){
         this.start_year = start_year;
+        this.config = config;
+        this.fitness_factor = config.fitness_factor;
     }
 
     public boolean isCapacityUnlimited(){
@@ -49,8 +53,17 @@ public class Epoch {
     }
 
     public Epoch fitnessFactor(double fitness_factor){
-        this.fitness_factor = fitness_factor;
+        this.fitness_factor = config.fitness_factor * fitness_factor;
         return this;
+    }
+
+    /**
+     * Defines the fitness adjustment for this epoch
+     *
+     * @return
+     */
+    public double fitnessFactor(){
+        return this.fitness_factor;
     }
 
     public Epoch environmentCapacity(int environment_capacity){
