@@ -6,6 +6,7 @@ import java.util.SplittableRandom;
 import static java.lang.Math.abs;
 
 /**
+ * todo Create a suite of fitness functions to test different populations
  * Created by pete.callaghan on 03/07/2017.
  */
 public class Genes {
