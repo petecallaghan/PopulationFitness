@@ -37,7 +37,10 @@ public class Config {
     public int number_of_years;
 
     // A scaling fitness factor that applies across epochs
-    public double fitness_factor;
+    public double fitness_factor_adjstument;
+
+    // A scaling kill constant that applies across epochs
+    public double kill_constant_adjustment;
 
     public Config(){
         number_of_genes = 4;
@@ -51,6 +54,7 @@ public class Config {
         initial_population_size = 4000;
         probability_of_breeding = 0.6;
         number_of_years = 2150;
-        fitness_factor = 1.0;
+        fitness_factor_adjstument = 1.0;
+        kill_constant_adjustment = 1.0;
     }
 }

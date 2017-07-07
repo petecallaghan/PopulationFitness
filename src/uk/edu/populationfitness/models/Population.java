@@ -94,11 +94,11 @@ public class Population {
         }
 
         if (epoch.isCapacityUnlimited()){
-            return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfit(i, epoch.fitnessFactor(), epoch.kill_constant)));
+            return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfit(i, epoch.fitnessFactor(), epoch.killConstant())));
         }
 
         double environment_capacity = (double)(epoch.environment_capacity) / individuals.size();
-        return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitnessFactor(), environment_capacity, epoch.kill_constant)));
+        return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitnessFactor(), environment_capacity, epoch.killConstant())));
     }
 
     public void getStatistics(){

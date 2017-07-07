@@ -55,14 +55,14 @@ public class EpochsTest {
         Config config = new Config();
         Epochs epochs = new Epochs();
 
-        config.fitness_factor = 2.0;
+        config.fitness_factor_adjstument = 2.0;
 
         epochs.addNextEpoch(new Epoch(config, -50));
         epochs.addNextEpoch(new Epoch(config, 400).fitnessFactor(2.0));
 
         // When we iterate over the epochs we find the right fitness factors
-        assertEquals(2.0, epochs.epochs.get(0).fitnessFactor());
-        assertEquals(4.0, epochs.epochs.get(1).fitnessFactor());
+        assertEquals(config.fitness_factor_adjstument, epochs.epochs.get(0).fitnessFactor());
+        assertEquals(config.fitness_factor_adjstument * 2.0, epochs.epochs.get(1).fitnessFactor());
     }
 
     @Test public void testEpochKillConstants(){
@@ -73,8 +73,8 @@ public class EpochsTest {
         epochs.addNextEpoch(new Epoch(config, 400).killConstant(2.0));
 
         // When we iterate over the epochs we find the right kill constants
-        assertEquals(Epoch.DEFAULT_KILL_CONSTANT, epochs.epochs.get(0).kill_constant);
-        assertEquals(2.0, epochs.epochs.get(1).kill_constant);
+        assertEquals(Epoch.DEFAULT_KILL_CONSTANT, epochs.epochs.get(0).killConstant());
+        assertEquals(2.0, epochs.epochs.get(1).killConstant());
     }
 
     @Test public void testEpochEnvironmentCapacity(){

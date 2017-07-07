@@ -7,7 +7,7 @@ import uk.edu.populationfitness.models.RepeatableRandom;
  * Created by pete.callaghan on 07/07/2017.
  */
 public class Commands {
-    private static final String HELP = "Commands: -s [seed] -p [population size] -f [fitness factor]";
+    private static final String HELP = "Commands: -s [seed] -p [population size] -f [fitness factor] -k [kill factor]";
 
     public static void configure(Config config, String[] args){
 
@@ -31,7 +31,12 @@ public class Commands {
                 }
                 if (argument.startsWith("-f")){
                     double fitness = Double.parseDouble(args[i + 1]);
-                    config.fitness_factor = fitness;
+                    config.fitness_factor_adjstument = fitness;
+                    continue;
+                }
+                if (argument.startsWith("-k")){
+                    double kill_constant = Double.parseDouble(args[i + 1]);
+                    config.kill_constant_adjustment = kill_constant;
                     continue;
                 }
             }
