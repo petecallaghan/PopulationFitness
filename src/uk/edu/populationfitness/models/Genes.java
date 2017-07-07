@@ -104,7 +104,7 @@ public class Genes {
         long[] integer_values = genes.toLongArray();
 
         for(int i = 0; i < integer_values.length; i++){
-            fitness *= Math.pow(Math.sin(config.float_lower + configured_fitness_ratio * integer_values[i]), fitness_factor);
+            fitness *= Math.pow(Math.abs(Math.sin(config.float_lower + configured_fitness_ratio * integer_values[i])), fitness_factor);
         }
 
         stored_fitness = Math.max(0.0, fitness);
