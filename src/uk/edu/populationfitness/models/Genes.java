@@ -23,7 +23,8 @@ public class Genes {
 
     public Genes(Config config){
         this.config = config;
-        this.configured_fitness_ratio = (config.float_upper - config.float_lower) / Long.MAX_VALUE;
+        long max_value = Math.min(Long.MAX_VALUE, (long)Math.pow(2, config.size_of_each_gene)-1);
+        this.configured_fitness_ratio = (config.float_upper - config.float_lower) / max_value;
     }
 
     public void buildEmpty(){
@@ -99,6 +100,16 @@ public class Genes {
         }
         // We need to calculate the fitness again
         stored_fitness_factor = fitness_factor;
+
+        /*
+            Product(1..n) sin(x) exp y
+            where x in [0..pi]
+            y is the fitness factor that narrows the range of x that produces a non zero result
+            This function produces a shallow arc of fitness values across the range of x, varying from 0 to 1
+            The fitness factor narrows the width of the arc, centred on 0.5, so genes with values closer to 0 or pi will
+            produce lower fitness values. Increasing the fitness factor will narrow the arc, reducing the %
+            of fitness results that are away from 0.5. Reducing the fitness factor below 1.0 will widen the arc.
+         */
 
         double fitness = 1.0;
         long[] integer_values = genes.toLongArray();

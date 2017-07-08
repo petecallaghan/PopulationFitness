@@ -14,9 +14,9 @@ public class Main {
 
         Epochs epochs = new Epochs();
         epochs.addNextEpoch(new Epoch(config, -50).fitnessFactor(1.0).killConstant(1.0).maxPopulation(4000).environmentCapacity(config.initial_population_size));
-        epochs.addNextEpoch(new Epoch(config, 400).fitnessFactor(1.5).maxPopulation(2000));//.environmentCapacity(config.initial_population_size / 2));
-        epochs.setFinalEpochYear(500);
-        //epochs.addNextEpoch(new Epoch(config, 550).fitnessFactor(1.0).maxPopulation(2000));
+        epochs.addNextEpoch(new Epoch(config, 400).fitnessFactor(1.0).maxPopulation(2000).environmentCapacity(config.initial_population_size / 2));
+        epochs.addNextEpoch(new Epoch(config, 550).fitnessFactor(1.1).maxPopulation(2000));
+        epochs.setFinalEpochYear(1086);
         /*epochs.addNextEpoch(new Epoch(config, 1086).fitnessFactor(1.1).maxPopulation(2000));
         epochs.addNextEpoch(new Epoch(config, 1300).fitnessFactor(1.1).maxPopulation(4000));
         epochs.addNextEpoch(new Epoch(config, 1348).fitnessFactor(3).maxPopulation(4000));
