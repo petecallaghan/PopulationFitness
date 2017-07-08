@@ -33,9 +33,13 @@ public class Epoch {
     // Max population actually expected for this epoch
     public int expected_max_population = 0;
 
+    // Probability of a pair breeding in a given year
+    private double probability_of_breeding;
+
     public Epoch(Config config, int start_year){
         this.start_year = start_year;
         this.config = config;
+        this.probability_of_breeding = config.probability_of_breeding;
     }
 
     public boolean isCapacityUnlimited(){
@@ -44,6 +48,15 @@ public class Epoch {
 
     public boolean isFitnessEnabled(){
         return enable_fitness;
+    }
+
+    public Epoch breedingProbability(double probability){
+        this.probability_of_breeding = probability;
+        return this;
+    }
+
+    public double breedingProbability(){
+        return probability_of_breeding;
     }
 
     public Epoch killConstant(double kill_constant){

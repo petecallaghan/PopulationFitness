@@ -89,7 +89,7 @@ public class PopulationTest {
         population.addNewIndividuals(breeding_birth_year);
 
         // When we create a new population
-        List<Individual> babies = population.addNewGeneration(current_year);
+        List<Individual> babies = population.addNewGeneration(new Epoch(config, current_year), current_year);
 
         // The right number of babies are produced and the babies are added
         assertTrue(babies.size() >= (config.initial_population_size * config.probability_of_breeding / 2) - config.initial_population_size / 5);

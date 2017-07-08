@@ -41,13 +41,13 @@ public class Population {
      * @param current_year
      * @return The newly created set of babies
      */
-    public List<Individual> addNewGeneration(int current_year){
+    public List<Individual> addNewGeneration(Epoch epoch, int current_year){
         ArrayList<Individual> babies = new ArrayList<Individual>();
 
         for(int i = 0; i < individuals.size() - 1; i+=2){
             Individual father = individuals.get(i);
             Individual mother = individuals.get(i + 1);
-            boolean pairCanBreed = RepeatableRandom.generateNext() < config.probability_of_breeding;
+            boolean pairCanBreed = RepeatableRandom.generateNext() < epoch.breedingProbability();
             if (pairCanBreed && father.canBreed(current_year) && mother.canBreed(current_year)){
                 Individual baby = new Individual(config, current_year);
                 baby.inheritFromParentsAndMutate(mother, father);

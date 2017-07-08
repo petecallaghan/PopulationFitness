@@ -45,7 +45,7 @@ public class Generations {
         long kill_elapsed = (System.nanoTime() - start_time) / NANOS_PER_MILLIS;
 
         start_time = System.nanoTime();
-        List<Individual> babies = population.addNewGeneration(year);
+        List<Individual> babies = population.addNewGeneration(epoch, year);
         long born_elapsed = (System.nanoTime() - start_time) / NANOS_PER_MILLIS;
 
         return addHistory(epoch, year, babies.size(), fatalities, born_elapsed, kill_elapsed);
