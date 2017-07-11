@@ -1,11 +1,12 @@
 package uk.edu.populationfitness.test;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epoch;
 import uk.edu.populationfitness.models.Epochs;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by pete.callaghan on 04/07/2017.
@@ -61,8 +62,8 @@ public class EpochsTest {
         epochs.addNextEpoch(new Epoch(config, 400).fitnessFactor(2.0));
 
         // When we iterate over the epochs we find the right fitness factors
-        assertEquals(config.fitness_factor_adjstument, epochs.epochs.get(0).fitnessFactor());
-        assertEquals(config.fitness_factor_adjstument * 2.0, epochs.epochs.get(1).fitnessFactor());
+        assertEquals(config.fitness_factor_adjstument, epochs.epochs.get(0).fitnessFactor(), 0.1);
+        assertEquals(config.fitness_factor_adjstument * 2.0, epochs.epochs.get(1).fitnessFactor(), 0.1);
     }
 
     @Test public void testEpochKillConstants(){
@@ -73,8 +74,8 @@ public class EpochsTest {
         epochs.addNextEpoch(new Epoch(config, 400).killConstant(2.0));
 
         // When we iterate over the epochs we find the right kill constants
-        assertEquals(Epoch.DEFAULT_KILL_CONSTANT, epochs.epochs.get(0).killConstant());
-        assertEquals(2.0, epochs.epochs.get(1).killConstant());
+        assertEquals(Epoch.DEFAULT_KILL_CONSTANT, epochs.epochs.get(0).killConstant(), 0.1);
+        assertEquals(2.0, epochs.epochs.get(1).killConstant(), 0.1);
     }
 
     @Test public void testEpochEnvironmentCapacity(){

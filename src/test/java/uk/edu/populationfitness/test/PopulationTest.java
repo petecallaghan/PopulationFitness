@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.test;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epoch;
 import uk.edu.populationfitness.models.Epochs;
@@ -9,7 +10,6 @@ import uk.edu.populationfitness.models.Population;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by pete.callaghan on 04/07/2017.

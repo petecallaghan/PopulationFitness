@@ -1,10 +1,10 @@
 package uk.edu.populationfitness.test;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import static org.junit.Assert.*;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Individual;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by pete.callaghan on 03/07/2017.
