@@ -17,7 +17,7 @@ public class EpochsTest {
     @Test public void testCreateEpochs(){
         // Given a set of epochs
         Config config = new Config();
-        Epochs epochs = new Epochs();
+        Epochs epochs = new Epochs(config);
 
         epochs.addNextEpoch(new Epoch(config, -50));
         epochs.addNextEpoch(new Epoch(config, 400));
@@ -54,7 +54,7 @@ public class EpochsTest {
     @Test public void testEpochFitnessFactors(){
         // Given a set of epochs
         Config config = new Config();
-        Epochs epochs = new Epochs();
+        Epochs epochs = new Epochs(config);
 
         config.fitness_factor_adjstument = 2.0;
 
@@ -68,8 +68,8 @@ public class EpochsTest {
 
     @Test public void testEpochKillConstants(){
         // Given a set of epochs
-        Epochs epochs = new Epochs();
         Config config = new Config();
+        Epochs epochs = new Epochs(config);
         epochs.addNextEpoch(new Epoch(config, -50));
         epochs.addNextEpoch(new Epoch(config, 400).killConstant(2.0));
 
@@ -80,8 +80,8 @@ public class EpochsTest {
 
     @Test public void testEpochEnvironmentCapacity(){
         // Given a set of epochs
-        Epochs epochs = new Epochs();
         Config config = new Config();
+        Epochs epochs = new Epochs(config);
         epochs.addNextEpoch(new Epoch(config, -50).environmentCapacity(1000));
         epochs.addNextEpoch(new Epoch(config, 400));
 

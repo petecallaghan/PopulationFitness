@@ -16,10 +16,13 @@ public class Generations {
 
     public final Population population;
 
+    public final Config config;
+
     public int first_year;
 
     public Generations(Population population){
         this.population = population;
+        this.config = population.config;
         history = new ArrayList<>();
         first_year = UNDEFINED_YEAR;
     }

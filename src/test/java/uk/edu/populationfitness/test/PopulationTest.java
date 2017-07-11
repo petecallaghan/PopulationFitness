@@ -39,7 +39,7 @@ public class PopulationTest {
     @Test public void testKillOffOldies(){
         // Given a population that is a mixture of oldies and babies, where fitness is ignored
         Config config = new Config();
-        Epochs epochs = new Epochs();
+        Epochs epochs = new Epochs(config);
         epochs.addNextEpoch(new Epoch(config, -50).disableFitness());
         config.initial_population_size = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);
@@ -62,7 +62,7 @@ public class PopulationTest {
     @Test public void testKillOffUnfit(){
         // Given a population that contains just babies
         Config config = new Config();
-        Epochs epochs = new Epochs();
+        Epochs epochs = new Epochs(config);
         epochs.addNextEpoch(new Epoch(config, -50));
         config.initial_population_size = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);

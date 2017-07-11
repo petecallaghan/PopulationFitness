@@ -1,11 +1,17 @@
 package uk.edu.populationfitness.models;
 
+import java.time.Instant;
+import java.util.Date;
+
 /**
  * Created by pete.callaghan on 03/07/2017.
  */
 public class Config {
     public static final double ZERO = 0.0;
     public static final double PI = Math.PI;
+
+    // Unique identifier
+    public final String id = Instant.now().toString();
 
     // No genes per individual
     public int number_of_genes;

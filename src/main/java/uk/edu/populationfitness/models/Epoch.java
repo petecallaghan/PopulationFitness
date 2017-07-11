@@ -6,7 +6,7 @@ package uk.edu.populationfitness.models;
 public class Epoch {
 
     // The default kill constant
-    public static final double DEFAULT_KILL_CONSTANT = 1.0255;
+    public static final double DEFAULT_KILL_CONSTANT = 1.027;//1.0255;
 
     private static final int UNDEFINED_YEAR = -1;
 

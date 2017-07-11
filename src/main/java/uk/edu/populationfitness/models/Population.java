@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
  * Created by pete.callaghan on 03/07/2017.
  */
 public class Population {
-    private Config config;
+    public final Config config;
 
     public ArrayList<Individual> individuals;
 
