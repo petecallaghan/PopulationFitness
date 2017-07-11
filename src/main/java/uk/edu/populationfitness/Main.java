@@ -23,7 +23,7 @@ public class Main {
         epochs.addNextEpoch(new Epoch(config, 1300).fitnessFactor(historic_fitness).maxPopulation(4000));
         epochs.addNextEpoch(new Epoch(config, 1348).fitnessFactor(disease_fitness).maxPopulation(4000));
         epochs.addNextEpoch(new Epoch(config, 1400).fitnessFactor(historic_fitness).maxPopulation(2500));
-        epochs.addNextEpoch(new Epoch(config, 1901).fitnessFactor(modern_fitness).maxPopulation(41000).breedingProbability(0.23));
+        epochs.addNextEpoch(new Epoch(config, 1901).fitnessFactor(modern_fitness).maxPopulation(41000).breedingProbability(0.235));
         epochs.addNextEpoch(new Epoch(config, 2016).fitnessFactor(disease_fitness).maxPopulation(65000));
         epochs.addNextEpoch(new Epoch(config, 2068).fitnessFactor(historic_fitness).maxPopulation(65000));
         epochs.setFinalEpochYear(-50 + config.number_of_years - 1);
