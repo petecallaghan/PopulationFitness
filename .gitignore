@@ -3,5 +3,4 @@ test/__pycache__/
 __pycache__/
 .idea/
 out/
-PopulationFitness.iml
 target/

@@ -1,7 +1,11 @@
 package uk.edu.populationfitness.test;
 
 import org.junit.jupiter.api.Test;
-import uk.edu.populationfitness.models.*;
+import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.Epoch;
+import uk.edu.populationfitness.models.Epochs;
+import uk.edu.populationfitness.models.Individual;
+import uk.edu.populationfitness.models.Population;
 
 import java.util.List;
 

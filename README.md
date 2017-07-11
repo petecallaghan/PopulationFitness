@@ -15,4 +15,4 @@ To run the main Python app:
 
 
 To run the main Java app:
-java -classpath .\out\PopulationFitness.jar  uk.edu.populationfitness.Main
+java -jar populationfitness.jar 
