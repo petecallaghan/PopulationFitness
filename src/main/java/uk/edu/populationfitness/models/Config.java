@@ -56,7 +56,7 @@ public class Config {
         max_breeding_age = 35;
         min_breeding_age = 16;
         float_lower = ZERO;
-        float_upper = PI;
+        float_upper = PI / 2.0;
         initial_population_size = 4000;
         probability_of_breeding = 0.6;
         number_of_years = 2150;

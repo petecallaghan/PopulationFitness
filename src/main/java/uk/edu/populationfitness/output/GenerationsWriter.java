@@ -47,11 +47,11 @@ public class GenerationsWriter {
                 Integer.toString(generation.population),
                 Integer.toString(generation.number_born),
                 Integer.toString(generation.number_killed),
-                Long.toString(generation.born_time),
-                Long.toString(generation.kill_time),
-                Double.toString(generation.total_fitness),
+                Double.toString(generation.bornElapsedInHundredths()),
+                Double.toString(generation.killElapsedInHundredths()),
                 Double.toString(generation.average_fitness),
-                Double.toString(generation.max_fitness),
+                Double.toString(generation.fitness_deviation),
+                Integer.toString(generation.average_age),
         });
     }
 
@@ -71,9 +71,9 @@ public class GenerationsWriter {
                 "Number Killed",
                 "Born Elapsed",
                 "Kill Elapsed",
-                "Total Fitness",
                 "Avg Fitness",
-                "Max Fitness",
+                "Fitness Deviation",
+                "Average Age",
         });
     }
 }

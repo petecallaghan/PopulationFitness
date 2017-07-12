@@ -56,9 +56,9 @@ public class Generations {
 
     private GenerationStatistics addHistory(Epoch epoch, int year, int number_born, int number_killed, long born_elapsed, long kill_elapsed) {
         GenerationStatistics generation = new GenerationStatistics(epoch, year, population.individuals.size(), number_born, number_killed, born_elapsed, kill_elapsed);
-        generation.total_fitness = population.total_fitness;
         generation.average_fitness = population.averageFitness();
-        generation.max_fitness = population.max_fitness;
+        generation.fitness_deviation = population.standardDeviationFitness();
+        generation.average_age = population.average_age;
         history.add(generation);
 
         System.out.println("Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");

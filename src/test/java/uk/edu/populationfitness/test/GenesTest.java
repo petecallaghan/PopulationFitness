@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Genes;
 
+import java.util.ArrayList;
+
 /**
  * Created by pete.callaghan on 03/07/2017.
  */
@@ -168,5 +170,33 @@ public class GenesTest {
         }
         assertTrue(similar_to_mother);
         assertTrue(similar_to_father);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
+        // Given a number of randomly generated genes
+        Config config = new Config();
+        ArrayList<Genes> genes = new ArrayList<>();
+        for(int i = 0; i < 10000; i++){
+            Genes next = new Genes(config);
+            next.buildFromRandom();
+            genes.add(next);
+        }
+
+        // When the fitnesses are counted into a distribution
+        int[] fitnesses = new int[100];
+        for(int i = 0; i < fitnesses.length; i++){
+            fitnesses[i] = 0;
+        }
+
+        for (Genes g: genes) {
+            int i = (int)(g.fitness(1.0)* 100);
+            fitnesses[i]++;
+        }
+
+        // Then the gene fitness is distributed without excessive spikes
+        for(int f: fitnesses){
+            System.out.println(f);
+            assertTrue(f < 10 * (genes.size() / fitnesses.length));
+        }
     }
 }

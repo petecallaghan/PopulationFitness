@@ -1,6 +1,8 @@
 package uk.edu.populationfitness.models;
 import it.unimi.dsi.util.XorShift1024StarRandom;
 
+import java.util.SplittableRandom;
+
 /**
  * Provides a single sequence of random numbers from a repeatable seed.
  *
@@ -9,7 +11,7 @@ import it.unimi.dsi.util.XorShift1024StarRandom;
 public class RepeatableRandom {
     private static final long DEFAULT_SEED = 31l;
 
-    private static XorShift1024StarRandom random = new XorShift1024StarRandom(DEFAULT_SEED);
+    private static SplittableRandom random = new SplittableRandom(DEFAULT_SEED);
 
     /**
      * Changes the seed for the sequence. Call this before generating any random numbers
@@ -17,7 +19,7 @@ public class RepeatableRandom {
      * @param seed
      */
     public static void setSeed(long seed){
-        random = new XorShift1024StarRandom(seed);
+        random = new SplittableRandom(seed);
     }
 
     public static double generateNext(){

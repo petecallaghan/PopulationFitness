@@ -13,13 +13,16 @@ public class Population {
 
     public ArrayList<Individual> individuals;
 
-    public double total_fitness = 0.0;
+    public int average_age = 0;
 
-    public double max_fitness = 0.0;
+    private double total_fitness = 0.0;
+    private int checked_fitness = 0;
+    private ArrayList<Double> fitnesses;
 
     public Population(Config config){
         this.config = config;
         individuals = new ArrayList<>();
+        fitnesses = new ArrayList<>();
     }
 
     /**
@@ -42,11 +45,14 @@ public class Population {
      * @return The newly created set of babies
      */
     public List<Individual> addNewGeneration(Epoch epoch, int current_year){
+        long totalAge = 0;
         ArrayList<Individual> babies = new ArrayList<Individual>();
 
         for(int i = 0; i < individuals.size() - 1; i+=2){
             Individual father = individuals.get(i);
             Individual mother = individuals.get(i + 1);
+            totalAge += father.age(current_year);
+            totalAge += mother.age(current_year);
             boolean pairCanBreed = RepeatableRandom.generateNext() < epoch.breedingProbability();
             if (pairCanBreed && father.canBreed(current_year) && mother.canBreed(current_year)){
                 Individual baby = new Individual(config, current_year);
@@ -55,11 +61,15 @@ public class Population {
             }
         }
         individuals.addAll(babies);
+        average_age = (int)(totalAge / individuals.size());
         return babies;
     }
 
     private boolean isUnfit(double fitness, double kill_constant){
-        return fitness < RepeatableRandom.generateNext() * kill_constant;
+        total_fitness += fitness;
+        checked_fitness++;
+        fitnesses.add(fitness);
+        return fitness < (RepeatableRandom.generateNext() * kill_constant);
     }
 
     private boolean isUnfitForEnvironment(Individual individual, double fitness_factor, double environment_capacity, double kill_constant){
@@ -86,6 +96,10 @@ public class Population {
      * @return
      */
     public int killThoseUnfitOrReadyToDie(int current_year, Epoch epoch){
+        total_fitness = 0.0;
+        checked_fitness = 0;
+        fitnesses = new ArrayList<>();
+
         if (individuals.size() < 1)
             return 0;
 
@@ -101,13 +115,19 @@ public class Population {
         return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitnessFactor(), environment_capacity, epoch.killConstant())));
     }
 
-    public void getStatistics(){
-        total_fitness = 0;
-        max_fitness = 0;
+    public double averageFitness(){
+        return checked_fitness > 0 ? total_fitness / checked_fitness : 0;
     }
 
-    public double averageFitness(){
-        return individuals.size() > 0 ? total_fitness / individuals.size() : 0;
+    public double standardDeviationFitness(){
+        if (checked_fitness < 1) return 0.0;
+        double mean = averageFitness();
+        double variance = 0.0;
+        for(double f: fitnesses){
+            double difference = f-mean;
+            variance += difference*difference;
+        }
+        return Math.sqrt(variance/checked_fitness);
     }
 }
 

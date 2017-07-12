@@ -21,14 +21,17 @@ public class Genes {
 
     private double stored_fitness_factor = 0;
 
+    private final int size_of_genes;
+
     public Genes(Config config){
         this.config = config;
-        long max_value = Math.min(Long.MAX_VALUE, (long)Math.pow(2, config.size_of_each_gene)-1);
+        size_of_genes = config.number_of_genes * config.size_of_each_gene;
+        long max_value = Math.min(Long.MAX_VALUE, (long)Math.pow(2, size_of_genes)-1);
         this.configured_fitness_ratio = (config.float_upper - config.float_lower) / max_value;
     }
 
     public void buildEmpty(){
-        genes = new BitSet(config.number_of_genes * config.size_of_each_gene);
+        genes = new BitSet(size_of_genes);
         genes.clear();
     }
 
@@ -43,8 +46,8 @@ public class Genes {
     public void buildFromRandom(){
         buildEmpty();
 
-        for(int i = 0; i < genes.size(); i++){
-            if (RepeatableRandom.generateNext() > HALF_PROBABILITY){
+        for(int i = 0; i < size_of_genes; i++){
+            if (RepeatableRandom.generateNext() < HALF_PROBABILITY){
                 genes.flip(i);
             }
         }
@@ -52,11 +55,11 @@ public class Genes {
     }
 
     public int numberOfBits(){
-        return genes.size();
+        return size_of_genes;
     }
 
     public void mutate(){
-        for(int i = 0; i < genes.size(); i++){
+        for(int i = 0; i < size_of_genes; i++){
             if (RepeatableRandom.generateNext() < config.mutation_probability){
                 genes.flip(i);
             }
@@ -66,16 +69,14 @@ public class Genes {
 
     public void inheritFrom(Genes mother, Genes father) {
         // Randomly picks the code index that crosses over from mother to father
-        int length = mother.genes.size();
-
-        int cross_over_index = 1 + (int)(RepeatableRandom.generateNext() * (length - 1));
+        int cross_over_index = 1 + (int)(RepeatableRandom.generateNext() * (size_of_genes - 1));
 
         // Minimise the bit-wise copying
-        if (cross_over_index > length / 2){
+        if (cross_over_index > size_of_genes / 2){
             // Clone mother then copy from father
             genes = (BitSet)mother.genes.clone();
 
-            for (int i = cross_over_index; i < genes.length(); i++){
+            for (int i = cross_over_index; i < size_of_genes; i++){
                 genes.set(i, father.genes.get(i));
             }
         }
@@ -115,10 +116,11 @@ public class Genes {
         long[] integer_values = genes.toLongArray();
 
         for(int i = 0; i < integer_values.length; i++){
-            fitness *= Math.pow(Math.abs(Math.sin(config.float_lower + configured_fitness_ratio * integer_values[i])), fitness_factor);
+            fitness *= Math.pow(Math.sin(config.float_lower + configured_fitness_ratio * Math.abs(integer_values[i])), fitness_factor);
         }
 
         stored_fitness = Math.max(0.0, fitness);
+
         return stored_fitness;
     }
 
