@@ -3,8 +3,7 @@ package uk.edu.populationfitness.test;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.BitSetGenes;
-import uk.edu.populationfitness.models.genes.SinPiOver2BitSetGenes;
+import uk.edu.populationfitness.models.genes.*;
 
 import java.util.ArrayList;
 
@@ -173,12 +172,14 @@ public class GenesTest {
         assertTrue(similar_to_father);
     }
 
-    @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
+    private void GenesAreDistributedWithoutExcessiveSpikes(Function function){
+        BitSetGenesFactory factory = new BitSetGenesFactory();
+        factory.function = function;
         // Given a number of randomly generated genes
         Config config = new Config();
-        ArrayList<BitSetGenes> genes = new ArrayList<>();
+        ArrayList<Genes> genes = new ArrayList<>();
         for(int i = 0; i < 10000; i++){
-            BitSetGenes next = new SinPiOver2BitSetGenes(config);
+            Genes next = factory.build(config);
             next.buildFromRandom();
             genes.add(next);
         }
@@ -189,15 +190,21 @@ public class GenesTest {
             fitnesses[i] = 0;
         }
 
-        for (BitSetGenes g: genes) {
+        for (Genes g: genes) {
             int i = (int)(g.fitness(1.0)* 100);
             fitnesses[i]++;
         }
 
         // Then the gene fitness is distributed without excessive spikes
+        System.out.println(function.toString());
         for(int f: fitnesses){
             System.out.println(f);
             assertTrue(f < 10 * (genes.size() / fitnesses.length));
         }
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiOver2);
     }
 }
