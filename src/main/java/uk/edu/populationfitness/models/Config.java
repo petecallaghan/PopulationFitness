@@ -45,7 +45,7 @@ public class Config {
     public int number_of_years;
 
     // Defines genes for each individual
-    public GenesFactory genesFactory = new BitSetGenesFactory();
+    public BitSetGenesFactory genesFactory = new BitSetGenesFactory();
 
     public Config(){
         number_of_genes = 4;

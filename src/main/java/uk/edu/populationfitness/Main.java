@@ -26,7 +26,7 @@ public class Main {
         Tuning.modern_breeding = 0.13;
         config.initial_population = 4000;
 
-        Commands.configure(args);
+        Commands.configure(config, args);
 
         // https://en.wikipedia.org/wiki/Demography_of_England
         // Create baseline population
