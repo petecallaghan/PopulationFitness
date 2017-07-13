@@ -31,7 +31,7 @@ public class Population {
      * @param birth_year
      */
     public void addNewIndividuals(int birth_year){
-        for(int i = 0; i < config.initial_population_size; i++){
+        for(int i = 0; i < config.initial_population; i++){
             Individual individual = new Individual(config, birth_year);
             individual.genes.buildFromRandom();
             individuals.add(individual);
@@ -108,11 +108,11 @@ public class Population {
         }
 
         if (epoch.isCapacityUnlimited()){
-            return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfit(i, epoch.fitnessFactor(), epoch.killConstant())));
+            return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfit(i, epoch.fitness(), epoch.kill())));
         }
 
         double environment_capacity = (double)(epoch.environment_capacity) / individuals.size();
-        return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitnessFactor(), environment_capacity, epoch.killConstant())));
+        return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitness(), environment_capacity, epoch.kill())));
     }
 
     public double averageFitness(){

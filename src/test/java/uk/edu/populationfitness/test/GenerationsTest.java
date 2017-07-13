@@ -16,7 +16,7 @@ public class GenerationsTest {
         Generations generations = new Generations(population);
         // ... with some epochs
         Epochs epochs = new Epochs(config);
-        epochs.addNextEpoch(new Epoch(config, -50).fitnessFactor(1.0).killConstant(1.0).environmentCapacity(4000));
+        epochs.addNextEpoch(new Epoch(config, -50).fitness(1.0).kill(1.0).capacity(4000));
         epochs.setFinalEpochYear(-40);
 
         // When the simulation runs through the epochs

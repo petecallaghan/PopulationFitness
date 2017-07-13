@@ -5,9 +5,6 @@ package uk.edu.populationfitness.models;
  */
 public class Epoch {
 
-    // The default kill constant
-    public static final double DEFAULT_KILL_CONSTANT = 1.066; // 1.0255 1.027
-
     private static final int UNDEFINED_YEAR = -1;
 
     // Indicates unlimited capacity
@@ -19,7 +16,7 @@ public class Epoch {
     public int end_year = UNDEFINED_YEAR;
 
     // Defines the kill constant for this epoch
-    private double kill_constant = DEFAULT_KILL_CONSTANT;
+    private double kill_constant = 1.0;
 
     // Defines the fitness adjustment for this epoch
     private double fitness_factor = 1.0;
@@ -59,25 +56,25 @@ public class Epoch {
         return probability_of_breeding;
     }
 
-    public Epoch killConstant(double kill_constant){
+    public Epoch kill(double kill_constant){
         this.kill_constant = kill_constant;
         return this;
     }
 
-    public double killConstant(){
-        return config.kill_constant_adjustment * this.kill_constant;
+    public double kill(){
+        return this.kill_constant;
     }
 
-    public Epoch fitnessFactor(double fitness_factor){
+    public Epoch fitness(double fitness_factor){
         this.fitness_factor = fitness_factor;
         return this;
     }
 
-    public double fitnessFactor(){
-        return this.fitness_factor * config.fitness_factor_adjstument;
+    public double fitness(){
+        return this.fitness_factor;
     }
 
-    public Epoch environmentCapacity(int environment_capacity){
+    public Epoch capacity(int environment_capacity){
         this.environment_capacity = environment_capacity;
         return this;
     }
@@ -87,7 +84,7 @@ public class Epoch {
         return this;
     }
 
-    public Epoch maxPopulation(int expected_max_population){
+    public Epoch max(int expected_max_population){
         this.expected_max_population = expected_max_population;
         return this;
     }

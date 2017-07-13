@@ -1,7 +1,6 @@
 package uk.edu.populationfitness.models;
 
 import java.time.Instant;
-import java.util.Date;
 
 /**
  * Created by pete.callaghan on 03/07/2017.
@@ -34,19 +33,13 @@ public class Config {
     // The upper bound of the float conversion for genes
     public double float_upper;
 
-    public int initial_population_size;
+    public int initial_population;
 
     //  Probability that a pair will produce offspring in a year
     public double probability_of_breeding;
 
     // Number of years in the simulation
     public int number_of_years;
-
-    // A scaling fitness factor that applies across epochs
-    public double fitness_factor_adjstument;
-
-    // A scaling kill constant that applies across epochs
-    public double kill_constant_adjustment;
 
     public Config(){
         number_of_genes = 4;
@@ -56,11 +49,9 @@ public class Config {
         max_breeding_age = 35;
         min_breeding_age = 16;
         float_lower = ZERO;
-        float_upper = PI / 2.0;
-        initial_population_size = 4000;
+        float_upper = PI;
+        initial_population = 4000;
         probability_of_breeding = 0.6;
         number_of_years = 2150;
-        fitness_factor_adjstument = 1.0;
-        kill_constant_adjustment = 1.0;
     }
 }

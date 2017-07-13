@@ -21,7 +21,7 @@ public class PopulationTest {
     @Test public void testCreateNewNonEmptyPopulation(){
         // Given a small population
         Config config = new Config();
-        config.initial_population_size = INITIAL_POPULATION_SIZE;
+        config.initial_population = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);
 
         // When the population is created from scratch
@@ -29,7 +29,7 @@ public class PopulationTest {
 
         // Then it has the right number of individuals for the birth year
         // and each individual has a set of genes
-        assertEquals(config.initial_population_size, population.individuals.size());
+        assertEquals(config.initial_population, population.individuals.size());
         for(Individual i : population.individuals){
             assertEquals(BIRTH_YEAR, i.birth_year);
             assertFalse(i.genes.areEmpty());
@@ -41,19 +41,19 @@ public class PopulationTest {
         Config config = new Config();
         Epochs epochs = new Epochs(config);
         epochs.addNextEpoch(new Epoch(config, -50).disableFitness());
-        config.initial_population_size = INITIAL_POPULATION_SIZE;
+        config.initial_population = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);
         population.addNewIndividuals(BIRTH_YEAR);
         int current_year = BIRTH_YEAR + config.max_age;
         population.addNewIndividuals(current_year);
 
         // When we kill off the elderly
-        assertEquals(2 * config.initial_population_size, population.individuals.size());
+        assertEquals(2 * config.initial_population, population.individuals.size());
         int fatalities = population.killThoseUnfitOrReadyToDie(current_year, epochs.epochs.get(0));
 
         // Just the babies remain and the elderly were killed
-        assertEquals( config.initial_population_size, population.individuals.size());
-        assertEquals(config.initial_population_size, fatalities);
+        assertEquals( config.initial_population, population.individuals.size());
+        assertEquals(config.initial_population, fatalities);
         for (Individual i: population.individuals){
             assertEquals(0, i.age(current_year));
         }
@@ -64,7 +64,7 @@ public class PopulationTest {
         Config config = new Config();
         Epochs epochs = new Epochs(config);
         epochs.addNextEpoch(new Epoch(config, -50));
-        config.initial_population_size = INITIAL_POPULATION_SIZE;
+        config.initial_population = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);
         population.addNewIndividuals(BIRTH_YEAR);
         int current_year = BIRTH_YEAR;
@@ -81,7 +81,7 @@ public class PopulationTest {
     @Test public void testCreateANewGenerationFromTheCurrentOne(){
         // Given a population that is a mix of ages...
         Config config = new Config();
-        config.initial_population_size = INITIAL_POPULATION_SIZE;
+        config.initial_population = INITIAL_POPULATION_SIZE;
         Population population = new Population(config);
         int current_year = BIRTH_YEAR + config.max_breeding_age;
         int breeding_birth_year = current_year - config.min_breeding_age;
@@ -96,8 +96,8 @@ public class PopulationTest {
         List<Individual> babies = population.addNewGeneration(new Epoch(config, current_year), current_year);
 
         // The right number of babies are produced and the babies are added
-        assertTrue(babies.size() >= (config.initial_population_size * config.probability_of_breeding / 2) - config.initial_population_size / 5);
-        assertTrue(babies.size() <= (config.initial_population_size * config.probability_of_breeding) + config.initial_population_size / 5);
-        assertEquals((config.initial_population_size * 3) + babies.size(),population.individuals.size());
+        assertTrue(babies.size() >= (config.initial_population * config.probability_of_breeding / 2) - config.initial_population / 5);
+        assertTrue(babies.size() <= (config.initial_population * config.probability_of_breeding) + config.initial_population / 5);
+        assertEquals((config.initial_population * 3) + babies.size(),population.individuals.size());
     }
 }
