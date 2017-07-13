@@ -2,7 +2,7 @@ package uk.edu.populationfitness;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.RepeatableRandom;
-import uk.edu.populationfitness.models.genes.BitSetGenesFactory;
+import uk.edu.populationfitness.models.genes.Function;
 
 /**
  * Created by pete.callaghan on 07/07/2017.
@@ -28,13 +28,13 @@ public class Commands {
                     continue;
                 }
                 if (argument.startsWith("-f")){
-                    int fitness = Integer.decode(args[i + 1]);
-                    switch (fitness){
+                    int function = Integer.decode(args[i + 1]);
+                    switch (function){
                         case 1:
-                            config.genesFactory.fitness = BitSetGenesFactory.Fitness.SinPi;
+                            config.genesFactory.function = Function.SinPi;
                             continue;
                         case 2:
-                            config.genesFactory.fitness = BitSetGenesFactory.Fitness.SinPiOver2;
+                            config.genesFactory.function = Function.SinPiOver2;
                             continue;
                     }
                 }

@@ -2,25 +2,21 @@ package uk.edu.populationfitness.models.genes;
 
 import uk.edu.populationfitness.models.Config;
 
-import static uk.edu.populationfitness.models.genes.BitSetGenesFactory.Fitness.SinPiOver2;
+import static uk.edu.populationfitness.models.genes.Function.SinPiOver2;
 
 /**
  * Created by pete.callaghan on 13/07/2017.
  */
 public class BitSetGenesFactory implements GenesFactory {
-    public enum Fitness {
-        SinPi,
-        SinPiOver2;
-    }
 
     /**
      * Defines the fitness function to use
      */
-    public Fitness fitness = SinPiOver2;
+    public Function function = SinPiOver2;
 
     @Override
     public Genes build(Config config) {
-        switch(fitness){
+        switch(function){
             case SinPi:
                 return new SinPiBitSetGenes(config);
             default:
