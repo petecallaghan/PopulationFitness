@@ -3,7 +3,8 @@ package uk.edu.populationfitness.test;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.Genes;
+import uk.edu.populationfitness.models.genes.BitSetGenes;
+import uk.edu.populationfitness.models.genes.SinPiOver2BitSetGenes;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class GenesTest {
     @Test public void TestGenesAreEmpty(){
         // Given a set of genes with zero value
         Config config = new Config();
-        Genes genes = new Genes(config);
+        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
         genes.buildEmpty();
 
         // When tested they are all empty
@@ -24,7 +25,7 @@ public class GenesTest {
     @Test public void testMutatedGenesAreNotAllZero(){
         // Given a set of genes that are empty and a high probability that they will mutate
         Config config = new Config();
-        Genes genes = new Genes(config);
+        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
         genes.buildEmpty();
         config.mutation_probability *= 10;
 
@@ -46,7 +47,7 @@ public class GenesTest {
     @Test public void testMutationCanBeDisabled(){
         // Given a set of genes with zero values that will not mutate
         Config config = new Config();
-        Genes genes = new Genes(config);
+        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
         genes.buildEmpty();
         config.mutation_probability = 0;
 
@@ -64,7 +65,7 @@ public class GenesTest {
         assertEquals(0, mutated_count);
     }
 
-    private void thenTheyFallIntoTheFloatRange(Genes genes) {
+    private void thenTheyFallIntoTheFloatRange(BitSetGenes genes) {
         // Then they fall into the float range
         double fitness = genes.fitness(1.0);
         assertTrue(0.0 <= fitness);
@@ -74,7 +75,7 @@ public class GenesTest {
     @Test public void testGenesAsFloatUseDefaultRange(){
         // Given a set of genes with non zero values
         Config config = new Config();
-        Genes genes = new Genes(config);
+        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
@@ -85,7 +86,7 @@ public class GenesTest {
         Config config = new Config();
         config.number_of_genes = 111;
         config.size_of_each_gene = 131;
-        Genes genes = new Genes(config);
+        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
@@ -96,14 +97,14 @@ public class GenesTest {
         Config config = new Config();
         config.float_lower = 1.5;
         config.float_upper = 10.5;
-        Genes genes = new Genes(config);
+        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
     }
 
-    private Genes createFatherDifferentFromMother(Config config, Genes mother){
-        Genes father = new Genes(config);
+    private BitSetGenes createFatherDifferentFromMother(Config config, BitSetGenes mother){
+        BitSetGenes father = new SinPiOver2BitSetGenes(config);
         father.buildFromRandom();
 
         while(father.isEqual(mother)){
@@ -116,10 +117,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
-        Genes mother = new Genes(config);
+        BitSetGenes mother = new SinPiOver2BitSetGenes(config);
         mother.buildFromRandom();
-        Genes father = createFatherDifferentFromMother(config, mother);
-        Genes baby = new Genes(config);
+        BitSetGenes father = createFatherDifferentFromMother(config, mother);
+        BitSetGenes baby = new SinPiOver2BitSetGenes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);
@@ -133,10 +134,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
-        Genes mother = new Genes(config);
+        BitSetGenes mother = new SinPiOver2BitSetGenes(config);
         mother.buildFromRandom();
-        Genes father = createFatherDifferentFromMother(config, mother);
-        Genes baby = new Genes(config);
+        BitSetGenes father = createFatherDifferentFromMother(config, mother);
+        BitSetGenes baby = new SinPiOver2BitSetGenes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);
@@ -149,10 +150,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
-        Genes mother = new Genes(config);
+        BitSetGenes mother = new SinPiOver2BitSetGenes(config);
         mother.buildFromRandom();
-        Genes father = createFatherDifferentFromMother(config, mother);
-        Genes baby = new Genes(config);
+        BitSetGenes father = createFatherDifferentFromMother(config, mother);
+        BitSetGenes baby = new SinPiOver2BitSetGenes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);
@@ -175,9 +176,9 @@ public class GenesTest {
     @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
         // Given a number of randomly generated genes
         Config config = new Config();
-        ArrayList<Genes> genes = new ArrayList<>();
+        ArrayList<BitSetGenes> genes = new ArrayList<>();
         for(int i = 0; i < 10000; i++){
-            Genes next = new Genes(config);
+            BitSetGenes next = new SinPiOver2BitSetGenes(config);
             next.buildFromRandom();
             genes.add(next);
         }
@@ -188,7 +189,7 @@ public class GenesTest {
             fitnesses[i] = 0;
         }
 
-        for (Genes g: genes) {
+        for (BitSetGenes g: genes) {
             int i = (int)(g.fitness(1.0)* 100);
             fitnesses[i]++;
         }

@@ -1,5 +1,8 @@
 package uk.edu.populationfitness.models;
 
+import uk.edu.populationfitness.models.genes.BitSetGenes;
+import uk.edu.populationfitness.models.genes.Genes;
+
 import static java.lang.Math.abs;
 
 /**
@@ -17,7 +20,7 @@ public class Individual {
     public Individual(Config config, int birth_year){
         this.config = config;
         this.birth_year = birth_year;
-        this.genes = new Genes(config);
+        this.genes = config.genesFactory.build(config);
     }
 
     public int age(int current_year){

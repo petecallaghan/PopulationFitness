@@ -1,5 +1,8 @@
 package uk.edu.populationfitness.models;
 
+import uk.edu.populationfitness.models.genes.BitSetGenesFactory;
+import uk.edu.populationfitness.models.genes.GenesFactory;
+
 import java.time.Instant;
 
 /**
@@ -40,6 +43,9 @@ public class Config {
 
     // Number of years in the simulation
     public int number_of_years;
+
+    // Defines genes for each individual
+    public GenesFactory genesFactory = new BitSetGenesFactory();
 
     public Config(){
         number_of_genes = 4;
