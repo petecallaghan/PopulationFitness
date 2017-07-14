@@ -9,12 +9,24 @@ import static java.lang.Math.abs;
  */
 public class SinPiOver2BitSetGenes extends BitSetGenes {
 
-    protected double configured_fitness_ratio;
+    private double interpolation_ratio;
+
+    private double remainder_interpolation_ratio;
+
+    private double interpolationRatio(Config config, long max_value){
+        return ((config.float_upper/2.0) - config.float_lower) / max_value;
+    }
+
+    private long maxForBits(long bitCount){
+        return Math.min(Long.MAX_VALUE, (long)Math.pow(2, bitCount)-1);
+    }
 
     public SinPiOver2BitSetGenes(Config config){
         super(config);
-        long max_value = Math.min(Long.MAX_VALUE, (long)Math.pow(2, size_of_genes)-1);
-        this.configured_fitness_ratio = ((config.float_upper/2.0) - config.float_lower) / max_value;
+        long max_value = maxForBits(size_of_genes);
+        long remainder_max_value = maxForBits(size_of_genes % Long.SIZE);
+        interpolation_ratio = interpolationRatio(config, max_value);
+        remainder_interpolation_ratio = interpolationRatio(config, remainder_max_value);
     }
 
     @Override
@@ -35,15 +47,16 @@ public class SinPiOver2BitSetGenes extends BitSetGenes {
             of fitness results that are away from 0.5. Reducing the fitness factor below 1.0 will widen the arc.
          */
 
-        double fitness = 1.0;
+        double fitness = 0.0;
         long[] integer_values = genes.toLongArray();
 
         for(int i = 0; i < integer_values.length; i++){
             long value =  Math.abs(integer_values[i]);
-            fitness *= Math.pow(Math.sin(config.float_lower + configured_fitness_ratio * value), fitness_factor);
+            double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
+            fitness += Math.pow(Math.sin(config.float_lower + ratio * value), fitness_factor);
         }
 
-        stored_fitness = Math.max(0.0, fitness);
+        stored_fitness = Math.max(0.0, fitness / integer_values.length);
 
         return stored_fitness;
     }

@@ -61,7 +61,7 @@ public class Population {
             }
         }
         individuals.addAll(babies);
-        average_age = (int)(totalAge / individuals.size());
+        average_age = individuals.size() > 0 ? (int)(totalAge / individuals.size()) : 0;
         return babies;
     }
 

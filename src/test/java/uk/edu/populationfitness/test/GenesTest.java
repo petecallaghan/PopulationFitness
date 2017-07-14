@@ -178,7 +178,7 @@ public class GenesTest {
         // Given a number of randomly generated genes
         Config config = new Config();
         ArrayList<Genes> genes = new ArrayList<>();
-        for(int i = 0; i < 10000; i++){
+        for(int i = 0; i < 100000; i++){
             Genes next = factory.build(config);
             next.buildFromRandom();
             genes.add(next);
@@ -191,7 +191,8 @@ public class GenesTest {
         }
 
         for (Genes g: genes) {
-            int i = (int)(g.fitness(1.0)* 100);
+            double fitness = g.fitness(1.0);
+            int i = Math.min(99, (int)(fitness * 100));
             fitnesses[i]++;
         }
 
