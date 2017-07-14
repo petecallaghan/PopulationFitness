@@ -47,16 +47,17 @@ public class SinPiOver2BitSetGenes extends BitSetGenes {
             of fitness results that are away from 0.5. Reducing the fitness factor below 1.0 will widen the arc.
          */
 
-        double fitness = 0.0;
+        double fitness = 1.0;
         long[] integer_values = genes.toLongArray();
 
         for(int i = 0; i < integer_values.length; i++){
-            long value =  Math.abs(integer_values[i]);
+            long value =  integer_values[i];
             double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
-            fitness += Math.pow(Math.sin(config.float_lower + ratio * value), fitness_factor);
+            fitness *= Math.pow(Math.sin(config.float_lower + ratio * value), fitness_factor);
         }
 
-        stored_fitness = Math.max(0.0, fitness / integer_values.length);
+        fitness = Math.abs(fitness);
+        stored_fitness = integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness;
 
         return stored_fitness;
     }

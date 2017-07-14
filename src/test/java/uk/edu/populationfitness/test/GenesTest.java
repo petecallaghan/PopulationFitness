@@ -200,7 +200,7 @@ public class GenesTest {
         System.out.println(function.toString());
         for(int f: fitnesses){
             System.out.println(f);
-            assertTrue(f < 10 * (genes.size() / fitnesses.length));
+            assertTrue(f < 20 * (genes.size() / fitnesses.length));
         }
     }
 

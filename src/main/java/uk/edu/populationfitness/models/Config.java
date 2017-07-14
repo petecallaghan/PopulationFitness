@@ -1,7 +1,6 @@
 package uk.edu.populationfitness.models;
 
 import uk.edu.populationfitness.models.genes.BitSetGenesFactory;
-import uk.edu.populationfitness.models.genes.GenesFactory;
 
 import java.time.Instant;
 
