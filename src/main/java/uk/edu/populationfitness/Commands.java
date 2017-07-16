@@ -8,7 +8,8 @@ import uk.edu.populationfitness.models.genes.Function;
  * Created by pete.callaghan on 07/07/2017.
  */
 public class Commands {
-    public static void configure(Config config, String[] args){
+    public static Tuning configure(Config config, String[] args){
+        config.initial_population = 4000;
 
         if (args.length % 2 == 1){
             showHelp();
@@ -44,6 +45,7 @@ public class Commands {
             }
             showHelp();
         }
+        return Tuning.select(config.genesFactory.function, config.size_of_each_gene * config.number_of_genes);
     }
 
     private static void showHelp() {
