@@ -5,5 +5,7 @@ package uk.edu.populationfitness.models.genes;
  */
 public enum Function {
     SinPi,
-    SinPiOver2;
+    SinPiOver2,
+    SinPiLinear,
+    SinPiAvg;
 }

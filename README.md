@@ -1,5 +1,16 @@
 # PopulationFitness
 
+## Java Version
+
+1. Install the latest JDK: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+2. Install Maven (to build the Java project): https://maven.apache.org/install.html
+3. To build the project run maven in the same directory as pom.xml (mvn)
+
+To run the main Java app:
+java -jar populationfitness.jar 
+
+## Python Version
+
 Install Python 3.x +
 
 run 'pip install bitarray'
@@ -14,5 +25,3 @@ To run the main Python app:
 2. To add profiling run 'py -m cProfile main.py'
 
 
-To run the main Java app:
-java -jar populationfitness.jar 

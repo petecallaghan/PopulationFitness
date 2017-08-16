@@ -172,13 +172,13 @@ public class GenesTest {
         assertTrue(similar_to_father);
     }
 
-    private void GenesAreDistributedWithoutExcessiveSpikes(Function function){
+    private void GenesAreDistributedWithoutExcessiveSpikes(Function function, double fitness_factor){
         BitSetGenesFactory factory = new BitSetGenesFactory();
         factory.function = function;
         // Given a number of randomly generated genes
         Config config = new Config();
         ArrayList<Genes> genes = new ArrayList<>();
-        for(int i = 0; i < 100000; i++){
+        for(int i = 0; i < 4000; i++){
             Genes next = factory.build(config);
             next.buildFromRandom();
             genes.add(next);
@@ -191,7 +191,7 @@ public class GenesTest {
         }
 
         for (Genes g: genes) {
-            double fitness = g.fitness(1.0);
+            double fitness = g.fitness(fitness_factor);
             int i = Math.min(99, (int)(fitness * 100));
             fitnesses[i]++;
         }
@@ -205,7 +205,7 @@ public class GenesTest {
     }
 
     @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiOver2);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi, 1.0);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiAvg, 1.0);
     }
 }

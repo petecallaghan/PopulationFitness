@@ -19,6 +19,10 @@ public class BitSetGenesFactory implements GenesFactory {
         switch(function){
             case SinPi:
                 return new SinPiBitSetGenes(config);
+            case SinPiAvg:
+                return new SinPiAvgBitSetGenes(config);
+            case SinPiLinear:
+                return new SinPiLinearBitSetGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2BitSetGenes(config);
