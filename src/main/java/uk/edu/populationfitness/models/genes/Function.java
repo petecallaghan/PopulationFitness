@@ -7,5 +7,6 @@ public enum Function {
     SinPi,
     SinPiOver2,
     SinPiLinear,
-    SinPiAvg;
+    SinPiAvg,
+    Rastrigin;
 }

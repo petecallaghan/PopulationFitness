@@ -23,6 +23,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new SinPiAvgBitSetGenes(config);
             case SinPiLinear:
                 return new SinPiLinearBitSetGenes(config);
+            case Rastrigin:
+                return new RastriginBitSetGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2BitSetGenes(config);

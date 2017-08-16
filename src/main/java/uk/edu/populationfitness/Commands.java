@@ -37,6 +37,9 @@ public class Commands {
                         case 2:
                             config.genesFactory.function = Function.SinPiOver2;
                             continue;
+                        case 3:
+                            config.genesFactory.function = Function.Rastrigin;
+                            continue;
                     }
                 }
             }
@@ -52,7 +55,7 @@ public class Commands {
         System.out.println("Commands:");
         System.out.println("    -s [seed]");
         System.out.println("    -p [population population_scale]");
-        System.out.println("    -f [fitness functions: 1 = Sin Pi, 2 = Sin Pi over 2]");
+        System.out.println("    -f [fitness functions: 1 = Sin Pi, 2 = Sin Pi over 2, 3 = Rastrigin]");
         System.exit(0);
     }
 }
