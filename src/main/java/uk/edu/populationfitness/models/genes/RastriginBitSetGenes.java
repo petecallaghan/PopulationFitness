@@ -52,9 +52,8 @@ public class RastriginBitSetGenes extends BitSetGenes {
         long[] integer_values = genes.toLongArray();
 
         for(int i = 0; i < integer_values.length; i++){
-            long value =  integer_values[i];
             double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
-            double x = ratio * value;
+            double x = ratio * integer_values[i];
             fitness += Math.pow(x, 2) - RastriginTermA * Math.cos(fitness_factor * Math.PI * x);
         }
 
