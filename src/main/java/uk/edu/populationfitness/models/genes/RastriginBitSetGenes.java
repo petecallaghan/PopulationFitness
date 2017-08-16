@@ -51,14 +51,38 @@ public class RastriginBitSetGenes extends BitSetGenes {
         double fitness = RastriginTermAtimesN;
         long[] integer_values = genes.toLongArray();
 
-        for(int i = 0; i < integer_values.length; i++){
-            double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
-            double x = ratio * integer_values[i];
-            fitness += Math.pow(x, 2) - RastriginTermA * Math.cos(fitness_factor * Math.PI * x);
+        double absolute_fitness_factor = abs(fitness_factor);
+
+        /**
+         * Can shift the fitness factor between cos and sin by interpreting the sign of the fitness factor
+         */
+        if (fitness_factor < 0) {
+            fitness = getRastriginFitnessUsingSin(absolute_fitness_factor, fitness, integer_values);
+        }
+        else{
+            fitness = getRastriginFitnessUsingCos(absolute_fitness_factor, fitness, integer_values);
         }
 
         stored_fitness = fitness / Scale;
 
         return stored_fitness;
+    }
+
+    private double getRastriginFitnessUsingSin(double fitness_factor, double fitness, long[] integer_values) {
+        for(int i = 0; i < integer_values.length; i++){
+            double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
+            double x = ratio * integer_values[i];
+            fitness += Math.pow(x, 2) - RastriginTermA * Math.sin(fitness_factor * Math.PI * x);
+        }
+        return fitness;
+    }
+
+    private double getRastriginFitnessUsingCos(double fitness_factor, double fitness, long[] integer_values) {
+        for(int i = 0; i < integer_values.length; i++){
+            double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
+            double x = ratio * integer_values[i];
+            fitness += Math.pow(x, 2) - RastriginTermA * Math.cos(fitness_factor * Math.PI * x);
+        }
+        return fitness;
     }
 }

@@ -208,5 +208,6 @@ public class GenesTest {
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi, 1.0);
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiAvg, 1.0);
         GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 2.0);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -2.0);
     }
 }
