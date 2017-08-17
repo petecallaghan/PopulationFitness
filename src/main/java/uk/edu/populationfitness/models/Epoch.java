@@ -12,7 +12,8 @@ public class Epoch {
 
     private final Config config;
 
-    public int start_year;
+    public final int start_year;
+
     public int end_year = UNDEFINED_YEAR;
 
     // Defines the kill constant for this epoch
@@ -67,6 +68,10 @@ public class Epoch {
 
     public Epoch fitness(double fitness_factor){
         this.fitness_factor = fitness_factor;
+        System.out.print("Epoch ");
+        System.out.print(start_year);
+        System.out.print(" f=");
+        System.out.println(fitness_factor);
         return this;
     }
 

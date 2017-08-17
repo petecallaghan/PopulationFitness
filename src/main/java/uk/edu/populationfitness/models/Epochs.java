@@ -41,4 +41,13 @@ public class Epochs {
         Epoch previous = epochs.get(epochs.size() - 1);
         previous.end_year = last_year;
     }
+
+    public void printFitnessFactors(){
+        for(Epoch epoch: epochs){
+            System.out.print("Epoch ");
+            System.out.print(epoch.start_year);
+            System.out.print(" f=");
+            System.out.println(epoch.fitness());
+        }
+    }
 }
