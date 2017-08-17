@@ -208,7 +208,7 @@ public class GenesTest {
     @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi, 1.0);
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiAvg, 1.0);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 4);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -4);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 0.7);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -0.7);
     }
 }

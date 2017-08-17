@@ -10,8 +10,6 @@ public class RastriginBitSetGenes extends BitSetGenes {
 
     private static final double TwoPi = 2 * Math.PI;
 
-    private final long Scale;
-
     private double interpolation_ratio;
 
     private double remainder_interpolation_ratio;
@@ -30,7 +28,6 @@ public class RastriginBitSetGenes extends BitSetGenes {
         long remainder_max_value = maxForBits(size_of_genes % Long.SIZE);
         interpolation_ratio = interpolationRatio(max_value);
         remainder_interpolation_ratio = interpolationRatio(remainder_max_value);
-        Scale = RastriginTermA * config.number_of_genes;
     }
 
     @Override
@@ -50,7 +47,6 @@ public class RastriginBitSetGenes extends BitSetGenes {
          */
         double fitness = 0;
         long[] integer_values = genes.toLongArray();
-
         double absolute_fitness_factor = abs(fitness_factor);
 
         /**
@@ -63,7 +59,7 @@ public class RastriginBitSetGenes extends BitSetGenes {
             fitness = getRastriginFitnessUsingCos(fitness, integer_values);
         }
 
-        stored_fitness = abs(fitness * absolute_fitness_factor) / Scale;
+        stored_fitness = abs(fitness * absolute_fitness_factor) / (RastriginTermA * integer_values.length);
 
         return stored_fitness;
     }
