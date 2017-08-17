@@ -177,8 +177,9 @@ public class GenesTest {
         factory.function = function;
         // Given a number of randomly generated genes
         Config config = new Config();
+        config.number_of_genes = 100;
         ArrayList<Genes> genes = new ArrayList<>();
-        for(int i = 0; i < 4000; i++){
+        for(int i = 0; i < 40000; i++){
             Genes next = factory.build(config);
             next.buildFromRandom();
             genes.add(next);
@@ -207,7 +208,7 @@ public class GenesTest {
     @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi, 1.0);
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiAvg, 1.0);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 2.0);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -2.0);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 4);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -4);
     }
 }
