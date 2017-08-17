@@ -25,6 +25,12 @@ public class Population {
         fitnesses = new ArrayList<>();
     }
 
+    public Population(Population source){
+        this(source.config);
+        individuals.addAll(source.individuals);
+        fitnesses.addAll(source.fitnesses);
+    }
+
     /**
      * Adds new individuals to the population. Adds the number configured as the population size.
      *

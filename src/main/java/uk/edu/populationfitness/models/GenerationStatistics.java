@@ -1,5 +1,7 @@
 package uk.edu.populationfitness.models;
 
+import static java.lang.Math.abs;
+
 /**
  * Created by pete.callaghan on 04/07/2017.
  */
@@ -34,5 +36,21 @@ public class GenerationStatistics {
 
     public double killElapsedInHundredths(){
         return (double) (kill_time / 10) / 100;
+    }
+
+    /**
+     *
+     * @param percentage the maximum percentage difference between actual and expected population that defines convergence
+     *
+     * @return true if the population has diverged from expected
+     */
+    public boolean hasDivergedFromExpected(int percentage){
+        if (population == 0) return true;
+
+        if (population >= epoch.expected_max_population * 2) return true;
+
+        if (year >= epoch.end_year && abs(population - epoch.expected_max_population)*100 >= epoch.expected_max_population * percentage) return true;
+
+        return false;
     }
 }

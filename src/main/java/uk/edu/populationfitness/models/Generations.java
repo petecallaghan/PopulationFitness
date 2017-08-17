@@ -30,19 +30,33 @@ public class Generations {
     public void createForAllEpochs(Epochs epochs){
         for (Epoch epoch: epochs.epochs){
             for(int year = epoch.start_year; year <= epoch.end_year; year++){
-                createForYear(year, epoch);
+                if (first_year == UNDEFINED_YEAR){
+                    first_year = year;
+                    // Add an initial population
+                    population.addNewIndividuals(year);
+                }
+
+                generateForYear(year, epoch);
             }
         }
-
     }
 
-    public GenerationStatistics createForYear(int year, Epoch epoch) {
-        if (first_year == UNDEFINED_YEAR){
-            first_year = year;
-            // Add an initial population
-            population.addNewIndividuals(year);
-        }
+    public void tuneFitnessFactorsForAllEpochs(Epochs epochs){
+       for (Epoch epoch: epochs.epochs){
 
+            for(int year = epoch.start_year; year <= epoch.end_year; year++){
+                if (first_year == UNDEFINED_YEAR){
+                    first_year = year;
+                    // Add an initial population
+                    population.addNewIndividuals(year);
+                }
+
+                generateForYear(year, epoch);
+            }
+        }
+    }
+
+    public GenerationStatistics generateForYear(int year, Epoch epoch) {
         long start_time = System.nanoTime();
         int fatalities = population.killThoseUnfitOrReadyToDie(year, epoch);
         long kill_elapsed = (System.nanoTime() - start_time) / NANOS_PER_MILLIS;
@@ -64,5 +78,4 @@ public class Generations {
         System.out.println("Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
         return generation;
     }
-
 }
