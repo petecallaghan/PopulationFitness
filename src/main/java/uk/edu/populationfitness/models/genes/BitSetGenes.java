@@ -19,20 +19,25 @@ public abstract class BitSetGenes implements Genes {
 
     protected static final double HALF_PROBABILITY = 0.5;
 
-    protected double stored_fitness = 0;
+    private double stored_fitness = 0;
 
-    protected double stored_fitness_factor = 0;
+    private double stored_fitness_factor = 0;
 
     protected final int size_of_genes;
 
     public BitSetGenes(Config config){
         this.config = config;
         size_of_genes = config.number_of_genes * config.size_of_each_gene;
-    }
+     }
 
     public void buildEmpty(){
         genes = new BitSet(size_of_genes);
         genes.clear();
+    }
+
+    public void buildFull(){
+        genes = new BitSet(size_of_genes);
+        genes.set(0, size_of_genes-1);
     }
 
     public int getCode(int index){
@@ -85,6 +90,35 @@ public abstract class BitSetGenes implements Genes {
             }
         }
         mutate();
+    }
+
+    /**
+     * Call this to store the fitness
+     *
+     * @param fitness_factor
+     * @param fitness
+     * @return the scaled stored fitness
+     */
+    protected double storedFitness(double fitness_factor, double fitness){
+        stored_fitness_factor = fitness_factor;
+        return stored_fitness = config.range.toScale(fitness);
+    }
+
+    /**
+     *
+     * @return the stored fitness
+     */
+    protected double storedFitness(){
+        return stored_fitness;
+    }
+
+    /**
+     *
+     * @param fitness_factor
+     * @return true if the fitness factor is the same as the stored factor
+     */
+    protected boolean isSameFitnessFactor(double fitness_factor){
+        return (abs(fitness_factor - stored_fitness_factor) < 0.000001);
     }
 
     public void inheritFrom(Genes mother, Genes father) {

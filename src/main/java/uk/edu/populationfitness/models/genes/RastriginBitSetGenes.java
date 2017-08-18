@@ -32,12 +32,9 @@ public class RastriginBitSetGenes extends BitSetGenes {
 
     @Override
     public double fitness(double fitness_factor) {
-        if (abs(fitness_factor - stored_fitness_factor) < 0.000001) {
-            return stored_fitness;
+        if (isSameFitnessFactor(fitness_factor)) {
+            return storedFitness();
         }
-        // We need to calculate the fitness again
-        stored_fitness_factor = fitness_factor;
-
         /**
          * This is a tunable Rastrigin function: https://en.wikipedia.org/wiki/Rastrigin_function
          *
@@ -59,9 +56,7 @@ public class RastriginBitSetGenes extends BitSetGenes {
             fitness = getRastriginFitnessUsingCos(fitness, integer_values);
         }
 
-        stored_fitness = abs(fitness * absolute_fitness_factor) / (RastriginTermA * integer_values.length);
-
-        return stored_fitness;
+        return storedFitness(fitness_factor, abs(fitness * absolute_fitness_factor));
     }
 
     private double interpolate(int i, long[] integer_values){

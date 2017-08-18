@@ -29,9 +29,10 @@ public class GenerationsTest {
         assertEquals(11, generations.history.size());
     }
 
-    private void tune(Function function, double minFactor, double maxFactor, double increment, int percentage){
+    private void tune(Function function, int numberOfGenes, double minFactor, double maxFactor, double increment, int percentage){
         Config config = new Config();
         config.genesFactory.function = function;
+        config.number_of_genes = numberOfGenes;
         Population population = new Population(config);
         Generations generations = new Generations(population);
         Epochs epochs = new Epochs(config);
@@ -41,18 +42,23 @@ public class GenerationsTest {
         epochs.addNextEpoch(new Epoch(config, -50).max(config.initial_population).kill(historic_kill).capacity(config.initial_population));
         epochs.addNextEpoch(new Epoch(config, 400).max(1700).kill(historic_kill).capacity(1700));
         epochs.addNextEpoch(new Epoch(config, 1086).max(4800).kill(historic_kill));
-        epochs.setFinalEpochYear(1347);
+        epochs.addNextEpoch(new Epoch(config, 1450).max(30000).kill(historic_kill));
+        epochs.setFinalEpochYear(1901);
 
         Assert.assertTrue(generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage));
 
         epochs.printFitnessFactors();
     }
 
-    @Test public void testTuneSinPiOver2(){
-        tune(Function.SinPiOver2, 0.5, 1.5, 0.01, 10);
+    @Test public void testTuneSinPiOver2For4(){
+        tune(Function.SinPiOver2, 4, 0.5, 1.5, 0.01, 10);
+    }
+
+    @Test public void testTuneSinPiOver2For100(){
+        tune(Function.SinPiOver2, 100, 0.5, 3, 0.01, 20);
     }
 
     @Test public void testTuneRastrigin(){
-        tune(Function.Rastrigin, 0.3, 1.5, 0.005, 25);
+        tune(Function.Rastrigin, 100, 0.3, 10, 0.005, 25);
     }
 }

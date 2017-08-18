@@ -13,6 +13,11 @@ public interface Genes {
     void buildEmpty();
 
     /**
+     * Builds a set of genes with all set
+     */
+    void buildFull();
+
+    /**
      * Gets the value for a single code
      *
      * @param index

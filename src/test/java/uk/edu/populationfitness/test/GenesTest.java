@@ -211,4 +211,54 @@ public class GenesTest {
         GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 0.7);
         GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -0.7);
     }
+
+    private void DiscoverFunctionRange(Function function, int numberOfGenes){
+        BitSetGenesFactory factory = new BitSetGenesFactory();
+        factory.function = function;
+        // Given a number of randomly generated genes
+        Config config = new Config();
+        config.number_of_genes = numberOfGenes;
+
+        ArrayList<Genes> genes = new ArrayList<>();
+
+        Genes empty = factory.build(config);
+        empty.buildEmpty();
+        genes.add(empty);
+
+        Genes full = factory.build(config);
+        full.buildFull();
+        genes.add(full);
+
+        for(int i = 0; i < 40000; i++){
+            Genes next = factory.build(config);
+            next.buildFromRandom();
+            genes.add(next);
+        }
+
+        double min = Double.MAX_VALUE;
+        double max = Double.MIN_VALUE;
+        for (Genes g: genes) {
+            double fitness = g.fitness(1.0);
+
+            if (fitness < min) min = fitness;
+            if (fitness > max) max = fitness;
+        }
+
+        System.out.print(function.toString());
+        System.out.print("(");
+        System.out.print(numberOfGenes);
+        System.out.print(") min=");
+        System.out.print(min);
+        System.out.print(" max=");
+        System.out.println(max);
+    }
+
+    @Test public void testDiscoverFunctionRanges() {
+        DiscoverFunctionRange(Function.SinPiOver2, 10);
+        DiscoverFunctionRange(Function.SinPiOver2, 100);
+        DiscoverFunctionRange(Function.SinPiOver2, 1000);
+        DiscoverFunctionRange(Function.Rastrigin, 10);
+        DiscoverFunctionRange(Function.Rastrigin, 100);
+        DiscoverFunctionRange(Function.Rastrigin, 1000);
+    }
 }

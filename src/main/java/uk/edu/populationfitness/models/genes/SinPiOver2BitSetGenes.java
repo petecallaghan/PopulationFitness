@@ -31,12 +31,9 @@ public class SinPiOver2BitSetGenes extends BitSetGenes {
 
     @Override
     public double fitness(double fitness_factor){
-        if (abs(fitness_factor - stored_fitness_factor) < 0.01) {
-            return stored_fitness;
+        if (isSameFitnessFactor(fitness_factor)) {
+            return storedFitness();
         }
-        // We need to calculate the fitness again
-        stored_fitness_factor = fitness_factor;
-
         /*
             Product(1..n) sin(x) exp y
             where x in [0..pi/2]
@@ -57,8 +54,6 @@ public class SinPiOver2BitSetGenes extends BitSetGenes {
         }
 
         fitness = Math.abs(fitness);
-        stored_fitness = integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness;
-
-        return stored_fitness;
+        return storedFitness(fitness_factor, integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness);
     }
 }
