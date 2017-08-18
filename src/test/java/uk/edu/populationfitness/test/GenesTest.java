@@ -254,6 +254,9 @@ public class GenesTest {
     }
 
     @Test public void testDiscoverFunctionRanges() {
+        DiscoverFunctionRange(Function.SinPiLinear, 10);
+        DiscoverFunctionRange(Function.SinPiLinear, 100);
+        DiscoverFunctionRange(Function.SinPiLinear, 1000);
         DiscoverFunctionRange(Function.SinPiOver2, 10);
         DiscoverFunctionRange(Function.SinPiOver2, 100);
         DiscoverFunctionRange(Function.SinPiOver2, 1000);

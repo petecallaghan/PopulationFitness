@@ -3,6 +3,7 @@ package uk.edu.populationfitness.test;
 import org.junit.Assert;
 import uk.edu.populationfitness.models.*;
 import org.junit.Test;
+import uk.edu.populationfitness.models.genes.FitnessRange;
 import uk.edu.populationfitness.models.genes.Function;
 
 import static org.junit.Assert.*;
@@ -29,10 +30,11 @@ public class GenerationsTest {
         assertEquals(11, generations.history.size());
     }
 
-    private void tune(Function function, int numberOfGenes, double minFactor, double maxFactor, double increment, int percentage){
+    private void tune(Function function, FitnessRange range, int numberOfGenes, double minFactor, double maxFactor, double increment, int percentage){
         Config config = new Config();
         config.genesFactory.function = function;
         config.number_of_genes = numberOfGenes;
+        config.range.min(range.min()).max(range.max());
         Population population = new Population(config);
         Generations generations = new Generations(population);
         Epochs epochs = new Epochs(config);
@@ -50,15 +52,23 @@ public class GenerationsTest {
         epochs.printFitnessFactors();
     }
 
+    @Test public void testTuneSinPiLinear2For4(){
+        tune(Function.SinPiLinear, new FitnessRange().max(2), 4, 0.005, 3, 0.005, 15);
+    }
+
+    @Test public void testTuneSinPiLinear2For100(){
+        tune(Function.SinPiLinear, new FitnessRange(), 100, 0.5, 1.5, 0.01, 10);
+    }
+
     @Test public void testTuneSinPiOver2For4(){
-        tune(Function.SinPiOver2, 4, 0.5, 1.5, 0.01, 10);
+        tune(Function.SinPiOver2, new FitnessRange(), 4, 0.5, 1.5, 0.01, 10);
     }
 
     @Test public void testTuneSinPiOver2For100(){
-        tune(Function.SinPiOver2, 100, 0.5, 3, 0.01, 20);
+        tune(Function.SinPiOver2, new FitnessRange(), 100, 0.5, 3, 0.01, 20);
     }
 
     @Test public void testTuneRastrigin(){
-        tune(Function.Rastrigin, 100, 0.3, 10, 0.005, 25);
+        tune(Function.Rastrigin, new FitnessRange().min(0).max(310), 100, 0.3, 10, 0.005, 25);
     }
 }
