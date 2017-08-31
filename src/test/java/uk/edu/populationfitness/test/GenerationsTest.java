@@ -47,9 +47,10 @@ public class GenerationsTest {
         epochs.addNextEpoch(new Epoch(config, 1450).max(30000).kill(historic_kill));
         epochs.setFinalEpochYear(1901);
 
-        Assert.assertTrue(generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage));
+        boolean result = generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage);
 
         epochs.printFitnessFactors();
+        Assert.assertTrue(result);
     }
 
     @Test public void testTuneSinPiLinear2For4(){
@@ -69,6 +70,6 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneRastrigin(){
-        tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 1, 20, 0.1, 25);
+        tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 0.1, 20, 0.1, 25);
     }
 }
