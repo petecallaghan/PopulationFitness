@@ -212,12 +212,13 @@ public class GenesTest {
         GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -0.7);
     }
 
-    private void DiscoverFunctionRange(Function function, int numberOfGenes){
+    private void DiscoverFunctionRange(Function function, int numberOfGenes, FitnessRange range){
         BitSetGenesFactory factory = new BitSetGenesFactory();
         factory.function = function;
         // Given a number of randomly generated genes
         Config config = new Config();
         config.number_of_genes = numberOfGenes;
+        config.range.min(range.min()).max(range.max());
 
         ArrayList<Genes> genes = new ArrayList<>();
 
@@ -232,6 +233,7 @@ public class GenesTest {
         for(int i = 0; i < 40000; i++){
             Genes next = factory.build(config);
             next.buildFromRandom();
+            next.mutate();
             genes.add(next);
         }
 
@@ -254,14 +256,14 @@ public class GenesTest {
     }
 
     @Test public void testDiscoverFunctionRanges() {
-        DiscoverFunctionRange(Function.SinPiLinear, 10);
-        DiscoverFunctionRange(Function.SinPiLinear, 100);
-        DiscoverFunctionRange(Function.SinPiLinear, 1000);
-        DiscoverFunctionRange(Function.SinPiOver2, 10);
-        DiscoverFunctionRange(Function.SinPiOver2, 100);
-        DiscoverFunctionRange(Function.SinPiOver2, 1000);
-        DiscoverFunctionRange(Function.Rastrigin, 10);
-        DiscoverFunctionRange(Function.Rastrigin, 100);
-        DiscoverFunctionRange(Function.Rastrigin, 1000);
+        //DiscoverFunctionRange(Function.SinPiLinear, 10, new FitnessRange());
+        //DiscoverFunctionRange(Function.SinPiLinear, 100, new FitnessRange());
+        //DiscoverFunctionRange(Function.SinPiLinear, 1000, new FitnessRange());
+        //DiscoverFunctionRange(Function.SinPiOver2, 10, new FitnessRange());
+        //DiscoverFunctionRange(Function.SinPiOver2, 100, new FitnessRange());
+        //DiscoverFunctionRange(Function.SinPiOver2, 1000, new FitnessRange());
+        DiscoverFunctionRange(Function.Rastrigin, 10, new FitnessRange().min(0).max(1021));
+        //DiscoverFunctionRange(Function.Rastrigin, 100, new FitnessRange().min(0).max(10283));
+        //DiscoverFunctionRange(Function.Rastrigin, 1000, new FitnessRange().min(0).max(101850));
     }
 }

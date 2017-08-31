@@ -33,10 +33,9 @@ public class SinPiLinearBitSetGenes extends SinPiBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             long value =  integer_values[i];
-            double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
-            fitness *= fitness_factor * Math.sin(config.float_lower + ratio * value);
+            fitness *= fitness_factor * Math.sin(config.float_lower + interpolation_ratio * value);
         }
 
-        return storedFitness(fitness_factor, Math.abs(fitness));
+        return scaleAndStoreFitness(fitness_factor, Math.abs(fitness));
     }
 }

@@ -4,15 +4,13 @@ import uk.edu.populationfitness.models.Config;
 
 import static java.lang.Math.abs;
 
-public class RastriginBitSetGenes extends BitSetGenes {
+public class RastriginBitSetGenes extends InvertedBitSetGenes {
 
     private static final long RastriginTermA = 10;  // The A term in f{x}=sum _{i=1}^{n}[t[x_{i}^{2}-A\cos(2\pi x_{i})]
 
     private static final double TwoPi = 2 * Math.PI;
 
     private double interpolation_ratio;
-
-    private double remainder_interpolation_ratio;
 
     private double interpolationRatio(long max_value){
         return 5.12 / max_value;
@@ -25,9 +23,7 @@ public class RastriginBitSetGenes extends BitSetGenes {
     public RastriginBitSetGenes(Config config) {
         super(config);
         long max_value = maxForBits(size_of_genes);
-        long remainder_max_value = maxForBits(size_of_genes % Long.SIZE);
         interpolation_ratio = interpolationRatio(max_value);
-        remainder_interpolation_ratio = interpolationRatio(remainder_max_value);
     }
 
     @Override
@@ -42,9 +38,8 @@ public class RastriginBitSetGenes extends BitSetGenes {
          *
          * The '2pi' term is replaced by 'fitness_factor * pi' to make the function tunable
          */
-        double fitness = 0;
+        double fitness = RastriginTermA * genes.length();
         long[] integer_values = genes.toLongArray();
-        double absolute_fitness_factor = abs(fitness_factor);
 
         /**
          * Can shift the fitness factor between cos and sin by interpreting the sign of the fitness factor
@@ -56,12 +51,11 @@ public class RastriginBitSetGenes extends BitSetGenes {
             fitness = getRastriginFitnessUsingCos(fitness, integer_values);
         }
 
-        return storedFitness(fitness_factor, abs(fitness * absolute_fitness_factor));
+        return storeScaledInvertedFitness(fitness_factor, fitness);
     }
 
     private double interpolate(int i, long[] integer_values){
-        double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
-        return ratio * integer_values[i];
+        return interpolation_ratio * integer_values[i];
     }
 
     private double getRastriginFitnessUsingSin(double fitness, long[] integer_values) {

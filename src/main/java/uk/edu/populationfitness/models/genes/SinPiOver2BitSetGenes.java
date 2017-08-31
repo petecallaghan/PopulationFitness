@@ -11,8 +11,6 @@ public class SinPiOver2BitSetGenes extends BitSetGenes {
 
     private double interpolation_ratio;
 
-    private double remainder_interpolation_ratio;
-
     private double interpolationRatio(Config config, long max_value){
         return ((config.float_upper/2.0) - config.float_lower) / max_value;
     }
@@ -24,9 +22,7 @@ public class SinPiOver2BitSetGenes extends BitSetGenes {
     public SinPiOver2BitSetGenes(Config config){
         super(config);
         long max_value = maxForBits(size_of_genes);
-        long remainder_max_value = maxForBits(size_of_genes % Long.SIZE);
         interpolation_ratio = interpolationRatio(config, max_value);
-        remainder_interpolation_ratio = interpolationRatio(config, remainder_max_value);
     }
 
     @Override
@@ -49,11 +45,10 @@ public class SinPiOver2BitSetGenes extends BitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             long value =  integer_values[i];
-            double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
-            fitness *= Math.pow(Math.sin(config.float_lower + ratio * value), fitness_factor);
+            fitness *= Math.pow(Math.sin(config.float_lower + interpolation_ratio * value), fitness_factor);
         }
 
         fitness = Math.abs(fitness);
-        return storedFitness(fitness_factor, integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness);
+        return scaleAndStoreFitness(fitness_factor, integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness);
     }
 }

@@ -27,11 +27,10 @@ public class SinPiAvgBitSetGenes extends SinPiBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             long value =  integer_values[i];
-            double ratio = (i == integer_values.length - 1 ? remainder_interpolation_ratio : interpolation_ratio);
-            fitness += Math.abs(Math.pow(Math.sin(config.float_lower + ratio * value), fitness_factor));
+            fitness += Math.abs(Math.pow(Math.sin(config.float_lower + interpolation_ratio * value), fitness_factor));
         }
 
         fitness = integer_values.length > 0 ? Math.abs(fitness) / integer_values.length : 0;
-        return storedFitness(fitness_factor, fitness);
+        return scaleAndStoreFitness(fitness_factor, fitness);
     }
 }
