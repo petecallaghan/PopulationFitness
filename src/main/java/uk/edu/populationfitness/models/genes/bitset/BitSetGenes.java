@@ -1,7 +1,8 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.bitset;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.RepeatableRandom;
+import uk.edu.populationfitness.models.genes.Genes;
 
 import java.util.BitSet;
 
@@ -116,7 +117,7 @@ public abstract class BitSetGenes implements Genes {
         if (fitness < 0){
             //System.out.println(fitness);
         }
-        if (stored_fitness > 1){
+        if (fitness > 1){
             //System.out.println(stored_fitness);
         }
         return stored_fitness;
@@ -137,6 +138,16 @@ public abstract class BitSetGenes implements Genes {
      */
     protected boolean isSameFitnessFactor(double fitness_factor){
         return (abs(fitness_factor - stored_fitness_factor) < 0.000001);
+    }
+
+    /**
+     * Calculates the maximum value given the bit count
+     *
+     * @param bitCount
+     * @return
+     */
+    protected static long maxForBits(long bitCount){
+        return Math.min(Long.MAX_VALUE, (long)Math.pow(2, bitCount)-1);
     }
 
     public void inheritFrom(Genes mother, Genes father) {

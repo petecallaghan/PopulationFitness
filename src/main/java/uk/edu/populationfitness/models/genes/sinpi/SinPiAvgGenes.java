@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.sinpi;
 
 import uk.edu.populationfitness.models.Config;
 
@@ -7,8 +7,8 @@ import static java.lang.Math.abs;
 /**
  * Created by pete.callaghan on 13/07/2017.
  */
-public class SinPiAvgBitSetGenes extends SinPiBitSetGenes {
-    public SinPiAvgBitSetGenes(Config config){
+public class SinPiAvgGenes extends SinPiGenes {
+    public SinPiAvgGenes(Config config){
         super(config);
     }
 

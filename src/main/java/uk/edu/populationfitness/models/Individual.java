@@ -1,6 +1,5 @@
 package uk.edu.populationfitness.models;
 
-import uk.edu.populationfitness.models.genes.BitSetGenes;
 import uk.edu.populationfitness.models.genes.Genes;
 
 import static java.lang.Math.abs;

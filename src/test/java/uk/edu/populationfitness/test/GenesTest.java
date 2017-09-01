@@ -4,6 +4,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
+import uk.edu.populationfitness.models.genes.bitset.BitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
+import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
 
 import java.util.ArrayList;
 
@@ -14,7 +17,7 @@ public class GenesTest {
     @Test public void TestGenesAreEmpty(){
         // Given a set of genes with zero value
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
+        BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
 
         // When tested they are all empty
@@ -24,7 +27,7 @@ public class GenesTest {
     @Test public void testMutatedGenesAreNotAllZero(){
         // Given a set of genes that are empty and a high probability that they will mutate
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
+        BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
         config.mutation_probability *= 10;
 
@@ -46,7 +49,7 @@ public class GenesTest {
     @Test public void testMutationCanBeDisabled(){
         // Given a set of genes with zero values that will not mutate
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
+        BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
         config.mutation_probability = 0;
 
@@ -74,7 +77,7 @@ public class GenesTest {
     @Test public void testGenesAsFloatUseDefaultRange(){
         // Given a set of genes with non zero values
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
+        BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
@@ -85,7 +88,7 @@ public class GenesTest {
         Config config = new Config();
         config.number_of_genes = 111;
         config.size_of_each_gene = 131;
-        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
+        BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
@@ -96,14 +99,14 @@ public class GenesTest {
         Config config = new Config();
         config.float_lower = 1.5;
         config.float_upper = 10.5;
-        BitSetGenes genes = new SinPiOver2BitSetGenes(config);
+        BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
     }
 
     private BitSetGenes createFatherDifferentFromMother(Config config, BitSetGenes mother){
-        BitSetGenes father = new SinPiOver2BitSetGenes(config);
+        BitSetGenes father = new SinPiOver2Genes(config);
         father.buildFromRandom();
 
         while(father.isEqual(mother)){
@@ -116,10 +119,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
-        BitSetGenes mother = new SinPiOver2BitSetGenes(config);
+        BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
-        BitSetGenes baby = new SinPiOver2BitSetGenes(config);
+        BitSetGenes baby = new SinPiOver2Genes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);
@@ -133,10 +136,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
-        BitSetGenes mother = new SinPiOver2BitSetGenes(config);
+        BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
-        BitSetGenes baby = new SinPiOver2BitSetGenes(config);
+        BitSetGenes baby = new SinPiOver2Genes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);
@@ -149,10 +152,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.mutation_probability *= 10;
-        BitSetGenes mother = new SinPiOver2BitSetGenes(config);
+        BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
-        BitSetGenes baby = new SinPiOver2BitSetGenes(config);
+        BitSetGenes baby = new SinPiOver2Genes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);
@@ -262,8 +265,11 @@ public class GenesTest {
         //DiscoverFunctionRange(Function.SinPiOver2, 10, new FitnessRange());
         //DiscoverFunctionRange(Function.SinPiOver2, 100, new FitnessRange());
         //DiscoverFunctionRange(Function.SinPiOver2, 1000, new FitnessRange());
-        DiscoverFunctionRange(Function.Rastrigin, 10, new FitnessRange().min(0).max(1021));
+        //DiscoverFunctionRange(Function.Rastrigin, 10, new FitnessRange().min(0).max(1021));
         //DiscoverFunctionRange(Function.Rastrigin, 100, new FitnessRange().min(0).max(10283));
         //DiscoverFunctionRange(Function.Rastrigin, 1000, new FitnessRange().min(0).max(101850));
+        //DiscoverFunctionRange(Function.Sphere, 10, new FitnessRange().min(0).max(27));
+        //DiscoverFunctionRange(Function.Sphere, 100, new FitnessRange().min(0).max(279));
+        //DiscoverFunctionRange(Function.Sphere, 1000, new FitnessRange().min(0).max(1747));
     }
 }

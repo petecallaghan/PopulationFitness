@@ -1,10 +1,11 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
 
 import static java.lang.Math.abs;
 
-public class RastriginBitSetGenes extends InvertedBitSetGenes {
+public class RastriginGenes extends InvertedBitSetGenes {
 
     private static final long RastriginTermA = 10;  // The A term in f{x}=sum _{i=1}^{n}[t[x_{i}^{2}-A\cos(2\pi x_{i})]
 
@@ -16,11 +17,7 @@ public class RastriginBitSetGenes extends InvertedBitSetGenes {
         return 5.12 / max_value;
     }
 
-    private long maxForBits(long bitCount){
-        return Math.min(Long.MAX_VALUE, (long)Math.pow(2, bitCount)-1);
-    }
-
-    public RastriginBitSetGenes(Config config) {
+    public RastriginGenes(Config config) {
         super(config);
         long max_value = maxForBits(size_of_genes);
         interpolation_ratio = interpolationRatio(max_value);

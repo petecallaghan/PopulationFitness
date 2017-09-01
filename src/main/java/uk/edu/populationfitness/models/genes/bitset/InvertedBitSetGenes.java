@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.bitset;
 
 import uk.edu.populationfitness.models.Config;
 

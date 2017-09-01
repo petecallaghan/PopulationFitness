@@ -1,16 +1,25 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.sinpi;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.genes.bitset.BitSetGenes;
 
 import static java.lang.Math.abs;
 
 /**
  * Created by pete.callaghan on 13/07/2017.
  */
-public class SinPiLinearBitSetGenes extends SinPiBitSetGenes {
+public class SinPiOver2Genes extends BitSetGenes {
 
-    public SinPiLinearBitSetGenes(Config config){
+    private double interpolation_ratio;
+
+    private double interpolationRatio(Config config, long max_value){
+        return ((config.float_upper/2.0) - config.float_lower) / max_value;
+    }
+
+    public SinPiOver2Genes(Config config){
         super(config);
+        long max_value = maxForBits(size_of_genes);
+        interpolation_ratio = interpolationRatio(config, max_value);
     }
 
     @Override
@@ -28,14 +37,15 @@ public class SinPiLinearBitSetGenes extends SinPiBitSetGenes {
             of fitness results that are away from 0.5. Reducing the fitness factor below 1.0 will widen the arc.
          */
 
-        double fitness = 1;
+        double fitness = 1.0;
         long[] integer_values = genes.toLongArray();
 
         for(int i = 0; i < integer_values.length; i++){
             long value =  integer_values[i];
-            fitness *= fitness_factor * Math.sin(config.float_lower + interpolation_ratio * value);
+            fitness *= Math.pow(Math.sin(config.float_lower + interpolation_ratio * value), fitness_factor);
         }
 
-        return scaleAndStoreFitness(fitness_factor, Math.abs(fitness));
+        fitness = Math.abs(fitness);
+        return scaleAndStoreFitness(fitness_factor, integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness);
     }
 }

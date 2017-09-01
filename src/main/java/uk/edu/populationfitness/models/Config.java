@@ -1,6 +1,6 @@
 package uk.edu.populationfitness.models;
 
-import uk.edu.populationfitness.models.genes.BitSetGenesFactory;
+import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
 import uk.edu.populationfitness.models.genes.FitnessRange;
 
 import java.time.Instant;

@@ -72,4 +72,8 @@ public class GenerationsTest {
     @Test public void testTuneRastrigin(){
         tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 0.1, 20, 0.1, 25);
     }
+
+    @Test public void testTuneSphere(){
+        tune(Function.Sphere, new FitnessRange().min(0).max(279), 100, 0.3, 2, 0.01, 25);
+    }
 }
