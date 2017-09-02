@@ -54,11 +54,11 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSinPiLinear2For4(){
-        tune(Function.SinPiLinear, new FitnessRange(), 4, 0.01, 2, 0.01, 15);
+        tune(Function.SinPiLinear, new FitnessRange(), 4, 0.01, 2, 0.000001, 15);
     }
 
     @Test public void testTuneSinPiLinear2For100(){
-        tune(Function.SinPiLinear, new FitnessRange(), 100, 0.5, 1.5, 0.01, 10);
+        tune(Function.SinPiLinear, new FitnessRange(), 100, 0.0, 80.0, 0.000001, 10);
     }
 
     @Test public void testTuneSinPiOver2For4(){
@@ -66,7 +66,7 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSinPiOver2For100(){
-        tune(Function.SinPiOver2, new FitnessRange(), 100, 0.0, 40.0, 0.001, 20);
+        tune(Function.SinPiOver2, new FitnessRange(), 100, 0.0, 80.0, 0.000001, 10);
     }
 
     @Test public void testTuneRastrigin(){
