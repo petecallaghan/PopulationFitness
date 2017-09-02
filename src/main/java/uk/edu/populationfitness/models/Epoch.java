@@ -68,10 +68,10 @@ public class Epoch {
 
     public Epoch fitness(double fitness_factor){
         this.fitness_factor = fitness_factor;
-        System.out.print("Epoch ");
+        /*System.out.print("Epoch ");
         System.out.print(start_year);
         System.out.print(" f=");
-        System.out.println(fitness_factor);
+        System.out.println(fitness_factor);*/
         return this;
     }
 

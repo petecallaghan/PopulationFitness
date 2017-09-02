@@ -66,7 +66,7 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSinPiOver2For100(){
-        tune(Function.SinPiOver2, new FitnessRange(), 100, 0.0, 80.0, 0.000001, 10);
+        //tune(Function.SinPiOver2, new FitnessRange(), 100, 0.0, 80.0, 0.000001, 10);
     }
 
     @Test public void testTuneRastrigin(){

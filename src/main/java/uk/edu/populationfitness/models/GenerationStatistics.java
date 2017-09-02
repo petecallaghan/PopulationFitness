@@ -37,29 +37,4 @@ public class GenerationStatistics {
     public double killElapsedInHundredths(){
         return (double) (kill_time / 10) / 100;
     }
-
-    /**
-     *
-     * @param percentage the maximum percentage difference between actual and expected population that defines convergence
-     *
-     * @return TooLow if the population is too low, TooHigh if the population is too high
-     */
-    public PopulationComparison compareToExpected(int percentage){
-        if (population == 0) return PopulationComparison.TooLow;
-
-        if (population >= epoch.expected_max_population * 2) return PopulationComparison.TooHigh;
-
-        int divergence = (population - epoch.expected_max_population)*100;
-
-        int max_divergence = epoch.expected_max_population * percentage;
-
-        if (year >= epoch.end_year)
-        {
-            if (divergence >= max_divergence) return PopulationComparison.TooHigh;
-
-            if (divergence < 0 - max_divergence) return PopulationComparison.TooLow;
-        }
-
-        return PopulationComparison.WithinRange;
-    }
 }
