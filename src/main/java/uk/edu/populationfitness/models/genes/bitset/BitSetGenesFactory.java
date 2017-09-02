@@ -3,6 +3,7 @@ package uk.edu.populationfitness.models.genes.bitset;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
 import uk.edu.populationfitness.models.genes.localmimina.RastriginGenes;
+import uk.edu.populationfitness.models.genes.localmimina.StyblinksiTangGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiAvgGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiLinearGenes;
@@ -34,6 +35,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new RastriginGenes(config);
             case Sphere:
                 return new SphereGenes(config);
+            case StyblinksiTang:
+                return new StyblinksiTangGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);

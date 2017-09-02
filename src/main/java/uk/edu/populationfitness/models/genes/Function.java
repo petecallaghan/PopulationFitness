@@ -9,5 +9,6 @@ public enum Function {
     SinPiLinear,
     SinPiAvg,
     Rastrigin,
+    StyblinksiTang,
     Sphere;
 }
