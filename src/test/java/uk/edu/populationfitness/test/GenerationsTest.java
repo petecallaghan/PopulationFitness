@@ -47,10 +47,10 @@ public class GenerationsTest {
         epochs.addNextEpoch(new Epoch(config, 1450).max(30000).kill(historic_kill));
         epochs.setFinalEpochYear(1901);
 
-        boolean result = generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage);
+        PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage);
 
         epochs.printFitnessFactors();
-        Assert.assertTrue(result);
+        Assert.assertTrue(result == PopulationComparison.WithinRange);
     }
 
     @Test public void testTuneSinPiLinear2For4(){
@@ -62,18 +62,18 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSinPiOver2For4(){
-        tune(Function.SinPiOver2, new FitnessRange(), 4, 0.5, 1.5, 0.01, 10);
+        tune(Function.SinPiOver2, new FitnessRange(), 4, 0.0, 4.0, 0.01, 10);
     }
 
     @Test public void testTuneSinPiOver2For100(){
-        tune(Function.SinPiOver2, new FitnessRange(), 100, 0.0, 0.5, 0.001, 20);
+        tune(Function.SinPiOver2, new FitnessRange(), 100, 0.0, 40.0, 0.001, 20);
     }
 
     @Test public void testTuneRastrigin(){
-        tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 0.1, 20, 0.1, 25);
+        tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 5, 20, 0.001, 10);
     }
 
     @Test public void testTuneSphere(){
-        tune(Function.Sphere, new FitnessRange().min(0).max(279), 100, 0.3, 2, 0.01, 25);
+        tune(Function.Sphere, new FitnessRange().min(0).max(390), 100, 0.005, 5, 0.00001, 10);
     }
 }

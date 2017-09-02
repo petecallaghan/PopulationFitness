@@ -1,5 +1,8 @@
 package uk.edu.populationfitness.models;
 
+import uk.edu.populationfitness.models.genes.FitnessSearch;
+import uk.edu.populationfitness.models.genes.ReverseFitnessSearch;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,27 +45,52 @@ public class Generations {
         population.addNewIndividuals(first_year);
     }
 
-    public boolean tuneFitnessFactorsForAllEpochs(Epochs epochs, double minFactor, double maxFactor, double increment, int percentage){
+    public PopulationComparison tuneFitnessFactorsForAllEpochs(Epochs epochs, double minFactor, double maxFactor, double increment, int percentage){
         addInitialPopulation(epochs);
 
+        PopulationComparison divergence = PopulationComparison.TooLow;
         for (Epoch epoch: epochs.epochs){
-            epoch.fitness(minFactor);
             Population previousPopulation = new Population(population);
-            boolean isDivergent = true;
-            for(epoch.fitness(minFactor); isDivergent && Math.abs(epoch.fitness() - maxFactor) > increment; epoch.fitness(epoch.fitness() + increment)){
-                population = new Population(previousPopulation);
-                isDivergent = populationIsDivergentForEpoch(epoch, percentage);
+            FitnessSearch search = new FitnessSearch();
+            search.increment(increment).min(minFactor).max(maxFactor);
+            divergence = generateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
+            if (divergence != PopulationComparison.WithinRange){
+                // Try the reverse search
+                search = new ReverseFitnessSearch();
+                search.increment(increment).min(minFactor).max(maxFactor);
+                divergence = generateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
+                if (divergence != PopulationComparison.WithinRange)
+                    return divergence;
             }
-            if (isDivergent) return false;
         }
-        return true;
+        return divergence;
     }
 
-    private boolean populationIsDivergentForEpoch(Epoch epoch, int percentage) {
-        for(int year = epoch.start_year; year <= epoch.end_year; year++){
-            if (generateForYear(year, epoch).hasDivergedFromExpected(percentage)) return true;
+    private PopulationComparison generateAndCompareEpochPopulation(
+            FitnessSearch search,
+            int percentage,
+            Epoch epoch,
+            Population previousPopulation) {
+        population = new Population(previousPopulation);
+        epoch.fitness(search.current());
+        PopulationComparison divergence = compareToExpectedForEpoch(epoch, percentage);
+        System.out.println("Year "+epoch.end_year+" Pop "+population.individuals.size()+" Expected "+epoch.expected_max_population+" F="+epoch.fitness());
+        if (divergence != PopulationComparison.WithinRange){
+            FitnessSearch nextSearch = search.findNext(divergence);
+            if (nextSearch == null) return divergence;
+            return generateAndCompareEpochPopulation(nextSearch, percentage, epoch, previousPopulation);
         }
-        return false;
+        return divergence;
+    }
+
+    private PopulationComparison compareToExpectedForEpoch(Epoch epoch, int percentage) {
+        for(int year = epoch.start_year; year <= epoch.end_year; year++){
+            PopulationComparison divergence = generateForYear(year, epoch).compareToExpected(percentage);
+            if (divergence != PopulationComparison.WithinRange) {
+                return divergence;
+            }
+        }
+        return PopulationComparison.WithinRange;
     }
 
     public GenerationStatistics generateForYear(int year, Epoch epoch) {
@@ -84,7 +112,7 @@ public class Generations {
         generation.average_age = population.average_age;
         history.add(generation);
 
-        System.out.println("Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
+//        System.out.println("Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
         return generation;
     }
 }

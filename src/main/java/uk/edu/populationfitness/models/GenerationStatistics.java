@@ -42,15 +42,24 @@ public class GenerationStatistics {
      *
      * @param percentage the maximum percentage difference between actual and expected population that defines convergence
      *
-     * @return true if the population has diverged from expected
+     * @return TooLow if the population is too low, TooHigh if the population is too high
      */
-    public boolean hasDivergedFromExpected(int percentage){
-        if (population == 0) return true;
+    public PopulationComparison compareToExpected(int percentage){
+        if (population == 0) return PopulationComparison.TooLow;
 
-        if (population >= epoch.expected_max_population * 2) return true;
+        if (population >= epoch.expected_max_population * 2) return PopulationComparison.TooHigh;
 
-        if (year >= epoch.end_year && abs(population - epoch.expected_max_population)*100 >= epoch.expected_max_population * percentage) return true;
+        int divergence = (population - epoch.expected_max_population)*100;
 
-        return false;
+        int max_divergence = epoch.expected_max_population * percentage;
+
+        if (year >= epoch.end_year)
+        {
+            if (divergence >= max_divergence) return PopulationComparison.TooHigh;
+
+            if (divergence < 0 - max_divergence) return PopulationComparison.TooLow;
+        }
+
+        return PopulationComparison.WithinRange;
     }
 }
