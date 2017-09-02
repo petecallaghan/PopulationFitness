@@ -76,4 +76,8 @@ public class GenerationsTest {
     @Test public void testTuneSphere(){
         tune(Function.Sphere, new FitnessRange().min(0).max(390), 100, 0.005, 5, 0.00001, 10);
     }
+
+    @Test public void testTuneStyblinksiTang(){
+        tune(Function.StyblinksiTang, new FitnessRange().min(-2440).max(770), 100, 0.005, 20, 0.00001, 10);
+    }
 }

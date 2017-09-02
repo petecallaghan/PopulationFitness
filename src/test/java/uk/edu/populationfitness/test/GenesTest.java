@@ -273,6 +273,6 @@ public class GenesTest {
         //DiscoverFunctionRange(Function.Sphere, 1000, new FitnessRange().min(0).max(1747));
         //DiscoverFunctionRange(Function.StyblinksiTang, 10, new FitnessRange().min(-40).max(130));
         //DiscoverFunctionRange(Function.StyblinksiTang, 100, new FitnessRange().min(-440).max(770));
-        //DiscoverFunctionRange(Function.StyblinksiTang, 1000, new FitnessRange().min(0).max(0));
+        DiscoverFunctionRange(Function.StyblinksiTang, 1000, new FitnessRange().min(-2100).max(1300));
     }
 }
