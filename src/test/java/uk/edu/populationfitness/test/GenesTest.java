@@ -318,4 +318,16 @@ public class GenesTest {
     @Test public void testDiscoverStyblinksiTang1000() {
         DiscoverFunctionRange(Function.StyblinksiTang, 1000, new FitnessRange().min(-2100).max(1300));
     }
+
+    @Test public void testDiscoverSchwefel10() {
+        DiscoverFunctionRange(Function.Schwefel, 10, new FitnessRange().min(0).max(1));
+    }
+
+    @Test public void testDiscoverSchwefel100() {
+        DiscoverFunctionRange(Function.Schwefel, 100, new FitnessRange().min(0).max(1));
+    }
+
+    @Test public void testDiscoverSchwefel1000() {
+        DiscoverFunctionRange(Function.Schwefel, 1000, new FitnessRange().min(0).max(1));
+    }
 }
