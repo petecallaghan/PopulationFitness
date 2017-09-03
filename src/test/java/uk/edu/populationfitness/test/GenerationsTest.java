@@ -90,6 +90,10 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSumOfPowers(){
-        tune(Function.SumOfPowers, new FitnessRange().min(0).max(6), 100, 0.001, 20, 0.00000001, 5);
+        tune(Function.SumOfPowers, new FitnessRange().min(0).max(6), 100, 0.001, 2, 0.00000001, 5);
+    }
+
+    @Test public void testTuneSumOfPowers1000(){
+        tune(Function.SumOfPowers, new FitnessRange().min(0).max(11), 1000, 0.001, 2, 0.00000001, 5);
     }
 }
