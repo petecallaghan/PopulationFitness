@@ -211,8 +211,6 @@ public class GenesTest {
     @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi, 1.0);
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiAvg, 1.0);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 0.7);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, -0.7);
     }
 
     private void DiscoverFunctionRange(Function function, int numberOfGenes, FitnessRange range){
@@ -259,20 +257,65 @@ public class GenesTest {
     }
 
     @Test public void testDiscoverFunctionRanges() {
-        //DiscoverFunctionRange(Function.SinPiLinear, 10, new FitnessRange());
-        //DiscoverFunctionRange(Function.SinPiLinear, 100, new FitnessRange());
-        //DiscoverFunctionRange(Function.SinPiLinear, 1000, new FitnessRange());
-        //DiscoverFunctionRange(Function.SinPiOver2, 10, new FitnessRange());
-        //DiscoverFunctionRange(Function.SinPiOver2, 100, new FitnessRange());
-        //DiscoverFunctionRange(Function.SinPiOver2, 1000, new FitnessRange());
-        //DiscoverFunctionRange(Function.Rastrigin, 10, new FitnessRange().min(0).max(1021));
-        //DiscoverFunctionRange(Function.Rastrigin, 100, new FitnessRange().min(0).max(10283));
-        //DiscoverFunctionRange(Function.Rastrigin, 1000, new FitnessRange().min(0).max(101850));
-        //DiscoverFunctionRange(Function.Sphere, 10, new FitnessRange().min(0).max(27));
-        //DiscoverFunctionRange(Function.Sphere, 100, new FitnessRange().min(0).max(279));
-        //DiscoverFunctionRange(Function.Sphere, 1000, new FitnessRange().min(0).max(1747));
-        //DiscoverFunctionRange(Function.StyblinksiTang, 10, new FitnessRange().min(-40).max(130));
-        //DiscoverFunctionRange(Function.StyblinksiTang, 100, new FitnessRange().min(-440).max(770));
+    }
+
+    @Test public void testDiscoverSinPiOver210() {
+        DiscoverFunctionRange(Function.SinPiOver2, 10, new FitnessRange());
+    }
+
+    @Test public void testDiscoverSinPiOver2100() {
+        DiscoverFunctionRange(Function.SinPiOver2, 100, new FitnessRange());
+    }
+
+    @Test public void testDiscoverSinPiOver21000() {
+        DiscoverFunctionRange(Function.SinPiOver2, 1000, new FitnessRange());
+    }
+
+    @Test public void testDiscoverSinPiLinear10() {
+        DiscoverFunctionRange(Function.SinPiLinear, 10, new FitnessRange());
+    }
+
+    @Test public void testDiscoverSinPiLinear100() {
+        DiscoverFunctionRange(Function.SinPiLinear, 100, new FitnessRange());
+    }
+
+    @Test public void testDiscoverSinPiLinear1000() {
+        DiscoverFunctionRange(Function.SinPiLinear, 1000, new FitnessRange());
+    }
+
+    @Test public void testDiscoverRastrigin10() {
+        DiscoverFunctionRange(Function.Rastrigin, 10, new FitnessRange().min(0).max(1021));
+    }
+
+    @Test public void testDiscoverRastrigin100() {
+        DiscoverFunctionRange(Function.Rastrigin, 100, new FitnessRange().min(0).max(10283));
+    }
+
+    @Test public void testDiscoverRastrigin1000() {
+        DiscoverFunctionRange(Function.Rastrigin, 1000, new FitnessRange().min(0).max(101850));
+    }
+
+    @Test public void testDiscoverSphere10() {
+        DiscoverFunctionRange(Function.Sphere, 10, new FitnessRange().min(0).max(27));
+    }
+
+    @Test public void testDiscoverSphere100() {
+        DiscoverFunctionRange(Function.Sphere, 100, new FitnessRange().min(0).max(279));
+    }
+
+    @Test public void testDiscoverSphere1000() {
+        DiscoverFunctionRange(Function.Sphere, 1000, new FitnessRange().min(0).max(1747));
+    }
+
+    @Test public void testDiscoverStyblinksiTang10() {
+        DiscoverFunctionRange(Function.StyblinksiTang, 10, new FitnessRange().min(-40).max(130));
+    }
+
+    @Test public void testDiscoverStyblinksiTang100() {
+        DiscoverFunctionRange(Function.StyblinksiTang, 100, new FitnessRange().min(-440).max(770));
+    }
+
+    @Test public void testDiscoverStyblinksiTang1000() {
         DiscoverFunctionRange(Function.StyblinksiTang, 1000, new FitnessRange().min(-2100).max(1300));
     }
 }
