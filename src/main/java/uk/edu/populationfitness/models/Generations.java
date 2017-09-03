@@ -49,18 +49,18 @@ public class Generations {
         addInitialPopulation(epochs);
 
         PopulationComparison divergence = PopulationComparison.TooLow;
+        Epoch previousEpoch = null;
         for (Epoch epoch: epochs.epochs){
             Population previousPopulation = new Population(population);
             Search search = new Search();
             search.increment(increment).min(minFactor).max(maxFactor);
+            if (previousEpoch != null){
+                search.current(previousEpoch.fitness());
+            }
+            previousEpoch = epoch;
             divergence = generateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
             if (divergence != PopulationComparison.WithinRange){
-                // Try the reverse search
-                search = new ReverseSearch();
-                search.increment(increment).min(minFactor).max(maxFactor);
-                divergence = generateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
-                if (divergence != PopulationComparison.WithinRange)
-                    return divergence;
+                return divergence;
             }
         }
         return divergence;

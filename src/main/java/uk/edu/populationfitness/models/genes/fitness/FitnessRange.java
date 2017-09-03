@@ -29,18 +29,18 @@ public class FitnessRange {
         return this;
     }
 
+    public FitnessRange min(double min){
+        min_fitness = min;
+        range = max_fitness - min_fitness;
+        return this;
+    }
+
     public double max(){
         return max_fitness;
     }
 
     public double min(){
         return min_fitness;
-    }
-
-    public FitnessRange min(double min){
-        min_fitness = min;
-        range = max_fitness - min_fitness;
-        return this;
     }
 
     public FitnessRange statistics(Statistics stats){

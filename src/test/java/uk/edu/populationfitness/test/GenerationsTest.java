@@ -43,8 +43,32 @@ public class GenerationsTest {
 
         epochs.addNextEpoch(new Epoch(config, -50).max(config.initial_population).kill(historic_kill).capacity(config.initial_population));
         epochs.addNextEpoch(new Epoch(config, 400).max(1700).kill(historic_kill).capacity(1700));
-        epochs.addNextEpoch(new Epoch(config, 1086).max(4800).kill(historic_kill));
-        epochs.addNextEpoch(new Epoch(config, 1450).max(30000).kill(historic_kill));
+
+        epochs.addNextEpoch(new Epoch(config, 1086).max(1700).capacity(1700).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1190).max(3100).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1220).max(3970).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1250).max(4230).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1279).max(4430).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1290).max(4750).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1315).max(4690).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1325).max(4120).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1348).max(4810).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1351).max(2600).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1377).max(2500).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1400).max(2080).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1430).max(2020).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1450).max(1900).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1490).max(2140).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1522).max(2350).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1541).max(2830).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1560).max(3200).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1600).max(4110).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1650).max(5310).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1700).max(30000).kill(historic_kill));
+
+        //epochs.addNextEpoch(new Epoch(config, 1086).max(4800).kill(historic_kill));
+        //epochs.addNextEpoch(new Epoch(config, 1348).max(1900).kill(historic_kill));  // disease
+        //epochs.addNextEpoch(new Epoch(config, 1450).max(30000).kill(historic_kill));
         epochs.setFinalEpochYear(1901);
 
         PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage);
@@ -62,7 +86,7 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSinPiOver2For4(){
-        tune(Function.SinPiOver2, new FitnessRange(), 4, 0.0, 4.0, 0.01, 10);
+        //tune(Function.SinPiOver2, new FitnessRange(), 4, 0.0, 4.0, 0.01, 10);
     }
 
     @Test public void testTuneSinPiOver2For100(){

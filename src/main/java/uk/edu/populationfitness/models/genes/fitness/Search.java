@@ -5,6 +5,10 @@ import uk.edu.populationfitness.models.PopulationComparison;
 public class Search extends FitnessRange {
     private double increment;
 
+    private boolean is_current_set = false;
+
+    private double current;
+
     public Search increment(double increment){
         this.increment = increment;
         return this;
@@ -14,8 +18,21 @@ public class Search extends FitnessRange {
         return increment;
     }
 
-    public double current(){
+    private double centre(){
         return ((int)((min() + max()) / increment) / 2) * increment;
+    }
+
+    public Search current(double current){
+        is_current_set = true;
+        this.current = current;
+        return this;
+    }
+
+    public double current(){
+        if (!is_current_set){
+            current = centre();
+        }
+        return this.current;
     }
 
     public Search findNext(PopulationComparison comparison){
