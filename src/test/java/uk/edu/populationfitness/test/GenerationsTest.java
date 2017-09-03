@@ -80,4 +80,8 @@ public class GenerationsTest {
     @Test public void testTuneStyblinksiTang(){
         tune(Function.StyblinksiTang, new FitnessRange().min(-2440).max(770), 100, 0.005, 20, 0.00000001, 5);
     }
+
+    @Test public void testTuneSchwefel(){
+        tune(Function.Schwefel, new FitnessRange().min(0).max(9641.1), 100, 0.005, 20, 0.000001, 10);
+    }
 }
