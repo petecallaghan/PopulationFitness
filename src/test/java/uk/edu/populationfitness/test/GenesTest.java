@@ -6,6 +6,8 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
+import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
+import uk.edu.populationfitness.models.genes.fitness.Statistics;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
 
 import java.util.ArrayList;
@@ -219,7 +221,7 @@ public class GenesTest {
         // Given a number of randomly generated genes
         Config config = new Config();
         config.number_of_genes = numberOfGenes;
-        config.range.min(range.min()).max(range.max());
+        config.range.min(range.min()).max(range.max()).statistics(new Statistics());
 
         ArrayList<Genes> genes = new ArrayList<>();
 
@@ -254,6 +256,7 @@ public class GenesTest {
         System.out.print(min);
         System.out.print(" max=");
         System.out.println(max);
+        config.range.statistics().show();
     }
 
     @Test public void testDiscoverFunctionRanges() {
@@ -292,7 +295,7 @@ public class GenesTest {
     }
 
     @Test public void testDiscoverRastrigin1000() {
-        DiscoverFunctionRange(Function.Rastrigin, 1000, new FitnessRange().min(0).max(101850));
+        DiscoverFunctionRange(Function.Rastrigin, 1000, new FitnessRange().min(0).max(101814));
     }
 
     @Test public void testDiscoverSphere10() {
@@ -308,26 +311,26 @@ public class GenesTest {
     }
 
     @Test public void testDiscoverStyblinksiTang10() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 10, new FitnessRange().min(-40).max(130));
+        DiscoverFunctionRange(Function.StyblinksiTang, 10, new FitnessRange().min(-39.2).max(125));
     }
 
     @Test public void testDiscoverStyblinksiTang100() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 100, new FitnessRange().min(-440).max(770));
+        DiscoverFunctionRange(Function.StyblinksiTang, 100, new FitnessRange().min(-433).max(764));
     }
 
     @Test public void testDiscoverStyblinksiTang1000() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 1000, new FitnessRange().min(-2100).max(1300));
+        DiscoverFunctionRange(Function.StyblinksiTang, 1000, new FitnessRange().min(-2087).max(1206));
     }
 
     @Test public void testDiscoverSchwefel10() {
-        DiscoverFunctionRange(Function.Schwefel, 10, new FitnessRange().min(0).max(1));
+        DiscoverFunctionRange(Function.Schwefel, 10, new FitnessRange().min(0).max(1257));
     }
 
     @Test public void testDiscoverSchwefel100() {
-        DiscoverFunctionRange(Function.Schwefel, 100, new FitnessRange().min(0).max(1));
+        DiscoverFunctionRange(Function.Schwefel, 100, new FitnessRange().min(0).max(9641.1));
     }
 
     @Test public void testDiscoverSchwefel1000() {
-        DiscoverFunctionRange(Function.Schwefel, 1000, new FitnessRange().min(0).max(1));
+        DiscoverFunctionRange(Function.Schwefel, 1000, new FitnessRange().min(0).max(75960));
     }
 }

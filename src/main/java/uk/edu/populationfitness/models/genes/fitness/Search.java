@@ -1,11 +1,11 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.fitness;
 
 import uk.edu.populationfitness.models.PopulationComparison;
 
-public class FitnessSearch extends FitnessRange {
+public class Search extends FitnessRange {
     private double increment;
 
-    public FitnessSearch increment(double increment){
+    public Search increment(double increment){
         this.increment = increment;
         return this;
     }
@@ -18,8 +18,8 @@ public class FitnessSearch extends FitnessRange {
         return ((int)((min() + max()) / increment) / 2) * increment;
     }
 
-    public FitnessSearch findNext(PopulationComparison comparison){
-        FitnessSearch next = new FitnessSearch();
+    public Search findNext(PopulationComparison comparison){
+        Search next = new Search();
         next.increment(increment).max(max()).min(min());
         switch(comparison){
             case TooLow:

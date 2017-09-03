@@ -1,7 +1,7 @@
 package uk.edu.populationfitness.models;
 
-import uk.edu.populationfitness.models.genes.FitnessSearch;
-import uk.edu.populationfitness.models.genes.ReverseFitnessSearch;
+import uk.edu.populationfitness.models.genes.fitness.Search;
+import uk.edu.populationfitness.models.genes.fitness.ReverseSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +51,12 @@ public class Generations {
         PopulationComparison divergence = PopulationComparison.TooLow;
         for (Epoch epoch: epochs.epochs){
             Population previousPopulation = new Population(population);
-            FitnessSearch search = new FitnessSearch();
+            Search search = new Search();
             search.increment(increment).min(minFactor).max(maxFactor);
             divergence = generateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
             if (divergence != PopulationComparison.WithinRange){
                 // Try the reverse search
-                search = new ReverseFitnessSearch();
+                search = new ReverseSearch();
                 search.increment(increment).min(minFactor).max(maxFactor);
                 divergence = generateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
                 if (divergence != PopulationComparison.WithinRange)
@@ -67,7 +67,7 @@ public class Generations {
     }
 
     private PopulationComparison generateAndCompareEpochPopulation(
-            FitnessSearch search,
+            Search search,
             int percentage,
             Epoch epoch,
             Population previousPopulation) {
@@ -77,7 +77,7 @@ public class Generations {
         System.out.println("Year "+epoch.end_year+" Pop "+population.individuals.size()+" Expected "+epoch.expected_max_population+" F="+epoch.fitness());
 
         if (divergence != PopulationComparison.WithinRange){
-            FitnessSearch nextSearch = search.findNext(divergence);
+            Search nextSearch = search.findNext(divergence);
             if (nextSearch == null) return divergence;
             return generateAndCompareEpochPopulation(nextSearch, percentage, epoch, previousPopulation);
         }

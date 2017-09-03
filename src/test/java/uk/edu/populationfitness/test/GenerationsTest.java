@@ -3,7 +3,7 @@ package uk.edu.populationfitness.test;
 import org.junit.Assert;
 import uk.edu.populationfitness.models.*;
 import org.junit.Test;
-import uk.edu.populationfitness.models.genes.FitnessRange;
+import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
 import uk.edu.populationfitness.models.genes.Function;
 
 import static org.junit.Assert.*;
@@ -78,6 +78,6 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneStyblinksiTang(){
-        tune(Function.StyblinksiTang, new FitnessRange().min(-2440).max(770), 100, 0.005, 20, 0.000001, 10);
+        tune(Function.StyblinksiTang, new FitnessRange().min(-2440).max(770), 100, 0.005, 20, 0.00000001, 5);
     }
 }

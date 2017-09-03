@@ -113,13 +113,7 @@ public abstract class BitSetGenes implements Genes {
      */
     protected double storeScaledFitness(double fitness_factor, double fitness){
         stored_fitness_factor = fitness_factor;
-        stored_fitness = abs(fitness);
-        if (fitness < 0){
-            //System.out.println(fitness);
-        }
-        if (fitness > 1){
-            //System.out.println(stored_fitness);
-        }
+        stored_fitness = fitness;
         return stored_fitness;
     }
 

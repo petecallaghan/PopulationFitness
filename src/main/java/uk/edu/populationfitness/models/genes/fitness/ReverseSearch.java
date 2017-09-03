@@ -1,10 +1,10 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.fitness;
 
 import uk.edu.populationfitness.models.PopulationComparison;
 
-public class ReverseFitnessSearch extends FitnessSearch {
-    public FitnessSearch findNext(PopulationComparison comparison){
-        ReverseFitnessSearch next = new ReverseFitnessSearch();
+public class ReverseSearch extends Search {
+    public Search findNext(PopulationComparison comparison){
+        ReverseSearch next = new ReverseSearch();
         next.increment(increment()).max(max()).min(min());
         switch(comparison){
             case TooLow:

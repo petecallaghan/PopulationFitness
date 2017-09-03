@@ -8,7 +8,7 @@ public class SchwefelGenes extends InvertedBitSetGenes {
     private double interpolation_ratio;
 
     private double interpolationRatio(long max_value){
-        return 5.12 / max_value;
+        return 500.0 / max_value;
     }
 
     public SchwefelGenes(Config config) {

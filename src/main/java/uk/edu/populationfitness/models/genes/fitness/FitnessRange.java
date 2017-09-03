@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models.genes;
+package uk.edu.populationfitness.models.genes.fitness;
 
 public class FitnessRange {
 
@@ -10,10 +10,17 @@ public class FitnessRange {
 
     private double range;
 
-    public FitnessRange(){
+    private Statistics statistics;
+
+    public FitnessRange(Statistics statistics){
         min_fitness = 0;
         max_fitness = 1;
         range = 1;
+        this.statistics = statistics;
+    }
+
+    public FitnessRange(){
+        this(null);
     }
 
     public FitnessRange max(double max){
@@ -36,8 +43,20 @@ public class FitnessRange {
         return this;
     }
 
+    public FitnessRange statistics(Statistics stats){
+        this.statistics = stats;
+        return this;
+    }
+
+    public Statistics statistics() {
+        return statistics;
+    }
+
     // returns the range as a scale. S(f) = (f - min) / (max - min)
     public double toScale(double fitness){
+        if (statistics != null){
+            statistics.add(fitness);
+        }
         return (fitness - min_fitness) / range;
     }
 }
