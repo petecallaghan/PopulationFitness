@@ -12,5 +12,6 @@ public enum Function {
     StyblinksiTang,
     Schwefel,
     Rosenbrock,
+    SumOfPowers,
     Sphere;
 }

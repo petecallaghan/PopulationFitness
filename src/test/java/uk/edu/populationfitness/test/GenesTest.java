@@ -341,4 +341,12 @@ public class GenesTest {
     @Test public void testDiscoverRosenbrock1000() {
         DiscoverFunctionRange(Function.Rosenbrock, 1000, new FitnessRange().min(0).max(171512));
     }
+
+    @Test public void testDiscoverSumOfPowers100() {
+        DiscoverFunctionRange(Function.SumOfPowers, 100, new FitnessRange().min(0).max(8));
+    }
+
+    @Test public void testDiscoverSumOfPowers1000() {
+        DiscoverFunctionRange(Function.SumOfPowers, 1000, new FitnessRange().min(0).max(12));
+    }
 }
