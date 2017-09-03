@@ -10,6 +10,7 @@ import uk.edu.populationfitness.models.genes.sinpi.SinPiGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiLinearGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
 import uk.edu.populationfitness.models.genes.sphere.SphereGenes;
+import uk.edu.populationfitness.models.genes.valley.RosenbrockGenes;
 
 import static uk.edu.populationfitness.models.genes.Function.SinPiOver2;
 
@@ -40,6 +41,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new StyblinksiTangGenes(config);
             case Schwefel:
                 return new SchwefelGenes(config);
+            case Rosenbrock:
+                return new RosenbrockGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);

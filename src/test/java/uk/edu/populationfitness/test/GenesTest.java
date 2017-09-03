@@ -333,4 +333,12 @@ public class GenesTest {
     @Test public void testDiscoverSchwefel1000() {
         DiscoverFunctionRange(Function.Schwefel, 1000, new FitnessRange().min(0).max(75960));
     }
+
+    @Test public void testDiscoverRosenbrock100() {
+        DiscoverFunctionRange(Function.Rosenbrock, 100, new FitnessRange().min(0).max(31860));
+    }
+
+    @Test public void testDiscoverRosenbrock1000() {
+        DiscoverFunctionRange(Function.Rosenbrock, 1000, new FitnessRange().min(0).max(171512));
+    }
 }

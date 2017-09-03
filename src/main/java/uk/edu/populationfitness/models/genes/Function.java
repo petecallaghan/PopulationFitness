@@ -11,5 +11,6 @@ public enum Function {
     Rastrigin,
     StyblinksiTang,
     Schwefel,
+    Rosenbrock,
     Sphere;
 }

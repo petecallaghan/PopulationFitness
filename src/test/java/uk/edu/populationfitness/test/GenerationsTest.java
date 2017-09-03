@@ -84,4 +84,8 @@ public class GenerationsTest {
     @Test public void testTuneSchwefel(){
         tune(Function.Schwefel, new FitnessRange().min(0).max(9641.1), 100, 0.001, 20, 0.00000001, 5);
     }
+
+    @Test public void testTuneRosenbrock(){
+        tune(Function.Rosenbrock, new FitnessRange().min(0).max(31860), 100, 0.001, 20, 0.00000001, 5);
+    }
 }

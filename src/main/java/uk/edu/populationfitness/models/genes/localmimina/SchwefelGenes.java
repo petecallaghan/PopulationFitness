@@ -23,7 +23,7 @@ public class SchwefelGenes extends InvertedBitSetGenes {
             return storedFitness();
         }
         /**
-         * http://www.sfu.ca/~ssurjano/spheref.html
+         * http://www.sfu.ca/~ssurjano/schwef.html
          *
          * f(x) = 418.9829d - sum{i=1 to d}[x{i} * sin(sqrt(mod(x{i})))]
          *
