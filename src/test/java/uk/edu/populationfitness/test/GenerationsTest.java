@@ -82,6 +82,6 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSchwefel(){
-        tune(Function.Schwefel, new FitnessRange().min(0).max(9641.1), 100, 0.005, 20, 0.000001, 10);
+        tune(Function.Schwefel, new FitnessRange().min(0).max(9641.1), 100, 0.001, 20, 0.00000001, 5);
     }
 }
