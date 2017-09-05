@@ -20,7 +20,7 @@ public class EpochsWriter {
         return filePath.toString();
     }
 
-    public static void writeCsv(Function function, int size, Epochs epochs) throws IOException {
+    public static String writeCsv(Function function, int size, Epochs epochs) throws IOException {
         String filePath = filePath(function, size);
         deleteExisting(filePath);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
@@ -31,9 +31,10 @@ public class EpochsWriter {
         }
 
         writer.close();
+        return filePath;
     }
 
-    private static void deleteExisting(String path){
+    public static void deleteExisting(String path){
         try {
             File existing = new File(path);
             existing.delete();
@@ -47,8 +48,7 @@ public class EpochsWriter {
                 Integer.toString(epoch.start_year),
                 Integer.toString(epoch.end_year),
                 Double.toString(epoch.kill()),
-                Double.toString(epoch.environment_capacity),
-                Boolean.toString(epoch.isFitnessEnabled()),
+                Integer.toString(epoch.environment_capacity),
                 Double.toString(epoch.breedingProbability()),
                 Boolean.toString(epoch.disease()),
                 Double.toString(epoch.fitness()),
@@ -62,7 +62,6 @@ public class EpochsWriter {
                 "End Year",
                 "Kill Constant",
                 "Environment Capacity",
-                "Enable Fitness",
                 "Breeding Probability",
                 "Disease",
                 "Fitness Factor",

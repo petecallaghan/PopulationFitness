@@ -14,5 +14,6 @@ public enum Function {
     Rosenbrock,
     SumOfPowers,
     SumSquares,
+    Undefined,
     Sphere;
 }

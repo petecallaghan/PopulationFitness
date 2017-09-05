@@ -36,8 +36,6 @@ public class Config {
     // The upper bound of the float conversion for genes
     public double float_upper;
 
-    public int initial_population;
-
     //  Probability that a pair will produce offspring in a year
     public double probability_of_breeding;
 
@@ -49,6 +47,8 @@ public class Config {
 
     public final FitnessRange range = new FitnessRange();
 
+    public int initial_population = 4000;
+
     public Config(){
         number_of_genes = 4;
         size_of_each_gene = 10;
@@ -58,7 +58,6 @@ public class Config {
         min_breeding_age = 16;
         float_lower = ZERO;
         float_upper = PI;
-        initial_population = 4000;
         probability_of_breeding = 0.6;
         number_of_years = 2150;
     }

@@ -3,9 +3,16 @@ package uk.edu.populationfitness.test;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import uk.edu.populationfitness.UkPopulationEpochs;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epoch;
 import uk.edu.populationfitness.models.Epochs;
+import uk.edu.populationfitness.models.genes.Function;
+import uk.edu.populationfitness.output.EpochsReader;
+import uk.edu.populationfitness.output.EpochsWriter;
+
+import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -88,5 +95,33 @@ public class EpochsTest {
         assertFalse(epochs.epochs.get(0).isCapacityUnlimited());
         assertEquals(Epoch.UNLIMITED_CAPACITY, epochs.epochs.get(1).environment_capacity);
         assertTrue(epochs.epochs.get(1).isCapacityUnlimited());
+    }
+
+    @Test public void testEpochWriteAndRead() throws IOException{
+        // Given a set of epochs
+        Config config = new Config();
+        Epochs epochs = UkPopulationEpochs.define(config);
+        double delta = 0.0000000001;
+
+        // When we write them and then read them
+        String path = EpochsWriter.writeCsv(Function.Undefined, 100, epochs);
+        Epochs found = new Epochs(config);
+        found.epochs.addAll(EpochsReader.readEpochs(config, path));
+
+        // Then we get back the original epochs
+        assertEquals(epochs.epochs.size(), found.epochs.size());
+        for(int i = 0; i < epochs.epochs.size(); i++){
+            Epoch expected = epochs.epochs.get(i);
+            Epoch actual = found.epochs.get(i);
+
+            assertEquals(expected.start_year, actual.start_year);
+            assertEquals(expected.end_year, actual.end_year);
+            assertEquals(expected.kill(), actual.kill(), delta);
+            assertEquals(expected.environment_capacity, actual.environment_capacity);
+            assertEquals(expected.breedingProbability(), actual.breedingProbability(), delta);
+            assertEquals(expected.disease(), actual.disease());
+            assertEquals(expected.fitness(), actual.fitness(), delta);
+            assertEquals(expected.expected_max_population, actual.expected_max_population);
+        }
     }
 }

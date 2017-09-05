@@ -1,15 +1,23 @@
 package uk.edu.populationfitness;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.Epoch;
+import uk.edu.populationfitness.models.Epochs;
 import uk.edu.populationfitness.models.RepeatableRandom;
-import uk.edu.populationfitness.models.genes.Function;
+import uk.edu.populationfitness.output.EpochsReader;
+import uk.edu.populationfitness.output.TuningReader;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by pete.callaghan on 07/07/2017.
  */
 public class Commands {
-    public static Tuning configure(Config config, String[] args){
-        config.initial_population = 4000;
+    public static void configure(Config config, Tuning tuning, Epochs epochs, String[] args){
+        if (args.length < 2){
+            showHelp();
+        }
 
         if (args.length % 2 == 1){
             showHelp();
@@ -23,24 +31,14 @@ public class Commands {
                     RepeatableRandom.setSeed(seed);
                     continue;
                 }
-                if (argument.startsWith("-p")){
-                    double scale = Double.parseDouble(args[i + 1]);
-                    Tuning.population_scale = scale;
+                if (argument.startsWith("-t")){
+                    TuningReader.read(tuning, args[i + 1]);
                     continue;
                 }
-                if (argument.startsWith("-f")){
-                    int function = Integer.decode(args[i + 1]);
-                    switch (function){
-                        case 1:
-                            config.genesFactory.function = Function.SinPi;
-                            continue;
-                        case 2:
-                            config.genesFactory.function = Function.SinPiOver2;
-                            continue;
-                        case 3:
-                            config.genesFactory.function = Function.Rastrigin;
-                            continue;
-                    }
+                if (argument.startsWith("-e")){
+                    List<Epoch> read = EpochsReader.readEpochs(config, args[i + 1]);
+                    epochs.epochs.addAll(read);
+                    continue;
                 }
             }
             catch (Exception ignored){
@@ -48,14 +46,13 @@ public class Commands {
             }
             showHelp();
         }
-        return Tuning.select(config.genesFactory.function, config.size_of_each_gene * config.number_of_genes);
     }
 
     private static void showHelp() {
         System.out.println("Commands:");
         System.out.println("    -s [seed]");
-        System.out.println("    -p [population population_scale]");
-        System.out.println("    -f [fitness functions: 1 = Sin Pi, 2 = Sin Pi over 2, 3 = Rastrigin]");
+        System.out.println("    -t [csv file containing tuning]");
+        System.out.println("    -e [csv file containing epochs]");
         System.exit(0);
     }
 }

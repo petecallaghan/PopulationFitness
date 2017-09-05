@@ -6,3 +6,4 @@ out/
 target/
 *.yaml
 ~$fitnessfunctions.xlsx
+*.csv
