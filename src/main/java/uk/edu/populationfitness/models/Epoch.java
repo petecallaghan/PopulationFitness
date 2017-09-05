@@ -34,6 +34,8 @@ public class Epoch {
     // Probability of a pair breeding in a given year
     private double probability_of_breeding;
 
+    private boolean isDisease = false;
+
     public Epoch(Config config, int start_year){
         this.start_year = start_year;
         this.config = config;
@@ -55,6 +57,15 @@ public class Epoch {
 
     public double breedingProbability(){
         return probability_of_breeding;
+    }
+
+    public Epoch disease(boolean isDisease){
+        this.isDisease = isDisease;
+        return this;
+    }
+
+    public boolean disease(){
+        return isDisease;
     }
 
     public Epoch kill(double kill_constant){
