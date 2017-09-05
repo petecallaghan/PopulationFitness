@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.test;
 
 import org.junit.Test;
+import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.output.ConfigWriter;
 
@@ -14,7 +15,7 @@ import static org.junit.Assert.assertNotEquals;
 public class ConfigWriterTest {
     @Test public void testWriter() throws IOException {
         // Given a config
-        Config config = new Config();
+        Tuning config = new Tuning();
 
         // Write it out to a file and don't complain about it
         ConfigWriter.write(config, "test.yaml");
@@ -26,17 +27,7 @@ public class ConfigWriterTest {
         Thread.sleep(1l);
         Config config2 = new Config();
 
-        // Then they have unique identifiers
-        assertNotEquals(config1.id, config2.id);
-    }
-
-    @Test public void testStringEncoding() throws InterruptedException {
-        // Given two configs created at different times
-        Config config1 = new Config();
-        Thread.sleep(1l);
-        Config config2 = new Config();
-
         // Then they have unique encodings
-        assertNotEquals(ConfigWriter.toString(config1), ConfigWriter.toString(config2));
+        assertNotEquals(config1.id, config2.id);
     }
 }

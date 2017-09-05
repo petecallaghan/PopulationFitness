@@ -13,6 +13,7 @@ public class Main {
         Generations generations = new Generations(population);
         Epochs epochs = new Epochs(config);
         Tuning tuning = new Tuning();
+        tuning.id = config.id;
         Commands.configure(config, tuning, epochs, args);
 
         // Add the simulated epochs to the tuned epochs
@@ -23,6 +24,6 @@ public class Main {
 
         generations.createForAllEpochs(epochs);
 
-        GenerationsWriter.writeCsv(generations);
+        GenerationsWriter.writeCsv(generations, tuning);
     }
 }

@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.output;
 
 import com.opencsv.CSVWriter;
+import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.GenerationStatistics;
 import uk.edu.populationfitness.models.Generations;
 
@@ -19,7 +20,7 @@ public class GenerationsWriter {
         return filePath.toString();
     }
 
-    public static void writeCsv(Generations generations) throws IOException {
+    public static void writeCsv(Generations generations, Tuning tuning) throws IOException {
         String filePath = filePath(generations);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
         addHeaderRow(writer);
@@ -28,7 +29,7 @@ public class GenerationsWriter {
             addGenerationRow(writer, generation);
         }
 
-        writer.writeNext(new String[]{ConfigWriter.toString(generations.population.config)});
+        writer.writeNext(new String[]{ConfigWriter.toString(tuning)});
 
         writer.close();
     }

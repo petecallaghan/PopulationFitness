@@ -15,6 +15,7 @@ import uk.edu.populationfitness.models.genes.sphere.SumSquaresGenes;
 import uk.edu.populationfitness.models.genes.valley.RosenbrockGenes;
 
 import static uk.edu.populationfitness.models.genes.Function.SinPiOver2;
+import static uk.edu.populationfitness.models.genes.Function.Undefined;
 
 /**
  * Created by pete.callaghan on 13/07/2017.
@@ -24,7 +25,7 @@ public class BitSetGenesFactory implements GenesFactory {
     /**
      * Defines the fitness function to use
      */
-    public Function function = SinPiOver2;
+    public Function function = Undefined;
 
     @Override
     public Genes build(Config config) {

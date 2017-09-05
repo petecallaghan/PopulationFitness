@@ -28,6 +28,8 @@ public class TuningWriter {
                 Double.toString(tuning.modern_breeding),
                 Integer.toString(tuning.number_of_genes),
                 Integer.toString(tuning.size_of_genes),
+                Double.toString(tuning.min_fitness),
+                Double.toString(tuning.max_fitness),
         });
     }
 
@@ -42,6 +44,8 @@ public class TuningWriter {
                 "Modern Breeding",
                 "Size of Genes",
                 "Number of Genes",
+                "Min Fitness",
+                "Max Fitness",
         });
     }
 }

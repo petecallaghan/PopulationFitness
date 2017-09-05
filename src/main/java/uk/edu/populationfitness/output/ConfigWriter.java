@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.output;
 
 import org.yaml.snakeyaml.Yaml;
+import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.Config;
 
 import java.io.FileWriter;
@@ -17,7 +18,7 @@ public class ConfigWriter {
      * @param filename
      * @throws IOException
      */
-    public static void write(Config config, String filename) throws IOException {
+    public static void write(Tuning config, String filename) throws IOException {
         Yaml encodedConfig = new Yaml();
         FileWriter writer = new FileWriter(filename);
         encodedConfig.dump(config, writer);
@@ -30,7 +31,7 @@ public class ConfigWriter {
      * @param config
      * @return
      */
-    public static String toString(Config config){
+    public static String toString(Tuning config){
         Yaml encodedConfig = new Yaml();
         return encodedConfig.dump(config);
     }

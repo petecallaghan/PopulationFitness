@@ -35,6 +35,8 @@ public class Commands {
                     TuningReader.read(tuning, args[i + 1]);
                     config.size_of_each_gene = tuning.size_of_genes;
                     config.number_of_genes = tuning.number_of_genes;
+                    config.genesFactory.function = tuning.function;
+                    config.range.min(tuning.min_fitness).max(tuning.max_fitness);
                     continue;
                 }
                 if (argument.startsWith("-e")){
