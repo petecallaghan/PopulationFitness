@@ -35,6 +35,7 @@ public class GenerationsTest {
     }
 
     private void tune(Function function, FitnessRange range, int numberOfGenes, double minFactor, double maxFactor, double increment, int percentage) throws IOException {
+        RepeatableRandom.resetSeed();
         Config config = new Config();
         config.genesFactory.function = function;
         config.number_of_genes = numberOfGenes;

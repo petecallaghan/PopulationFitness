@@ -26,5 +26,7 @@ public class TuningReader {
         tuning.modern_kill = Double.parseDouble(row[4]);
         tuning.historic_kill = Double.parseDouble(row[5]);
         tuning.modern_breeding = Double.parseDouble(row[6]);
+        tuning.number_of_genes = Integer.parseInt(row[7]);
+        tuning.size_of_genes = Integer.parseInt(row[8]);
     }
 }

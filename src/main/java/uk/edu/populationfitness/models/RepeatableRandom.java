@@ -22,6 +22,13 @@ public class RepeatableRandom {
         random = new SplittableRandom(seed);
     }
 
+    /**
+     * Resets the seed to the default
+     */
+    public static void resetSeed(){
+        random = new SplittableRandom(DEFAULT_SEED);
+    }
+
     public static double generateNext(){
         return random.nextDouble();
     }

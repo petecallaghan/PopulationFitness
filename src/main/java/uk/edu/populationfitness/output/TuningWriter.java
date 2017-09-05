@@ -26,6 +26,8 @@ public class TuningWriter {
                 Double.toString(tuning.modern_kill),
                 Double.toString(tuning.historic_kill),
                 Double.toString(tuning.modern_breeding),
+                Integer.toString(tuning.number_of_genes),
+                Integer.toString(tuning.size_of_genes),
         });
     }
 
@@ -38,6 +40,8 @@ public class TuningWriter {
                 "Modern Kill",
                 "Historic Kill",
                 "Modern Breeding",
+                "Size of Genes",
+                "Number of Genes",
         });
     }
 }

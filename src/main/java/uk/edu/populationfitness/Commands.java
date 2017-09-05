@@ -33,6 +33,8 @@ public class Commands {
                 }
                 if (argument.startsWith("-t")){
                     TuningReader.read(tuning, args[i + 1]);
+                    config.size_of_each_gene = tuning.size_of_genes;
+                    config.number_of_genes = tuning.number_of_genes;
                     continue;
                 }
                 if (argument.startsWith("-e")){

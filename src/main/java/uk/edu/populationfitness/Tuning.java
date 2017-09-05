@@ -13,4 +13,6 @@ public class Tuning {
     public double modern_kill = 1.003;
     public double historic_kill = 1.066;
     public double modern_breeding = 0.13;
+    public int number_of_genes = 10;
+    public int size_of_genes = 4;
 }
