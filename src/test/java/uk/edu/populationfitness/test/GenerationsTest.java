@@ -64,11 +64,22 @@ public class GenerationsTest {
         epochs.addNextEpoch(new Epoch(config, 1560).max(3200).kill(historic_kill));
         epochs.addNextEpoch(new Epoch(config, 1600).max(4110).kill(historic_kill));
         epochs.addNextEpoch(new Epoch(config, 1650).max(5310).kill(historic_kill));
-        epochs.addNextEpoch(new Epoch(config, 1700).max(30000).kill(historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 1700).max(30000).kill(historic_kill)); // 5,200,000
 
-        //epochs.addNextEpoch(new Epoch(config, 1086).max(4800).kill(historic_kill));
-        //epochs.addNextEpoch(new Epoch(config, 1348).max(1900).kill(historic_kill));  // disease
-        //epochs.addNextEpoch(new Epoch(config, 1450).max(30000).kill(historic_kill));
+        // https://en.wikipedia.org/wiki/Demography_of_England - add for 1800-1900?
+        /*
+            1801	7,754,875	—
+            1811	8,762,178	+13.0%
+            1821	10,402,143	+18.7%
+            1831	12,011,830	+15.5%
+            1841	13,654,914	+13.7%
+            1851	15,288,885	+12.0%
+            1861	18,325,052	+19.9%
+            1871	21,361,235	+16.6%
+            1881	24,397,385	+14.2%
+            1891	27,231,229	+11.6%
+            1901	30,072,180
+         */
         epochs.setFinalEpochYear(1901);
 
         PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage);
@@ -119,5 +130,9 @@ public class GenerationsTest {
 
     @Test public void testTuneSumOfPowers1000(){
         tune(Function.SumOfPowers, new FitnessRange().min(0).max(11), 1000, 0.001, 2, 0.00000001, 5);
+    }
+
+    @Test public void testTuneSumSquares(){
+        tune(Function.SumSquares, new FitnessRange().min(0).max(2140), 100, 0.001, 2, 0.00000001, 5);
     }
 }

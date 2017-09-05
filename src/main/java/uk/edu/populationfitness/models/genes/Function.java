@@ -13,5 +13,6 @@ public enum Function {
     Schwefel,
     Rosenbrock,
     SumOfPowers,
+    SumSquares,
     Sphere;
 }
