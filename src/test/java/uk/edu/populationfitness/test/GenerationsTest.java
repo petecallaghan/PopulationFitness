@@ -97,6 +97,10 @@ public class GenerationsTest {
         tune(Function.SumOfPowers, new FitnessRange().min(0).max(11), 1000, 0.001, 2, 0.00000001, 5);
     }
 
+    @Test public void testTuneSumOfPowers10000() throws IOException {
+        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 10000, 0.001, 2, 0.00000001, 5);
+    }
+
     @Test public void testTuneSumSquares() throws IOException {
         tune(Function.SumSquares, new FitnessRange().min(0).max(2140), 100, 0.001, 2, 0.00000001, 5);
     }
