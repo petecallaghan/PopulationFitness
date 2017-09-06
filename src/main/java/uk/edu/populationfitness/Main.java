@@ -17,9 +17,8 @@ public class Main {
         Commands.configure(config, tuning, epochs, args);
 
         // Add the simulated epochs to the tuned epochs
-        epochs.addNextEpoch(new Epoch(config, 1901).fitness(tuning.modern_fit).max(65000).kill(tuning.modern_kill).breedingProbability(tuning.modern_breeding));
         epochs.addNextEpoch(new Epoch(config, 2016).fitness(tuning.disease_fit).max(65000).kill(tuning.historic_kill));
-        epochs.addNextEpoch(new Epoch(config, 2068).fitness(tuning.historic_fit).max(65000).kill(tuning.historic_kill));
+        epochs.addNextEpoch(new Epoch(config, 2019).fitness(tuning.historic_fit).max(65000).kill(tuning.historic_kill));
         epochs.setFinalEpochYear(-50 + config.number_of_years - 1);
 
         generations.createForAllEpochs(epochs);

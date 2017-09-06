@@ -9,6 +9,8 @@ public class UkPopulationEpochs {
         Epochs epochs = new Epochs(config);
 
         final double historic_kill = 1.066;
+        final double modern_breeding = 0.13;
+        final double modern_kill = 1.003;
 
         // https://en.wikipedia.org/wiki/Demography_of_England
         epochs.addNextEpoch(new Epoch(config, -50).max(4000).kill(historic_kill).capacity(4000));
@@ -45,7 +47,8 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1871).max(24297).kill(historic_kill));
         epochs.addNextEpoch(new Epoch(config, 1881).max(27231).kill(historic_kill));
         epochs.addNextEpoch(new Epoch(config, 1891).max(30000).kill(historic_kill));
-        epochs.setFinalEpochYear(1901);
+        epochs.addNextEpoch(new Epoch(config, 1901).max(65000).kill(modern_kill).breedingProbability(modern_breeding));
+        epochs.setFinalEpochYear(2015);
 
         return epochs;
     }

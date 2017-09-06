@@ -70,7 +70,7 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 5, 20, 0.001, 10);
+        tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 5, 40, 0.001, 10);
     }
 
     @Test public void testTuneSphere() throws IOException {
