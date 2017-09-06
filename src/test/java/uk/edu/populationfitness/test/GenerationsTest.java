@@ -70,19 +70,19 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, new FitnessRange().min(0).max(10283), 100, 5, 40, 0.001, 10);
+        tune(Function.Rastrigin, new FitnessRange().min(0).max(11500), 100, 5, 45, 0.000001, 10);
     }
 
     @Test public void testTuneSphere() throws IOException {
-        tune(Function.Sphere, new FitnessRange().min(0).max(390), 100, 0.005, 5, 0.00001, 10);
+        tune(Function.Sphere, new FitnessRange().min(0).max(420), 100, 0.005, 5, 0.00001, 5);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
-        tune(Function.StyblinksiTang, new FitnessRange().min(-2440).max(770), 100, 0.005, 20, 0.00000001, 5);
+        tune(Function.StyblinksiTang, new FitnessRange().min(-2500).max(800), 100, 0.005, 20, 0.00000001, 5);
     }
 
     @Test public void testTuneSchwefel() throws IOException {
-        tune(Function.Schwefel, new FitnessRange().min(0).max(9641.1), 100, 0.001, 20, 0.00000001, 5);
+        tune(Function.Schwefel, new FitnessRange().min(0).max(10000.0), 100, 0.001, 20, 0.00000001, 5);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
