@@ -92,6 +92,7 @@ public class EpochsTest {
 
         // When we iterate over the epochs we find the right environment capacity
         assertEquals(1000, epochs.epochs.get(0).environment_capacity);
+        assertEquals(epochs.epochs.get(0).environment_capacity, epochs.epochs.get(0).expected_max_population);
         assertFalse(epochs.epochs.get(0).isCapacityUnlimited());
         assertEquals(Epoch.UNLIMITED_CAPACITY, epochs.epochs.get(1).environment_capacity);
         assertTrue(epochs.epochs.get(1).isCapacityUnlimited());

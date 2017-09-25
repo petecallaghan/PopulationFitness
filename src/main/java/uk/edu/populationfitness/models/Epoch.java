@@ -36,6 +36,8 @@ public class Epoch {
 
     private boolean isDisease = false;
 
+    private double total_capacity_factor = 0;
+
     public Epoch(Config config, int start_year){
         this.start_year = start_year;
         this.config = config;
@@ -79,10 +81,6 @@ public class Epoch {
 
     public Epoch fitness(double fitness_factor){
         this.fitness_factor = fitness_factor;
-        /*System.out.print("Epoch ");
-        System.out.print(start_year);
-        System.out.print(" f=");
-        System.out.println(fitness_factor);*/
         return this;
     }
 
@@ -92,6 +90,7 @@ public class Epoch {
 
     public Epoch capacity(int environment_capacity){
         this.environment_capacity = environment_capacity;
+        this.expected_max_population = environment_capacity;
         return this;
     }
 
@@ -103,5 +102,14 @@ public class Epoch {
     public Epoch max(int expected_max_population){
         this.expected_max_population = expected_max_population;
         return this;
+    }
+
+    public Epoch addCapacityFactor(double capacity_factor){
+        this.total_capacity_factor += capacity_factor;
+        return this;
+    }
+
+    public double averageCapacityFactor(){
+        return this.total_capacity_factor / (this.end_year - this.start_year + 1);
     }
 }

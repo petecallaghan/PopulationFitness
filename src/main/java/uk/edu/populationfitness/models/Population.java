@@ -118,6 +118,7 @@ public class Population {
         }
 
         double environment_capacity = (double)(epoch.environment_capacity) / individuals.size();
+        epoch.addCapacityFactor(environment_capacity);
         return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitness(), environment_capacity, epoch.kill())));
     }
 

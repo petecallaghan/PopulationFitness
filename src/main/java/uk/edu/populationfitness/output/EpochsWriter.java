@@ -53,6 +53,8 @@ public class EpochsWriter {
                 Boolean.toString(epoch.disease()),
                 Double.toString(epoch.fitness()),
                 Integer.toString(epoch.expected_max_population),
+                Double.toString(epoch.averageCapacityFactor()),
+                Double.toString(epoch.averageCapacityFactor() * epoch.fitness()),
         });
     }
 
@@ -66,6 +68,8 @@ public class EpochsWriter {
                 "Disease",
                 "Fitness Factor",
                 "Expected Max Population",
+                "Avg Capacity Factor",
+                "Avg Capacity Fitness",
         });
     }
 }

@@ -354,6 +354,10 @@ public class GenesTest {
         DiscoverFunctionRange(Function.SumOfPowers, 10000, new FitnessRange().min(0).max(18));
     }
 
+    @Test public void testDiscoverSumOfPowers100000() {
+        //DiscoverFunctionRange(Function.SumOfPowers, 100000, new FitnessRange().min(0).max(20.4));
+    }
+
     @Test public void testDiscoverSumSquares100() {
         DiscoverFunctionRange(Function.SumSquares, 100, new FitnessRange().min(0).max(2139.4));
     }

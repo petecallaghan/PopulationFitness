@@ -58,7 +58,7 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneSinPiLinear2For100() throws IOException {
-        tune(Function.SinPiLinear, new FitnessRange(), 100, 0.0, 80.0, 0.000001, 10);
+        tune(Function.SinPiLinear, new FitnessRange(), 100, 0.0, 80.0, 0.000001, 15);
     }
 
     @Test public void testTuneSinPiOver2For4() throws IOException {
@@ -70,38 +70,42 @@ public class GenerationsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, new FitnessRange().min(0).max(11500), 100, 5, 45, 0.000001, 10);
+        tune(Function.Rastrigin, new FitnessRange().min(0).max(11500), 100, 5, 45, 0.000001, 30);
     }
 
     @Test public void testTuneSphere() throws IOException {
-        tune(Function.Sphere, new FitnessRange().min(0).max(420), 100, 0.005, 5, 0.00001, 5);
+        tune(Function.Sphere, new FitnessRange().min(0).max(420), 100, 0.005, 5, 0.00001, 10);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
-        tune(Function.StyblinksiTang, new FitnessRange().min(-2500).max(800), 100, 0.005, 20, 0.00000001, 5);
+        tune(Function.StyblinksiTang, new FitnessRange().min(-2500).max(800), 100, 0.005, 20, 0.00000001, 20);
     }
 
     @Test public void testTuneSchwefel() throws IOException {
-        tune(Function.Schwefel, new FitnessRange().min(0).max(10000.0), 100, 0.001, 20, 0.00000001, 5);
+        tune(Function.Schwefel, new FitnessRange().min(0).max(10000.0), 100, 0.001, 20, 0.00000001, 30);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, new FitnessRange().min(0).max(31860), 100, 0.001, 20, 0.00000001, 5);
+        tune(Function.Rosenbrock, new FitnessRange().min(0).max(31860), 100, 0.001, 20, 0.00000001, 10);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange().min(0).max(6), 100, 0.001, 2, 0.00000001, 5);
+        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 100, 0.001, 2, 0.00000001, 10);
     }
 
     @Test public void testTuneSumOfPowers1000() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange().min(0).max(11), 1000, 0.001, 2, 0.00000001, 5);
+        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 1000, 0.001, 2, 0.00000001, 10);
     }
 
     @Test public void testTuneSumOfPowers10000() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 10000, 0.001, 2, 0.00000001, 5);
+        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 10000, 0.001, 2, 0.00000001, 20);
+    }
+
+    @Test public void testTuneSumOfPowers100000() throws IOException {
+        //tune(Function.SumOfPowers, new FitnessRange().min(0).max(21), 100000, 0.001, 2, 0.00000001, 5);
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, new FitnessRange().min(0).max(2140), 100, 0.001, 2, 0.00000001, 5);
+        tune(Function.SumSquares, new FitnessRange().min(0).max(2140), 100, 0.001, 2, 0.00000001, 15);
     }
 }
