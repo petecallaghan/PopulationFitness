@@ -1,7 +1,6 @@
 test/__pycache__/
 .cache/
 __pycache__/
-.idea/
 out/
 target/
 *.yaml

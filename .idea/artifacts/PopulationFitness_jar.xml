@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="PopulationFitness:jar">
+    <output-path>$PROJECT_DIR$/out/</output-path>
+    <root id="archive" name="PopulationFitness.jar">
+      <element id="module-output" name="PopulationFitness" />
+    </root>
+  </artifact>
+</component>
