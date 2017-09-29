@@ -27,7 +27,7 @@ public class Commands {
             String argument = args[i].toLowerCase();
             try {
                 if (argument.startsWith("-s")){
-                    long seed = Long.decode(args[i + 1]);
+                    long seed = getSeed(args[i + 1]);
                     RepeatableRandom.setSeed(seed);
                     continue;
                 }
@@ -52,9 +52,17 @@ public class Commands {
         }
     }
 
+    private static long getSeed(String arg) {
+        // Will set the seed from the current time if 'random' is chosen
+        if (arg.toLowerCase().startsWith("random")){
+            return System.currentTimeMillis();
+        }
+        return Long.decode(arg);
+    }
+
     private static void showHelp() {
         System.out.println("Commands:");
-        System.out.println("    -s [seed]");
+        System.out.println("    -s [seed number]| [random to set a seed from the current time]");
         System.out.println("    -t [csv file containing tuning]");
         System.out.println("    -e [csv file containing epochs]");
         System.exit(0);
