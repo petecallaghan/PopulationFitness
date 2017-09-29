@@ -7,7 +7,7 @@
 3. To build the project run maven in the same directory as pom.xml (mvn)
 4. The application has been developed using IntelliJ IDEA (https://www.jetbrains.com/idea/download)
 
-###Building
+### Building
 To build using maven: 
 * mvn package *Generates the JAR file (target\populationfitness.jar) after running all the tests*
 * mvn package  -Dmaven.test.skip=true *Just generates the JAR file, without running tests*
