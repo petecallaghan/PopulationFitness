@@ -12,3 +12,4 @@ functionepochs-SumOfPowers-100000.csv
 functionepochs-SumOfPowers-100000-missing-2015.csv
 test.csv
 *.csv
+.idea/workspace.xml
