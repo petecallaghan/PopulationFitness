@@ -14,7 +14,7 @@ import java.util.List;
  * Created by pete.callaghan on 07/07/2017.
  */
 public class Commands {
-    public static void configure(Config config, Tuning tuning, Epochs epochs, String[] args){
+    public static void configureTuningAndEpochsFromInputFiles(Config config, Tuning tuning, Epochs epochs, String[] args){
         if (args.length < 2){
             showHelp();
         }
