@@ -50,6 +50,10 @@ public class Epochs {
         return epochs.get(epochs.size() - 1);
     }
 
+    public Epoch first(){
+        return epochs.get(0);
+    }
+
     public void printFitnessFactors(){
         for(Epoch epoch: epochs){
             System.out.print("Epoch ");
