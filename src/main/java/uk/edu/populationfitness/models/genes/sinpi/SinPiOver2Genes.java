@@ -2,24 +2,16 @@ package uk.edu.populationfitness.models.genes.sinpi;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 
 import static java.lang.Math.abs;
 
 /**
  * Created by pete.callaghan on 13/07/2017.
  */
-public class SinPiOver2Genes extends BitSetGenes {
-
-    private double interpolation_ratio;
-
-    private double interpolationRatio(Config config, long max_value){
-        return ((config.float_upper/2.0) - config.float_lower) / max_value;
-    }
-
+public class SinPiOver2Genes extends InterpolatingBitSetGenes {
     public SinPiOver2Genes(Config config){
-        super(config);
-        long max_value = maxForBits(size_of_genes);
-        interpolation_ratio = interpolationRatio(config, max_value);
+        super(config, (config.float_upper/2.0) - config.float_lower);
     }
 
     @Override

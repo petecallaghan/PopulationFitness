@@ -1,27 +1,17 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
 
-public class SumSquaresGenes extends InvertedBitSetGenes {
-
-    private double interpolation_ratio;
-
-    private double interpolationRatio(long max_value){
-        return 5.12 / max_value;
-    }
-
+public class SumSquaresGenes extends CachingInterpolatingBitSetGenes {
     public SumSquaresGenes(Config config) {
-        super(config);
-        long max_value = maxForBits(size_of_genes);
-        interpolation_ratio = interpolationRatio(max_value);
+        super(config, 5.12);
     }
 
     @Override
-    public double fitness(double fitness_factor) {
-        if (isSameFitnessFactor(fitness_factor)) {
-            return storedFitness();
-        }
+    protected double calculateFitnessFromIntegers(long[] integer_values) {
         /**
          * http://www.sfu.ca/~ssurjano/sumsqu.html
          *
@@ -42,18 +32,12 @@ public class SumSquaresGenes extends InvertedBitSetGenes {
          f(x) = 0, at x = (0,...,0)
 
          */
-        long[] integer_values = genes.toLongArray();
         double fitness = 0;
 
         for(int i = 0; i < integer_values.length; i++){
-            double x = interpolate(i, integer_values);
+            double x = interpolate(integer_values[i]);
             fitness += i * Math.pow(x, 2);
         }
-
-        return storeScaledInvertedFitness(fitness_factor, fitness);
-    }
-
-    private double interpolate(int i, long[] integer_values){
-        return interpolation_ratio * integer_values[i];
+        return fitness;
     }
 }

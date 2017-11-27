@@ -15,5 +15,6 @@ public enum Function {
     SumOfPowers,
     SumSquares,
     Undefined,
-    Sphere;
+    Sphere,
+    Ackleys;
 }

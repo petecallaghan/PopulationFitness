@@ -134,16 +134,6 @@ public abstract class BitSetGenes implements Genes {
         return (abs(fitness_factor - stored_fitness_factor) < 0.000001);
     }
 
-    /**
-     * Calculates the maximum value given the bit count
-     *
-     * @param bitCount
-     * @return
-     */
-    protected static long maxForBits(long bitCount){
-        return Math.min(Long.MAX_VALUE, (long)Math.pow(2, bitCount)-1);
-    }
-
     public void inheritFrom(Genes mother, Genes father) {
         inherit((BitSetGenes)mother, (BitSetGenes)father);
     }

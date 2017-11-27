@@ -1,27 +1,17 @@
 package uk.edu.populationfitness.models.genes.valley;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
 
-public class RosenbrockGenes extends InvertedBitSetGenes {
-
-    private double interpolation_ratio;
-
-    private double interpolationRatio(long max_value){
-        return 2.048 / max_value;
-    }
-
+public class RosenbrockGenes extends CachingInterpolatingBitSetGenes {
     public RosenbrockGenes(Config config) {
-        super(config);
-        long max_value = maxForBits(size_of_genes);
-        interpolation_ratio = interpolationRatio(max_value);
+        super(config, 2.048);
     }
 
     @Override
-    public double fitness(double fitness_factor) {
-        if (isSameFitnessFactor(fitness_factor)) {
-            return storedFitness();
-        }
+    protected double calculateFitnessFromIntegers(long[] integer_values) {
         /**
          * http://www.sfu.ca/~ssurjano/rosen.html
          *
@@ -44,19 +34,13 @@ public class RosenbrockGenes extends InvertedBitSetGenes {
          f(x) = 0, at x = (1,...,1)
 
          */
-        long[] integer_values = genes.toLongArray();
         double fitness = 0;
 
         for(int i = 0; i < integer_values.length - 1; i++){
-            double x = interpolate(i, integer_values);
-            double xplus1 = interpolate(i+1, integer_values);
+            double x = interpolate(integer_values[i]);
+            double xplus1 = interpolate(integer_values[i+1]);
             fitness += ( 100.0 * ( Math.pow( xplus1 - Math.pow(x, 2), 2) + Math.pow(x - 1, 2)) );
         }
-
-        return storeScaledInvertedFitness(fitness_factor, fitness);
-    }
-
-    private double interpolate(int i, long[] integer_values){
-        return interpolation_ratio * integer_values[i];
+        return fitness;
     }
 }
