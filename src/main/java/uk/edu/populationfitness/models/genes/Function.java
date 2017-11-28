@@ -17,5 +17,6 @@ public enum Function {
     Undefined,
     Sphere,
     Ackleys,
-    Alpine;
+    Alpine,
+    Brown;
 }

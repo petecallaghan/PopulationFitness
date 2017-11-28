@@ -103,4 +103,8 @@ public class TuneFunctionsTest {
     @Test public void testTuneAlpine() throws IOException {
         tune(Function.Alpine, new FitnessRange(), 100, 10, 0.001, 5, 0.00000001, 25);
     }
+
+    @Test public void testTuneBrown() throws IOException {
+        tune(Function.Brown, new FitnessRange(), 100, 10, 0.001, 5, 0.00000001, 15);
+    }
 }

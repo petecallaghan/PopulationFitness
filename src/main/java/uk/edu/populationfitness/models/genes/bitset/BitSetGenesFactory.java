@@ -7,6 +7,7 @@ import uk.edu.populationfitness.models.genes.sinpi.SinPiAvgGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiLinearGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
+import uk.edu.populationfitness.models.genes.sphere.BrownGenes;
 import uk.edu.populationfitness.models.genes.sphere.SphereGenes;
 import uk.edu.populationfitness.models.genes.sphere.SumOfPowersGenes;
 import uk.edu.populationfitness.models.genes.sphere.SumSquaresGenes;
@@ -52,6 +53,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new AckleysGenes(config);
             case Alpine:
                 return new AlpineGenes(config);
+            case Brown:
+                return new BrownGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);
