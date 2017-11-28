@@ -18,5 +18,6 @@ public enum Function {
     Sphere,
     Ackleys,
     Alpine,
-    Brown;
+    Brown,
+    ChungReynolds;
 }

@@ -193,4 +193,8 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverBrown() {
         DiscoverFunctionRange(Function.Brown, 1000, 10, new FitnessRange());
     }
+
+    @Test public void testDiscoverChungReynolds() {
+        DiscoverFunctionRange(Function.ChungReynolds, 1000, 10, new FitnessRange());
+    }
 }
