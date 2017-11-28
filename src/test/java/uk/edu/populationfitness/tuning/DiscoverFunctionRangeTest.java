@@ -217,4 +217,8 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverSalomon() {
         DiscoverFunctionRange(Function.Salomon, 1000, 10, new FitnessRange(), 4000);
     }
+
+    @Test public void testDiscoverSchumerSteiglitz() {
+        DiscoverFunctionRange(Function.SchumerSteiglitz, 1000, 10, new FitnessRange(), 4000);
+    }
 }

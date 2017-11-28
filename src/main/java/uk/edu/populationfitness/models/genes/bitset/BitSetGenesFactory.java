@@ -65,6 +65,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new QingGenes(config);
             case Salomon:
                 return new SalomonGenes(config);
+            case SchumerSteiglitz:
+                return new SchumerSteiglitzGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);

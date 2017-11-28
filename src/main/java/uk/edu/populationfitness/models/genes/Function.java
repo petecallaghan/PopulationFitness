@@ -24,5 +24,6 @@ public enum Function {
     Exponential,
     Griewank,
     Qing,
-    Salomon;
+    Salomon,
+    SchumerSteiglitz;
 }

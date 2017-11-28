@@ -143,4 +143,8 @@ public class TuneFunctionsTest {
     @Test public void testTuneSalomon() throws IOException {
         tune(Function.Salomon, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
     }
+
+    @Test public void testTuneSchumerSteiglitz() throws IOException {
+        tune(Function.SchumerSteiglitz, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
+    }
 }
