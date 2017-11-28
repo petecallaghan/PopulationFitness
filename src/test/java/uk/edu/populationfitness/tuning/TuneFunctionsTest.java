@@ -111,4 +111,8 @@ public class TuneFunctionsTest {
     @Test public void testTuneChungReynolds() throws IOException {
         tune(Function.ChungReynolds, new FitnessRange(), 100, 10, 0.001, 8, 0.00000001, 15);
     }
+
+    @Test public void testTuneDixonPrice() throws IOException {
+        tune(Function.DixonPrice, new FitnessRange(), 100, 10, 0.001, 8, 0.00000001, 20);
+    }
 }

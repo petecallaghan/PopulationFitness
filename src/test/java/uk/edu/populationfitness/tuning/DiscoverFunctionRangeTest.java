@@ -197,4 +197,8 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverChungReynolds() {
         DiscoverFunctionRange(Function.ChungReynolds, 1000, 10, new FitnessRange());
     }
+
+    @Test public void testDiscoverDixonPrice() {
+        DiscoverFunctionRange(Function.DixonPrice, 1000, 10, new FitnessRange());
+    }
 }

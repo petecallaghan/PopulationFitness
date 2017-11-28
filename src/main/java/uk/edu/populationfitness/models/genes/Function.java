@@ -19,5 +19,6 @@ public enum Function {
     Ackleys,
     Alpine,
     Brown,
-    ChungReynolds;
+    ChungReynolds,
+    DixonPrice;
 }
