@@ -213,4 +213,8 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverQing() {
         DiscoverFunctionRange(Function.Qing, 1000, 10, new FitnessRange(), 4000);
     }
+
+    @Test public void testDiscoverSalomon() {
+        DiscoverFunctionRange(Function.Salomon, 1000, 10, new FitnessRange(), 4000);
+    }
 }

@@ -89,7 +89,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRosenbrock20000() throws IOException {
-        tune(Function.Rosenbrock, new FitnessRange(), 20000, 2250, 0.001, 20, 0.0001, 30, 200);
+        tune(Function.Rosenbrock, new FitnessRange(), 20000, 2250, 0.001, 20, 0.0001, 30, 400);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
@@ -138,5 +138,9 @@ public class TuneFunctionsTest {
 
     @Test public void testTuneQing() throws IOException {
         tune(Function.Qing, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
+    }
+
+    @Test public void testTuneSalomon() throws IOException {
+        tune(Function.Salomon, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
     }
 }

@@ -63,6 +63,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new GriewankGenes(config);
             case Qing:
                 return new QingGenes(config);
+            case Salomon:
+                return new SalomonGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);

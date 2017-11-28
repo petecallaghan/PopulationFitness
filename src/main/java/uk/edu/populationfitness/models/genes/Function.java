@@ -23,5 +23,6 @@ public enum Function {
     DixonPrice,
     Exponential,
     Griewank,
-    Qing;
+    Qing,
+    Salomon;
 }
