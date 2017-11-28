@@ -99,39 +99,39 @@ public class DiscoverFunctionRangeTest {
     }
 
     @Test public void testDiscoverSphere10() {
-        DiscoverFunctionRange(Function.Sphere, 10, 10, new FitnessRange().min(0).max(27), 4000);
+        DiscoverFunctionRange(Function.Sphere, 10, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverSphere100() {
-        DiscoverFunctionRange(Function.Sphere, 100, 10, new FitnessRange().min(0).max(279), 4000);
+        DiscoverFunctionRange(Function.Sphere, 100, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverSphere1000() {
-        DiscoverFunctionRange(Function.Sphere, 1000, 10, new FitnessRange().min(0).max(1747), 4000);
+        DiscoverFunctionRange(Function.Sphere, 1000, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverSphere10000() {
-        DiscoverFunctionRange(Function.Sphere, 10000, 2250, new FitnessRange().min(0).max(15050), 10);
+        DiscoverFunctionRange(Function.Sphere, 10000, 2250, new FitnessRange(), 10);
     }
 
     @Test public void testDiscoverSphere20000() {
-        DiscoverFunctionRange(Function.Sphere, 20000, 2250, new FitnessRange().min(0).max(29363), 10);
+        DiscoverFunctionRange(Function.Sphere, 20000, 2250, new FitnessRange(), 10);
     }
 
     @Test public void testDiscoverStyblinksiTang10() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 10, 10, new FitnessRange().min(-39.2).max(125), 4000);
+        DiscoverFunctionRange(Function.StyblinksiTang, 10, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverStyblinksiTang100() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 100, 10, new FitnessRange().min(-433).max(764), 4000);
+        DiscoverFunctionRange(Function.StyblinksiTang, 100, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverStyblinksiTang1000() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 1000, 10, new FitnessRange().min(-2087).max(1206), 4000);
+        DiscoverFunctionRange(Function.StyblinksiTang, 1000, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverStyblinksiTang20000() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 20000, 2250, new FitnessRange().min(-20757).max(125), 10);
+        DiscoverFunctionRange(Function.StyblinksiTang, 20000, 2250, new FitnessRange(), 10);
     }
 
     @Test public void testDiscoverSchwefel22610() {

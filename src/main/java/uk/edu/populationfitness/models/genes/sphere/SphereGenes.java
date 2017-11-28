@@ -4,10 +4,16 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
-public class SphereGenes extends CachingInterpolatingBitSetGenes {
+public class SphereGenes extends NormalizingBitSetGenes {
     public SphereGenes(Config config) {
         super(config, 5.12);
+    }
+
+    @Override
+    protected double calculateNormalizationRatio(int n) {
+        return 5.12 * 5.12 * n;
     }
 
     @Override

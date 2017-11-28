@@ -61,23 +61,23 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSphere() throws IOException {
-        tune(Function.Sphere, new FitnessRange().min(0).max(420), 100, 10, 0.005, 5, 0.00001, 10, NoReduction);
+        tune(Function.Sphere, new FitnessRange(), 100, 10, 0.005, 5, 0.00001, 20, NoReduction);
     }
 
     @Test public void testDiscoverSphere10000() throws IOException {
-        tune(Function.Sphere, new FitnessRange().min(0).max(15050), 10000, 2250, 0.001, 2, 0.000001, 80, 100);
+        tune(Function.Sphere, new FitnessRange(), 10000, 2250, 0.001, 2, 0.000001, 80, 100);
     }
 
     @Test public void testDiscoverSphere20000() throws IOException {
-        tune(Function.Sphere, new FitnessRange().min(0).max(29363), 20000, 2250, 0.00001, 2, 0.00000001, 80, 200);
+        tune(Function.Sphere, new FitnessRange(), 20000, 2250, 0.00001, 2, 0.00000001, 80, 200);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
-        tune(Function.StyblinksiTang, new FitnessRange().min(-2500).max(800), 100, 10, 0.005, 20, 0.00000001, 20, NoReduction);
+        tune(Function.StyblinksiTang, new FitnessRange(), 100, 10, 0.005, 4, 0.00000001, 30, NoReduction);
     }
 
     @Test public void testTuneStyblinksiTang20000() throws IOException {
-        tune(Function.StyblinksiTang, new FitnessRange().min(-20757).max(125), 20000, 2250, 0.05, 20, 0.0001, 30, 200);
+        tune(Function.StyblinksiTang, new FitnessRange(), 20000, 2250, 0.05, 4, 0.0001, 30, 200);
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {

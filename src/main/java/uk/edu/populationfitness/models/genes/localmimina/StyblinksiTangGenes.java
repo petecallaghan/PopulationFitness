@@ -4,11 +4,17 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
-public class StyblinksiTangGenes extends CachingInterpolatingBitSetGenes {
+public class StyblinksiTangGenes extends NormalizingBitSetGenes {
 
     public StyblinksiTangGenes(Config config) {
         super(config, 5.0);
+    }
+
+    @Override
+    protected double calculateNormalizationRatio(int n) {
+        return 85.834 * n;
     }
 
     @Override
@@ -26,7 +32,7 @@ public class StyblinksiTangGenes extends CachingInterpolatingBitSetGenes {
 
          f(x) = -39.16599d at x = (-2.903534,...-2.903534)
          */
-        double fitness = 0;
+        double fitness = 39.166 * integer_values.length;
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
