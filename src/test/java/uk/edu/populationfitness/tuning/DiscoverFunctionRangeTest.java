@@ -205,4 +205,8 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverExponential() {
         DiscoverFunctionRange(Function.Exponential, 1000, 10, new FitnessRange());
     }
+
+    @Test public void testDiscoverGriewank() {
+        DiscoverFunctionRange(Function.Griewank, 1000, 10, new FitnessRange());
+    }
 }

@@ -59,6 +59,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new DixonPriceGenes(config);
             case Exponential:
                 return new ExponentialGenes(config);
+            case Griewank:
+                return new GriewankGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);

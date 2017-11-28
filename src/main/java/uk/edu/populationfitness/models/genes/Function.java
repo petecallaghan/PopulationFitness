@@ -21,5 +21,6 @@ public enum Function {
     Brown,
     ChungReynolds,
     DixonPrice,
-    Exponential;
+    Exponential,
+    Griewank;
 }
