@@ -20,5 +20,6 @@ public enum Function {
     Alpine,
     Brown,
     ChungReynolds,
-    DixonPrice;
+    DixonPrice,
+    Exponential;
 }

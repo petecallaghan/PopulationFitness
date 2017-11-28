@@ -32,3 +32,5 @@ public class BrownGenes extends NormalizingBitSetGenes {
         return fitness;
     }
 }
+
+
