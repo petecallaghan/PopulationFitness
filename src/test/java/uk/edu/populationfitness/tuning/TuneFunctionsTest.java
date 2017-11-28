@@ -80,8 +80,8 @@ public class TuneFunctionsTest {
         tune(Function.StyblinksiTang, new FitnessRange().min(-20757).max(125), 20000, 2250, 0.05, 20, 0.0001, 30, 200);
     }
 
-    @Test public void  testTuneSchwefel() throws IOException {
-        tune(Function.Schwefel, new FitnessRange().min(0).max(10000.0), 100, 10, 0.001, 20, 0.00000001, 30, NoReduction);
+    @Test public void  testTuneSchwefel226() throws IOException {
+        tune(Function.Schwefel226, new FitnessRange(), 100, 10, 0.001, 20, 0.00000001, 30, NoReduction);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
@@ -146,5 +146,9 @@ public class TuneFunctionsTest {
 
     @Test public void testTuneSchumerSteiglitz() throws IOException {
         tune(Function.SchumerSteiglitz, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
+    }
+
+    @Test public void testTuneSchwefel220() throws IOException {
+        tune(Function.Schwefel220, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
     }
 }

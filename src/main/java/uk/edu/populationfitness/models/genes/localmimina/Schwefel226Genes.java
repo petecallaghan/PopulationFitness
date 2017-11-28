@@ -4,11 +4,19 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
-public class SchwefelGenes extends CachingInterpolatingBitSetGenes {
+public class Schwefel226Genes extends NormalizingBitSetGenes {
 
-    public SchwefelGenes(Config config) {
+    public static final double SchwefelConstant = 418.982;
+
+    public Schwefel226Genes(Config config) {
         super(config, 500.0);
+    }
+
+    @Override
+    protected double calculateNormalizationRatio(int n) {
+        return 2.0 * SchwefelConstant * n;
     }
 
     @Override
@@ -20,7 +28,7 @@ public class SchwefelGenes extends CachingInterpolatingBitSetGenes {
          *
          * Dimensions: d
 
-         The Schwefel function is complex, with many local minima. The plot shows the two-dimensional form of the function.
+         The Schwefel226 function is complex, with many local minima. The plot shows the two-dimensional form of the function.
 
          Input Domain:
 
@@ -31,7 +39,7 @@ public class SchwefelGenes extends CachingInterpolatingBitSetGenes {
          f(x) = 0, at x = (420.9687,...,420.9687)
 
          */
-        double fitness = 418.9829 * integer_values.length;
+        double fitness = SchwefelConstant * integer_values.length;
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);

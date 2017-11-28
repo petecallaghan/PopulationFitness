@@ -2,6 +2,7 @@ package uk.edu.populationfitness.models.genes.bitset;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
+import uk.edu.populationfitness.models.genes.Ridge.Schwefel220Genes;
 import uk.edu.populationfitness.models.genes.localmimina.*;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiAvgGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiGenes;
@@ -11,7 +12,6 @@ import uk.edu.populationfitness.models.genes.sphere.*;
 import uk.edu.populationfitness.models.genes.valley.DixonPriceGenes;
 import uk.edu.populationfitness.models.genes.valley.RosenbrockGenes;
 
-import static uk.edu.populationfitness.models.genes.Function.SinPiOver2;
 import static uk.edu.populationfitness.models.genes.Function.Undefined;
 
 /**
@@ -39,8 +39,10 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new SphereGenes(config);
             case StyblinksiTang:
                 return new StyblinksiTangGenes(config);
-            case Schwefel:
-                return new SchwefelGenes(config);
+            case Schwefel226:
+                return new Schwefel226Genes(config);
+            case Schwefel220:
+                return new Schwefel220Genes(config);
             case Rosenbrock:
                 return new RosenbrockGenes(config);
             case SumOfPowers:

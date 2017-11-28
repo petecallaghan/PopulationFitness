@@ -134,16 +134,16 @@ public class DiscoverFunctionRangeTest {
         DiscoverFunctionRange(Function.StyblinksiTang, 20000, 2250, new FitnessRange().min(-20757).max(125), 10);
     }
 
-    @Test public void testDiscoverSchwefel10() {
-        DiscoverFunctionRange(Function.Schwefel, 10, 10, new FitnessRange().min(0).max(1257), 4000);
+    @Test public void testDiscoverSchwefel22610() {
+        DiscoverFunctionRange(Function.Schwefel226, 10, 10, new FitnessRange(), 4000);
     }
 
-    @Test public void testDiscoverSchwefel100() {
-        DiscoverFunctionRange(Function.Schwefel, 100, 10, new FitnessRange().min(0).max(9641.1), 4000);
+    @Test public void testDiscoverSchwefel226100() {
+        DiscoverFunctionRange(Function.Schwefel226, 100, 10, new FitnessRange(), 4000);
     }
 
-    @Test public void testDiscoverSchwefel1000() {
-        DiscoverFunctionRange(Function.Schwefel, 1000, 10, new FitnessRange().min(0).max(75960), 4000);
+    @Test public void testDiscoverSchwefel2261000() {
+        DiscoverFunctionRange(Function.Schwefel226, 1000, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverRosenbrock100() {
@@ -220,5 +220,9 @@ public class DiscoverFunctionRangeTest {
 
     @Test public void testDiscoverSchumerSteiglitz() {
         DiscoverFunctionRange(Function.SchumerSteiglitz, 1000, 10, new FitnessRange(), 4000);
+    }
+
+    @Test public void testDiscoverSchwefel220() {
+        DiscoverFunctionRange(Function.Schwefel220, 1000, 10, new FitnessRange(), 4000);
     }
 }

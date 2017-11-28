@@ -10,7 +10,7 @@ public class GriewankGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return n < 1 ? 1.0 : 900.0 * n - n * Math.cos(600.0 / n) + 1.0;
+        return 900.0 * n + 2.0;
     }
 
     @Override
