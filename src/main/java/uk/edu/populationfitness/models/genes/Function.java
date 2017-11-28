@@ -22,5 +22,6 @@ public enum Function {
     ChungReynolds,
     DixonPrice,
     Exponential,
-    Griewank;
+    Griewank,
+    Qing;
 }

@@ -123,4 +123,8 @@ public class TuneFunctionsTest {
     @Test public void testTuneGriewank() throws IOException {
         tune(Function.Griewank, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 15);
     }
+
+    @Test public void testTuneQing() throws IOException {
+        tune(Function.Qing, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30);
+    }
 }
