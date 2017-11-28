@@ -175,11 +175,11 @@ public class DiscoverFunctionRangeTest {
     }
 
     @Test public void testDiscoverSumSquares100() {
-        DiscoverFunctionRange(Function.SumSquares, 100, 10, new FitnessRange().min(0).max(2139.4), 4000);
+        DiscoverFunctionRange(Function.SumSquares, 100, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverSumSquares1000() {
-        DiscoverFunctionRange(Function.SumSquares, 1000, 10, new FitnessRange().min(0).max(144056), 4000);
+        DiscoverFunctionRange(Function.SumSquares, 1000, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverAckleys() {

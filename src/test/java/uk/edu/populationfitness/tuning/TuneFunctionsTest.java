@@ -105,7 +105,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, new FitnessRange().min(0).max(2140), 100, 10, 0.001, 2, 0.00000001, 15, NoReduction);
+        tune(Function.SumSquares, new FitnessRange(), 100, 10, 0.001, 2, 0.00000001, 15, NoReduction);
     }
 
     @Test public void testTuneAckleys() throws IOException {
