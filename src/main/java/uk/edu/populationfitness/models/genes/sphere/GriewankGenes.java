@@ -2,7 +2,6 @@ package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
-import org.apache.commons.math3.util.CombinatoricsUtils;
 
 public class GriewankGenes extends NormalizingBitSetGenes {
     public GriewankGenes(Config config) {

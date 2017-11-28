@@ -112,4 +112,17 @@ public class Epoch {
     public double averageCapacityFactor(){
         return this.total_capacity_factor / (this.end_year - this.start_year + 1);
     }
+
+    /**
+     * Reduces the populations by the ratio
+     *
+     * P' = P/ratio
+     *
+     * @param ratio
+     */
+    public Epoch reducePopulation(int ratio){
+        this.expected_max_population = this.expected_max_population / ratio;
+        this.environment_capacity = this.environment_capacity / ratio;
+        return this;
+    }
 }

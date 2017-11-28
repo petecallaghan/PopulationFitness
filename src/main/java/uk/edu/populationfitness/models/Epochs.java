@@ -54,6 +54,19 @@ public class Epochs {
         return epochs.get(0);
     }
 
+    /**
+     * Reduces the populations for all epochs by the same ratio
+     *
+     * P' = P/ratio
+     *
+     * @param ratio
+     */
+    public void reducePopulation(int ratio){
+        for(Epoch epoch: epochs){
+            epoch.reducePopulation(ratio);
+        }
+    }
+
     public void printFitnessFactors(){
         for(Epoch epoch: epochs){
             System.out.print("Epoch ");

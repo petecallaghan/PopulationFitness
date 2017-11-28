@@ -30,7 +30,7 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1280).kill(historic_kill).capacity(5700));
         epochs.addNextEpoch(new Epoch(config, 1291).kill(historic_kill).capacity(5600));
         epochs.addNextEpoch(new Epoch(config, 1316).kill(historic_kill).capacity(5000)); // Great Famine of 1315–1317
-        epochs.addNextEpoch(new Epoch(config, 1326  ).kill(historic_kill).capacity(5700));
+        epochs.addNextEpoch(new Epoch(config, 1326).kill(historic_kill).capacity(5700));
         epochs.addNextEpoch(new Epoch(config, 1349).kill(historic_kill).capacity(3000).disease(true)); // Black death
         epochs.addNextEpoch(new Epoch(config, 1352).kill(historic_kill).capacity(3000));
         epochs.addNextEpoch(new Epoch(config, 1378).kill(historic_kill).capacity(2500));
