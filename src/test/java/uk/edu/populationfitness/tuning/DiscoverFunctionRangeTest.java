@@ -147,15 +147,15 @@ public class DiscoverFunctionRangeTest {
     }
 
     @Test public void testDiscoverRosenbrock100() {
-        DiscoverFunctionRange(Function.Rosenbrock, 100, 10, new FitnessRange().min(0).max(31860));
+        DiscoverFunctionRange(Function.Rosenbrock, 100, 10, new FitnessRange());
     }
 
     @Test public void testDiscoverRosenbrock20000() {
-        //DiscoverFunctionRange(Function.Rosenbrock, 20000, 2250, new FitnessRange().min(0).max(2497303));
+        //DiscoverFunctionRange(Function.Rosenbrock, 20000, 2250, new FitnessRange());
     }
 
     @Test public void testDiscoverRosenbrock1000() {
-        DiscoverFunctionRange(Function.Rosenbrock, 1000, 10, new FitnessRange().min(0).max(171512));
+        DiscoverFunctionRange(Function.Rosenbrock, 1000, 10, new FitnessRange());
     }
 
     @Test public void testDiscoverSumOfPowers100() {

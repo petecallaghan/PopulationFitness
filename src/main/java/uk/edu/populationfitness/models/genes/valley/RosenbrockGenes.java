@@ -4,10 +4,17 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
-public class RosenbrockGenes extends CachingInterpolatingBitSetGenes {
+public class RosenbrockGenes extends NormalizingBitSetGenes {
+
     public RosenbrockGenes(Config config) {
-        super(config, 2.048);
+        super(config, 10.0);
+    }
+
+    @Override
+    protected double calculateNormalizationRatio(int n) {
+        return 1222100 * (n - 1);
     }
 
     @Override

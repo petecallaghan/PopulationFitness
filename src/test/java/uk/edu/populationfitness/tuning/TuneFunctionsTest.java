@@ -41,7 +41,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, new FitnessRange().min(0).max(11500), 100, 10, 5, 45, 0.000001, 30);
+        tune(Function.Rastrigin, new FitnessRange().min(0).max(11500), 100, 10, 0.0, 2.0, 0.000001, 30);
     }
 
     @Test public void testTuneRastrigin20000() throws IOException {
@@ -73,7 +73,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, new FitnessRange().min(0).max(31860), 100, 10, 0.001, 20, 0.00000001, 10);
+        tune(Function.Rosenbrock, new FitnessRange(), 100, 10, 0.001, 20, 0.00000001, 10);
     }
 
     @Test public void testTuneRosenbrock20000() throws IOException {
