@@ -4,6 +4,7 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class ChungReynoldsGenes extends NormalizingBitSetGenes {
+
     private static final double TenToThe8th = Math.pow(10.0, 8.0);
 
     public ChungReynoldsGenes(Config config) {
@@ -11,9 +12,12 @@ public class ChungReynoldsGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
-        setNormalizationRatio(TenToThe8th * Math.pow(integer_values.length, 2.0));
+    protected double calculateNormalizationRatio(int n) {
+        return TenToThe8th * Math.pow(n, 2.0);
+    }
 
+    @Override
+    protected double calculateFitnessFromIntegers(long[] integer_values) {
         /**
          * f left (x right ) = {left (sum from {i=1} to {n} {{x} rsub {i} rsup {2}} right )} ^ {2}
          */

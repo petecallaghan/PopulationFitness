@@ -9,9 +9,12 @@ public class BrownGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
-        setNormalizationRatio(2.0 * (integer_values.length - 1));
+    protected double calculateNormalizationRatio(int n) {
+        return 2.0 * (n - 1);
+    }
 
+    @Override
+    protected double calculateFitnessFromIntegers(long[] integer_values) {
         /**
          * f left (x right ) = sum from {i=1} to {n-1} {left [{left ({x} rsub {i} rsup {2} right )} ^ {{x} rsub {i+1} rsup {2} +1} + {left ({x} rsub {i+1} rsup {2} right )} ^ {{x} rsub {i} rsup {2} +1} right ]}
          */

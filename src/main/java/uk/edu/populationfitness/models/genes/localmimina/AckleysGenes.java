@@ -11,15 +11,16 @@ public class AckleysGenes extends NormalizingBitSetGenes {
 
     private static double TwoPi = 2.0 * Math.PI;
 
-    private static double normalization(){
+    public AckleysGenes(Config config) {
+        super(config, 5.0);
+    }
+
+    @Override
+    protected double calculateNormalizationRatio(int n) {
         /**
          * {f left (x right )} over {20 left (1- {e} ^ {-0.2α} right ) +e- {e} ^ {-1}}
          */
         return 20.0 * (1.0 - Math.exp(-0.2 * alpha)) + Math.E - Math.exp(-1.0);
-    }
-
-    public AckleysGenes(Config config) {
-        super(config, 5.0, normalization());
     }
 
     @Override

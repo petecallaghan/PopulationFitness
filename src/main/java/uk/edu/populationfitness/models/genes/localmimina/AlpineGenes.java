@@ -10,8 +10,12 @@ public class AlpineGenes extends NormalizingBitSetGenes {
     }
 
     @Override
+    protected double calculateNormalizationRatio(int n) {
+        return 8.7149 * n;
+    }
+
+    @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        setNormalizationRatio(8.7149 * integer_values.length);
 
         /**
          * f left (x right ) = sum from {i=1} to {n} {left lline {x} rsub {i} sin {left ({x} rsub {i} right ) +0.1 {x} rsub {i}} right rline}

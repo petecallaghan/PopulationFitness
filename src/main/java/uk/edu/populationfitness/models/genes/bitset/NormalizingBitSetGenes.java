@@ -9,19 +9,19 @@ public abstract class NormalizingBitSetGenes extends CachingInterpolatingBitSetG
 
     private double normalizationRatio;
 
-    public NormalizingBitSetGenes(Config config, double maxInterpolatedValue, double normalizationRatio) {
-        super(config, maxInterpolatedValue);
-        this.normalizationRatio = normalizationRatio;
-    }
+    private boolean isNormalisationRatioSet;
 
     public NormalizingBitSetGenes(Config config, double maxInterpolatedValue) {
         super(config, maxInterpolatedValue);
-        this.normalizationRatio = 0.0;
+        isNormalisationRatioSet = false;
     }
 
-    protected void setNormalizationRatio(double normalizationRatio){
-        this.normalizationRatio = normalizationRatio;
-    }
+    /***
+     * Implement this to define the normalization ratio
+     * @param n
+     * @return the normalization ratio
+     */
+    protected abstract double calculateNormalizationRatio(int n);
 
     @Override
     public double fitness(double fitness_factor) {
@@ -29,6 +29,13 @@ public abstract class NormalizingBitSetGenes extends CachingInterpolatingBitSetG
             return storedFitness();
         }
 
-        return storeScaledFitness(fitness_factor, fitness_factor * (calculateFitnessFromIntegers(genes.toLongArray()) / normalizationRatio));
+        long[] integers = genes.toLongArray();
+
+        if (!isNormalisationRatioSet){
+            normalizationRatio = calculateNormalizationRatio(integers.length);
+            isNormalisationRatioSet = true;
+        }
+
+        return storeScaledFitness(fitness_factor, fitness_factor * (calculateFitnessFromIntegers(integers) / normalizationRatio));
     }
 }
