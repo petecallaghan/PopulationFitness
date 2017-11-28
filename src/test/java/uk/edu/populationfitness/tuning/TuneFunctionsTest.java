@@ -93,15 +93,15 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 100, 10, 0.001, 2, 0.00000001, 10, NoReduction);
+        tune(Function.SumOfPowers, new FitnessRange(), 100, 10, 0.001, 10, 0.00000001, 30, NoReduction);
     }
 
     @Test public void testTuneSumOfPowers1000() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 1000, 10, 0.001, 2, 0.00000001, 10, NoReduction);
+        tune(Function.SumOfPowers, new FitnessRange(), 1000, 10, 0.001, 10, 0.00000001, 30, NoReduction);
     }
 
     @Test public void testTuneSumOfPowers10000() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange().min(0).max(17), 10000, 10, 0.001, 2, 0.00000001, 20, 100);
+        tune(Function.SumOfPowers, new FitnessRange(), 10000, 10, 0.001, 10, 0.00000001, 30, 100);
     }
 
     @Test public void testTuneSumSquares() throws IOException {

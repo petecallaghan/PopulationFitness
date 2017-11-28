@@ -4,10 +4,16 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
-public class SumOfPowersGenes extends CachingInterpolatingBitSetGenes {
+public class SumOfPowersGenes extends NormalizingBitSetGenes {
     public SumOfPowersGenes(Config config) {
         super(config, 1.0);
+    }
+
+    @Override
+    protected double calculateNormalizationRatio(int n) {
+        return 1.0;
     }
 
     @Override
@@ -34,7 +40,7 @@ public class SumOfPowersGenes extends CachingInterpolatingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += Math.pow(Math.abs(x), i + 1);
+            fitness += Math.pow(Math.abs(x), i + 2);
         }
         return fitness;
     }

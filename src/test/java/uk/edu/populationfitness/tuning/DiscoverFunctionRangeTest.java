@@ -159,19 +159,19 @@ public class DiscoverFunctionRangeTest {
     }
 
     @Test public void testDiscoverSumOfPowers100() {
-        DiscoverFunctionRange(Function.SumOfPowers, 100, 10, new FitnessRange().min(0).max(8), 4000);
+        DiscoverFunctionRange(Function.SumOfPowers, 100, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverSumOfPowers1000() {
-        DiscoverFunctionRange(Function.SumOfPowers, 1000, 10, new FitnessRange().min(0).max(12), 4000);
+        DiscoverFunctionRange(Function.SumOfPowers, 1000, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverSumOfPowers10000() {
-        DiscoverFunctionRange(Function.SumOfPowers, 10000, 10, new FitnessRange().min(0).max(18), 4000);
+        DiscoverFunctionRange(Function.SumOfPowers, 10000, 10, new FitnessRange(), 4000);
     }
 
     @Test public void testDiscoverSumOfPowers100000() {
-        DiscoverFunctionRange(Function.SumOfPowers, 100000, 10, new FitnessRange().min(0).max(20.4), 400);
+        DiscoverFunctionRange(Function.SumOfPowers, 100000, 10, new FitnessRange(), 400);
     }
 
     @Test public void testDiscoverSumSquares100() {
