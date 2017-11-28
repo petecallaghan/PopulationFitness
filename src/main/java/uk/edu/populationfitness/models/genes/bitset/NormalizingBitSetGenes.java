@@ -7,10 +7,19 @@ import uk.edu.populationfitness.models.Config;
  */
 public abstract class NormalizingBitSetGenes extends CachingInterpolatingBitSetGenes {
 
-    private final double normalizationRatio;
+    private double normalizationRatio;
 
     public NormalizingBitSetGenes(Config config, double maxInterpolatedValue, double normalizationRatio) {
         super(config, maxInterpolatedValue);
+        this.normalizationRatio = normalizationRatio;
+    }
+
+    public NormalizingBitSetGenes(Config config, double maxInterpolatedValue) {
+        super(config, maxInterpolatedValue);
+        this.normalizationRatio = 0.0;
+    }
+
+    protected void setNormalizationRatio(double normalizationRatio){
         this.normalizationRatio = normalizationRatio;
     }
 

@@ -2,10 +2,7 @@ package uk.edu.populationfitness.models.genes.bitset;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
-import uk.edu.populationfitness.models.genes.localmimina.AckleysGenes;
-import uk.edu.populationfitness.models.genes.localmimina.RastriginGenes;
-import uk.edu.populationfitness.models.genes.localmimina.SchwefelGenes;
-import uk.edu.populationfitness.models.genes.localmimina.StyblinksiTangGenes;
+import uk.edu.populationfitness.models.genes.localmimina.*;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiAvgGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiGenes;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiLinearGenes;
@@ -53,6 +50,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new SumSquaresGenes(config);
             case Ackleys:
                 return new AckleysGenes(config);
+            case Alpine:
+                return new AlpineGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);

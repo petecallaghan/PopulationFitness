@@ -185,4 +185,8 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverAckleys() {
         DiscoverFunctionRange(Function.Ackleys, 1000, 10, new FitnessRange());
     }
+
+    @Test public void testDiscoverAlpine() {
+        DiscoverFunctionRange(Function.Alpine, 1000, 10, new FitnessRange());
+    }
 }
