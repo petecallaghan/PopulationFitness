@@ -1,9 +1,8 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.fastmaths.CosSineCache;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 import static java.lang.Math.abs;
@@ -38,7 +37,7 @@ public class RastriginGenes extends NormalizingBitSetGenes {
     private double getRastriginFitnessUsingCos(double fitness, long[] integer_values) {
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += Math.pow(x, 2.0) - RastriginTermA * Math.cos(TwoPi * x);
+            fitness += FastMaths.pow(x, 2) - RastriginTermA * CosSineCache.cos(TwoPi * x);
         }
         return fitness;
     }

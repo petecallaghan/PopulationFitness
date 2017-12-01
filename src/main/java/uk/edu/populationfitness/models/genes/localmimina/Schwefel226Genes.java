@@ -1,10 +1,8 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
+import uk.edu.populationfitness.models.fastmaths.CosSineCache;
+import uk.edu.populationfitness.models.genes.bitset.*;
 
 public class Schwefel226Genes extends NormalizingBitSetGenes {
 
@@ -43,7 +41,7 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness -= (x * Math.sin(Math.sqrt(Math.abs(x))));
+            fitness -= (x * CosSineCache.sin(Math.sqrt(Math.abs(x))));
         }
         return fitness;
     }

@@ -1,9 +1,7 @@
 package uk.edu.populationfitness.models.genes.valley;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class RosenbrockGenes extends NormalizingBitSetGenes {
@@ -46,7 +44,7 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
         for(int i = 0; i < integer_values.length - 1; i++){
             double x = interpolate(integer_values[i]);
             double xplus1 = interpolate(integer_values[i+1]);
-            fitness += ( 100.0 * ( Math.pow( xplus1 - Math.pow(x, 2), 2) + Math.pow(x - 1, 2)) );
+            fitness += ( 100.0 * ( FastMaths.pow( xplus1 - FastMaths.pow(x, 2), 2) + FastMaths.pow(x - 1, 2)) );
         }
         return fitness;
     }

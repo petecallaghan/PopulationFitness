@@ -1,6 +1,8 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.CosSineCache;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class GriewankGenes extends NormalizingBitSetGenes {
@@ -27,8 +29,8 @@ public class GriewankGenes extends NormalizingBitSetGenes {
         for(int i = 1; i < integer_values.length; i++) {
             double x = interpolate(integer_values[i]);
 
-            product *= Math.cos(x / Math.sqrt(1.0 * i));
-            fitness += (Math.pow(x, 2.0) / 400.0);
+            product *= CosSineCache.cos(x / Math.sqrt(1.0 * i));
+            fitness += (FastMaths.pow(x, 2) / 400.0);
         }
         return fitness + product;
     }

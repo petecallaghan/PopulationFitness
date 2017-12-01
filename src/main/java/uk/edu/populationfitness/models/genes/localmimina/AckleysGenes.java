@@ -1,6 +1,8 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.CosSineCache;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class AckleysGenes extends NormalizingBitSetGenes {
@@ -20,7 +22,7 @@ public class AckleysGenes extends NormalizingBitSetGenes {
         /**
          * {f left (x right )} over {20 left (1- {e} ^ {-0.2α} right ) +e- {e} ^ {-1}}
          */
-        return 20.0 * (1.0 - Math.exp(-0.2 * alpha)) + Math.E - Math.exp(-1.0);
+        return 20.0 * (1.0 - FastMaths.exp(-0.2 * alpha)) + Math.E - FastMaths.exp(-1.0);
     }
 
     @Override
@@ -35,12 +37,12 @@ public class AckleysGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            firstSum += Math.pow(x, 2.0);
-            secondSum += Math.cos(TwoPi * x);
+            firstSum += FastMaths.pow(x, 2);
+            secondSum += CosSineCache.cos(TwoPi * x);
         }
 
         double n = integer_values.length;
 
-        return -20.0 * Math.exp(-0.2 * Math.sqrt(firstSum / n)) - Math.exp(secondSum / n) + TwentyPlusE;
+        return -20.0 * FastMaths.exp(-0.2 * Math.sqrt(firstSum / n)) - FastMaths.exp(secondSum / n) + TwentyPlusE;
     }
 }

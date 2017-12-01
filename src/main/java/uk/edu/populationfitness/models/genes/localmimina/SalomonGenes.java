@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.CosSineCache;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SalomonGenes extends NormalizingBitSetGenes {
@@ -14,7 +15,7 @@ public class SalomonGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 1.0 - Math.cos(NormalizationConstant * Math.sqrt(n));
+        return 1.0 - CosSineCache.cos(NormalizationConstant * Math.sqrt(n));
     }
 
     @Override
@@ -32,6 +33,6 @@ public class SalomonGenes extends NormalizingBitSetGenes {
 
         double sqrtSum = Math.sqrt(sum);
 
-        return 1.0 - Math.cos(TwoPi * sqrtSum) + 0.1 * sqrtSum;
+        return 1.0 - CosSineCache.cos(TwoPi * sqrtSum) + 0.1 * sqrtSum;
     }
 }

@@ -1,9 +1,7 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SumSquaresGenes extends NormalizingBitSetGenes {
@@ -47,7 +45,7 @@ public class SumSquaresGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += (i + 1) * Math.pow(x, 2);
+            fitness += (i + 1) * FastMaths.pow(x, 2);
         }
         return fitness;
     }

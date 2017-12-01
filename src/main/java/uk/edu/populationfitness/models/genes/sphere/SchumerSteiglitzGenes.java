@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SchumerSteiglitzGenes extends NormalizingBitSetGenes {
@@ -11,7 +12,7 @@ public class SchumerSteiglitzGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 10000.0 * Math.pow(n, 4.0);
+        return 10000.0 * FastMaths.pow(n, 4);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class SchumerSteiglitzGenes extends NormalizingBitSetGenes {
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
 
-            fitness += Math.pow(x, 4.0);
+            fitness += FastMaths.pow(x, 4);
         }
 
         return fitness;

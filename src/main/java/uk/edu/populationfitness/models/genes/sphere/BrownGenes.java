@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class BrownGenes extends NormalizingBitSetGenes {
@@ -24,8 +25,8 @@ public class BrownGenes extends NormalizingBitSetGenes {
         for(int i = 0; i < integer_values.length - 1; i++){
             double xN = interpolate(integer_values[i]);
             double xNPlus1 = interpolate(integer_values[i+1]);
-            double xNSquared = Math.pow(xN, 2.0);
-            double xNPlus1Squared = Math.pow(xNPlus1, 2.0);
+            double xNSquared = FastMaths.pow(xN, 2);
+            double xNPlus1Squared = FastMaths.pow(xNPlus1, 2);
             fitness += Math.pow(xNSquared, xNPlus1Squared + 1.0) + Math.pow(xNPlus1Squared, xNSquared + 1.0);
         }
 

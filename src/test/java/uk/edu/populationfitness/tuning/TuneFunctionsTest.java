@@ -88,7 +88,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRosenbrock20000() throws IOException {
-        tune(Function.Rosenbrock, 20000, 2250, 20, 30, 150, Mutations);
+        tune(Function.Rosenbrock, 20000, 2250, 20, 25, 150, Mutations);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
@@ -112,7 +112,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneAlpine() throws IOException {
-        tune(Function.Alpine, 100, 10, 5, 20, NoReduction, Mutations);
+        tune(Function.Alpine, 100, 10, 10, 20, NoReduction, Mutations);
     }
 
     @Test public void testTuneBrown() throws IOException {

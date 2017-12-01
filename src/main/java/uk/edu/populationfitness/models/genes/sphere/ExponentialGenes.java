@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class ExponentialGenes extends NormalizingBitSetGenes {
@@ -11,7 +12,7 @@ public class ExponentialGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 1.0 - Math.exp(-0.5 * n);
+        return 1.0 - FastMaths.exp(-0.5 * n);
     }
 
     @Override
@@ -25,9 +26,9 @@ public class ExponentialGenes extends NormalizingBitSetGenes {
         for(int i = 1; i < integer_values.length; i++) {
             double x = interpolate(integer_values[i]);
 
-            fitness += Math.pow(x, 2.0);
+            fitness += FastMaths.pow(x, 2);
         }
 
-        return 1.0 - Math.exp(-0.5 * fitness);
+        return 1.0 - FastMaths.exp(-0.5 * fitness);
     }
 }

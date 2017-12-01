@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.CosSineCache;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class AlpineGenes extends NormalizingBitSetGenes {
@@ -25,7 +26,7 @@ public class AlpineGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += Math.abs(x * Math.sin(x) + 0.1 * x);
+            fitness += Math.abs(x * CosSineCache.sin(x) + 0.1 * x);
         }
 
         return fitness;

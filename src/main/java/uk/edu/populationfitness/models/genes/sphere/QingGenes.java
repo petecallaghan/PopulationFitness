@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class QingGenes extends NormalizingBitSetGenes {
@@ -13,7 +14,7 @@ public class QingGenes extends NormalizingBitSetGenes {
     protected double calculateNormalizationRatio(int n) {
         double ratio = 0.0;
         for(int i = 1; i <= n; i++){
-            ratio +=Math.pow(250000.0  - i, 2.0);
+            ratio += FastMaths.pow(250000.0  - i, 2);
         }
         return n > 0 ? ratio : 1.0;
     }
@@ -29,7 +30,7 @@ public class QingGenes extends NormalizingBitSetGenes {
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
 
-            fitness += Math.pow(Math.pow(x, 2.0) - (i + 1), 2.0);
+            fitness += FastMaths.pow(FastMaths.pow(x, 2) - (i + 1), 2);
         }
         return fitness;
     }

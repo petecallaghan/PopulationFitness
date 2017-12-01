@@ -1,9 +1,7 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.bitset.CachingInterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.InvertedBitSetGenes;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class StyblinksiTangGenes extends NormalizingBitSetGenes {
@@ -36,7 +34,7 @@ public class StyblinksiTangGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += (Math.pow(x, 4) - 16 * Math.pow(x, 2) + 5 * x);
+            fitness += (FastMaths.pow(x, 4) - 16 * FastMaths.pow(x, 2) + 5 * x);
         }
 
         return fitness / 2;

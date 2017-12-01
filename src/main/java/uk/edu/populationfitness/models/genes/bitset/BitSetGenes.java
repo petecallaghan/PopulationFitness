@@ -170,4 +170,5 @@ public abstract class BitSetGenes implements Genes {
     public Genes getImplementation() {
         return this;
     }
+
 }

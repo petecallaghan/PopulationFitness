@@ -1,11 +1,12 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class ChungReynoldsGenes extends NormalizingBitSetGenes {
 
-    private static final double TenToThe8th = Math.pow(10.0, 8.0);
+    private static final double TenToThe8th = FastMaths.pow(10.0, 8);
 
     public ChungReynoldsGenes(Config config) {
         super(config, 100.0);
@@ -13,7 +14,7 @@ public class ChungReynoldsGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return TenToThe8th * Math.pow(n, 2.0);
+        return TenToThe8th * FastMaths.pow(n, 2);
     }
 
     @Override
@@ -26,9 +27,9 @@ public class ChungReynoldsGenes extends NormalizingBitSetGenes {
         for(int i = 0; i < integer_values.length; i++) {
             double x = interpolate(integer_values[i]);
 
-            fitness += Math.pow(x, 2.0);
+            fitness += FastMaths.pow(x, 2);
         }
 
-        return Math.pow(fitness, 2.0);
+        return FastMaths.pow(fitness, 2);
     }
 }
