@@ -61,36 +61,16 @@ public abstract class BitSetGenes implements Genes {
     }
 
     public void mutate(){
-        for(int i = 0; i < size_of_genes; i++){
-            if (RepeatableRandom.generateNext() < config.mutation_probability){
-                genes.flip(i);
-            }
+        if (config.mutations_per_gene < 1){
+            return;
+        }
+
+        int interval = size_of_genes / config.mutations_per_gene;
+
+        for(int i = RepeatableRandom.generateNextInt(interval); i < size_of_genes; i += RepeatableRandom.generateNextInt(interval)){
+            genes.flip(i);
         }
         stored_fitness_factor = 0;
-    }
-
-    private void inherit(BitSetGenes mother, BitSetGenes father){
-        // Randomly picks the code index that crosses over from mother to father
-        int cross_over_index = 1 + (int)(RepeatableRandom.generateNext() * (size_of_genes - 1));
-
-        // Minimise the bit-wise copying
-        if (cross_over_index > size_of_genes / 2){
-            // Clone mother then copy from father
-            genes = (BitSet)mother.genes.clone();
-
-            for (int i = cross_over_index; i < size_of_genes; i++){
-                genes.set(i, father.genes.get(i));
-            }
-        }
-        else{
-            // Clone father then copy from mother
-            genes = (BitSet)father.genes.clone();
-
-            for (int i = 0 ; i < cross_over_index; i++){
-                genes.set(i, mother.genes.get(i));
-            }
-        }
-        mutate();
     }
 
     /**
@@ -135,7 +115,47 @@ public abstract class BitSetGenes implements Genes {
     }
 
     public void inheritFrom(Genes mother, Genes father) {
-        inherit((BitSetGenes)mother, (BitSetGenes)father);
+        BitSet motherGenes = ((BitSetGenes)mother.getImplementation()).genes;
+        BitSet fatherGenes = ((BitSetGenes)father.getImplementation()).genes;
+        long[] motherEncoding = motherGenes.toLongArray();
+        long[] fatherEncoding = fatherGenes.toLongArray();
+
+        // Randomly picks the code index that crosses over from mother to father
+        int cross_over_index = 1 + RepeatableRandom.generateNextInt(size_of_genes - 1);
+        int cross_over_word = cross_over_index / Long.SIZE;
+        int cross_over_word_start = cross_over_word * Long.SIZE;
+        int cross_over_word_end = cross_over_word_start + Long.SIZE;
+        int last_word = Math.min(Math.min(size_of_genes / Long.SIZE, motherEncoding.length), fatherEncoding.length);
+
+        if (motherEncoding.length > fatherEncoding.length){
+            // copy father to the end of the mother
+            for(int i = cross_over_word + 1; i < last_word; i++){
+                motherEncoding[i] = fatherEncoding[i];
+            }
+
+            // Create the genes from the mother, with the father copied on the end
+            genes = BitSet.valueOf(motherEncoding);
+
+            // Now do the bitwise copy from the father from the cross over index for just that word
+            for(int i = cross_over_index; i < cross_over_word_end; i++){
+                genes.set(i, fatherGenes.get(i));
+            }
+        }
+        else
+        {
+            // copy mother to the start of the father
+            for(int i = 0; i < cross_over_word; i++){
+                fatherEncoding[i] = motherEncoding[i];
+            }
+
+            // Create the genes from the father, with the mother copied from the start
+            genes = BitSet.valueOf(fatherEncoding);
+
+            // Now do the bitwise copy from the mother to the cross over index for just that word
+            for(int i = cross_over_word_start; i < cross_over_index; i++){
+                genes.set(i, motherGenes.get(i));
+            }
+        }
     }
 
     public boolean areEmpty(){
@@ -144,5 +164,10 @@ public abstract class BitSetGenes implements Genes {
 
     public boolean isEqual(Genes other){
         return genes.equals(((BitSetGenes)other).genes);
+    }
+
+    @Override
+    public Genes getImplementation() {
+        return this;
     }
 }

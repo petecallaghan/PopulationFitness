@@ -22,7 +22,7 @@ public class BitSetGenesFactory implements GenesFactory {
     /**
      * Defines the fitness function to use
      */
-    public Function function = Undefined;
+    private Function function = Undefined;
 
     @Override
     public Genes build(Config config) {
@@ -73,5 +73,15 @@ public class BitSetGenesFactory implements GenesFactory {
             case SinPiOver2:
                 return new SinPiOver2Genes(config);
         }
+    }
+
+    @Override
+    public void useFitnessFunction(Function function) {
+        this.function = function;
+    }
+
+    @Override
+    public Function getFitnessFunction() {
+        return function;
     }
 }

@@ -4,22 +4,27 @@ import org.junit.Test;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.Function;
 import uk.edu.populationfitness.models.genes.Genes;
+import uk.edu.populationfitness.models.genes.GenesFactory;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
 import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
 import uk.edu.populationfitness.models.genes.fitness.Statistics;
+import uk.edu.populationfitness.models.genes.performance.GenesTimer;
+import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
 
 import java.util.ArrayList;
 
 public class DiscoverFunctionRangeTest {
 
     private void DiscoverFunctionRange(Function function, int numberOfGenes, int sizeOfGenes, FitnessRange range, int populationSize){
-        BitSetGenesFactory factory = new BitSetGenesFactory();
-        factory.function = function;
+        GenesFactory factory = new GenesTimerFactory(new BitSetGenesFactory());
+        factory.useFitnessFunction(function);
         // Given a number of randomly generated genes
         Config config = new Config();
         config.number_of_genes = numberOfGenes;
         config.size_of_each_gene = sizeOfGenes;
         config.range.min(range.min()).max(range.max()).statistics(new Statistics());
+        config.genesFactory = factory;
+        GenesTimer.resetAll();
 
         ArrayList<Genes> genes = new ArrayList<>();
 
@@ -55,6 +60,8 @@ public class DiscoverFunctionRangeTest {
         System.out.print(" max=");
         System.out.println(max);
         config.range.statistics().show();
+
+        GenesTimer.showAll();
     }
 
     @Test
@@ -87,7 +94,7 @@ public class DiscoverFunctionRangeTest {
     }
 
     @Test public void testDiscoverRastrigin20000() {
-        DiscoverFunctionRange(Function.Rastrigin, 20000, 2250, new FitnessRange(), 10);
+        DiscoverFunctionRange(Function.Rastrigin, 20000, 2250, new FitnessRange(), 100);
     }
 
     @Test public void testDiscoverRastrigin100() {

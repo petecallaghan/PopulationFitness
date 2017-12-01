@@ -25,6 +25,7 @@ public class TuningWriterTest {
         expected.size_of_genes = 8;
         expected.min_fitness = 9.0;
         expected.max_fitness = 10.0;
+        expected.mutations_per_gene = 10;
         TuningWriter.write(expected, "test.csv");
         TuningReader.read(actual, "test.csv");
         double delta = 0.0000000001;
@@ -40,5 +41,6 @@ public class TuningWriterTest {
         assertEquals(expected.size_of_genes, actual.size_of_genes);
         assertEquals(expected.min_fitness, actual.min_fitness, delta);
         assertEquals(expected.max_fitness, actual.max_fitness, delta);
+        assertEquals(expected.mutations_per_gene, actual.mutations_per_gene);
     }
 }

@@ -71,5 +71,9 @@ public interface Genes {
      */
     boolean isEqual(Genes other);
 
+    /**
+     * @return the class implementing the interface
+     */
+    Genes getImplementation();
 }
 

@@ -30,5 +30,8 @@ public class TuningReader {
         tuning.size_of_genes = Integer.parseInt(row[8]);
         tuning.min_fitness = Double.parseDouble(row[9]);
         tuning.max_fitness = Double.parseDouble(row[10]);
+        if (row.length > 11){
+            tuning.mutations_per_gene = Integer.parseInt(row[11]);
+        }
     }
 }

@@ -37,5 +37,6 @@ public class Individual {
 
     public void inheritFromParentsAndMutate(Individual mother, Individual father){
         genes.inheritFrom(mother.genes, father.genes);
+        genes.mutate();
     }
 }

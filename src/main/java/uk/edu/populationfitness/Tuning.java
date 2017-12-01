@@ -20,4 +20,5 @@ public class Tuning {
     public int size_of_genes = 4;
     public double min_fitness = 0.0;
     public double max_fitness = 1.0;
+    public int mutations_per_gene = 1;
 }

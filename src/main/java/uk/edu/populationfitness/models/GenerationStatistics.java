@@ -1,7 +1,5 @@
 package uk.edu.populationfitness.models;
 
-import static java.lang.Math.abs;
-
 /**
  * Created by pete.callaghan on 04/07/2017.
  */

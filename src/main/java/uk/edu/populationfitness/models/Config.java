@@ -1,5 +1,6 @@
 package uk.edu.populationfitness.models;
 
+import uk.edu.populationfitness.models.genes.GenesFactory;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
 import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
 
@@ -21,8 +22,8 @@ public class Config {
     // Number of codes per gene
     public int size_of_each_gene;
 
-    // Probability that an individual gene code will mutate
-    public double mutation_probability;
+    // The likely number of mutations per gene
+    public int mutations_per_gene;
 
     public int max_age;
 
@@ -43,7 +44,7 @@ public class Config {
     public int number_of_years;
 
     // Defines genes for each individual
-    public final BitSetGenesFactory genesFactory = new BitSetGenesFactory();
+    public GenesFactory genesFactory = new BitSetGenesFactory();
 
     public final FitnessRange range = new FitnessRange();
 
@@ -52,7 +53,7 @@ public class Config {
     public Config(){
         number_of_genes = 4;
         size_of_each_gene = 10;
-        mutation_probability = 1.0 / (size_of_each_gene * number_of_genes);
+        mutations_per_gene = 1;
         max_age = 50;
         max_breeding_age = 35;
         min_breeding_age = 16;

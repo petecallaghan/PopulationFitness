@@ -4,8 +4,9 @@ import org.junit.Assert;
 import uk.edu.populationfitness.UkPopulationEpochs;
 import uk.edu.populationfitness.models.*;
 import org.junit.Test;
-import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
 import uk.edu.populationfitness.models.genes.Function;
+import uk.edu.populationfitness.models.genes.performance.GenesTimer;
+import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
 import uk.edu.populationfitness.output.EpochsWriter;
 
 import java.io.IOException;
@@ -14,141 +15,139 @@ public class TuneFunctionsTest {
 
     private static final int NoReduction = 1;
     
+    private static final int Mutations = 1;
+    
     private void tune(Function function,
-                      FitnessRange range,
                       int numberOfGenes,
                       int sizeOfGenes,
-                      double minFactor,
                       double maxFactor,
-                      double increment,
                       int percentage,
-                      int populationRatio) throws IOException {
+                      int populationRatio, 
+                      int mutations) throws IOException {
         RepeatableRandom.resetSeed();
         Config config = new Config();
-        config.genesFactory.function = function;
+        config.genesFactory.useFitnessFunction(function);
         config.number_of_genes = numberOfGenes;
         config.size_of_each_gene = sizeOfGenes;
-        config.range.min(range.min()).max(range.max());
+        config.mutations_per_gene = mutations;
         Population population = new Population(config);
         Generations generations = new Generations(population);
         Epochs epochs = UkPopulationEpochs.define(config);
+        config.genesFactory = new GenesTimerFactory(config.genesFactory);
+        GenesTimer.resetAll();
 
         epochs.reducePopulation(populationRatio);
+        config.initial_population = epochs.first().environment_capacity;
 
-        PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, minFactor, maxFactor, increment, percentage);
+        PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.00000001, percentage);
 
         epochs.printFitnessFactors();
+
+        GenesTimer.showAll();
+
         Assert.assertTrue(result == PopulationComparison.WithinRange);
 
         // Record the result
         EpochsWriter.writeCsv(function, config.number_of_genes, epochs);
     }
 
-    @Test public void testTuneSinPiLinear2For4() throws IOException {
-        tune(Function.SinPiLinear, new FitnessRange(), 4, 10, 0.01, 2, 0.000001, 15, NoReduction);
-    }
-
-    @Test public void testTuneSinPiLinear2For100() throws IOException {
-        tune(Function.SinPiLinear, new FitnessRange(), 100, 10, 0.0, 80.0, 0.000001, 15, NoReduction);
-    }
-
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, new FitnessRange(), 100, 10, 0.0, 2.0, 0.000001, 30, NoReduction);
+        tune(Function.Rastrigin, 100, 10, 2.0, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneRastrigin20000() throws IOException {
-        tune(Function.Rastrigin, new FitnessRange(), 20000, 2250, 50, 550, 0.001, 30, 200);
+        tune(Function.Rastrigin, 20000, 2250, 20.0, 80, 200, Mutations);
     }
 
     @Test public void testTuneSphere() throws IOException {
-        tune(Function.Sphere, new FitnessRange(), 100, 10, 0.005, 5, 0.00001, 20, NoReduction);
+        tune(Function.Sphere, 100, 10, 5, 20, NoReduction, Mutations);
     }
 
     @Test public void testDiscoverSphere10000() throws IOException {
-        tune(Function.Sphere, new FitnessRange(), 10000, 2250, 0.001, 2, 0.000001, 80, 100);
+        tune(Function.Sphere, 10000, 2250, 10, 80, 100, Mutations);
     }
 
     @Test public void testDiscoverSphere20000() throws IOException {
-        tune(Function.Sphere, new FitnessRange(), 20000, 2250, 0.00001, 2, 0.00000001, 80, 200);
+        tune(Function.Sphere, 20000, 2250, 10, 80, 200, Mutations);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
-        tune(Function.StyblinksiTang, new FitnessRange(), 100, 10, 0.005, 4, 0.00000001, 30, NoReduction);
+        tune(Function.StyblinksiTang, 100, 10, 4, 30, NoReduction, Mutations);
     }
 
     @Test public void testTuneStyblinksiTang20000() throws IOException {
-        tune(Function.StyblinksiTang, new FitnessRange(), 20000, 2250, 0.05, 4, 0.0001, 30, 200);
+        tune(Function.StyblinksiTang, 20000, 2250, 4, 80, 150, Mutations);
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {
-        tune(Function.Schwefel226, new FitnessRange(), 100, 10, 0.001, 20, 0.00000001, 30, NoReduction);
+        tune(Function.Schwefel226, 100, 10, 20, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, new FitnessRange(), 100, 10, 0.001, 20, 0.00000001, 10, NoReduction);
+        tune(Function.Rosenbrock, 100, 10, 10, 30, NoReduction, Mutations);
     }
 
     @Test public void testTuneRosenbrock20000() throws IOException {
-        tune(Function.Rosenbrock, new FitnessRange(), 20000, 2250, 0.001, 20, 0.0001, 30, 400);
+        tune(Function.Rosenbrock, 20000, 2250, 20, 30, 150, Mutations);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange(), 100, 10, 0.001, 10, 0.00000001, 30, NoReduction);
+        tune(Function.SumOfPowers, 100, 101, 10, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSumOfPowers1000() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange(), 1000, 10, 0.001, 10, 0.00000001, 30, NoReduction);
+        tune(Function.SumOfPowers, 1000, 10, 20, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSumOfPowers10000() throws IOException {
-        tune(Function.SumOfPowers, new FitnessRange(), 10000, 10, 0.001, 10, 0.00000001, 30, 100);
+        tune(Function.SumOfPowers, 10000, 10, 20, 15, 100, Mutations);
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, new FitnessRange(), 100, 10, 0.001, 2, 0.00000001, 15, NoReduction);
+        tune(Function.SumSquares, 100, 10, 20, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneAckleys() throws IOException {
-        tune(Function.Ackleys, new FitnessRange(), 100, 10, 0.001, 5, 0.00000001, 20, NoReduction);
+        tune(Function.Ackleys, 100, 10, 5, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneAlpine() throws IOException {
-        tune(Function.Alpine, new FitnessRange(), 100, 10, 0.001, 5, 0.00000001, 25, NoReduction);
+        tune(Function.Alpine, 100, 10, 5, 20, NoReduction, Mutations);
     }
 
     @Test public void testTuneBrown() throws IOException {
-        tune(Function.Brown, new FitnessRange(), 100, 10, 0.001, 5, 0.00000001, 15, NoReduction);
+        tune(Function.Brown, 100, 10, 5, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneChungReynolds() throws IOException {
-        tune(Function.ChungReynolds, new FitnessRange(), 100, 10, 0.001, 8, 0.00000001, 15, NoReduction);
+        tune(Function.ChungReynolds, 100, 10, 8, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneDixonPrice() throws IOException {
-        tune(Function.DixonPrice, new FitnessRange(), 100, 10, 0.001, 8, 0.00000001, 20, NoReduction);
+        tune(Function.DixonPrice, 100, 10, 8, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneExponential() throws IOException {
-        tune(Function.Exponential, new FitnessRange(), 100, 10, 0.001, 2, 0.00000001, 15, NoReduction);
+        tune(Function.Exponential, 100, 10, 2, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneGriewank() throws IOException {
-        tune(Function.Griewank, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 15, NoReduction);
+        tune(Function.Griewank, 100, 10, 4, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneQing() throws IOException {
-        tune(Function.Qing, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
+        tune(Function.Qing, 100, 10, 8, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSalomon() throws IOException {
-        tune(Function.Salomon, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
+        tune(Function.Salomon, 100, 10, 4, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSchumerSteiglitz() throws IOException {
-        tune(Function.SchumerSteiglitz, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
+        tune(Function.SchumerSteiglitz, 100, 10, 4, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSchwefel220() throws IOException {
-        tune(Function.Schwefel220, new FitnessRange(), 100, 10, 0.001, 4, 0.00000001, 30, NoReduction);
+        tune(Function.Schwefel220, 100, 10, 4, 15, NoReduction, Mutations);
     }
 }

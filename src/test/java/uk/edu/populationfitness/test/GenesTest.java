@@ -31,7 +31,7 @@ public class GenesTest {
         Config config = new Config();
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
-        config.mutation_probability *= 10;
+        config.mutations_per_gene *= 10;
 
         // When they are mutated
         genes.mutate();
@@ -45,7 +45,7 @@ public class GenesTest {
         }
 
         assertTrue(mutated_count > 0);
-        assertTrue(mutated_count <= 2.0 * genes.numberOfBits() * config.mutation_probability);
+        assertTrue(mutated_count <= 2.0 * config.mutations_per_gene);
     }
 
     @Test public void testMutationCanBeDisabled(){
@@ -53,7 +53,7 @@ public class GenesTest {
         Config config = new Config();
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
-        config.mutation_probability = 0;
+        config.mutations_per_gene = 0;
 
         // When they are mutated
         genes.mutate();
@@ -88,8 +88,8 @@ public class GenesTest {
     @Test public void TestGenesWithLargeBitCoding(){
         // Given a set of genes with non zero values
         Config config = new Config();
-        config.number_of_genes = 111;
-        config.size_of_each_gene = 131;
+        config.number_of_genes = 10000;
+        config.size_of_each_gene = 2250;
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildFromRandom();
 
@@ -120,7 +120,7 @@ public class GenesTest {
     @Test public void testBabyIsNotIdenticalToMotherOrFather() {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.mutation_probability *= 10;
+        config.mutations_per_gene *= 10;
         BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
@@ -137,7 +137,7 @@ public class GenesTest {
     @Test public void testBabyIsNotZero(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.mutation_probability *= 10;
+        config.mutations_per_gene *= 10;
         BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
@@ -153,7 +153,7 @@ public class GenesTest {
     @Test public void testBabyIsSimilarToMotherAndFather(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.mutation_probability *= 10;
+        config.mutations_per_gene *= 10;
         BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
@@ -179,7 +179,7 @@ public class GenesTest {
 
     private void GenesAreDistributedWithoutExcessiveSpikes(Function function, double fitness_factor){
         BitSetGenesFactory factory = new BitSetGenesFactory();
-        factory.function = function;
+        factory.useFitnessFunction(function);
         // Given a number of randomly generated genes
         Config config = new Config();
         config.number_of_genes = 100;
@@ -198,7 +198,7 @@ public class GenesTest {
 
         for (Genes g: genes) {
             double fitness = g.fitness(fitness_factor);
-            int i = Math.min(99, (int)(fitness * 100));
+            int i = Math.abs(Math.min(99, (int)(fitness * 100)));
             fitnesses[i]++;
         }
 
@@ -210,8 +210,83 @@ public class GenesTest {
         }
     }
 
-    @Test public void testGenesAreDistributedWithoutExcessiveSpikes(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPi, 1.0);
-        GenesAreDistributedWithoutExcessiveSpikes(Function.SinPiAvg, 1.0);
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSinPi(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel220, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSinPiAvg(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel220, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSchwefel220(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel220, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSchumerSteiglitz(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SchumerSteiglitz, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSalomon(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Salomon, 0.05);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesQing(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Qing, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesGriewank(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Griewank, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesExponential(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Exponential, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesDixonPrice(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.DixonPrice, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesChungReynolds(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.ChungReynolds, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesBrown(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Brown, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesAlpine(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Alpine, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesAckleys(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Ackleys, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSumOfPowers(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SumOfPowers, 0.05);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesRastrigin(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Rastrigin, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesStyblinksiTang(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.StyblinksiTang, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesRosenbrock(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Rosenbrock, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSchwefel226(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel226, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSphere(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Sphere, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSumSquares(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SumSquares, 1.0);
     }
 }

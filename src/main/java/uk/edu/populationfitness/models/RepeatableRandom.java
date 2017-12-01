@@ -28,7 +28,23 @@ public class RepeatableRandom {
         random = new SplittableRandom(DEFAULT_SEED);
     }
 
+    /**
+     *
+     * @return the next random number between 0 (inclusive) and 1 (exclusive).
+     */
     public static double generateNext(){
         return random.nextDouble();
+    }
+
+    /**
+     * @param range the range
+     * @return the next random number between 0 (inclusive) and range  (exclusive)
+     */
+    public static int generateNextInt(int range){
+        return (int)(random.nextDouble() * range);
+    }
+
+    public static SplittableRandom getRandom() {
+        return random;
     }
 }
