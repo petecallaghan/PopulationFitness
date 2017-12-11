@@ -26,5 +26,7 @@ public enum Function {
     Griewank,
     Qing,
     Salomon,
-    SchumerSteiglitz;
+    SchumerSteiglitz,
+    Trid,
+    Zakharoy
 }

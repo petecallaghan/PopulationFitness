@@ -232,4 +232,12 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverSchwefel220() {
         DiscoverFunctionRange(Function.Schwefel220, 1000, 10, new FitnessRange(), 4000);
     }
+
+    @Test public void testDiscoverTrid() {
+        DiscoverFunctionRange(Function.Trid, 1000, 10, new FitnessRange(), 4000);
+    }
+
+    @Test public void testDiscoverZakharoy() {
+        DiscoverFunctionRange(Function.Zakharoy, 1000, 10, new FitnessRange(), 4000);
+    }
 }

@@ -19,7 +19,7 @@ public class Search extends FitnessRange {
     }
 
     private double centre(){
-        return ((int)((min() + max()) / increment) / 2) * increment;
+        return ((long)((min() + max()) / increment) / 2) * increment;
     }
 
     public Search current(double current){

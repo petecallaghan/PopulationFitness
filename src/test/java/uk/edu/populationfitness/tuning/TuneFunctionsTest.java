@@ -150,4 +150,12 @@ public class TuneFunctionsTest {
     @Test public void testTuneSchwefel220() throws IOException {
         tune(Function.Schwefel220, 100, 10, 4, 15, NoReduction, Mutations);
     }
+
+    @Test public void testTuneTrid() throws IOException {
+        tune(Function.Trid, 100, 10, 40000, 15, NoReduction, Mutations);
+    }
+
+    @Test public void testTuneZakharoy() throws IOException {
+        tune(Function.Zakharoy, 100, 10, 5000000, 15, NoReduction, Mutations);
+    }
 }

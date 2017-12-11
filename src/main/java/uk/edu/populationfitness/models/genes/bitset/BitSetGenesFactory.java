@@ -11,6 +11,8 @@ import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
 import uk.edu.populationfitness.models.genes.sphere.*;
 import uk.edu.populationfitness.models.genes.valley.DixonPriceGenes;
 import uk.edu.populationfitness.models.genes.valley.RosenbrockGenes;
+import uk.edu.populationfitness.models.genes.valley.TridGenes;
+import uk.edu.populationfitness.models.genes.valley.ZakharoyGenes;
 
 import static uk.edu.populationfitness.models.genes.Function.Undefined;
 
@@ -69,6 +71,10 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new SalomonGenes(config);
             case SchumerSteiglitz:
                 return new SchumerSteiglitzGenes(config);
+            case Trid:
+                return new TridGenes(config);
+            case Zakharoy:
+                return new ZakharoyGenes(config);
             default:
             case SinPiOver2:
                 return new SinPiOver2Genes(config);

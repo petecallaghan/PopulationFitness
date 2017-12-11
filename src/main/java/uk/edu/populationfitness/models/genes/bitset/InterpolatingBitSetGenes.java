@@ -18,7 +18,15 @@ public abstract class InterpolatingBitSetGenes extends InvertedBitSetGenes {
 
     public InterpolatingBitSetGenes(Config config, double maxInterpolatedValue) {
         super(config);
-        interpolation_ratio = maxInterpolatedValue / maxForBits(size_of_genes);
+        interpolation_ratio = maxInterpolatedValue / maxLongForSizeOfGene();
+    }
+
+    /**
+     *
+     * @return the maximum long value given the size of the genes
+     */
+    protected long maxLongForSizeOfGene(){
+        return maxForBits(size_of_genes);
     }
 
     public double interpolate(long integer_value){
