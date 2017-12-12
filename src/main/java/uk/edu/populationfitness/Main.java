@@ -17,7 +17,7 @@ public class Main {
 
         Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
         SetInitialPopulationFromFirstEpochCapacity(config, epochs);
-        AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 80);
+        AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
         generations.createForAllEpochs(epochs);
         GenerationsWriter.writeCsv(generations, tuning);
     }
@@ -32,7 +32,7 @@ public class Main {
         int finalYear = recoveryStartYear + postDiseaseYears;
         int maxExpected = epochs.last().expected_max_population;
 
-        epochs.addNextEpoch(new Epoch(config, diseaseStartYear).fitness(tuning.disease_fit).max(maxExpected).kill(tuning.historic_kill));
+        epochs.addNextEpoch(new Epoch(config, diseaseStartYear).fitness(tuning.disease_fit).max(maxExpected).kill(tuning.historic_kill).breedingProbability(tuning.modern_breeding));
         epochs.addNextEpoch(new Epoch(config, recoveryStartYear).fitness(tuning.historic_fit).max(maxExpected).kill(tuning.historic_kill));
         epochs.setFinalEpochYear(finalYear);
     }

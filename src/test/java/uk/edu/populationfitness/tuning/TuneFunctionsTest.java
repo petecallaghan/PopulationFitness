@@ -60,7 +60,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin20000With100Mutations() throws IOException {
-        tune(Function.Rastrigin, 20000, 2250, 20.0, 80, 150, 100);
+        tune(Function.Rastrigin, 20000, 2250, 20.0, 30, 100, 100);
     }
 
     @Test public void testTuneSphere() throws IOException {
