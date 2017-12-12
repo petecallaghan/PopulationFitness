@@ -105,7 +105,7 @@ public class EpochsTest {
         double delta = 0.0000000001;
 
         // When we write them and then read them
-        String path = EpochsWriter.writeCsv(Function.Undefined, 100, epochs);
+        String path = EpochsWriter.writeCsv(Function.Undefined, 100, 1, epochs);
         Epochs found = new Epochs(config);
         found.epochs.addAll(EpochsReader.readEpochs(config, path));
 

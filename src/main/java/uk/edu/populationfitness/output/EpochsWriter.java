@@ -10,18 +10,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class EpochsWriter {
-    private static String filePath(Function function, int size){
+    private static String filePath(Function function, int size, int mutations){
         StringBuffer filePath = new StringBuffer("functionepochs");
         filePath.append("-");
         filePath.append(function);
         filePath.append("-");
         filePath.append(size);
+        filePath.append("-");
+        filePath.append(mutations);
         filePath.append(".csv");
         return filePath.toString();
     }
 
-    public static String writeCsv(Function function, int size, Epochs epochs) throws IOException {
-        String filePath = filePath(function, size);
+    public static String writeCsv(Function function, int size, int mutations, Epochs epochs) throws IOException {
+        String filePath = filePath(function, size, mutations);
         deleteExisting(filePath);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
         addHeaderRow(writer);

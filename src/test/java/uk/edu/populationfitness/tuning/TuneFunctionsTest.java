@@ -48,7 +48,7 @@ public class TuneFunctionsTest {
         Assert.assertTrue(result == PopulationComparison.WithinRange);
 
         // Record the result
-        EpochsWriter.writeCsv(function, config.number_of_genes, epochs);
+        EpochsWriter.writeCsv(function, config.number_of_genes, mutations, epochs);
     }
 
     @Test public void testTuneRastrigin() throws IOException {
@@ -57,6 +57,10 @@ public class TuneFunctionsTest {
 
     @Test public void testTuneRastrigin20000() throws IOException {
         tune(Function.Rastrigin, 20000, 2250, 20.0, 80, 200, Mutations);
+    }
+
+    @Test public void testTuneRastrigin20000With100Mutations() throws IOException {
+        tune(Function.Rastrigin, 20000, 2250, 20.0, 80, 150, 100);
     }
 
     @Test public void testTuneSphere() throws IOException {

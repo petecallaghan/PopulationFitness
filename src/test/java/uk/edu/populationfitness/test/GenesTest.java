@@ -226,10 +226,6 @@ public class GenesTest {
         GenesAreDistributedWithoutExcessiveSpikes(Function.SchumerSteiglitz, 1.0);
     }
 
-    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSalomon(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Salomon, 0.05);
-    }
-
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesQing(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.Qing, 1.0);
     }

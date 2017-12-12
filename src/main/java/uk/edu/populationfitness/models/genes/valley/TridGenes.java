@@ -21,14 +21,15 @@ public class TridGenes extends NormalizingBitSetGenes{
         @Override
         public double calculateValue(long index) {
             /**
-             * M= sum from {i=1} to {n} {{left ({n} ^ {2} + {(-1)} ^ {n} right )} ^ {2} -} sum from {i=2} to {n} {{n} ^ {2} left ({-n} ^ {2} right )}
+             * M= left [{n} over {2} right ] {( {n} ^ {2} +1)} ^ {2} + left (n- left [{n} over {2} right ] right ) {( {n} ^ {2} -1)} ^ {2} + left (n-1 right ) {n} ^ {4}
              *
              */
+            long nOver2 = Math.round(((double)index) / 2.0);
             long nSquared = index * index;
-            double minusOneExpN = FastMaths.pow(-1, index);
-            double firstTerm = index * FastMaths.pow(nSquared + minusOneExpN, 2);
-            double secondTerm = (nSquared - 1) * nSquared * (0 - nSquared);
-            return firstTerm - secondTerm;
+
+            return nOver2 * FastMaths.pow(nSquared + 1, 2) +
+                    (index - nOver2) * FastMaths.pow(nSquared - 1, 2) +
+                    (index - 1) * nSquared * nSquared;
         }
     }
 

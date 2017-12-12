@@ -1,2 +1,2 @@
-Function,Historic Fit,Disease Fit,Modern Fit,Modern Kill,Historic Kill,Modern Breeding,Number of Genes,Size of Genes,Min Fitness,Max Fitness
-Rastrigin,227.33835560113434,188.58572817098496,305.9090581188193,1.003,1.066,0.13,20000,5,0,1014841
+Function,Historic Fit,Disease Fit,Modern Fit,Modern Kill,Historic Kill,Modern Breeding,Number of Genes,Size of Genes,Min Fitness,Max Fitness,Mutation
+Rastrigin,2.22046729876161,1.788129744651484,2.123358133513726,1.003,1.066,0.13,20000,2250,0,1,100
