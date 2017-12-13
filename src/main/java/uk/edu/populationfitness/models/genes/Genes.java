@@ -75,5 +75,11 @@ public interface Genes {
      * @return the class implementing the interface
      */
     Genes getImplementation();
+
+    /**
+     *
+     * @return the genes as an array of integers
+     */
+    long[] asIntegers();
 }
 

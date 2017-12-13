@@ -26,7 +26,7 @@ public abstract class InterpolatingBitSetGenes extends InvertedBitSetGenes {
      * @return the maximum long value given the size of the genes
      */
     protected long maxLongForSizeOfGene(){
-        return maxForBits(size_of_genes);
+        return maxForBits(numberOfBits());
     }
 
     public double interpolate(long integer_value){

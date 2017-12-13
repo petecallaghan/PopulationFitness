@@ -98,4 +98,9 @@ public class GenesTimer implements Genes {
     public Genes getImplementation() {
         return delegate;
     }
+
+    @Override
+    public long[] asIntegers() {
+        return delegate.asIntegers();
+    }
 }

@@ -29,7 +29,7 @@ public class SinPiLinearGenes extends SinPiGenes {
          */
 
         double fitness = 1;
-        long[] integer_values = genes.toLongArray();
+        long[] integer_values = asIntegers();
 
         for(int i = 0; i < integer_values.length; i++){
             long value =  integer_values[i];

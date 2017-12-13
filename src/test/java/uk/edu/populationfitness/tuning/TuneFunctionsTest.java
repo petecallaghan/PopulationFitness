@@ -39,7 +39,7 @@ public class TuneFunctionsTest {
         epochs.reducePopulation(populationRatio);
         config.initial_population = epochs.first().environment_capacity;
 
-        PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.00000001, percentage);
+        PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.0001, percentage);
 
         epochs.printFitnessFactors();
 
@@ -52,7 +52,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, 100, 10, 2.0, 15, NoReduction, Mutations);
+        tune(Function.Rastrigin, 100, 10, 2.0, 10, NoReduction, Mutations);
     }
 
     @Test public void testTuneRastrigin20000() throws IOException {
@@ -60,7 +60,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin20000With100Mutations() throws IOException {
-        tune(Function.Rastrigin, 20000, 2250, 20.0, 30, 100, 100);
+        tune(Function.Rastrigin, 20000, 2250, 20.0, 20, 100, 100);
     }
 
     @Test public void testTuneSphere() throws IOException {
