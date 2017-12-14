@@ -7,6 +7,7 @@ import org.mapdb.HTreeMap;
 import org.mapdb.Serializer;
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -31,16 +32,24 @@ public class DiskBackedGeneValues implements GeneValues {
                 .make();
     }
 
+    public DiskBackedGeneValues(){
+        this((Runtime.getRuntime().maxMemory() * 3) / 4);
+    }
+
     public DiskBackedGeneValues(long maxMemorySize)
     {
+        ensureBackingFileDoesNotExist();
+
         diskStore = createDiskStore();
 
         diskIndex = createDiskIndex();
 
-        // Force cleanup
-        diskIndex.clear();
-
         memoryIndex = createMemoryIndex(maxMemorySize);
+    }
+
+    private void ensureBackingFileDoesNotExist() {
+        File file = new File(StoreName);
+        file.delete();
     }
 
     @NotNull
@@ -90,7 +99,9 @@ public class DiskBackedGeneValues implements GeneValues {
 
     @Override
     public void retainOnly(Collection<GenesIdentifier> genesIdentifiers) {
-        memoryIndex.keySet().retainAll(genesIdentifiers.stream().map(i -> i.asUniqueLong()).collect(Collectors.toList()));
+        Collection<Long> identifiers = genesIdentifiers.stream().map(i -> i.asUniqueLong()).collect(Collectors.toList());
+        diskIndex.keySet().retainAll(identifiers);
+        memoryIndex.keySet().retainAll(identifiers);
     }
 
     public void close(){

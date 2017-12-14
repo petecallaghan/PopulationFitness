@@ -18,7 +18,6 @@ public class TuneFunctionsTest {
     private static final int NoReduction = 1;
     
     private static final int Mutations = 1;
-    private static final long MemorySpace = 1024L * 1024L * 1024L * 2L; // 2GB
 
     private void tune(Function function,
                       int numberOfGenes,
@@ -64,9 +63,9 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin20000With100Mutations() throws IOException {
-        DiskBackedGeneValues cache = new DiskBackedGeneValues(MemorySpace);
+        DiskBackedGeneValues cache = new DiskBackedGeneValues();
         SharedCache.set(cache);
-        tune(Function.Rastrigin, 20000, 2250, 20.0, 20, 100, 100);
+        tune(Function.Rastrigin, 20000, 2250, 10, 30, 100, 100);
         cache.close();
     }
 
