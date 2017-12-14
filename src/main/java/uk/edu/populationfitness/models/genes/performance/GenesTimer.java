@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.genes.performance;
 
 import uk.edu.populationfitness.models.genes.Genes;
+import uk.edu.populationfitness.models.genes.GenesIdentifier;
 
 public class GenesTimer implements Genes {
     private static final long NANOS_PER_MICROS = 1000;
@@ -102,5 +103,10 @@ public class GenesTimer implements Genes {
     @Override
     public long[] asIntegers() {
         return delegate.asIntegers();
+    }
+
+    @Override
+    public GenesIdentifier identifier() {
+        return delegate.identifier();
     }
 }

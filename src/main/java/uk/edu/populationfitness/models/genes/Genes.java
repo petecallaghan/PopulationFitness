@@ -43,7 +43,7 @@ public interface Genes {
     void mutate();
 
     /**
-     * Inherit from parents
+     * Inherit from parents.
      *
      * @param mother
      * @param father
@@ -81,5 +81,11 @@ public interface Genes {
      * @return the genes as an array of integers
      */
     long[] asIntegers();
+
+    /**
+     *
+     * @return the unique identifier the genes
+     */
+    GenesIdentifier identifier();
 }
 

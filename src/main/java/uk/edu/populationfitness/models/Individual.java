@@ -35,8 +35,7 @@ public class Individual {
         return age >= config.min_breeding_age && age <= config.max_breeding_age;
     }
 
-    public void inheritFromParentsAndMutate(Individual mother, Individual father){
+    public void inheritFromParents(Individual mother, Individual father){
         genes.inheritFrom(mother.genes, father.genes);
-        genes.mutate();
     }
 }

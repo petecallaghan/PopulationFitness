@@ -14,3 +14,4 @@ test.csv
 .idea/workspace.xml
 ~experiments/
 .idea/libraries/
+~genescache.tmp

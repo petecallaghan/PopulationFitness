@@ -62,7 +62,7 @@ public class Population {
             boolean pairCanBreed = RepeatableRandom.generateNext() < epoch.breedingProbability();
             if (pairCanBreed && father.canBreed(current_year) && mother.canBreed(current_year)){
                 Individual baby = new Individual(config, current_year);
-                baby.inheritFromParentsAndMutate(mother, father);
+                baby.inheritFromParents(mother, father);
                 babies.add(baby);
             }
         }

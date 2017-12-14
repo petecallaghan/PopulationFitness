@@ -1,10 +1,13 @@
 package uk.edu.populationfitness.models;
 
+import uk.edu.populationfitness.models.genes.GenesIdentifier;
+import uk.edu.populationfitness.models.genes.cache.SharedCache;
 import uk.edu.populationfitness.models.genes.fitness.Search;
-import uk.edu.populationfitness.models.genes.fitness.ReverseSearch;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The generations recorded for a population
@@ -60,10 +63,17 @@ public class Generations {
             previousEpoch = epoch;
             divergence = generateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
             if (divergence != PopulationComparison.WithinRange){
+                flushBodiesFromTheCache();
                 return divergence;
             }
+            flushBodiesFromTheCache();
         }
         return divergence;
+    }
+
+    private void flushBodiesFromTheCache(){
+        Collection<GenesIdentifier> survivors = population.individuals.stream().map(i -> i.genes.identifier()).collect(Collectors.toList());
+        SharedCache.cache().retainOnly(survivors);
     }
 
     private PopulationComparison generateAndCompareEpochPopulation(
@@ -117,7 +127,9 @@ public class Generations {
 
     public GenerationStatistics generateForYear(int year, Epoch epoch) {
         long start_time = System.nanoTime();
+
         int fatalities = population.killThoseUnfitOrReadyToDie(year, epoch);
+        flushBodiesFromTheCache();
         long kill_elapsed = (System.nanoTime() - start_time) / NANOS_PER_MILLIS;
 
         start_time = System.nanoTime();
