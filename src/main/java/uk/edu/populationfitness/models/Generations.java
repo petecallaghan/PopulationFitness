@@ -149,4 +149,11 @@ public class Generations {
         System.out.println("Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
         return generation;
     }
+
+    public static Generations add(Generations first, Generations second){
+        Generations result = new Generations(first.population);
+        result.first_year = first.first_year;
+        result.history.addAll(GenerationStatistics.add(first.history, second.history));
+        return result;
+    }
 }

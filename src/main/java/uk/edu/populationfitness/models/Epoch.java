@@ -44,6 +44,20 @@ public class Epoch {
         this.probability_of_breeding = config.probability_of_breeding;
     }
 
+    public Epoch(Epoch source){
+        this.expected_max_population = source.expected_max_population;
+        this.start_year = source.start_year;
+        this.end_year = source.end_year;
+        this.environment_capacity = source.environment_capacity;
+        this.enable_fitness = source.enable_fitness;
+        this.config = source.config;
+        this.fitness_factor = source.fitness_factor;
+        this.isDisease = source.isDisease;
+        this.kill_constant = source.kill_constant;
+        this.probability_of_breeding = source.probability_of_breeding;
+        this.total_capacity_factor = source.total_capacity_factor;
+    }
+
     public boolean isCapacityUnlimited(){
         return environment_capacity == UNLIMITED_CAPACITY;
     }

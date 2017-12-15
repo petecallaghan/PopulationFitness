@@ -1,5 +1,8 @@
 package uk.edu.populationfitness.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by pete.callaghan on 04/07/2017.
  */
@@ -34,5 +37,39 @@ public class GenerationStatistics {
 
     public double killElapsedInHundredths(){
         return (double) (kill_time / 10) / 100;
+    }
+
+    public static GenerationStatistics add(GenerationStatistics first, GenerationStatistics second){
+        if (first.year != second.year) throw new Error("Cannot add different years");
+
+        GenerationStatistics result = new GenerationStatistics(new Epoch(first.epoch),
+                first.year,
+                first.population + second.population,
+                first.number_born + second.number_born,
+                first.number_killed + second.number_killed,
+                first.born_time + second.born_time,
+                first.kill_time + second.kill_time);
+        result.average_age = (int)(((long)first.average_age * first.population + (long)second.average_age * second.population) / result.population);
+        result.average_fitness = (first.average_fitness * first.population + second.average_fitness * second.population) / result.population;
+        result.epoch.expected_max_population += second.epoch.expected_max_population;
+        result.epoch.environment_capacity += second.epoch.environment_capacity;
+        return result;
+    }
+
+    public static List<GenerationStatistics> add(List<GenerationStatistics> first, List<GenerationStatistics> second){
+        ArrayList<GenerationStatistics> result = new ArrayList<>();
+
+        GenerationStatistics[] firstStats = first.toArray(new GenerationStatistics[0]);
+        GenerationStatistics[] secondStats = second.toArray(new GenerationStatistics[0]);
+
+        if (firstStats.length != secondStats.length){
+            throw new Error("Cannot add different numbers of generations");
+        }
+
+        for (int i = 0; i < firstStats.length; i++) {
+            result.add(add(firstStats[i], secondStats[i]));
+        }
+
+        return result;
     }
 }

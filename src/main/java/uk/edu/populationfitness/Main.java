@@ -11,22 +11,47 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Config config = new Config();
-        Population population = new Population(config);
-        Generations generations = new Generations(population);
         Epochs epochs = new Epochs(config);
         Tuning tuning = new Tuning();
         tuning.id = config.id;
 
-        DiskBackedGeneValues cache = new DiskBackedGeneValues();
-        SharedCache.set(cache);
-
         Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
         SetInitialPopulationFromFirstEpochCapacity(config, epochs);
         AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
+
+        SimulateAllRuns(config, epochs, tuning);
+    }
+
+    private static void SimulateAllRuns(Config config, Epochs epochs, Tuning tuning) throws IOException {
+        Generations total = null;
+
+        for(int run = 0; run < tuning.number_of_runs; run++){
+            Generations current = RunSimulationAndWriteResult(config, epochs, tuning);
+
+            total = CombineGenerationsAndWriteResult(run, current, total, tuning);
+        }
+    }
+
+    private static Generations CombineGenerationsAndWriteResult(int run, Generations current, Generations total, Tuning tuning) throws IOException {
+        StringBuffer prefix = new StringBuffer("run");
+        prefix.append(run + 1);
+        prefix.append("of");
+        prefix.append(tuning.number_of_runs);
+
+        Generations combined = (total == null ? current : Generations.add(total, current));
+        GenerationsWriter.writeCsv(prefix.toString(), combined, tuning);
+        return combined;
+    }
+
+    private static Generations RunSimulationAndWriteResult(Config config, Epochs epochs, Tuning tuning) throws IOException {
+        SharedCache.set(new DiskBackedGeneValues());
+
+        Generations generations = new Generations(new Population(config));
         generations.createForAllEpochs(epochs);
         GenerationsWriter.writeCsv(generations, tuning);
 
-        cache.close();
+        SharedCache.cache().close();
+        return generations;
     }
 
     private static void AddSimulatedEpochsToEndOfTunedEpochs(Config config,

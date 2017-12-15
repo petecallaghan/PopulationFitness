@@ -109,6 +109,8 @@ public class DiskBackedGeneValues implements GeneValues {
      */
     @Override
     public void close(){
+        diskIndex.clear();
+        memoryIndex.clear();
         diskIndex.close();
         memoryIndex.close();
         memoryStore.close();

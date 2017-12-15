@@ -33,5 +33,8 @@ public class TuningReader {
         if (row.length > 11){
             tuning.mutations_per_gene = Integer.parseInt(row[11]);
         }
+        if (row.length > 12){
+            tuning.number_of_runs = Integer.parseInt(row[12]);
+        }
     }
 }

@@ -16,6 +16,8 @@ import java.io.IOException;
 public class TuneFunctionsTest {
 
     private static final int NoReduction = 1;
+
+    private static final int ReducedPopuation = 100;
     
     private static final int Mutations = 1;
 
@@ -73,11 +75,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin20000() throws IOException {
-        //tune(Function.Rastrigin, 20000, 2250, 20.0, 80, 200, Mutations);
+        tune(Function.Rastrigin, 20000, 2250, 20.0, 80, ReducedPopuation, Mutations);
     }
 
     @Test public void testTuneRastrigin20000With100Mutations() throws IOException {
-        //tune(Function.Rastrigin, 20000, 2250, 10, 30, 100, 100);
+        tune(Function.Rastrigin, 20000, 2250, 10, 30, ReducedPopuation, 100);
     }
 
     @Test public void testTuneSphere() throws IOException {
@@ -85,11 +87,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testDiscoverSphere10000() throws IOException {
-        //tune(Function.Sphere, 10000, 2250, 10, 80, 100, Mutations);
+        tune(Function.Sphere, 10000, 2250, 10, 80, ReducedPopuation, Mutations);
     }
 
     @Test public void testDiscoverSphere20000() throws IOException {
-        //tune(Function.Sphere, 20000, 2250, 10, 80, 200, Mutations);
+        tune(Function.Sphere, 20000, 2250, 10, 80, ReducedPopuation, Mutations);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
@@ -97,7 +99,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneStyblinksiTang20000() throws IOException {
-        //tune(Function.StyblinksiTang, 20000, 2250, 4, 80, 150, Mutations);
+        tune(Function.StyblinksiTang, 20000, 2250, 4, 80, ReducedPopuation, Mutations);
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {
@@ -109,7 +111,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRosenbrock20000() throws IOException {
-        //tune(Function.Rosenbrock, 20000, 2250, 20, 25, 150, Mutations);
+        tune(Function.Rosenbrock, 20000, 2250, 20, 25, ReducedPopuation, Mutations);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
@@ -121,7 +123,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSumOfPowers10000() throws IOException {
-        tune(Function.SumOfPowers, 10000, 10, 20, 15, 100, Mutations);
+        tune(Function.SumOfPowers, 10000, 10, 20, 15, ReducedPopuation, Mutations);
     }
 
     @Test public void testTuneSumSquares() throws IOException {

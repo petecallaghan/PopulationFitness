@@ -12,8 +12,22 @@ import java.io.IOException;
  * Created by pete.callaghan on 11/07/2017.
  */
 public class GenerationsWriter {
-    private static String filePath(Generations generations){
+    private static String filePath(String prefix, Generations generations){
         StringBuffer filePath = new StringBuffer("generations");
+        filePath.append("-");
+        if (prefix != null && !prefix.isEmpty()){
+            filePath.append(prefix);
+            filePath.append("-");
+        }
+        filePath.append(generations.config.genesFactory.getFitnessFunction());
+        filePath.append("-genes");
+        filePath.append(generations.config.number_of_genes);
+        filePath.append("x");
+        filePath.append(generations.config.size_of_each_gene);
+        filePath.append("-pop");
+        filePath.append(generations.config.initial_population);
+        filePath.append("-mut");
+        filePath.append(generations.config.mutations_per_gene);
         filePath.append("-");
         filePath.append(generations.population.config.id.replaceAll(":", "-"));
         filePath.append(".csv");
@@ -21,7 +35,11 @@ public class GenerationsWriter {
     }
 
     public static void writeCsv(Generations generations, Tuning tuning) throws IOException {
-        String filePath = filePath(generations);
+        writeCsv(null, generations, tuning);
+    }
+
+    public static void writeCsv(String prefix, Generations generations, Tuning tuning) throws IOException {
+        String filePath = filePath(prefix, generations);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
         addHeaderRow(writer);
 

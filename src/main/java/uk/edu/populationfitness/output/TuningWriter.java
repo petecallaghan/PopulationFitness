@@ -31,6 +31,7 @@ public class TuningWriter {
                 Double.toString(tuning.min_fitness),
                 Double.toString(tuning.max_fitness),
                 Integer.toString(tuning.mutations_per_gene),
+                Integer.toString(tuning.number_of_runs),
         });
     }
 
@@ -48,6 +49,7 @@ public class TuningWriter {
                 "Min Fitness",
                 "Max Fitness",
                 "Mutations",
+                "Runs",
         });
     }
 }

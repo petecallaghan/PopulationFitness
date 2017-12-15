@@ -17,6 +17,8 @@ public class ConfigWriterTest {
         // Given a config
         Tuning config = new Tuning();
 
+        config.number_of_runs = 3;
+
         // Write it out to a file and don't complain about it
         ConfigWriter.write(config, "test.yaml");
     }
