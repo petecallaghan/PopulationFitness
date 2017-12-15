@@ -14,16 +14,10 @@ public interface GeneValues {
     GenesIdentifier add(long[] genesIntegers);
 
     /***
-     * @param identifier an identifier for a previously created set of genes
+     * @param identifier an identifier for a previously added set of genes
      * @return the identified genes
      */
     long[] get(GenesIdentifier identifier);
-
-    /**
-     * Removes the genes. Subsequent calls to get will return null.
-     * @param identifier an identifier for a previously added set of genes
-     */
-    void remove(GenesIdentifier identifier);
 
     /**
      * Discard all in the cache other than those indicated
@@ -31,4 +25,9 @@ public interface GeneValues {
      * @param genesIdentifiers
      */
     void retainOnly(Collection<GenesIdentifier> genesIdentifiers);
+
+    /**
+     * Called to release any values
+     */
+    void close();
 }

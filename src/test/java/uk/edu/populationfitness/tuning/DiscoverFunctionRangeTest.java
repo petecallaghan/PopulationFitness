@@ -1,5 +1,6 @@
 package uk.edu.populationfitness.tuning;
 
+import org.junit.Assert;
 import org.junit.Test;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.Function;
@@ -14,6 +15,12 @@ import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
 import java.util.ArrayList;
 
 public class DiscoverFunctionRangeTest {
+
+    public static final int NumberOfGenes = 20000;
+
+    public static final int SizeOfGenes = 2250;
+
+    public static final int PopulationSize = 100;
 
     private void DiscoverFunctionRange(Function function, int numberOfGenes, int sizeOfGenes, FitnessRange range, int populationSize){
         GenesFactory factory = new GenesTimerFactory(new BitSetGenesFactory());
@@ -46,7 +53,7 @@ public class DiscoverFunctionRangeTest {
         double min = Double.MAX_VALUE;
         double max = Double.MIN_VALUE;
         for (Genes g: genes) {
-            double fitness = g.fitness(1.0);
+            double fitness = g.fitness(10.0);
 
             if (fitness < min) min = fitness;
             if (fitness > max) max = fitness;
@@ -59,185 +66,91 @@ public class DiscoverFunctionRangeTest {
         System.out.print(min);
         System.out.print(" max=");
         System.out.println(max);
-        config.range.statistics().show();
+        //config.range.statistics().show();
 
         GenesTimer.showAll();
+
+        Assert.assertTrue("Min above zero", min >= -0.1);
+        Assert.assertTrue("Usable range", max - min >= 0.1);
     }
 
-    @Test
-    public void testDiscoverSinPiOver210() {
-        DiscoverFunctionRange(Function.SinPiOver2, 10, 10, new FitnessRange(), 4000);
+    @Test public void testDiscoverRastrigin() {
+        DiscoverFunctionRange(Function.Rastrigin, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
-    @Test public void testDiscoverSinPiOver2100() {
-        DiscoverFunctionRange(Function.SinPiOver2, 100, 10, new FitnessRange(), 4000);
+    @Test public void testDiscoverSphere() {
+        DiscoverFunctionRange(Function.Sphere, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
-    @Test public void testDiscoverSinPiOver21000() {
-        DiscoverFunctionRange(Function.SinPiOver2, 1000, 10, new FitnessRange(), 4000);
+    @Test public void testDiscoverStyblinksiTang() {
+        DiscoverFunctionRange(Function.StyblinksiTang, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
-    @Test public void testDiscoverSinPiLinear10() {
-        DiscoverFunctionRange(Function.SinPiLinear, 10, 10, new FitnessRange(), 4000);
+    @Test public void testDiscoverSchwefel226() {
+        DiscoverFunctionRange(Function.Schwefel226, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
-    @Test public void testDiscoverSinPiLinear100() {
-        DiscoverFunctionRange(Function.SinPiLinear, 100, 10, new FitnessRange(), 4000);
+    @Test public void testDiscoverRosenbrock() {
+        DiscoverFunctionRange(Function.Rosenbrock, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
-    @Test public void testDiscoverSinPiLinear1000() {
-        DiscoverFunctionRange(Function.SinPiLinear, 1000, 10, new FitnessRange(), 4000);
+    @Test public void testDiscoverSumOfPowers() {
+        DiscoverFunctionRange(Function.SumOfPowers, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
-    @Test public void testDiscoverRastrigin10() {
-        DiscoverFunctionRange(Function.Rastrigin, 10, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverRastrigin20000() {
-        DiscoverFunctionRange(Function.Rastrigin, 20000, 2250, new FitnessRange(), 100);
-    }
-
-    @Test public void testDiscoverRastrigin100() {
-        DiscoverFunctionRange(Function.Rastrigin, 100, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverRastrigin1000() {
-        DiscoverFunctionRange(Function.Rastrigin, 1000, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSphere10() {
-        DiscoverFunctionRange(Function.Sphere, 10, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSphere100() {
-        DiscoverFunctionRange(Function.Sphere, 100, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSphere1000() {
-        DiscoverFunctionRange(Function.Sphere, 1000, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSphere10000() {
-        DiscoverFunctionRange(Function.Sphere, 10000, 2250, new FitnessRange(), 10);
-    }
-
-    @Test public void testDiscoverSphere20000() {
-        DiscoverFunctionRange(Function.Sphere, 20000, 2250, new FitnessRange(), 10);
-    }
-
-    @Test public void testDiscoverStyblinksiTang10() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 10, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverStyblinksiTang100() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 100, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverStyblinksiTang1000() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 1000, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverStyblinksiTang20000() {
-        DiscoverFunctionRange(Function.StyblinksiTang, 20000, 2250, new FitnessRange(), 10);
-    }
-
-    @Test public void testDiscoverSchwefel22610() {
-        DiscoverFunctionRange(Function.Schwefel226, 10, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSchwefel226100() {
-        DiscoverFunctionRange(Function.Schwefel226, 100, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSchwefel2261000() {
-        DiscoverFunctionRange(Function.Schwefel226, 1000, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverRosenbrock100() {
-        DiscoverFunctionRange(Function.Rosenbrock, 100, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverRosenbrock20000() {
-        DiscoverFunctionRange(Function.Rosenbrock, 20000, 2250, new FitnessRange(), 10);
-    }
-
-    @Test public void testDiscoverRosenbrock1000() {
-        DiscoverFunctionRange(Function.Rosenbrock, 1000, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSumOfPowers100() {
-        DiscoverFunctionRange(Function.SumOfPowers, 100, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSumOfPowers1000() {
-        DiscoverFunctionRange(Function.SumOfPowers, 1000, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSumOfPowers10000() {
-        DiscoverFunctionRange(Function.SumOfPowers, 10000, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSumOfPowers100000() {
-        DiscoverFunctionRange(Function.SumOfPowers, 100000, 10, new FitnessRange(), 400);
-    }
-
-    @Test public void testDiscoverSumSquares100() {
-        DiscoverFunctionRange(Function.SumSquares, 100, 10, new FitnessRange(), 4000);
-    }
-
-    @Test public void testDiscoverSumSquares1000() {
-        DiscoverFunctionRange(Function.SumSquares, 1000, 10, new FitnessRange(), 4000);
+    @Test public void testDiscoverSumSquares() {
+        DiscoverFunctionRange(Function.SumSquares, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverAckleys() {
-        DiscoverFunctionRange(Function.Ackleys, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Ackleys, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverAlpine() {
-        DiscoverFunctionRange(Function.Alpine, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Alpine, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverBrown() {
-        DiscoverFunctionRange(Function.Brown, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Brown, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverChungReynolds() {
-        DiscoverFunctionRange(Function.ChungReynolds, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.ChungReynolds, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverDixonPrice() {
-        DiscoverFunctionRange(Function.DixonPrice, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.DixonPrice, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverExponential() {
-        DiscoverFunctionRange(Function.Exponential, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Exponential, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverGriewank() {
-        DiscoverFunctionRange(Function.Griewank, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Griewank, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverQing() {
-        DiscoverFunctionRange(Function.Qing, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Qing, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverSalomon() {
-        DiscoverFunctionRange(Function.Salomon, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Salomon, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverSchumerSteiglitz() {
-        DiscoverFunctionRange(Function.SchumerSteiglitz, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.SchumerSteiglitz, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverSchwefel220() {
-        DiscoverFunctionRange(Function.Schwefel220, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Schwefel220, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverTrid() {
-        DiscoverFunctionRange(Function.Trid, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Trid, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 
     @Test public void testDiscoverZakharoy() {
-        DiscoverFunctionRange(Function.Zakharoy, 1000, 10, new FitnessRange(), 4000);
+        DiscoverFunctionRange(Function.Zakharoy, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
     }
 }

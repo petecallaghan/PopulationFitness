@@ -19,6 +19,8 @@ public class TuneFunctionsTest {
     
     private static final int Mutations = 1;
 
+    private static final int SmallGenes = 100000;
+
     private void tune(Function function,
                       int numberOfGenes,
                       int sizeOfGenes,
@@ -38,6 +40,8 @@ public class TuneFunctionsTest {
         config.genesFactory = new GenesTimerFactory(config.genesFactory);
         GenesTimer.resetAll();
 
+        chooseCacheForGeneSize(numberOfGenes, sizeOfGenes);
+
         epochs.reducePopulation(populationRatio);
         config.initial_population = epochs.first().environment_capacity;
 
@@ -51,10 +55,20 @@ public class TuneFunctionsTest {
 
         // Record the result
         EpochsWriter.writeCsv(function, config.number_of_genes, mutations, epochs);
+
+        SharedCache.cache().close();
+    }
+
+    private void chooseCacheForGeneSize(int numberOfGenes, int sizeOfGenes) {
+        if (numberOfGenes * sizeOfGenes > SmallGenes){
+            SharedCache.set(new DiskBackedGeneValues());
+        }
+        else{
+            SharedCache.setDefault();
+        }
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Rastrigin, 100, 10, 2.0, 10, NoReduction, Mutations);
     }
 
@@ -63,10 +77,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin20000With100Mutations() throws IOException {
-        DiskBackedGeneValues cache = new DiskBackedGeneValues();
-        SharedCache.set(cache);
-        tune(Function.Rastrigin, 20000, 2250, 10, 30, 100, 100);
-        cache.close();
+        //tune(Function.Rastrigin, 20000, 2250, 10, 30, 100, 100);
     }
 
     @Test public void testTuneSphere() throws IOException {
@@ -82,7 +93,6 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
-        SharedCache.setDefault();
         tune(Function.StyblinksiTang, 100, 10, 4, 30, NoReduction, Mutations);
     }
 
@@ -91,12 +101,10 @@ public class TuneFunctionsTest {
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Schwefel226, 100, 10, 20, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Rosenbrock, 100, 10, 10, 30, NoReduction, Mutations);
     }
 
@@ -105,87 +113,69 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        SharedCache.setDefault();
         tune(Function.SumOfPowers, 100, 101, 10, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSumOfPowers1000() throws IOException {
-        SharedCache.setDefault();
         tune(Function.SumOfPowers, 1000, 10, 20, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSumOfPowers10000() throws IOException {
-        SharedCache.setDefault();
         tune(Function.SumOfPowers, 10000, 10, 20, 15, 100, Mutations);
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        SharedCache.setDefault();
         tune(Function.SumSquares, 100, 10, 20, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneAckleys() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Ackleys, 100, 10, 5, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneAlpine() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Alpine, 100, 10, 10, 20, NoReduction, Mutations);
     }
 
     @Test public void testTuneBrown() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Brown, 100, 10, 5, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneChungReynolds() throws IOException {
-        SharedCache.setDefault();
         tune(Function.ChungReynolds, 100, 10, 8, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneDixonPrice() throws IOException {
-        SharedCache.setDefault();
         tune(Function.DixonPrice, 100, 10, 8, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneExponential() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Exponential, 100, 10, 2, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneGriewank() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Griewank, 100, 10, 4, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneQing() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Qing, 100, 10, 8, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSalomon() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Salomon, 100, 10, 4, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSchumerSteiglitz() throws IOException {
-        SharedCache.setDefault();
         tune(Function.SchumerSteiglitz, 100, 10, 4, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneSchwefel220() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Schwefel220, 100, 10, 4, 15, NoReduction, Mutations);
     }
 
     @Test public void testTuneTrid() throws IOException {
-        SharedCache.setDefault();
-        tune(Function.Trid, 100, 10, 40000, 15, NoReduction, Mutations);
-    }
+        tune(Function.Trid, 100, 10, 40000, 15, NoReduction, Mutations);    }
 
     @Test public void testTuneZakharoy() throws IOException {
-        SharedCache.setDefault();
         tune(Function.Zakharoy, 100, 10, 5000000, 15, NoReduction, Mutations);
     }
 }

@@ -21,12 +21,12 @@ public class OnHeapGeneValues implements GeneValues {
     }
 
     @Override
-    public void remove(GenesIdentifier identifier) {
-        ((SelfIdentifiedGenes)identifier).integerGenes = null;
+    public void retainOnly(Collection<GenesIdentifier> genesIdentifiers) {
+
     }
 
     @Override
-    public void retainOnly(Collection<GenesIdentifier> genesIdentifiers) {
+    public void close() {
 
     }
 }

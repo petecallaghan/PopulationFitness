@@ -1,6 +1,8 @@
 package uk.edu.populationfitness;
 
 import uk.edu.populationfitness.models.*;
+import uk.edu.populationfitness.models.genes.cache.DiskBackedGeneValues;
+import uk.edu.populationfitness.models.genes.cache.SharedCache;
 import uk.edu.populationfitness.output.GenerationsWriter;
 
 import java.io.IOException;
@@ -15,11 +17,16 @@ public class Main {
         Tuning tuning = new Tuning();
         tuning.id = config.id;
 
+        DiskBackedGeneValues cache = new DiskBackedGeneValues();
+        SharedCache.set(cache);
+
         Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
         SetInitialPopulationFromFirstEpochCapacity(config, epochs);
         AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
         generations.createForAllEpochs(epochs);
         GenerationsWriter.writeCsv(generations, tuning);
+
+        cache.close();
     }
 
     private static void AddSimulatedEpochsToEndOfTunedEpochs(Config config,

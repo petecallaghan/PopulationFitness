@@ -18,21 +18,55 @@ public class DiskBackedGeneValues implements GeneValues {
 
     private final DB diskStore;
 
+    private final DB memoryStore;
+
     private final HTreeMap<Long, long[]> diskIndex;
 
     private final HTreeMap<Long, long[]> memoryIndex;
 
-    private DB createDiskStore(){
+    @NotNull
+    private static DB createDiskStore(){
         return DBMaker.fileDB(StoreName)
                 .fileMmapEnable()
                 .fileMmapPreclearDisable()
-                .fileDeleteAfterClose()
-                .fileDeleteAfterOpen()
-                .closeOnJvmShutdown()
                 .make();
     }
 
+    @NotNull
+    private static DB createMemoryStore() {
+        return DBMaker
+                .memoryDB()
+                .make();
+    }
+
+    @NotNull
+    private static HTreeMap<Long, long[]> createDiskIndex(DB diskStore) {
+        return diskStore
+                .hashMap(IndexName)
+                .keySerializer(Serializer.LONG)
+                .valueSerializer(Serializer.LONG_ARRAY)
+                .createOrOpen();
+    }
+
+    @NotNull
+    private static HTreeMap<Long, long[]> createMemoryIndex(DB memoryStore, long maxMemorySize, HTreeMap<Long, long[]> diskIndex) {
+        return memoryStore
+                .hashMap(IndexName)
+                .keySerializer(Serializer.LONG)
+                .valueSerializer(Serializer.LONG_ARRAY)
+                .expireAfterCreate() // queue for expiry when added to the index
+                .expireStoreSize(maxMemorySize) // overflow when the memory limit is reached
+                .expireOverflow(diskIndex) // Uses the disk store as an overflow
+                .create();
+    }
+
+    private void ensureBackingFileDoesNotExist() {
+        File file = new File(StoreName);
+        file.delete();
+    }
+
     public DiskBackedGeneValues(){
+        // Default to using 3/4 available memory
         this((Runtime.getRuntime().maxMemory() * 3) / 4);
     }
 
@@ -42,42 +76,11 @@ public class DiskBackedGeneValues implements GeneValues {
 
         diskStore = createDiskStore();
 
-        diskIndex = createDiskIndex();
+        memoryStore = createMemoryStore();
 
-        memoryIndex = createMemoryIndex(maxMemorySize);
-    }
+        diskIndex = createDiskIndex(diskStore);
 
-    private void ensureBackingFileDoesNotExist() {
-        File file = new File(StoreName);
-        file.delete();
-    }
-
-    @NotNull
-    private HTreeMap<Long, long[]> createDiskIndex() {
-        return diskStore
-                .hashMap(IndexName)
-                .keySerializer(Serializer.LONG)
-                .valueSerializer(Serializer.LONG_ARRAY)
-                .createOrOpen();
-    }
-
-    @NotNull
-    private HTreeMap<Long, long[]> createMemoryIndex(long maxMemorySize) {
-        return createMemoryStore()
-                .hashMap(IndexName)
-                .keySerializer(Serializer.LONG)
-                .valueSerializer(Serializer.LONG_ARRAY)
-                .expireAfterCreate()
-                .expireStoreSize(maxMemorySize)
-                .expireOverflow(diskIndex)
-                .create();
-    }
-
-    @NotNull
-    private DB createMemoryStore() {
-        return DBMaker
-                .memoryDB()
-                .make();
+        memoryIndex = createMemoryIndex(memoryStore, maxMemorySize, diskIndex);
     }
 
     @Override
@@ -93,20 +96,23 @@ public class DiskBackedGeneValues implements GeneValues {
     }
 
     @Override
-    public void remove(GenesIdentifier identifier) {
-        memoryIndex.remove(identifier.asUniqueLong());
-    }
-
-    @Override
     public void retainOnly(Collection<GenesIdentifier> genesIdentifiers) {
-        Collection<Long> identifiers = genesIdentifiers.stream().map(i -> i.asUniqueLong()).collect(Collectors.toList());
-        diskIndex.keySet().retainAll(identifiers);
+        Collection<Long> identifiers = genesIdentifiers.stream().map(GenesIdentifier::asUniqueLong).collect(Collectors.toList());
+        diskIndex.keySet().retainAll(identifiers); // necessary to prevent inconsistencies with memory index
         memoryIndex.keySet().retainAll(identifiers);
     }
 
+    /**
+     * Call this to ensure all resources are released.
+     *
+     * The cache cannot be recreated in the same process if this is not called
+     */
+    @Override
     public void close(){
-        diskIndex.clear();
-        memoryIndex.clear();
+        diskIndex.close();
+        memoryIndex.close();
+        memoryStore.close();
         diskStore.close();
+        ensureBackingFileDoesNotExist();
     }
 }
