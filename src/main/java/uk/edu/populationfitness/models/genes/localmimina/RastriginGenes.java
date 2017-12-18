@@ -37,7 +37,7 @@ public class RastriginGenes extends NormalizingBitSetGenes {
     private double getRastriginFitnessUsingCos(double fitness, long[] integer_values) {
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += FastMaths.pow(x, 2) - RastriginTermA * CosSineCache.cos(TwoPi * x);
+            fitness += x * x - RastriginTermA * CosSineCache.cos(TwoPi * x);
         }
         return fitness;
     }

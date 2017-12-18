@@ -20,7 +20,7 @@ public class DiscoverFunctionRangeTest {
 
     public static final int SizeOfGenes = 2250;
 
-    public static final int PopulationSize = 100;
+    public static final int PopulationSize = 10;
 
     private void DiscoverFunctionRange(Function function, int numberOfGenes, int sizeOfGenes, FitnessRange range, int populationSize){
         GenesFactory factory = new GenesTimerFactory(new BitSetGenesFactory());
@@ -29,7 +29,7 @@ public class DiscoverFunctionRangeTest {
         Config config = new Config();
         config.number_of_genes = numberOfGenes;
         config.size_of_each_gene = sizeOfGenes;
-        config.range.min(range.min()).max(range.max()).statistics(new Statistics());
+        config.range.min(range.min()).max(range.max());
         config.genesFactory = factory;
         GenesTimer.resetAll();
 
@@ -53,7 +53,7 @@ public class DiscoverFunctionRangeTest {
         double min = Double.MAX_VALUE;
         double max = Double.MIN_VALUE;
         for (Genes g: genes) {
-            double fitness = g.fitness(10.0);
+            double fitness = g.fitness(1.0);
 
             if (fitness < min) min = fitness;
             if (fitness > max) max = fitness;
@@ -66,12 +66,11 @@ public class DiscoverFunctionRangeTest {
         System.out.print(min);
         System.out.print(" max=");
         System.out.println(max);
-        //config.range.statistics().show();
 
         GenesTimer.showAll();
 
         Assert.assertTrue("Min above zero", min >= -0.1);
-        Assert.assertTrue("Usable range", max - min >= 0.1);
+        Assert.assertTrue("Usable range", max - min >= 0.01);
     }
 
     @Test public void testDiscoverRastrigin() {

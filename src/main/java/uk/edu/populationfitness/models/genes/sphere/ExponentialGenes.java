@@ -1,10 +1,21 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.FastMaths;
+import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
+import uk.edu.populationfitness.models.genes.localmimina.AckleysGenes;
 
 public class ExponentialGenes extends NormalizingBitSetGenes {
+    private static class NormalizationRatioCalculator implements ValueCalculator {
+        @Override
+        public double calculateValue(long n) {
+            return 1.0 - Math.exp(-0.5 * n);
+        }
+    }
+
+    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new ExponentialGenes.NormalizationRatioCalculator());
 
     public ExponentialGenes(Config config) {
         super(config, 1.0);
@@ -12,7 +23,7 @@ public class ExponentialGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 1.0 - FastMaths.exp(-0.5 * n);
+        return NormalizationRatios.findOrCalculate(n);
     }
 
     @Override
@@ -23,12 +34,12 @@ public class ExponentialGenes extends NormalizingBitSetGenes {
 
         double fitness = 0.0;
 
-        for(int i = 1; i < integer_values.length; i++) {
+        for(int i = 0; i < integer_values.length; i++) {
             double x = interpolate(integer_values[i]);
 
-            fitness += FastMaths.pow(x, 2);
+            fitness += x * x;
         }
 
-        return 1.0 - FastMaths.exp(-0.5 * fitness);
+        return 1.0 - Math.exp(-0.5 * fitness);
     }
 }

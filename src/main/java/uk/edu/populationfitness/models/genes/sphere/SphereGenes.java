@@ -38,7 +38,7 @@ public class SphereGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += FastMaths.pow(x, 2);
+            fitness += x * x;
         }
         return fitness;
     }

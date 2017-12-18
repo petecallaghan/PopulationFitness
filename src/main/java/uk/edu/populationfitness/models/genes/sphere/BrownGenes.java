@@ -25,8 +25,8 @@ public class BrownGenes extends NormalizingBitSetGenes {
         for(int i = 0; i < integer_values.length - 1; i++){
             double xN = interpolate(integer_values[i]);
             double xNPlus1 = interpolate(integer_values[i+1]);
-            double xNSquared = FastMaths.pow(xN, 2);
-            double xNPlus1Squared = FastMaths.pow(xNPlus1, 2);
+            double xNSquared = xN * xN;
+            double xNPlus1Squared =xNPlus1 * xNPlus1;
             fitness += Math.pow(xNSquared, xNPlus1Squared + 1.0) + Math.pow(xNPlus1Squared, xNSquared + 1.0);
         }
 

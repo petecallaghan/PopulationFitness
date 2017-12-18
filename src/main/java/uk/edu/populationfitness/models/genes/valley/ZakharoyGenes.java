@@ -10,19 +10,8 @@ public class ZakharoyGenes extends NormalizingBitSetGenes {
     private static class NormalizationRatioCalculator implements ValueCalculator{
         @Override
         public double calculateValue(long n) {
-            /**
-             * Calculates the normalization ratio for a size of n
-             *
-             * {f left (x right )} over {100 n+ {left (sum from {i=1} to {n} {5 i } right )} ^ {2} + {left (sum from {i=1} to {n} {5 i } right )} ^ {4}}
-             */
-            if (n < 1) return 1;
-
-            double value = 100 * n;
-            double sum = 0;
-            for(int i = 1; i <= n; i++){
-                sum += i * 5;
-            }
-            return value + (sum * sum) + (sum * sum * sum * sum);
+            double value = (n * (n + 1.0) ) / 2.0;
+            return 100 * n + 25 * (value * value + 35.0 * FastMaths.pow(value, 3));
         }
     }
 

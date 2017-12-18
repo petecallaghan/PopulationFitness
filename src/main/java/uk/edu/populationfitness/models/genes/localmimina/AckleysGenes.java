@@ -2,10 +2,24 @@ package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.fastmaths.CosSineCache;
+import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.FastMaths;
+import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
+import uk.edu.populationfitness.models.genes.valley.ZakharoyGenes;
 
 public class AckleysGenes extends NormalizingBitSetGenes {
+    private static class NormalizationRatioCalculator implements ValueCalculator {
+        @Override
+        public double calculateValue(long n) {
+            /**
+             * {f left (x right )} over {20 left (1- {e} ^ {-0.2α} right ) +e- {e} ^ {-1}}
+             */
+            return 20.0 * (1.0 - Math.exp(-0.2 * alpha)) + Math.E - Math.exp(-1.0);
+        }
+    }
+
+    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new AckleysGenes.NormalizationRatioCalculator());
 
     private static double alpha = 4.5;
 
@@ -19,10 +33,7 @@ public class AckleysGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        /**
-         * {f left (x right )} over {20 left (1- {e} ^ {-0.2α} right ) +e- {e} ^ {-1}}
-         */
-        return 20.0 * (1.0 - FastMaths.exp(-0.2 * alpha)) + Math.E - FastMaths.exp(-1.0);
+        return NormalizationRatios.findOrCalculate(n);
     }
 
     @Override
@@ -37,12 +48,12 @@ public class AckleysGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            firstSum += FastMaths.pow(x, 2);
+            firstSum += x * x;
             secondSum += CosSineCache.cos(TwoPi * x);
         }
 
         double n = integer_values.length;
 
-        return -20.0 * FastMaths.exp(-0.2 * Math.sqrt(firstSum / n)) - FastMaths.exp(secondSum / n) + TwentyPlusE;
+        return -20.0 * Math.exp(-0.2 * Math.sqrt(firstSum / n)) - Math.exp(secondSum / n) + TwentyPlusE;
     }
 }

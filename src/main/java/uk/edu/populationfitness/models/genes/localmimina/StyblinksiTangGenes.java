@@ -34,7 +34,8 @@ public class StyblinksiTangGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-            fitness += (FastMaths.pow(x, 4) - 16 * FastMaths.pow(x, 2) + 5 * x);
+            double xSquared = x * x;
+            fitness += (xSquared * xSquared - 16 * xSquared + 5 * x);
         }
 
         return fitness / 2;

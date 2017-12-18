@@ -1,10 +1,20 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.FastMaths;
+import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SchumerSteiglitzGenes extends NormalizingBitSetGenes {
+    private static class NormalizationRatioCalculator implements ValueCalculator {
+        @Override
+        public double calculateValue(long n) {
+            return 100000000.0 * n;
+        }
+    }
+
+    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new SchumerSteiglitzGenes.NormalizationRatioCalculator());
 
     public SchumerSteiglitzGenes(Config config) {
         super(config, 100.0);
@@ -12,7 +22,7 @@ public class SchumerSteiglitzGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 10000.0 * FastMaths.pow(n, 4);
+        return NormalizationRatios.findOrCalculate(n);
     }
 
     @Override

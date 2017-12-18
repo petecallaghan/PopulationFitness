@@ -2,19 +2,33 @@ package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.fastmaths.CosSineCache;
+import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
+import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.*;
+import uk.edu.populationfitness.models.genes.sphere.QingGenes;
 
 public class Schwefel226Genes extends NormalizingBitSetGenes {
 
     public static final double SchwefelConstant = 418.982;
 
+    private static final double SchwefelConstant2 = 420.9687;
+
+    private static class NormalizationRatioCalculator implements ValueCalculator {
+        @Override
+        public double calculateValue(long n) {
+            return SchwefelConstant * n + SchwefelConstant2 * CosSineCache.sin(Math.sqrt(SchwefelConstant2)) * n;
+        }
+    }
+
+    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
+
     public Schwefel226Genes(Config config) {
-        super(config, 500.0);
+        super(config, 50000.0);
     }
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 2.0 * SchwefelConstant * n;
+        return NormalizationRatios.findOrCalculate(n);
     }
 
     @Override

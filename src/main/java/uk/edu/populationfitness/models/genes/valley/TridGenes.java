@@ -11,7 +11,7 @@ public class TridGenes extends NormalizingBitSetGenes{
 
         @Override
         public double calculateValue(long index) {
-            double min = (0.0 - index) * (index + 4.0) * (index - 1.0);
+            double min = (0.0 - index) * (index + 4.0) * (index + 1.0);
             return min / 6;
         }
     }
@@ -60,7 +60,7 @@ public class TridGenes extends NormalizingBitSetGenes{
         /**
          * {- {n} ^ {2} ≤x} rsub {i} ≤+ {n} ^ {2}
          */
-        interpolation_ratio = n * n / maxLongForSizeOfGene();
+        interpolation_ratio = (1.0 * n * n) / maxLongForSizeOfGene();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class TridGenes extends NormalizingBitSetGenes{
             double secondSum = 0;
             for(int i = 1; i < integer_values.length; i++){
                 double x = interpolate(integer_values[i]);
-                firstSum += FastMaths.pow(x - 1, 2);
+                firstSum += (x - 1) * (x - 1);
                 secondSum += x * previousX;
                 previousX = x;
             }

@@ -44,7 +44,9 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
         for(int i = 0; i < integer_values.length - 1; i++){
             double x = interpolate(integer_values[i]);
             double xplus1 = interpolate(integer_values[i+1]);
-            fitness += ( 100.0 * ( FastMaths.pow( xplus1 - FastMaths.pow(x, 2), 2) + FastMaths.pow(x - 1, 2)) );
+            double xSquared = x * x;
+            double diff = xplus1 - xSquared;
+            fitness += 100.0 * ( diff * diff + (x - 1) * (x - 1));
         }
         return fitness;
     }

@@ -1,10 +1,25 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.FastMaths;
+import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class QingGenes extends NormalizingBitSetGenes {
+    private static class NormalizationRatioCalculator implements ValueCalculator {
+        @Override
+        public double calculateValue(long n) {
+            double ratio = 0.0;
+            for(int i = 1; i <= n; i++){
+                double value = 250000.0  - i;
+                ratio += value * value;
+            }
+            return n > 0 ? ratio : 1.0;
+        }
+    }
+
+    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new QingGenes.NormalizationRatioCalculator());
 
     public QingGenes(Config config) {
         super(config, 500.0);
@@ -12,11 +27,7 @@ public class QingGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        double ratio = 0.0;
-        for(int i = 1; i <= n; i++){
-            ratio += FastMaths.pow(250000.0  - i, 2);
-        }
-        return n > 0 ? ratio : 1.0;
+        return NormalizationRatios.findOrCalculate(n);
     }
 
     @Override
@@ -29,8 +40,8 @@ public class QingGenes extends NormalizingBitSetGenes {
 
         for(int i = 0; i < integer_values.length; i++){
             double x = interpolate(integer_values[i]);
-
-            fitness += FastMaths.pow(FastMaths.pow(x, 2) - (i + 1), 2);
+            double value = x * x - (i + 1);
+            fitness += value * value;
         }
         return fitness;
     }

@@ -18,15 +18,4 @@ public class FastMaths {
         }
         return result;
     }
-
-    /**
-     * Optimised approximation to exp
-     * @param power
-     * @return an approximation of e raised to power
-     */
-    public static double exp(double power){
-        // See https://martin.ankerl.com/2007/10/04/optimized-pow-approximation-for-java-and-c-c/
-        final long tmp = (long) (1512775 * power + (1072693248 - 60801));
-        return Double.longBitsToDouble(tmp << 32);
-    }
 }

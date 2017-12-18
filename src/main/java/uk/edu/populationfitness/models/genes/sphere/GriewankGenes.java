@@ -30,7 +30,7 @@ public class GriewankGenes extends NormalizingBitSetGenes {
             double x = interpolate(integer_values[i]);
 
             product *= CosSineCache.cos(x / Math.sqrt(1.0 * i));
-            fitness += (FastMaths.pow(x, 2) / 400.0);
+            fitness += (x * x / 400.0);
         }
         return fitness + product;
     }
