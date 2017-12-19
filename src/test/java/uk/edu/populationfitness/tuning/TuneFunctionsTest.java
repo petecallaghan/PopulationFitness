@@ -5,8 +5,8 @@ import uk.edu.populationfitness.UkPopulationEpochs;
 import uk.edu.populationfitness.models.*;
 import org.junit.Test;
 import uk.edu.populationfitness.models.genes.Function;
-import uk.edu.populationfitness.models.genes.cache.DiskBackedGeneValues;
 import uk.edu.populationfitness.models.genes.cache.SharedCache;
+import uk.edu.populationfitness.models.genes.cache.ThreadLocalGenesCache;
 import uk.edu.populationfitness.models.genes.performance.GenesTimer;
 import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
 import uk.edu.populationfitness.output.EpochsWriter;
@@ -65,7 +65,7 @@ public class TuneFunctionsTest {
 
     private void chooseCacheForGeneSize(int numberOfGenes, int sizeOfGenes) {
         if (numberOfGenes * sizeOfGenes > SmallGenes){
-            SharedCache.set(new DiskBackedGeneValues());
+            SharedCache.set(new ThreadLocalGenesCache(1));
         }
         else{
             SharedCache.setDefault();

@@ -26,9 +26,16 @@ public class Generations {
 
     public int first_year;
 
+    public final int run;
+
     public Generations(Population population){
+        this(population, 1);
+    }
+
+    public Generations(Population population, int run){
         this.population = population;
         this.config = population.config;
+        this.run = run;
         history = new ArrayList<>();
         first_year = UNDEFINED_YEAR;
     }
@@ -146,7 +153,7 @@ public class Generations {
         generation.average_age = population.average_age;
         history.add(generation);
 
-        System.out.println("Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
+        System.out.println("Run "+run+" Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
         return generation;
     }
 

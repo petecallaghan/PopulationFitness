@@ -14,7 +14,7 @@ public class Config {
     public static final double PI = Math.PI;
 
     // Unique identifier
-    public final String id = Instant.now().toString();
+    public String id = Instant.now().toString().replaceAll(":", "-");
 
     // No genes per individual
     public int number_of_genes;

@@ -16,6 +16,8 @@ public class DiskBackedGeneValues implements GeneValues {
 
     private static final String StoreName = "~genescache.tmp";
 
+    private final String storeName;
+
     private final DB diskStore;
 
     private final DB memoryStore;
@@ -25,8 +27,8 @@ public class DiskBackedGeneValues implements GeneValues {
     private final HTreeMap<Long, long[]> memoryIndex;
 
     @NotNull
-    private static DB createDiskStore(){
-        return DBMaker.fileDB(StoreName)
+    private static DB createDiskStore(String storeName){
+        return DBMaker.fileDB(storeName)
                 .fileMmapEnable()
                 .fileMmapPreclearDisable()
                 .make();
@@ -61,20 +63,51 @@ public class DiskBackedGeneValues implements GeneValues {
     }
 
     private void ensureBackingFileDoesNotExist() {
-        File file = new File(StoreName);
+        File file = new File(storeName);
         file.delete();
     }
 
-    public DiskBackedGeneValues(){
-        // Default to using 3/4 available memory
-        this((Runtime.getRuntime().maxMemory() * 3) / 4);
+    /**
+     * @param id
+     * @return the storename corresponding to the id
+     */
+    public static String getStoreNameForId(long id){
+         return StoreName + "." +Long.toString(id);
     }
 
-    public DiskBackedGeneValues(long maxMemorySize)
+    /**
+     * @return a value roughly 3/4 of the available memory
+     */
+    public static long getAvailableMemorySize(){
+        // Default to using 3/4 available memory
+        return (Runtime.getRuntime().maxMemory() * 3) / 4;
+    }
+
+    /**
+     * @param numberOfPortions
+     * @return the size of available memory for each portion, given the number of portions
+     */
+    public static long getPortionSizeOfAvailableMemory(int numberOfPortions){
+        if (numberOfPortions < 1) return getAvailableMemorySize();
+
+        return getAvailableMemorySize() / numberOfPortions;
+    }
+
+    public DiskBackedGeneValues(){
+        this(StoreName);
+    }
+
+    public DiskBackedGeneValues(String storeName){
+        this(storeName, getAvailableMemorySize());
+    }
+
+    public DiskBackedGeneValues(String storeName, long maxMemorySize)
     {
+        this.storeName = storeName;
+
         ensureBackingFileDoesNotExist();
 
-        diskStore = createDiskStore();
+        diskStore = createDiskStore(storeName);
 
         memoryStore = createMemoryStore();
 

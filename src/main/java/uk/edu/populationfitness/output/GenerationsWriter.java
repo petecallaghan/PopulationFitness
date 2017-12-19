@@ -2,6 +2,7 @@ package uk.edu.populationfitness.output;
 
 import com.opencsv.CSVWriter;
 import uk.edu.populationfitness.Tuning;
+import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.GenerationStatistics;
 import uk.edu.populationfitness.models.Generations;
 
@@ -12,34 +13,30 @@ import java.io.IOException;
  * Created by pete.callaghan on 11/07/2017.
  */
 public class GenerationsWriter {
-    private static String filePath(String prefix, Generations generations){
+    public static String filePath(int run, int number_of_runs, Config config){
         StringBuffer filePath = new StringBuffer("generations");
         filePath.append("-");
-        if (prefix != null && !prefix.isEmpty()){
-            filePath.append(prefix);
-            filePath.append("-");
-        }
-        filePath.append(generations.config.genesFactory.getFitnessFunction());
-        filePath.append("-genes");
-        filePath.append(generations.config.number_of_genes);
-        filePath.append("x");
-        filePath.append(generations.config.size_of_each_gene);
-        filePath.append("-pop");
-        filePath.append(generations.config.initial_population);
-        filePath.append("-mut");
-        filePath.append(generations.config.mutations_per_gene);
+        filePath.append(run + 1);
+        filePath.append("of");
+        filePath.append(number_of_runs);
         filePath.append("-");
-        filePath.append(generations.population.config.id.replaceAll(":", "-"));
+        filePath.append(config.genesFactory.getFitnessFunction());
+        filePath.append("-genes");
+        filePath.append(config.number_of_genes);
+        filePath.append("x");
+        filePath.append(config.size_of_each_gene);
+        filePath.append("-pop");
+        filePath.append(config.initial_population);
+        filePath.append("-mut");
+        filePath.append(config.mutations_per_gene);
+        filePath.append("-");
+        filePath.append(config.id.replaceAll(":", "-"));
         filePath.append(".csv");
         return filePath.toString();
     }
 
-    public static void writeCsv(Generations generations, Tuning tuning) throws IOException {
-        writeCsv(null, generations, tuning);
-    }
-
-    public static void writeCsv(String prefix, Generations generations, Tuning tuning) throws IOException {
-        String filePath = filePath(prefix, generations);
+    public static void writeCsv(int run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
+        String filePath = filePath(run, number_of_runs, generations.config);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
         addHeaderRow(writer);
 

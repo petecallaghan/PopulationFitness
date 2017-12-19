@@ -1,8 +1,7 @@
 package uk.edu.populationfitness;
 
 import uk.edu.populationfitness.models.genes.Function;
-
-import java.time.Instant;
+import uk.edu.populationfitness.simulation.RunType;
 
 /**
  * Created by pete.callaghan on 13/07/2017.
@@ -22,4 +21,5 @@ public class Tuning {
     public double max_fitness = 1.0;
     public int mutations_per_gene = 1;
     public int number_of_runs = 1;
+    public int current_run = 0;
 }

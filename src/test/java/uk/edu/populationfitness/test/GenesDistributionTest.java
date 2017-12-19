@@ -111,7 +111,7 @@ public class GenesDistributionTest {
     }
 
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesSchwefel226(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel226, 1.0);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel226, 0.01);
     }
 
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesSphere(){
