@@ -15,18 +15,9 @@ public class Main {
         Tuning tuning = new Tuning();
         tuning.id = config.id;
 
-        RunType runType = Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
+        Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
         Simulation.SetInitialPopulationFromFirstEpochCapacity(config, epochs);
         Simulation.AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
-
-        switch (runType){
-            default:
-            case Series:
-                Simulation.RunAllInSeries(config, epochs, tuning);
-                break;
-            case Parallel:
-                Simulation.RunAllInParallel(config, epochs, tuning);
-                break;
-        }
+        Simulation.RunAllInParallel(config, epochs, tuning);
     }
 }

@@ -13,10 +13,12 @@ import java.io.IOException;
  * Created by pete.callaghan on 11/07/2017.
  */
 public class GenerationsWriter {
-    public static String filePath(int run, int number_of_runs, Config config){
+    public static String filePath(int parallel_run, int series_run, int number_of_runs, Config config){
         StringBuffer filePath = new StringBuffer("generations");
         filePath.append("-");
-        filePath.append(run + 1);
+        filePath.append(parallel_run);
+        filePath.append("-");
+        filePath.append(series_run);
         filePath.append("of");
         filePath.append(number_of_runs);
         filePath.append("-");
@@ -35,8 +37,8 @@ public class GenerationsWriter {
         return filePath.toString();
     }
 
-    public static void writeCsv(int run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
-        String filePath = filePath(run, number_of_runs, generations.config);
+    public static void writeCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
+        String filePath = filePath(parallel_run, series_run, number_of_runs, generations.config);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
         addHeaderRow(writer);
 

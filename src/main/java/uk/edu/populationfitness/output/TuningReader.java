@@ -34,7 +34,10 @@ public class TuningReader {
             tuning.mutations_per_gene = Integer.parseInt(row[11]);
         }
         if (row.length > 12){
-            tuning.number_of_runs = Integer.parseInt(row[12]);
+            tuning.series_runs = Integer.parseInt(row[12]);
+        }
+        if (row.length > 13){
+            tuning.parallel_runs = Integer.parseInt(row[13]);
         }
     }
 }

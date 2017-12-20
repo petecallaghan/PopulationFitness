@@ -15,12 +15,10 @@ import static org.junit.Assert.assertNotEquals;
 public class ConfigWriterTest {
     @Test public void testWriter() throws IOException {
         // Given a config
-        Tuning config = new Tuning();
-
-        config.number_of_runs = 3;
+        Tuning tuning = new Tuning();
 
         // Write it out to a file and don't complain about it
-        ConfigWriter.write(config, "test.yaml");
+        ConfigWriter.write(tuning, "test.yaml");
     }
 
     @Test public void testUniqueConfigIdentifiers() throws InterruptedException {

@@ -1,12 +1,12 @@
 package uk.edu.populationfitness.simulation;
 
-import org.jetbrains.annotations.NotNull;
 import uk.edu.populationfitness.Tuning;
-import uk.edu.populationfitness.models.*;
-import uk.edu.populationfitness.models.genes.cache.DiskBackedGeneValues;
+import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.Epoch;
+import uk.edu.populationfitness.models.Epochs;
+import uk.edu.populationfitness.models.Generations;
 import uk.edu.populationfitness.models.genes.cache.SharedCache;
 import uk.edu.populationfitness.models.genes.cache.ThreadLocalGenesCache;
-import uk.edu.populationfitness.output.GenerationsWriter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,12 +24,21 @@ public class Simulation {
      * @throws IOException
      */
     public static void RunAllInParallel(Config config, Epochs epochs, Tuning tuning) throws IOException {
-        SharedCache.set(new ThreadLocalGenesCache(tuning.number_of_runs));
+        SharedCache.set(new ThreadLocalGenesCache(tuning.parallel_runs));
 
         List<SimulationThread> simulations = launchSimulations(config, epochs, tuning);
         writeResultsWhenComplete(tuning, simulations);
+    }
 
-        SharedCache.cache().close();
+    private static List<SimulationThread> launchSimulations(Config config, Epochs epochs, Tuning tuning) {
+        List<SimulationThread> simulations = new ArrayList<>();
+
+        for(int run = 1; run <= tuning.parallel_runs; run++){
+            SimulationThread simulation = new SimulationThread(config, epochs, tuning, run);
+            simulation.start();
+            simulations.add(simulation);
+        }
+        return simulations;
     }
 
     private static void writeResultsWhenComplete(Tuning tuning, List<SimulationThread> simulations) throws IOException {
@@ -41,56 +50,10 @@ public class Simulation {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            total = CombineGenerationsAndWriteResult(simulation.run, simulation.generations, total, tuning);
+            if (tuning.parallel_runs > 1){
+                total = SimulationThread.CombineGenerationsAndWriteResult(tuning.parallel_runs, tuning.series_runs, simulation.generations, total, tuning);
+            }
         }
-    }
-
-    @NotNull
-    private static List<SimulationThread> launchSimulations(Config config, Epochs epochs, Tuning tuning) {
-        List<SimulationThread> simulations = new ArrayList<>();
-
-        for(int run = 0; run < tuning.number_of_runs; run++){
-            SimulationThread simulation = new SimulationThread(config, epochs, tuning, run);
-            simulation.start();
-            simulations.add(simulation);
-        }
-        return simulations;
-    }
-
-    /**
-     * Executes in series one or more simulations, up to the number defined in the tuning file.
-     *
-     * The individual simulation results are added to each run file, accumulating with each run.
-     *
-     * @param config
-     * @param epochs
-     * @param tuning
-     * @throws IOException
-     */
-    public static void RunAllInSeries(Config config, Epochs epochs, Tuning tuning) throws IOException {
-        Generations total = null;
-
-        for(int run = 0; run < tuning.number_of_runs; run++){
-            Generations current = RunSimulation(config, epochs, run);
-
-            total = CombineGenerationsAndWriteResult(run, current, total, tuning);
-        }
-    }
-
-    private static Generations CombineGenerationsAndWriteResult(int run, Generations current, Generations total, Tuning tuning) throws IOException {
-        Generations combined = (total == null ? current : Generations.add(total, current));
-        GenerationsWriter.writeCsv(run, tuning.number_of_runs, combined, tuning);
-        return combined;
-    }
-
-    private static Generations RunSimulation(Config config, Epochs epochs, int run){
-        SharedCache.set(new DiskBackedGeneValues());
-
-        Generations generations = new Generations(new Population(config), run);
-        generations.createForAllEpochs(epochs);
-
-        SharedCache.cache().close();
-        return generations;
     }
 
     /**

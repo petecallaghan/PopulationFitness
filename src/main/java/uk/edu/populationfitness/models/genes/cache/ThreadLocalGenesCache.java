@@ -37,5 +37,6 @@ public class ThreadLocalGenesCache implements GeneValues {
     @Override
     public void close() {
         cache.get().close();
+        cache.remove();
     }
 }

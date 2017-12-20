@@ -16,32 +16,49 @@ public class SimulationThread extends Thread{
 
     private final Epochs epochs;
 
-    public final Generations generations;
+    public Generations generations;
 
     private final Tuning tuning;
 
-    public final int run;
+    public final int parallel_run;
 
     public SimulationThread(Config config, Epochs epochs, Tuning tuning, int run) {
         this.config = config;
         this.epochs = epochs;
         this.tuning = tuning;
-        this.run = run;
-        generations = new Generations(new Population(config), run);
+        this.parallel_run = run;
+        generations = null;
     }
 
     @Override
     public void run() {
-        generations.createForAllEpochs(epochs);
-        writeResultsToCsv();
-        SharedCache.cache().close();
+        Generations total = null;
+
+        for(int series_run = 1; series_run <= tuning.series_runs; series_run++){
+            Generations current = RunSimulation(series_run);
+            try {
+                total = CombineGenerationsAndWriteResult(parallel_run, series_run, current, total, tuning);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            SharedCache.cache().close();
+        }
+        generations = total;
     }
 
-    private void writeResultsToCsv() {
-        try {
-            GenerationsWriter.writeCsv(run, tuning.number_of_runs, generations, tuning);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private Generations RunSimulation(int series_run) {
+        Generations current = new Generations(new Population(config), parallel_run, series_run);
+        current.createForAllEpochs(epochs);
+        return current;
+    }
+
+    public static Generations CombineGenerationsAndWriteResult(int parallel_run,
+                                                               int series_run,
+                                                               Generations current,
+                                                               Generations total,
+                                                               Tuning tuning) throws IOException {
+        total = (total == null ? current : Generations.add(total, current));
+        GenerationsWriter.writeCsv(parallel_run, series_run, tuning.series_runs * tuning.parallel_runs, total, tuning);
+        return total;
     }
 }

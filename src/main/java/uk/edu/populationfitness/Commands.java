@@ -20,8 +20,6 @@ public class Commands {
     public static final String TuningFile = "-t";
     public static final String EpochsFile = "-e";
     public static final String Id = "-i";
-    public static final String SimulationType = "-p";
-    public static final String Run = "-r";
 
     /**
      * Defines the path of the tuning file read from arguments.
@@ -41,9 +39,7 @@ public class Commands {
      * @param epochs
      * @param args
      */
-    public static RunType configureTuningAndEpochsFromInputFiles(Config config, Tuning tuning, Epochs epochs, String[] args){
-        RunType runType = RunType.Series;
-
+    public static void configureTuningAndEpochsFromInputFiles(Config config, Tuning tuning, Epochs epochs, String[] args){
         if (args.length < 2){
             showHelp();
         }
@@ -80,25 +76,12 @@ public class Commands {
                     config.id = tuning.id = args[i + 1];
                     continue;
                 }
-                if (argument.startsWith(SimulationType)){
-                    runType = RunType.valueOf(capitalize(args[i + 1]));
-                    continue;
-                }
-                if (argument.startsWith(Run)){
-                    tuning.current_run = Integer.parseInt(args[i + 1]);
-                    continue;
-                }
             }
             catch (Exception ignored){
                 System.out.print(ignored);
             }
             showHelp();
         }
-        return runType;
-    }
-
-    private static String capitalize(String value){
-        return value.substring(0, 1).toUpperCase() + value.substring(1).toLowerCase();
     }
 
     private static long getSeed(String arg) {
@@ -115,8 +98,6 @@ public class Commands {
         System.out.println("    -t [csv file containing tuning]");
         System.out.println("    -e [csv file containing epochs]");
         System.out.println("    -i [simulation id - used to generate the name of the output files");
-        System.out.println("    -p [simluation run type - one of Series, Parallel. Default is Series]");
-        System.out.println("    -r [the run number - base 1]");
         System.exit(0);
     }
 }
