@@ -1,2 +1,2 @@
 Function,Historic Fit,Disease Fit,Modern Fit,Modern Kill,Historic Kill,Modern Breeding,Number of Genes,Size of Genes,Min Fitness,Max Fitness,Mutation,Runs
-Sphere,2.996371782597873,2.7157738095238098,2.984860386986465,1.003,1.066,0.13,20000,2250,0,1,100,1000
+DixonPrice,5.51147476668731,4.754463085714286,5.607280897337278,1.003,1.066,0.13,20000,2250,0,1,100,1000
