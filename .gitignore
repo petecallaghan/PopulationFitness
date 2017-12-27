@@ -15,3 +15,5 @@ test.csv
 ~experiments/
 .idea/libraries/
 ~genescache.tmp
+allgenerations-test-.csv
+test-results.csv

@@ -8,13 +8,14 @@ import org.mapdb.Serializer;
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
 public class DiskBackedGeneValues implements GeneValues {
     private static final String IndexName = "genes";
 
-    private static final String StoreName = "~genescache.tmp";
+    private static final String StoreName = "~genescache"+ManagementFactory.getRuntimeMXBean().getName()+".tmp";
 
     private final String storeName;
 

@@ -39,6 +39,20 @@ public class GenerationStatistics {
         return (double) (kill_time / 10) / 100;
     }
 
+    private static long average(long value, long count){
+        if (count < 1){
+            return value;
+        }
+        return value / count;
+    }
+
+    private static double average(double value, long count){
+        if (count < 1){
+            return value;
+        }
+        return value / count;
+    }
+
     public static GenerationStatistics add(GenerationStatistics first, GenerationStatistics second){
         if (first.year != second.year) throw new Error("Cannot add different years");
 
@@ -49,8 +63,8 @@ public class GenerationStatistics {
                 first.number_killed + second.number_killed,
                 first.born_time + second.born_time,
                 first.kill_time + second.kill_time);
-        result.average_age = (int)(((long)first.average_age * first.population + (long)second.average_age * second.population) / result.population);
-        result.average_fitness = (first.average_fitness * first.population + second.average_fitness * second.population) / result.population;
+        result.average_age = (int)average(((long)first.average_age * first.population + (long)second.average_age * second.population), result.population);
+        result.average_fitness = average(first.average_fitness * first.population + second.average_fitness * second.population, result.population);
         result.epoch.expected_max_population += second.epoch.expected_max_population;
         result.epoch.environment_capacity += second.epoch.environment_capacity;
         return result;

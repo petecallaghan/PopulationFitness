@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.output;
 
 import com.opencsv.CSVWriter;
+import org.jetbrains.annotations.NotNull;
 import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.GenerationStatistics;
@@ -37,8 +38,11 @@ public class GenerationsWriter {
         return filePath.toString();
     }
 
-    public static void writeCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
-        String filePath = filePath(parallel_run, series_run, number_of_runs, generations.config);
+    public static String writeCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
+        return writeCsv(filePath(parallel_run, series_run, number_of_runs, generations.config), generations, tuning);
+    }
+
+    public static String writeCsv(String filePath, Generations generations, Tuning tuning) throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
         addHeaderRow(writer);
 
@@ -49,6 +53,8 @@ public class GenerationsWriter {
         writer.writeNext(new String[]{ConfigWriter.toString(tuning)});
 
         writer.close();
+
+        return filePath;
     }
 
     private static void addGenerationRow(CSVWriter writer, GenerationStatistics generation) {
@@ -93,5 +99,40 @@ public class GenerationsWriter {
                 "Fitness Deviation",
                 "Average Age",
         });
+    }
+
+    /**
+     * Adds the two generation histories together and writes the result as a CSV file.
+     *
+     * @param parallel_run
+     * @param series_run
+     * @param current
+     * @param total
+     * @param tuning
+     * @return
+     * @throws IOException
+     */
+    public static Generations CombineGenerationsAndWriteResult(int parallel_run,
+                                                               int series_run,
+                                                               Generations current,
+                                                               Generations total,
+                                                               Tuning tuning) throws IOException {
+        total = (total == null ? current : Generations.add(total, current));
+        writeCsv(parallel_run, series_run, tuning.series_runs * tuning.parallel_runs, total, tuning);
+        return total;
+    }
+
+    /**
+     * Creates a result file name from the file id.
+     *
+     * @param id
+     * @return the resulting file name
+     */
+    public static String createResultFileName(String id){
+        StringBuffer name = new StringBuffer("allgenerations");
+        name.append("-");
+        name.append(id);
+        name.append(".csv");
+        return name.toString();
     }
 }

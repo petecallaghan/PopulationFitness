@@ -1,8 +1,12 @@
 package uk.edu.populationfitness.test;
 
+import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.*;
 import org.junit.Test;
+import uk.edu.populationfitness.output.GenerationsReader;
+import uk.edu.populationfitness.output.GenerationsWriter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,5 +76,60 @@ public class GenerationsTest {
 
         // Then we have a collection of additions
         assertAreAdded(first, second, result.get(0));
+    }
+
+    @Test public void writeAndReadGenerationStatistics() throws IOException {
+        // Given a standard configuration ...
+        Config config = new Config();
+        config.min_breeding_age = 1; // so we get some babies
+        Population population = new Population(config);
+        Generations generations = new Generations(population);
+        // ... with some epochs ...
+        Epochs epochs = new Epochs(config);
+        epochs.addNextEpoch(new Epoch(config, -25).fitness(1.0).kill(1.0).capacity(4000));
+        epochs.addNextEpoch(new Epoch(config, 0).fitness(1.0).kill(1.0).capacity(4000));
+        epochs.addNextEpoch(new Epoch(config, 25).fitness(1.0).kill(1.0).capacity(4000));
+        epochs.setFinalEpochYear(50);
+        //  ... and some results written to a file
+        generations.createForAllEpochs(epochs);
+        String path = GenerationsWriter.writeCsv("test-results.csv", generations, new Tuning());
+
+        // When the results are read back
+        List<GenerationStatistics> readResult = GenerationsReader.readGenerations(config, path);
+
+        // Then they are the same as those written
+        assertAreEqual(generations.history, readResult);
+    }
+
+    private void assertAreEqual(List<GenerationStatistics> expected, List<GenerationStatistics> actual) {
+        GenerationStatistics[] expectedArray = expected.toArray(new GenerationStatistics[0]);
+        GenerationStatistics[] actualArray = actual.toArray(new GenerationStatistics[0]);
+        assertEquals(expectedArray.length, actualArray.length);
+        for(int i = 0; i < expectedArray.length; i++){
+            GenerationStatistics e = expectedArray[i];
+            GenerationStatistics a = actualArray[i];
+
+            assertAreEqual(e, a);
+        }
+    }
+
+    private void assertAreEqual(GenerationStatistics e, GenerationStatistics a) {
+        assertEquals(e.epoch.start_year, a.epoch.start_year);
+        assertEquals(e.epoch.end_year, a.epoch.end_year);
+        assertEquals(e.epoch.kill(), a.epoch.kill(), 0.01);
+        assertEquals(e.epoch.environment_capacity, a.epoch.environment_capacity);
+        assertEquals(e.epoch.isFitnessEnabled(), a.epoch.isFitnessEnabled());
+        assertEquals(e.epoch.breedingProbability(), a.epoch.breedingProbability(), 0.01);
+        assertEquals(e.year, a.year);
+        assertEquals(e.epoch.fitness(), a.epoch.fitness(), 0.000001);
+        assertEquals(e.epoch.expected_max_population, a.epoch.expected_max_population);
+        assertEquals(e.population, a.population);
+        assertEquals(e.number_born, a.number_born);
+        assertEquals(e.number_killed, a.number_killed);
+        assertEquals(e.bornElapsedInHundredths(), a.bornElapsedInHundredths(), 0.001);
+        assertEquals(e.killElapsedInHundredths(), a.killElapsedInHundredths(), 0.001);
+        assertEquals(e.average_fitness, a.average_fitness, 0.001);
+        assertEquals(e.fitness_deviation, a.fitness_deviation, 0.001);
+        assertEquals(e.average_age, a.average_age, 0.001);
     }
 }

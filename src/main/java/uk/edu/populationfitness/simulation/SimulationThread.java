@@ -10,23 +10,19 @@ import uk.edu.populationfitness.output.GenerationsWriter;
 
 import java.io.IOException;
 
-public class SimulationThread extends Thread{
+public class SimulationThread extends Simulation{
 
     private final Config config;
 
     private final Epochs epochs;
 
-    public Generations generations;
-
     private final Tuning tuning;
 
-    public final int parallel_run;
-
     public SimulationThread(Config config, Epochs epochs, Tuning tuning, int run) {
+        super(run);
         this.config = config;
         this.epochs = epochs;
         this.tuning = tuning;
-        this.parallel_run = run;
         generations = null;
     }
 
@@ -37,7 +33,7 @@ public class SimulationThread extends Thread{
         for(int series_run = 1; series_run <= tuning.series_runs; series_run++){
             Generations current = RunSimulation(series_run);
             try {
-                total = CombineGenerationsAndWriteResult(parallel_run, series_run, current, total, tuning);
+                total = GenerationsWriter.CombineGenerationsAndWriteResult(parallel_run, series_run, current, total, tuning);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -50,15 +46,5 @@ public class SimulationThread extends Thread{
         Generations current = new Generations(new Population(config), parallel_run, series_run);
         current.createForAllEpochs(epochs);
         return current;
-    }
-
-    public static Generations CombineGenerationsAndWriteResult(int parallel_run,
-                                                               int series_run,
-                                                               Generations current,
-                                                               Generations total,
-                                                               Tuning tuning) throws IOException {
-        total = (total == null ? current : Generations.add(total, current));
-        GenerationsWriter.writeCsv(parallel_run, series_run, tuning.series_runs * tuning.parallel_runs, total, tuning);
-        return total;
     }
 }

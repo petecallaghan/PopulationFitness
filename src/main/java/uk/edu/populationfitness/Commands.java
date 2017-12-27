@@ -20,6 +20,8 @@ public class Commands {
     public static final String TuningFile = "-t";
     public static final String EpochsFile = "-e";
     public static final String Id = "-i";
+    public static final String CommandLine = "-c";
+    public static final String ProcessCount = "-p";
 
     /**
      * Defines the path of the tuning file read from arguments.
@@ -32,6 +34,11 @@ public class Commands {
     public static String epochsFile = "";
 
     /**
+     * Defines the command line for any child processes
+     */
+    public static String childCommandLine = "";
+
+    /**
      * Reads tuning and epochs from the process arguments
      *
      * @param config
@@ -40,6 +47,8 @@ public class Commands {
      * @param args
      */
     public static void configureTuningAndEpochsFromInputFiles(Config config, Tuning tuning, Epochs epochs, String[] args){
+        int parallelCount = 1;
+
         if (args.length < 2){
             showHelp();
         }
@@ -49,31 +58,41 @@ public class Commands {
         }
 
         for(int i = 0; i < args.length - 1; i+= 2){
-            String argument = args[i].toLowerCase();
+            final String argument = args[i].toLowerCase();
+            final String value  = args[i + 1];
             try {
                 if (argument.startsWith(Seed)){
-                    long seed = getSeed(args[i + 1]);
+                    long seed = getSeed(value);
                     RepeatableRandom.setSeed(seed);
                     continue;
                 }
                 if (argument.startsWith(TuningFile)){
-                    tuningFile = args[i + 1];
+                    tuningFile = value;
                     TuningReader.read(tuning, tuningFile);
                     config.size_of_each_gene = tuning.size_of_genes;
                     config.number_of_genes = tuning.number_of_genes;
                     config.genesFactory.useFitnessFunction(tuning.function);
                     config.range.min(tuning.min_fitness).max(tuning.max_fitness);
                     config.mutations_per_gene = tuning.mutations_per_gene;
+                    parallelCount = tuning.parallel_runs;
                     continue;
                 }
                 if (argument.startsWith(EpochsFile)){
-                    epochsFile = args[i + 1];
+                    epochsFile = value;
                     List<Epoch> read = EpochsReader.readEpochs(config, epochsFile);
                     epochs.epochs.addAll(read);
                     continue;
                 }
                 if (argument.startsWith(Id)){
-                    config.id = tuning.id = args[i + 1];
+                    config.id = tuning.id = value;
+                    continue;
+                }
+                if (argument.startsWith(CommandLine)){
+                    childCommandLine = value;
+                    continue;
+                }
+                if (argument.startsWith(ProcessCount)){
+                    parallelCount = Integer.parseInt(value);
                     continue;
                 }
             }
@@ -82,6 +101,7 @@ public class Commands {
             }
             showHelp();
         }
+        tuning.parallel_runs = parallelCount;
     }
 
     private static long getSeed(String arg) {
@@ -98,6 +118,8 @@ public class Commands {
         System.out.println("    -t [csv file containing tuning]");
         System.out.println("    -e [csv file containing epochs]");
         System.out.println("    -i [simulation id - used to generate the name of the output files");
+        System.out.println("    -c [command line for child processes - eg '-Xms10g -Xmx10g -jar target/populationfitness.jar']");
+        System.out.println("    -p [process count of child processes, defaults to value in tuning file");
         System.exit(0);
     }
 }

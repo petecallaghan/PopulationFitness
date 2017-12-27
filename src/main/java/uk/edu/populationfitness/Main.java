@@ -2,8 +2,9 @@ package uk.edu.populationfitness;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epochs;
-import uk.edu.populationfitness.simulation.RunType;
-import uk.edu.populationfitness.simulation.Simulation;
+import uk.edu.populationfitness.simulation.SimulationProcessFactory;
+import uk.edu.populationfitness.simulation.SimulationThreadFactory;
+import uk.edu.populationfitness.simulation.Simulations;
 
 import java.io.IOException;
 
@@ -16,8 +17,22 @@ public class Main {
         tuning.id = config.id;
 
         Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
-        Simulation.SetInitialPopulationFromFirstEpochCapacity(config, epochs);
-        Simulation.AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
-        Simulation.RunAllInParallel(config, epochs, tuning);
+        Simulations.SetInitialPopulationFromFirstEpochCapacity(config, epochs);
+        Simulations.AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
+
+        if (commandedToRunAsParallelProcesses(tuning)){
+            Simulations.RunAllInParallel(new SimulationProcessFactory(tuning,
+                    config,
+                    Commands.childCommandLine,
+                    Commands.epochsFile,
+                    Commands.tuningFile));
+        }
+        else{
+            Simulations.RunAllInParallel(new SimulationThreadFactory(config, epochs, tuning));
+        }
+    }
+
+    private static boolean commandedToRunAsParallelProcesses(Tuning tuning) {
+        return !Commands.childCommandLine.isEmpty() && tuning.parallel_runs > 1;
     }
 }
