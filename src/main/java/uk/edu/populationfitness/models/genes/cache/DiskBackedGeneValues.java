@@ -8,6 +8,7 @@ import org.mapdb.Serializer;
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.lang.management.ManagementFactory;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -15,7 +16,11 @@ import java.util.stream.Collectors;
 public class DiskBackedGeneValues implements GeneValues {
     private static final String IndexName = "genes";
 
-    private static final String StoreName = "~genescache"+ManagementFactory.getRuntimeMXBean().getName()+".tmp";
+    private static final String StorePrefix = "~genescache";
+
+    private static final String StoreSuffix = "tmp";
+
+    private static final String StoreName = StorePrefix+ManagementFactory.getRuntimeMXBean().getName()+"."+StoreSuffix;
 
     private final String storeName;
 
@@ -63,9 +68,25 @@ public class DiskBackedGeneValues implements GeneValues {
                 .create();
     }
 
-    private void ensureBackingFileDoesNotExist() {
-        File file = new File(storeName);
-        file.delete();
+    /**
+     * Call this to clean up any undeleted cache files
+     */
+    public static void cleanUp(){
+        final File folder = new File(".");
+        final File[] files = folder.listFiles( new FilenameFilter() {
+            @Override
+            public boolean accept( final File dir,
+                                   final String name ) {
+                return name.matches( StorePrefix+"*.*");
+            }
+        } );
+        for ( final File file : files ) {
+            try{
+                file.delete();
+            }
+            catch(Exception ignored){
+            }
+        }
     }
 
     /**
@@ -94,19 +115,9 @@ public class DiskBackedGeneValues implements GeneValues {
         return getAvailableMemorySize() / numberOfPortions;
     }
 
-    public DiskBackedGeneValues(){
-        this(StoreName);
-    }
-
-    public DiskBackedGeneValues(String storeName){
-        this(storeName, getAvailableMemorySize());
-    }
-
     public DiskBackedGeneValues(String storeName, long maxMemorySize)
     {
         this.storeName = storeName;
-
-        ensureBackingFileDoesNotExist();
 
         diskStore = createDiskStore(storeName);
 
@@ -143,12 +154,23 @@ public class DiskBackedGeneValues implements GeneValues {
      */
     @Override
     public void close(){
-        diskIndex.clear();
-        memoryIndex.clear();
-        diskIndex.close();
-        memoryIndex.close();
+        emptyTheIndexes();
+        closeTheIndexes();
+        closeTheStores();
+    }
+
+    private void closeTheStores() {
         memoryStore.close();
         diskStore.close();
-        ensureBackingFileDoesNotExist();
+    }
+
+    private void closeTheIndexes() {
+        diskIndex.close();
+        memoryIndex.close();
+    }
+
+    private void emptyTheIndexes() {
+        diskIndex.clear();
+        memoryIndex.clear();
     }
 }

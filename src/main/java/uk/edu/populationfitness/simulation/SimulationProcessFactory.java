@@ -25,6 +25,8 @@ public class SimulationProcessFactory implements SimulationFactory {
         this.arguments.add(epochsFile);
         this.arguments.add(Commands.TuningFile);
         this.arguments.add(tuningFile);
+        this.arguments.add(Commands.Seed);
+        this.arguments.add(Commands.RandomSeed);
     }
 
     @Override

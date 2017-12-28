@@ -14,6 +14,8 @@ public class ThreadLocalGenesCache implements GeneValues {
     }
 
     public ThreadLocalGenesCache(int numberOfThreadsExpected) {
+        cleanUp();
+
         this.numberOfThreadsExpected = numberOfThreadsExpected;
         this.cache = ThreadLocal.withInitial(() -> new DiskBackedGeneValues(storeNameForCurrentThread(),
                         DiskBackedGeneValues.getPortionSizeOfAvailableMemory(numberOfThreadsExpected)));
@@ -38,5 +40,12 @@ public class ThreadLocalGenesCache implements GeneValues {
     public void close() {
         cache.get().close();
         cache.remove();
+    }
+
+    /**
+     * Call this to clean up any files
+     */
+    public static void cleanUp(){
+        DiskBackedGeneValues.cleanUp();
     }
 }

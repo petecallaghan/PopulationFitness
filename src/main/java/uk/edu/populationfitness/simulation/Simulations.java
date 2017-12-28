@@ -28,6 +28,8 @@ public class Simulations {
 
         List<Simulation> simulations = launchSimulations(factory);
         writeResultsWhenComplete(factory.tuning(), simulations);
+
+        ThreadLocalGenesCache.cleanUp();
     }
 
     private static List<Simulation> launchSimulations(SimulationFactory factory) {

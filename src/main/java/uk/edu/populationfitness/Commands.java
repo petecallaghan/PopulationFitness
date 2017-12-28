@@ -22,6 +22,7 @@ public class Commands {
     public static final String Id = "-i";
     public static final String CommandLine = "-c";
     public static final String ProcessCount = "-p";
+    public static final String RandomSeed = "random";
 
     /**
      * Defines the path of the tuning file read from arguments.
@@ -106,7 +107,7 @@ public class Commands {
 
     private static long getSeed(String arg) {
         // Will set the seed from the current time if 'random' is chosen
-        if (arg.toLowerCase().startsWith("random")){
+        if (arg.toLowerCase().startsWith(RandomSeed)){
             return System.currentTimeMillis();
         }
         return Long.decode(arg);
