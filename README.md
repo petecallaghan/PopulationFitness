@@ -67,7 +67,8 @@ Each process interprets the *tuning.csv* file as for the options above. In addit
 line argument to define the java arguments of the child processes and the -p argument to define the number 
 of child processes (eg *-c " -Xms8g -Xmx8g -jar target/populationfitness.jar" -p 2*). If the -p option is 
 omitted but the -c option included, then the number of processes will be the same as the number of
-parallel runs defined in the *tuning.csv*
+parallel runs defined in the *tuning.csv*. Each process generates an output file called 
+*allgenerations-[id]-[process number].csv* and these are then combined in a single *allgenerations-[id].csv* file. 
 
 ###Disk Cache
 The application uses a diskcache to avoid running out of memory. It generates temporary files that may need manually 
