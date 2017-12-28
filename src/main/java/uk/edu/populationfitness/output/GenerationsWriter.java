@@ -43,7 +43,8 @@ public class GenerationsWriter {
     }
 
     public static String writeCsv(String filePath, Generations generations, Tuning tuning) throws IOException {
-        CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
+        CSVWriter writer = createCsvWriter(filePath);
+
         addHeaderRow(writer);
 
         for (GenerationStatistics generation: generations.history) {
@@ -55,6 +56,23 @@ public class GenerationsWriter {
         writer.close();
 
         return filePath;
+    }
+
+    @NotNull
+    private static CSVWriter createCsvWriter(String filePath) throws IOException {
+        try{
+            return new CSVWriter(new FileWriter(filePath), ',');
+        }
+        catch(IOException e){
+            e.printStackTrace();
+            return new CSVWriter(new FileWriter(tryTemporaryVersionOf(filePath)), ',');
+        }
+    }
+
+    private static String tryTemporaryVersionOf(String filePath) {
+        StringBuffer alternative = new StringBuffer("~tmp.");
+        alternative.append(filePath);
+        return alternative.toString();
     }
 
     private static void addGenerationRow(CSVWriter writer, GenerationStatistics generation) {

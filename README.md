@@ -25,9 +25,9 @@ The *tuning* files are CSV format, hand generated. Examples of tuning files incl
 
 ### Adding a new Fitness Function
 Fitness functions are defined in *uk.edu.populationfitness.models.genes* as extensions of 
-genes represented as *BitSetGenes* or *InvertedBitSetGenes*
+genes represented usually as *NormalizingBitSetGenes*. 
 
-To add a new fitness function, create a new class that extends either of these classes. 
+To add a new fitness function, create a new class that extends classes that derive from *BitSetGenes*. 
 
 Then add an enumeration value to *uk.edu.populationfitness.models.genes.Function* and update
 *uk.edu.populationfitness.models.genes.GenesFactory* to create a new instance of the new 
@@ -37,15 +37,41 @@ Finally, tune first the fitness factor range and then generate the epochs CSV.
 
 ### Tuning 
 Tuning is a two-step process. For a new fitness function or new size of gene encoding you first have to 
-discover the min and max values of the fitness function, so that it can be scaled to [0..1]. 
+check that the fitness function delivers values in a useful range within [0..1]. If the function is normalized, then 
+its values should lie in this range.  
 
-To find out the fitness factor range for a fitness function, use *uk.edu.populationfitness.tuning.DiscoverFunctionRangeTest*. 
+To check the fitness factor range for a fitness function, use *uk.edu.populationfitness.tuning.DiscoverFunctionRangeTest*. 
 
-The fitness range is part of the tuning provided in the tuning CSV.
+The fitness range is part of the tuning provided in the tuning CSV. Note that genes which derive from 
+*NormalizingBitSetGenes* do not use the fitness range and must return fitness values from [0..1] without
+range modification if they are to be usable. 
 
 The next step is to generate the CSV that contains all the fitness factors for all the epochs. 
 
 Use *uk.edu.populationfitness.tuning.DiscoverTuneFunctionsTest* to generate the CSVs.
+
+###Multiple Runs
+The application can run simulations in a variety of ways. 
+
+1. As a single thread in a single process. The *tuning.csv* defines the number of runs in series and in parallel. 
+A value of 1 (column 13) in series and 1 (column 14) in parallel will generate single population, written to a single output CSV file. 
+2. As runs in series in a single thread in a single process. Define a value greater than 1 in series in
+*tuning.csv* and 1 in parallel will generate multiple simulations one after the other, the results added 
+together and written to a distinct CSV file after each simulation, culminating in a file called 
+*allgenerations???????.csv*
+3. As runs in series and multiple threads in a single process. Define a value greater than 1 in parallel 
+(column 14 in *tuning.csv*). The app will generate multiple populations simultaneously in multiple threads
+and add the results together into the *allgenerations????.csv* file at the end. 
+4. As runs in series and multiple processes, optionally also on multiple threads in each of the processes. 
+Each process interprets the *tuning.csv* file as for the options above. In addition, use the -c command 
+line argument to define the java arguments of the child processes and the -p argument to define the number 
+of child processes (eg *-c " -Xms8g -Xmx8g -jar target/populationfitness.jar" -p 2*). If the -p option is 
+omitted but the -c option included, then the number of processes will be the same as the number of
+parallel runs defined in the *tuning.csv*
+
+###Disk Cache
+The application uses a diskcache to avoid running out of memory. It generates temporary files that may need manually 
+deleting. Look for files that start with "~".  
 
 ## Python Version
 

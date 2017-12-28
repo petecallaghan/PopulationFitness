@@ -35,7 +35,7 @@ public class SimulationProcess extends Simulation {
     public void run() {
         try {
             Process simulation = (new ProcessBuilder(arguments)).start();
-            redirectOutput(simulation);
+            displayProcessOutput(simulation);
             simulation.waitFor();
             readGeneratedResultsFromFile();
         } catch (IOException e) {
@@ -45,13 +45,14 @@ public class SimulationProcess extends Simulation {
         }
     }
 
-    private void redirectOutput(Process simulation) throws IOException {
-        BufferedReader br=new BufferedReader(new InputStreamReader(simulation.getInputStream()));
-        String line;
-        while((line=br.readLine())!=null){
+    private void displayProcessOutput(Process simulation) throws IOException {
+        BufferedReader processOutput = new BufferedReader(new InputStreamReader(simulation.getInputStream()));
+        String nextLine;
+        while((nextLine = processOutput.readLine()) != null){
+            System.out.print("Process(");
             System.out.print(parallel_run);
-            System.out.print(":");
-            System.out.println(line);
+            System.out.print("):");
+            System.out.println(nextLine);
         }
     }
 
