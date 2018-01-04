@@ -4,6 +4,7 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epoch;
 import uk.edu.populationfitness.models.Epochs;
 import uk.edu.populationfitness.models.RepeatableRandom;
+import uk.edu.populationfitness.models.genes.cache.CacheType;
 import uk.edu.populationfitness.output.EpochsReader;
 import uk.edu.populationfitness.output.TuningReader;
 import uk.edu.populationfitness.simulation.RunType;
@@ -23,6 +24,7 @@ public class Commands {
     public static final String CommandLine = "-c";
     public static final String ProcessCount = "-p";
     public static final String RandomSeed = "random";
+    public static final String GenesCache = "-g";
 
     /**
      * Defines the path of the tuning file read from arguments.
@@ -38,6 +40,11 @@ public class Commands {
      * Defines the command line for any child processes
      */
     public static String childCommandLine = "";
+
+    /**
+     * Defines the cache type for genes
+     */
+    public static CacheType genesCache = CacheType.Default;
 
     /**
      * Reads tuning and epochs from the process arguments
@@ -96,6 +103,10 @@ public class Commands {
                     parallelCount = Integer.parseInt(value);
                     continue;
                 }
+                if (argument.startsWith(GenesCache)){
+                    genesCache = CacheType.valueOf(value);
+                    continue;
+                }
             }
             catch (Exception ignored){
                 System.out.print(ignored);
@@ -120,7 +131,8 @@ public class Commands {
         System.out.println("    -e [csv file containing epochs]");
         System.out.println("    -i [simulation id - used to generate the name of the output files");
         System.out.println("    -c [command line for child processes - eg '-Xms10g -Xmx10g -jar target/populationfitness.jar']");
-        System.out.println("    -p [process count of child processes, defaults to value in tuning file");
+        System.out.println("    -p [process count of child processes, defaults to value in tuning file]");
+        System.out.println("    -g [DiskBacked or Heap - default is Heap. Use DiskBacked to use a file store for genes]");
         System.exit(0);
     }
 }

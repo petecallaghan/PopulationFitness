@@ -25,10 +25,12 @@ public class Main {
                     config,
                     Commands.childCommandLine,
                     Commands.epochsFile,
-                    Commands.tuningFile));
+                    Commands.tuningFile),
+                    Commands.genesCache);
         }
         else{
-            Simulations.RunAllInParallel(new SimulationThreadFactory(config, epochs, tuning));
+            Simulations.RunAllInParallel(new SimulationThreadFactory(config, epochs, tuning),
+                    Commands.genesCache);
         }
     }
 

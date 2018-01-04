@@ -5,6 +5,7 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epoch;
 import uk.edu.populationfitness.models.Epochs;
 import uk.edu.populationfitness.models.Generations;
+import uk.edu.populationfitness.models.genes.cache.CacheType;
 import uk.edu.populationfitness.models.genes.cache.SharedCache;
 import uk.edu.populationfitness.models.genes.cache.ThreadLocalGenesCache;
 import uk.edu.populationfitness.output.GenerationsWriter;
@@ -21,10 +22,13 @@ public class Simulations {
      * Waits for all the children to complete and then combines the results into a single file.
      *
      * @param factory
+     * @param cacheType
      * @throws IOException
      */
-    public static void RunAllInParallel(SimulationFactory factory) throws IOException {
-        SharedCache.set(new ThreadLocalGenesCache(factory.tuning().parallel_runs));
+    public static void RunAllInParallel(SimulationFactory factory, CacheType cacheType) throws IOException {
+        if (cacheType == CacheType.DiskBacked){
+            SharedCache.set(new ThreadLocalGenesCache(factory.tuning().parallel_runs));
+        }
 
         List<Simulation> simulations = launchSimulations(factory);
         writeResultsWhenComplete(factory.tuning(), simulations);
