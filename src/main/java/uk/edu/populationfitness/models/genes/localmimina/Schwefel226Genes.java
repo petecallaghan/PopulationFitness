@@ -5,11 +5,10 @@ import uk.edu.populationfitness.models.fastmaths.CosSineCache;
 import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.*;
-import uk.edu.populationfitness.models.genes.sphere.QingGenes;
 
 public class Schwefel226Genes extends NormalizingBitSetGenes {
 
-    public static final double SchwefelConstant = 418.982;
+    private static final double SchwefelConstant = 418.982;
 
     private static final double SchwefelConstant2 = 420.9687;
 
@@ -33,12 +32,12 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * http://www.sfu.ca/~ssurjano/schwef.html
-         *
-         * f(x) = 418.9829d - sum{i=1 to d}[x{i} * sin(sqrt(mod(x{i})))]
-         *
-         * Dimensions: d
+        /*
+          http://www.sfu.ca/~ssurjano/schwef.html
+
+          f(x) = 418.9829d - sum{i=1 to d}[x{i} * sin(sqrt(mod(x{i})))]
+
+          Dimensions: d
 
          The Schwefel226 function is complex, with many local minima. The plot shows the two-dimensional form of the function.
 
@@ -53,8 +52,8 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
          */
         double fitness = SchwefelConstant * integer_values.length;
 
-        for(int i = 0; i < integer_values.length; i++){
-            double x = interpolate(integer_values[i]);
+        for (long integer_value : integer_values) {
+            double x = interpolate(integer_value);
             fitness -= (x * CosSineCache.sin(Math.sqrt(Math.abs(x))));
         }
         return fitness;

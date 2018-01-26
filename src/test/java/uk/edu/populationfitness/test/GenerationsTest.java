@@ -23,7 +23,7 @@ public class GenerationsTest {
         Population population = new Population(config);
         Generations generations = new Generations(population);
         // ... with some epochs
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
         epochs.addNextEpoch(new Epoch(config, -50).fitness(1.0).kill(1.0).capacity(4000));
         epochs.setFinalEpochYear(-40);
 
@@ -85,7 +85,7 @@ public class GenerationsTest {
         Population population = new Population(config);
         Generations generations = new Generations(population);
         // ... with some epochs ...
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
         epochs.addNextEpoch(new Epoch(config, -25).fitness(1.0).kill(1.0).capacity(4000));
         epochs.addNextEpoch(new Epoch(config, 0).fitness(1.0).kill(1.0).capacity(4000));
         epochs.addNextEpoch(new Epoch(config, 25).fitness(1.0).kill(1.0).capacity(4000));

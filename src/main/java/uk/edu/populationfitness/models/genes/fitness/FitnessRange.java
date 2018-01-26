@@ -12,7 +12,7 @@ public class FitnessRange {
 
     private Statistics statistics;
 
-    public FitnessRange(Statistics statistics){
+    private FitnessRange(Statistics statistics){
         min_fitness = 0;
         max_fitness = 1;
         range = 1;

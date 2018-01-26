@@ -8,13 +8,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TuningReader {
-    public static Tuning read(Tuning tuning, String file) throws IOException{
+    public static void read(Tuning tuning, String file) throws IOException{
         CSVReader reader = new CSVReader(new FileReader(file));
 
         // Read header
         reader.readNext();
         read(reader, tuning);
-        return tuning;
     }
 
     private static void read(CSVReader reader, Tuning tuning) throws IOException {

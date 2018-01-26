@@ -5,7 +5,6 @@ import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
-import uk.edu.populationfitness.models.genes.sphere.SumSquaresGenes;
 
 public class DixonPriceGenes extends NormalizingBitSetGenes {
 
@@ -31,8 +30,8 @@ public class DixonPriceGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * f left (x right ) = {left ({x} rsub {1} -1 right )} ^ {2} +  sum from {i=2} to {n} {i {left ({2x} rsub {i} rsup {2} - {x} rsub {i-1} right )} ^ {2}}
+        /*
+          f left (x right ) = {left ({x} rsub {1} -1 right )} ^ {2} +  sum from {i=2} to {n} {i {left ({2x} rsub {i} rsup {2} - {x} rsub {i-1} right )} ^ {2}}
          */
 
         double fitness = integer_values.length > 0 ? FastMaths.pow(interpolate(integer_values[0]) - 1.0, 2) : 0.0;

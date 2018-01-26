@@ -16,7 +16,7 @@ public abstract class InterpolatingBitSetGenes extends InvertedBitSetGenes {
         return Math.min(Long.MAX_VALUE, (long)Math.pow(2, bitCount)-1);
     }
 
-    public InterpolatingBitSetGenes(Config config, double maxInterpolatedValue) {
+    protected InterpolatingBitSetGenes(Config config, double maxInterpolatedValue) {
         super(config);
         interpolation_ratio = maxInterpolatedValue / maxLongForSizeOfGene();
     }
@@ -29,7 +29,7 @@ public abstract class InterpolatingBitSetGenes extends InvertedBitSetGenes {
         return maxForBits(numberOfBits());
     }
 
-    public double interpolate(long integer_value){
+    protected double interpolate(long integer_value){
         return interpolation_ratio * integer_value;
     }
 }

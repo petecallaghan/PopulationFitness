@@ -10,8 +10,8 @@ import java.time.Instant;
  * Created by pete.callaghan on 03/07/2017.
  */
 public class Config {
-    public static final double ZERO = 0.0;
-    public static final double PI = Math.PI;
+    private static final double ZERO = 0.0;
+    private static final double PI = Math.PI;
 
     // Unique identifier
     public String id = Instant.now().toString().replaceAll(":", "-");
@@ -25,9 +25,9 @@ public class Config {
     // The likely number of mutations per gene
     public int mutations_per_gene;
 
-    public int max_age;
+    public final int max_age;
 
-    public int max_breeding_age;
+    public final int max_breeding_age;
 
     public int min_breeding_age;
 
@@ -38,10 +38,10 @@ public class Config {
     public double float_upper;
 
     //  Probability that a pair will produce offspring in a year
-    public double probability_of_breeding;
+    public final double probability_of_breeding;
 
     // Number of years in the simulation
-    public int number_of_years;
+    public final int number_of_years;
 
     // Defines genes for each individual
     public GenesFactory genesFactory = new BitSetGenesFactory();

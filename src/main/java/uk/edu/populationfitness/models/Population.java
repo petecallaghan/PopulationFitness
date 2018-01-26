@@ -52,7 +52,7 @@ public class Population {
      */
     public List<Individual> addNewGeneration(Epoch epoch, int current_year){
         long totalAge = 0;
-        ArrayList<Individual> babies = new ArrayList<Individual>();
+        ArrayList<Individual> babies = new ArrayList<>();
 
         for(int i = 0; i < individuals.size() - 1; i+=2){
             Individual father = individuals.get(i);
@@ -90,7 +90,7 @@ public class Population {
 
     private int addSurvivors(Predicate<Individual> survivor){
         int population_size = individuals.size();
-        individuals = new ArrayList<>(individuals.stream().filter(survivor).collect(Collectors.toList()));
+        individuals = individuals.stream().filter(survivor).collect(Collectors.toCollection(ArrayList::new));
         return population_size - individuals.size();
     }
 

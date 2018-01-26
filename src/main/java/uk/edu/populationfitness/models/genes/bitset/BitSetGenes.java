@@ -16,7 +16,7 @@ import static java.lang.Math.abs;
  * Created by pete.callaghan on 03/07/2017.
  */
 public abstract class BitSetGenes implements Genes {
-    protected Config config;
+    protected final Config config;
 
     private GenesIdentifier genesIdentifier;
 
@@ -28,7 +28,7 @@ public abstract class BitSetGenes implements Genes {
 
     private final int size_of_genes;
 
-    public BitSetGenes(Config config) {
+    BitSetGenes(Config config) {
         this.config = config;
         size_of_genes = config.number_of_genes * config.size_of_each_gene;
     }
@@ -124,7 +124,7 @@ public abstract class BitSetGenes implements Genes {
      * @param fitness
      * @return
      */
-    protected double storeScaledFitness(double fitness_factor, double fitness) {
+    double storeScaledFitness(double fitness_factor, double fitness) {
         stored_fitness_factor = fitness_factor;
         stored_fitness = fitness;
         return stored_fitness;

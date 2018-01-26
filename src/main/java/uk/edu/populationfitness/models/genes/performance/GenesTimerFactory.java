@@ -15,8 +15,7 @@ public class GenesTimerFactory implements GenesFactory {
     @Override
     public Genes build(Config config) {
         Genes genes = delegate.build(config);
-        GenesTimer genesTimer = new GenesTimer(genes);
-        return genesTimer;
+        return new GenesTimer(genes);
     }
 
     @Override

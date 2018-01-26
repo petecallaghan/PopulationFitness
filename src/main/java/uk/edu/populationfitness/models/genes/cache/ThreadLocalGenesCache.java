@@ -7,8 +7,6 @@ import java.util.Collection;
 public class ThreadLocalGenesCache implements GeneValues {
     private final ThreadLocal<DiskBackedGeneValues> cache;
 
-    private final int numberOfThreadsExpected;
-
     private String storeNameForCurrentThread(){
         return DiskBackedGeneValues.getStoreNameForId(Thread.currentThread().getId());
     }
@@ -16,7 +14,6 @@ public class ThreadLocalGenesCache implements GeneValues {
     public ThreadLocalGenesCache(int numberOfThreadsExpected) {
         cleanUp();
 
-        this.numberOfThreadsExpected = numberOfThreadsExpected;
         this.cache = ThreadLocal.withInitial(() -> new DiskBackedGeneValues(storeNameForCurrentThread(),
                         DiskBackedGeneValues.getPortionSizeOfAvailableMemory(numberOfThreadsExpected)));
     }

@@ -1,6 +1,6 @@
 package uk.edu.populationfitness.models.genes.performance;
 
-public class TimingStatistics {
+class TimingStatistics {
 
     private final String name;
     private double total;
@@ -13,15 +13,14 @@ public class TimingStatistics {
         reset();
     }
 
-    public TimingStatistics add(long value){
+    public void add(long value){
         count++;
         total += value;
         min = Math.min(value, min);
         max = Math.max(value, max);
-        return this;
     }
 
-    public int count(){
+    private int count(){
         return this.count;
     }
 
@@ -33,7 +32,7 @@ public class TimingStatistics {
         return count == 0 ? 0 : this.max;
     }
 
-    public long mean(){
+    private long mean(){
         return count > 0 ? Math.round(total / count): 0;
     }
 

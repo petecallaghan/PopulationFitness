@@ -12,8 +12,8 @@ public class GenerationStatistics {
     public final int population;
     public final int year;
     public final Epoch epoch;
-    public final long born_time;
-    public final long kill_time;
+    private final long born_time;
+    private final long kill_time;
     public double average_fitness;
     public double fitness_deviation;
     public int average_age;

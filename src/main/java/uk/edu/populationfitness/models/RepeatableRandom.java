@@ -8,7 +8,7 @@ import java.util.SplittableRandom;
  * Created by pete.callaghan on 07/07/2017.
  */
 public class RepeatableRandom {
-    private static final long DEFAULT_SEED = 31l;
+    private static final long DEFAULT_SEED = 31L;
 
     private static SplittableRandom random = new SplittableRandom(DEFAULT_SEED);
 

@@ -1,7 +1,6 @@
 package uk.edu.populationfitness;
 
 import uk.edu.populationfitness.models.genes.Function;
-import uk.edu.populationfitness.simulation.RunType;
 
 /**
  * Created by pete.callaghan on 13/07/2017.

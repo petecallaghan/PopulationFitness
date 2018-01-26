@@ -16,12 +16,12 @@ public class SumOfPowersGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * http://www.sfu.ca/~ssurjano/sumpow.html
-         *
-         * f(x) = sum{i=1 to d}[ abs(x{i}) ^ i+1]
-         *
-         * Dimensions: d
+        /*
+          http://www.sfu.ca/~ssurjano/sumpow.html
+
+          f(x) = sum{i=1 to d}[ abs(x{i}) ^ i+1]
+
+          Dimensions: d
 
          The function is unimodal.
 

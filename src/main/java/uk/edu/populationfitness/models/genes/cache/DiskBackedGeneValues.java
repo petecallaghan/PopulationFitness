@@ -8,11 +8,11 @@ import org.mapdb.Serializer;
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 
 import java.io.File;
-import java.io.FilenameFilter;
 import java.lang.management.ManagementFactory;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("ALL")
 public class DiskBackedGeneValues implements GeneValues {
     private static final String IndexName = "genes";
 
@@ -21,8 +21,6 @@ public class DiskBackedGeneValues implements GeneValues {
     private static final String StoreSuffix = "tmp";
 
     private static final String StoreName = StorePrefix+ManagementFactory.getRuntimeMXBean().getName()+"."+StoreSuffix;
-
-    private final String storeName;
 
     private final DB diskStore;
 
@@ -73,13 +71,7 @@ public class DiskBackedGeneValues implements GeneValues {
      */
     public static void cleanUp(){
         final File folder = new File(".");
-        final File[] files = folder.listFiles( new FilenameFilter() {
-            @Override
-            public boolean accept( final File dir,
-                                   final String name ) {
-                return name.matches( StorePrefix+"*.*");
-            }
-        } );
+        final File[] files = folder.listFiles((dir, name) -> name.matches( StorePrefix+"*.*"));
         for ( final File file : files ) {
             try{
                 file.delete();
@@ -100,7 +92,7 @@ public class DiskBackedGeneValues implements GeneValues {
     /**
      * @return a value roughly 3/4 of the available memory
      */
-    public static long getAvailableMemorySize(){
+    private static long getAvailableMemorySize(){
         // Default to using 3/4 available memory
         return (Runtime.getRuntime().maxMemory() * 3) / 4;
     }
@@ -117,8 +109,6 @@ public class DiskBackedGeneValues implements GeneValues {
 
     public DiskBackedGeneValues(String storeName, long maxMemorySize)
     {
-        this.storeName = storeName;
-
         diskStore = createDiskStore(storeName);
 
         memoryStore = createMemoryStore();

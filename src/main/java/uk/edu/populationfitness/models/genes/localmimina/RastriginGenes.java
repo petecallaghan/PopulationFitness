@@ -2,10 +2,7 @@ package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.fastmaths.CosSineCache;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
-
-import static java.lang.Math.abs;
 
 public class RastriginGenes extends NormalizingBitSetGenes {
 
@@ -24,19 +21,19 @@ public class RastriginGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * This is a tunable Rastrigin function: https://en.wikipedia.org/wiki/Rastrigin_function
-         *
-         * f(x)=sum{i=1 to n}[x{i}^2-  A cos(2pi x{i})]
-         *
-         * The '2pi' term is replaced by 'fitness_factor * pi' to make the function tunable
+        /*
+          This is a tunable Rastrigin function: https://en.wikipedia.org/wiki/Rastrigin_function
+
+          f(x)=sum{i=1 to n}[x{i}^2-  A cos(2pi x{i})]
+
+          The '2pi' term is replaced by 'fitness_factor * pi' to make the function tunable
          */
         return getRastriginFitnessUsingCos(RastriginTermA * integer_values.length, integer_values);
     }
 
     private double getRastriginFitnessUsingCos(double fitness, long[] integer_values) {
-        for(int i = 0; i < integer_values.length; i++){
-            double x = interpolate(integer_values[i]);
+        for (long integer_value : integer_values) {
+            double x = interpolate(integer_value);
             fitness += x * x - RastriginTermA * CosSineCache.cos(TwoPi * x);
         }
         return fitness;

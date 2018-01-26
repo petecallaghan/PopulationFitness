@@ -2,7 +2,6 @@ package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
@@ -32,8 +31,8 @@ public class QingGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * f left (x right ) = sum from {i=1} to {n} {{left ({x} rsub {i} rsup {2} -i right )} ^ {2}}
+        /*
+          f left (x right ) = sum from {i=1} to {n} {{left ({x} rsub {i} rsup {2} -i right )} ^ {2}}
          */
 
         double fitness = 0.0;

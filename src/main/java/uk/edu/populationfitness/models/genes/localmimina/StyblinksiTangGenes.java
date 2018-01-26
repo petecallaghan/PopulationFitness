@@ -1,7 +1,6 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class StyblinksiTangGenes extends NormalizingBitSetGenes {
@@ -17,12 +16,12 @@ public class StyblinksiTangGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * http://www.sfu.ca/~ssurjano/stybtang.html
-         *
-         * f(x) = 1/2 * sum{i=1 to n}[x{i}^4 - 16x{i}^2 + 5x{i}]
-         *
-         * Dimensions: d
+        /*
+          http://www.sfu.ca/~ssurjano/stybtang.html
+
+          f(x) = 1/2 * sum{i=1 to n}[x{i}^4 - 16x{i}^2 + 5x{i}]
+
+          Dimensions: d
 
          The function is usually evaluated on the hypercube xi ∈ [-5, 5], for all i = 1, …, d.
 
@@ -32,8 +31,8 @@ public class StyblinksiTangGenes extends NormalizingBitSetGenes {
          */
         double fitness = 39.166 * integer_values.length;
 
-        for(int i = 0; i < integer_values.length; i++){
-            double x = interpolate(integer_values[i]);
+        for (long integer_value : integer_values) {
+            double x = interpolate(integer_value);
             double xSquared = x * x;
             fitness += (xSquared * xSquared - 16 * xSquared + 5 * x);
         }

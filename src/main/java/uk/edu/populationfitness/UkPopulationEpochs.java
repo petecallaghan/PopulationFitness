@@ -6,7 +6,7 @@ import uk.edu.populationfitness.models.Epochs;
 
 public class UkPopulationEpochs {
     public static Epochs define(Config config){
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
 
         final double historic_kill = 1.066;
         final double modern_breeding = 0.13;

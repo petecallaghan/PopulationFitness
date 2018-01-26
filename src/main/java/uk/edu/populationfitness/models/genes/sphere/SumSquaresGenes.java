@@ -2,10 +2,8 @@ package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
-import uk.edu.populationfitness.models.genes.valley.DixonPriceGenes;
 
 public class SumSquaresGenes extends NormalizingBitSetGenes {
 
@@ -34,12 +32,12 @@ public class SumSquaresGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * http://www.sfu.ca/~ssurjano/sumsqu.html
-         *
-         * f(x) = sum{i=1 to d}[ i * x{i} ^ 2]
-         *
-         * Dimensions: d
+        /*
+          http://www.sfu.ca/~ssurjano/sumsqu.html
+
+          f(x) = sum{i=1 to d}[ i * x{i} ^ 2]
+
+          Dimensions: d
 
          The Sum Squares function, also referred to as the Axis Parallel Hyper-Ellipsoid function,
          has no local minimum except the global one. It is continuous, convex and unimodal.

@@ -9,17 +9,17 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+@SuppressWarnings("ALL")
 public class EpochsWriter {
     private static String filePath(Function function, int size, int mutations){
-        StringBuffer filePath = new StringBuffer("functionepochs");
-        filePath.append("-");
-        filePath.append(function);
-        filePath.append("-");
-        filePath.append(size);
-        filePath.append("-");
-        filePath.append(mutations);
-        filePath.append(".csv");
-        return filePath.toString();
+        String filePath = "functionepochs" + "-" +
+                function +
+                "-" +
+                size +
+                "-" +
+                mutations +
+                ".csv";
+        return filePath;
     }
 
     public static String writeCsv(Function function, int size, int mutations, Epochs epochs) throws IOException {
@@ -41,7 +41,7 @@ public class EpochsWriter {
             File existing = new File(path);
             existing.delete();
         }
-        catch(Exception e){
+        catch(Exception ignored){
         }
     }
 

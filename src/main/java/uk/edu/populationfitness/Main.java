@@ -12,7 +12,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Config config = new Config();
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
         Tuning tuning = new Tuning();
         tuning.id = config.id;
 

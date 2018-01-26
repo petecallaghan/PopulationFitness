@@ -1,7 +1,6 @@
 package uk.edu.populationfitness.models.genes.valley;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class RosenbrockGenes extends NormalizingBitSetGenes {
@@ -17,12 +16,12 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * http://www.sfu.ca/~ssurjano/rosen.html
-         *
-         * f(x) = sum{i=1 to d}[100( (x{i+1} - x{i}^2)^2 + (x{i} - 1)^2 )]
-         *
-         * Dimensions: d
+        /*
+          http://www.sfu.ca/~ssurjano/rosen.html
+
+          f(x) = sum{i=1 to d}[100( (x{i+1} - x{i}^2)^2 + (x{i} - 1)^2 )]
+
+          Dimensions: d
 
          The Rosenbrock function, also referred to as the Valley or Banana function,
          is a popular test problem for gradient-based optimization algorithms

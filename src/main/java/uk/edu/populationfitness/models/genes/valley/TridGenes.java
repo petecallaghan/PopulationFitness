@@ -20,9 +20,9 @@ public class TridGenes extends NormalizingBitSetGenes{
 
         @Override
         public double calculateValue(long index) {
-            /**
-             * M= left [{n} over {2} right ] {( {n} ^ {2} +1)} ^ {2} + left (n- left [{n} over {2} right ] right ) {( {n} ^ {2} -1)} ^ {2} + left (n-1 right ) {n} ^ {4}
-             *
+            /*
+              M= left [{n} over {2} right ] {( {n} ^ {2} +1)} ^ {2} + left (n- left [{n} over {2} right ] right ) {( {n} ^ {2} -1)} ^ {2} + left (n-1 right ) {n} ^ {4}
+
              */
             long nOver2 = Math.round(((double)index) / 2.0);
             long nSquared = index * index;
@@ -36,8 +36,7 @@ public class TridGenes extends NormalizingBitSetGenes{
     private static final ExpensiveCalculatedValues CachedMinValues = new ExpensiveCalculatedValues(new MinCalculator());
     private static final ExpensiveCalculatedValues CachedMaxValues = new ExpensiveCalculatedValues(new MaxCalculator());
 
-    double min;
-    double max;
+    private double min;
 
     public TridGenes(Config config) {
         super(config, 0.0);
@@ -51,24 +50,24 @@ public class TridGenes extends NormalizingBitSetGenes{
     @Override
     protected double calculateNormalizationRatio(int n) {
         min = CachedMinValues.findOrCalculate(n);
-        max = CachedMaxValues.findOrCalculate(n);
+        double max = CachedMaxValues.findOrCalculate(n);
         calculateInterpolationRatio(n);
         return max - min;
     }
 
     private void calculateInterpolationRatio(int n){
-        /**
-         * {- {n} ^ {2} ≤x} rsub {i} ≤+ {n} ^ {2}
+        /*
+          {- {n} ^ {2} ≤x} rsub {i} ≤+ {n} ^ {2}
          */
         interpolation_ratio = (1.0 * n * n) / maxLongForSizeOfGene();
     }
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * https://www.sfu.ca/~ssurjano/trid.html
-         *
-         * f left (x right ) = sum from {i=1} to {n} {{left ({x} rsub {i} -1 right )} ^ {2} -} sum from {i=2} to {n} {{x} rsub {i} {x} rsub {i-1}}
+        /*
+          https://www.sfu.ca/~ssurjano/trid.html
+
+          f left (x right ) = sum from {i=1} to {n} {{left ({x} rsub {i} -1 right )} ^ {2} -} sum from {i=2} to {n} {{x} rsub {i} {x} rsub {i-1}}
          */
         double fitness = 0.0 - min;
 

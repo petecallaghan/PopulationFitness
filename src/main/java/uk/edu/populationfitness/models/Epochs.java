@@ -9,11 +9,8 @@ import java.util.List;
 public class Epochs {
     public final List<Epoch> epochs;
 
-    public final String id;
-
-    public Epochs(Config config){
+    public Epochs(){
         epochs = new ArrayList<>();
-        this.id = config.id;
     }
 
     /***

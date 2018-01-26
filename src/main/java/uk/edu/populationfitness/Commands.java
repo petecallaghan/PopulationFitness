@@ -7,7 +7,6 @@ import uk.edu.populationfitness.models.RepeatableRandom;
 import uk.edu.populationfitness.models.genes.cache.CacheType;
 import uk.edu.populationfitness.output.EpochsReader;
 import uk.edu.populationfitness.output.TuningReader;
-import uk.edu.populationfitness.simulation.RunType;
 
 
 import java.util.List;
@@ -21,10 +20,10 @@ public class Commands {
     public static final String TuningFile = "-t";
     public static final String EpochsFile = "-e";
     public static final String Id = "-i";
-    public static final String CommandLine = "-c";
-    public static final String ProcessCount = "-p";
+    private static final String CommandLine = "-c";
+    private static final String ProcessCount = "-p";
     public static final String RandomSeed = "random";
-    public static final String GenesCache = "-g";
+    private static final String GenesCache = "-g";
 
     /**
      * Defines the path of the tuning file read from arguments.
@@ -108,8 +107,9 @@ public class Commands {
                     continue;
                 }
             }
-            catch (Exception ignored){
-                System.out.print(ignored);
+            catch (Exception e){
+                //noinspection ThrowablePrintedToSystemOut
+                System.out.print(e);
             }
             showHelp();
         }

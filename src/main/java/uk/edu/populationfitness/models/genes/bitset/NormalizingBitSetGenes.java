@@ -11,7 +11,7 @@ public abstract class NormalizingBitSetGenes extends CachingInterpolatingBitSetG
 
     private boolean isNormalisationRatioSet;
 
-    public NormalizingBitSetGenes(Config config, double maxInterpolatedValue) {
+    protected NormalizingBitSetGenes(Config config, double maxInterpolatedValue) {
         super(config, maxInterpolatedValue);
         isNormalisationRatioSet = false;
     }

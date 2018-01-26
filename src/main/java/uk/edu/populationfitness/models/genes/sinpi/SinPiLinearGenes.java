@@ -2,8 +2,6 @@ package uk.edu.populationfitness.models.genes.sinpi;
 
 import uk.edu.populationfitness.models.Config;
 
-import static java.lang.Math.abs;
-
 /**
  * Created by pete.callaghan on 13/07/2017.
  */
@@ -31,8 +29,7 @@ public class SinPiLinearGenes extends SinPiGenes {
         double fitness = 1;
         long[] integer_values = asIntegers();
 
-        for(int i = 0; i < integer_values.length; i++){
-            long value =  integer_values[i];
+        for (long value : integer_values) {
             fitness *= fitness_factor * Math.sin(config.float_lower + interpolation_ratio * value);
         }
 

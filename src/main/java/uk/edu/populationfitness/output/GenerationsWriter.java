@@ -14,32 +14,30 @@ import java.io.IOException;
  * Created by pete.callaghan on 11/07/2017.
  */
 public class GenerationsWriter {
-    public static String filePath(int parallel_run, int series_run, int number_of_runs, Config config){
-        StringBuffer filePath = new StringBuffer("generations");
-        filePath.append("-");
-        filePath.append(parallel_run);
-        filePath.append("-");
-        filePath.append(series_run);
-        filePath.append("of");
-        filePath.append(number_of_runs);
-        filePath.append("-");
-        filePath.append(config.genesFactory.getFitnessFunction());
-        filePath.append("-genes");
-        filePath.append(config.number_of_genes);
-        filePath.append("x");
-        filePath.append(config.size_of_each_gene);
-        filePath.append("-pop");
-        filePath.append(config.initial_population);
-        filePath.append("-mut");
-        filePath.append(config.mutations_per_gene);
-        filePath.append("-");
-        filePath.append(config.id.replaceAll(":", "-"));
-        filePath.append(".csv");
-        return filePath.toString();
+    private static String filePath(int parallel_run, int series_run, int number_of_runs, Config config){
+        return "generations" + "-" +
+                parallel_run +
+                "-" +
+                series_run +
+                "of" +
+                number_of_runs +
+                "-" +
+                config.genesFactory.getFitnessFunction() +
+                "-genes" +
+                config.number_of_genes +
+                "x" +
+                config.size_of_each_gene +
+                "-pop" +
+                config.initial_population +
+                "-mut" +
+                config.mutations_per_gene +
+                "-" +
+                config.id.replaceAll(":", "-") +
+                ".csv";
     }
 
-    public static String writeCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
-        return writeCsv(filePath(parallel_run, series_run, number_of_runs, generations.config), generations, tuning);
+    private static void writeCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
+        writeCsv(filePath(parallel_run, series_run, number_of_runs, generations.config), generations, tuning);
     }
 
     public static String writeCsv(String filePath, Generations generations, Tuning tuning) throws IOException {
@@ -70,9 +68,7 @@ public class GenerationsWriter {
     }
 
     private static String tryTemporaryVersionOf(String filePath) {
-        StringBuffer alternative = new StringBuffer("~tmp.");
-        alternative.append(filePath);
-        return alternative.toString();
+        return "~tmp." + filePath;
     }
 
     private static void addGenerationRow(CSVWriter writer, GenerationStatistics generation) {
@@ -147,10 +143,8 @@ public class GenerationsWriter {
      * @return the resulting file name
      */
     public static String createResultFileName(String id){
-        StringBuffer name = new StringBuffer("allgenerations");
-        name.append("-");
-        name.append(id);
-        name.append(".csv");
-        return name.toString();
+        return "allgenerations" + "-" +
+                id +
+                ".csv";
     }
 }

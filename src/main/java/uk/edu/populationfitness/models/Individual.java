@@ -8,7 +8,7 @@ import static java.lang.Math.abs;
  * Created by pete.callaghan on 03/07/2017.
  */
 public class Individual {
-    private Config config;
+    private final Config config;
 
     public final int birth_year;
 

@@ -6,7 +6,7 @@ import uk.edu.populationfitness.models.genes.GenesIdentifier;
  * A bit set identifier that directly references the bitset.
  */
 public class SelfIdentifiedGenes implements GenesIdentifier {
-    public long[] integerGenes;
+    public final long[] integerGenes;
 
     public SelfIdentifiedGenes(long[] integerGenes) {
         this.integerGenes = integerGenes;

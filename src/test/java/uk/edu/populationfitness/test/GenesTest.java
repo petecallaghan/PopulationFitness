@@ -2,13 +2,8 @@ package uk.edu.populationfitness.test;
 
 import org.junit.Test;
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.Function;
-import uk.edu.populationfitness.models.genes.Genes;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenes;
-import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
 import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -75,8 +70,8 @@ public class GenesTest {
         // Then the genes as integers are non zero
         long[] integers = genes.asIntegers();
         assertTrue(integers.length >= 1);
-        for(int i = 0; i < integers.length; i++){
-            assertTrue(integers[i] > 0);
+        for (long integer : integers) {
+            assertTrue(integer > 0);
         }
     }
 

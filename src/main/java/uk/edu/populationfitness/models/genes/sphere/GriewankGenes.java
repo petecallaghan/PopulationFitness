@@ -2,7 +2,6 @@ package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.fastmaths.CosSineCache;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class GriewankGenes extends NormalizingBitSetGenes {
@@ -17,8 +16,8 @@ public class GriewankGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * f left (x right ) = sum from {i=1} to {n} {{{x} rsub {i} rsup {2}} over {400} - prod from {i=1} to {n} {cos {left ({{x} rsub {i}} over {sqrt {i}} right )} +1}}
+        /*
+          f left (x right ) = sum from {i=1} to {n} {{{x} rsub {i} rsup {2}} over {400} - prod from {i=1} to {n} {cos {left ({{x} rsub {i}} over {sqrt {i}} right )} +1}}
          */
 
         if (integer_values.length < 1) return 0.0;

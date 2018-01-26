@@ -2,8 +2,6 @@ package uk.edu.populationfitness.models.genes;
 
 import uk.edu.populationfitness.models.Config;
 
-import static uk.edu.populationfitness.models.genes.Function.Undefined;
-
 /**
  * Implement this to create new genes
  *

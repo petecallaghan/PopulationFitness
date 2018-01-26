@@ -2,8 +2,8 @@ package uk.edu.populationfitness.models.genes.bitset;
 
 import uk.edu.populationfitness.models.Config;
 
-public abstract class InvertedBitSetGenes extends BitSetGenes {
-    public InvertedBitSetGenes(Config config) {
+abstract class InvertedBitSetGenes extends BitSetGenes {
+    InvertedBitSetGenes(Config config) {
         super(config);
     }
 
@@ -14,7 +14,7 @@ public abstract class InvertedBitSetGenes extends BitSetGenes {
      * @param fitness
      * @return the scaled stored fitness
      */
-    protected double storeScaledInvertedFitness(double fitness_factor, double fitness){
+    double storeScaledInvertedFitness(double fitness_factor, double fitness){
         return storeScaledFitness(fitness_factor, fitness_factor * (1 - config.range.toScale(fitness)));
     }
 }

@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimulationProcess extends Simulation {
+class SimulationProcess extends Simulation {
     private final List<String> arguments;
 
     private final Config config;
@@ -38,9 +38,7 @@ public class SimulationProcess extends Simulation {
             displayProcessOutput(simulation);
             simulation.waitFor();
             readGeneratedResultsFromFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }

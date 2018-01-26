@@ -2,7 +2,6 @@ package uk.edu.populationfitness.output;
 
 import org.yaml.snakeyaml.Yaml;
 import uk.edu.populationfitness.Tuning;
-import uk.edu.populationfitness.models.Config;
 
 import java.io.FileWriter;
 import java.io.IOException;

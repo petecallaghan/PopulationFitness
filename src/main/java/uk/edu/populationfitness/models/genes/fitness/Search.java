@@ -14,7 +14,7 @@ public class Search extends FitnessRange {
         return this;
     }
 
-    public double increment(){
+    double increment(){
         return increment;
     }
 
@@ -22,10 +22,9 @@ public class Search extends FitnessRange {
         return ((long)((min() + max()) / increment) / 2) * increment;
     }
 
-    public Search current(double current){
+    public void current(double current){
         is_current_set = true;
         this.current = current;
-        return this;
     }
 
     public double current(){

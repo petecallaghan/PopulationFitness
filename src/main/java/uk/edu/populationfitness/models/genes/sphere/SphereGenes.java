@@ -1,7 +1,6 @@
 package uk.edu.populationfitness.models.genes.sphere;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SphereGenes extends NormalizingBitSetGenes {
@@ -16,12 +15,12 @@ public class SphereGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateFitnessFromIntegers(long[] integer_values) {
-        /**
-         * http://www.sfu.ca/~ssurjano/spheref.html
-         *
-         * f(x) = sum{i=1 to n}[x{i}^2]
-         *
-         * Dimensions: d
+        /*
+          http://www.sfu.ca/~ssurjano/spheref.html
+
+          f(x) = sum{i=1 to n}[x{i}^2]
+
+          Dimensions: d
 
          The Sphere function has d local minima except for the global one. It is continuous, convex and unimodal. The plot shows its two-dimensional form.
 
@@ -36,8 +35,8 @@ public class SphereGenes extends NormalizingBitSetGenes {
          */
         double fitness = 0;
 
-        for(int i = 0; i < integer_values.length; i++){
-            double x = interpolate(integer_values[i]);
+        for (long integer_value : integer_values) {
+            double x = interpolate(integer_value);
             fitness += x * x;
         }
         return fitness;

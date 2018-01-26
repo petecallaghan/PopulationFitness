@@ -20,15 +20,15 @@ public class Generations {
 
     public final List<GenerationStatistics> history;
 
-    public Population population;
+    private Population population;
 
     public final Config config;
 
-    public int first_year;
+    private int first_year;
 
-    public final int series_run;
+    private final int series_run;
 
-    public final int parallel_run;
+    private final int parallel_run;
 
     public Generations(Population population){
         this(population, 1, 1);
@@ -135,7 +135,7 @@ public class Generations {
         return PopulationComparison.WithinRange;
     }
 
-    public GenerationStatistics generateForYear(int year, Epoch epoch) {
+    private void generateForYear(int year, Epoch epoch) {
         long start_time = System.nanoTime();
 
         int fatalities = population.killThoseUnfitOrReadyToDie(year, epoch);
@@ -146,10 +146,10 @@ public class Generations {
         List<Individual> babies = population.addNewGeneration(epoch, year);
         long born_elapsed = (System.nanoTime() - start_time) / NANOS_PER_MILLIS;
 
-        return addHistory(epoch, year, babies.size(), fatalities, born_elapsed, kill_elapsed);
+        addHistory(epoch, year, babies.size(), fatalities, born_elapsed, kill_elapsed);
     }
 
-    private GenerationStatistics addHistory(Epoch epoch, int year, int number_born, int number_killed, long born_elapsed, long kill_elapsed) {
+    private void addHistory(Epoch epoch, int year, int number_born, int number_killed, long born_elapsed, long kill_elapsed) {
         GenerationStatistics generation = new GenerationStatistics(epoch, year, population.individuals.size(), number_born, number_killed, born_elapsed, kill_elapsed);
         generation.average_fitness = population.averageFitness();
         generation.fitness_deviation = population.standardDeviationFitness();
@@ -157,7 +157,6 @@ public class Generations {
         history.add(generation);
 
         System.out.println("Run "+parallel_run+"x"+series_run+" Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
-        return generation;
     }
 
     public static Generations add(Generations first, Generations second){

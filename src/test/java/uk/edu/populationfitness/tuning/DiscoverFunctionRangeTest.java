@@ -8,7 +8,6 @@ import uk.edu.populationfitness.models.genes.Genes;
 import uk.edu.populationfitness.models.genes.GenesFactory;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
 import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
-import uk.edu.populationfitness.models.genes.fitness.Statistics;
 import uk.edu.populationfitness.models.genes.performance.GenesTimer;
 import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
 
@@ -16,11 +15,11 @@ import java.util.ArrayList;
 
 public class DiscoverFunctionRangeTest {
 
-    public static final int NumberOfGenes = 20000;
+    private static final int NumberOfGenes = 20000;
 
-    public static final int SizeOfGenes = 2250;
+    private static final int SizeOfGenes = 2250;
 
-    public static final int PopulationSize = 10;
+    private static final int PopulationSize = 10;
 
     private void DiscoverFunctionRange(Function function, int numberOfGenes, int sizeOfGenes, FitnessRange range, int populationSize){
         GenesFactory factory = new GenesTimerFactory(new BitSetGenesFactory());

@@ -1,14 +1,12 @@
 package uk.edu.populationfitness.models.genes.sinpi;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.genes.bitset.BitSetGenes;
 import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
-
-import static java.lang.Math.abs;
 
 /**
  * Created by pete.callaghan on 13/07/2017.
  */
+@SuppressWarnings("Duplicates")
 public class SinPiGenes extends InterpolatingBitSetGenes {
     public SinPiGenes(Config config){
         super(config, (config.float_upper) - config.float_lower);
@@ -32,8 +30,7 @@ public class SinPiGenes extends InterpolatingBitSetGenes {
         double fitness = 1.0;
         long[] integer_values = asIntegers();
 
-        for(int i = 0; i < integer_values.length; i++){
-            long value =  integer_values[i];
+        for (long value : integer_values) {
             fitness *= Math.pow(Math.sin(config.float_lower + interpolation_ratio * value), fitness_factor);
         }
 

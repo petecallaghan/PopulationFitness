@@ -8,10 +8,10 @@ public class GenesTimer implements Genes {
 
     private final Genes delegate;
 
-    public static final TimingStatistics BuildRandom = new TimingStatistics("Build random genes");
-    public static final TimingStatistics Mutate = new TimingStatistics("Mutate genes");
-    public static final TimingStatistics Inherit = new TimingStatistics("Inherit from parents");
-    public static final TimingStatistics Fitness = new TimingStatistics("Calculate fitness");
+    private static final TimingStatistics BuildRandom = new TimingStatistics("Build random genes");
+    private static final TimingStatistics Mutate = new TimingStatistics("Mutate genes");
+    private static final TimingStatistics Inherit = new TimingStatistics("Inherit from parents");
+    private static final TimingStatistics Fitness = new TimingStatistics("Calculate fitness");
 
     public static void resetAll()
     {

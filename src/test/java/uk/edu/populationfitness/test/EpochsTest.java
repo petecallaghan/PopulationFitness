@@ -12,7 +12,6 @@ import uk.edu.populationfitness.output.EpochsReader;
 import uk.edu.populationfitness.output.EpochsWriter;
 
 import java.io.IOException;
-import java.util.List;
 
 
 /**
@@ -24,7 +23,7 @@ public class EpochsTest {
     @Test public void testCreateEpochs(){
         // Given a set of epochs
         Config config = new Config();
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
 
         epochs.addNextEpoch(new Epoch(config, -50));
         epochs.addNextEpoch(new Epoch(config, 400));
@@ -61,7 +60,7 @@ public class EpochsTest {
     @Test public void testEpochFitnessFactors(){
         // Given a set of epochs
         Config config = new Config();
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
 
         epochs.addNextEpoch(new Epoch(config, -50));
         epochs.addNextEpoch(new Epoch(config, 400).fitness(2.0));
@@ -74,7 +73,7 @@ public class EpochsTest {
     @Test public void testEpochKillConstants(){
         // Given a set of epochs
         Config config = new Config();
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
         epochs.addNextEpoch(new Epoch(config, -50));
         epochs.addNextEpoch(new Epoch(config, 400).kill(2.0));
 
@@ -86,7 +85,7 @@ public class EpochsTest {
     @Test public void testEpochEnvironmentCapacity(){
         // Given a set of epochs
         Config config = new Config();
-        Epochs epochs = new Epochs(config);
+        Epochs epochs = new Epochs();
         epochs.addNextEpoch(new Epoch(config, -50).capacity(1000));
         epochs.addNextEpoch(new Epoch(config, 400));
 
@@ -106,7 +105,7 @@ public class EpochsTest {
 
         // When we write them and then read them
         String path = EpochsWriter.writeCsv(Function.Undefined, 100, 1, epochs);
-        Epochs found = new Epochs(config);
+        Epochs found = new Epochs();
         found.epochs.addAll(EpochsReader.readEpochs(config, path));
 
         // Then we get back the original epochs

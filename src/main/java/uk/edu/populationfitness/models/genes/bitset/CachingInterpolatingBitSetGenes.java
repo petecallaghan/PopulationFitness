@@ -7,7 +7,7 @@ import uk.edu.populationfitness.models.Config;
  */
 public abstract class CachingInterpolatingBitSetGenes extends InterpolatingBitSetGenes{
 
-    public CachingInterpolatingBitSetGenes(Config config, double maxInterpolatedValue) {
+    CachingInterpolatingBitSetGenes(Config config, double maxInterpolatedValue) {
         super(config, maxInterpolatedValue);
     }
 

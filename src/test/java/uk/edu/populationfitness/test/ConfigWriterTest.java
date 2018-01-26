@@ -24,7 +24,7 @@ public class ConfigWriterTest {
     @Test public void testUniqueConfigIdentifiers() throws InterruptedException {
         // Given two configs created at different times
         Config config1 = new Config();
-        Thread.sleep(1l);
+        Thread.sleep(1L);
         Config config2 = new Config();
 
         // Then they have unique encodings

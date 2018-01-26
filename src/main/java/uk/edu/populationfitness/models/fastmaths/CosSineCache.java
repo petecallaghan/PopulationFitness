@@ -6,8 +6,8 @@ package uk.edu.populationfitness.models.fastmaths;
 public class CosSineCache {
     private static final int Degrees = 361;
     private static final int Entries = Degrees;
-    private double[] cos = new double[Entries];
-    private double[] sin = new double[Entries];
+    private final double[] cos = new double[Entries];
+    private final double[] sin = new double[Entries];
 
     private static final CosSineCache Values = new CosSineCache();
 
