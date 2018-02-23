@@ -17,11 +17,11 @@ public class Main {
         tuning.id = config.id;
 
         Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
-        Simulations.SetInitialPopulationFromFirstEpochCapacity(config, epochs);
-        Simulations.AddSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
+        Simulations.setInitialPopulationFromFirstEpochCapacity(config, epochs);
+        Simulations.addSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
 
         if (commandedToRunAsParallelProcesses(tuning)){
-            Simulations.RunAllInParallel(new SimulationProcessFactory(tuning,
+            Simulations.runAllInParallel(new SimulationProcessFactory(tuning,
                     config,
                     Commands.childCommandLine,
                     Commands.epochsFile,
@@ -29,7 +29,7 @@ public class Main {
                     Commands.genesCache);
         }
         else{
-            Simulations.RunAllInParallel(new SimulationThreadFactory(config, epochs, tuning),
+            Simulations.runAllInParallel(new SimulationThreadFactory(config, epochs, tuning),
                     Commands.genesCache);
         }
     }

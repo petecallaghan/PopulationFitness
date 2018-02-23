@@ -7,14 +7,14 @@ import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SchumerSteiglitzGenes extends NormalizingBitSetGenes {
-    private static class NormalizationRatioCalculator implements ValueCalculator {
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             return 100000000.0 * n;
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new SchumerSteiglitzGenes.NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new SchumerSteiglitzGenes.NormalizationRatioCalculator());
 
     public SchumerSteiglitzGenes(Config config) {
         super(config, 100.0);

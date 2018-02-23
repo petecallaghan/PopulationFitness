@@ -126,7 +126,7 @@ public class GenerationsWriter {
      * @return
      * @throws IOException
      */
-    public static Generations CombineGenerationsAndWriteResult(int parallel_run,
+    public static Generations combineGenerationsAndWriteResult(int parallel_run,
                                                                int series_run,
                                                                Generations current,
                                                                Generations total,

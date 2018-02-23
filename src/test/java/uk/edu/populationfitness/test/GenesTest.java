@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  * Created by pete.callaghan on 03/07/2017.
  */
 public class GenesTest {
-    @Test public void TestGenesAreEmpty(){
+    @Test public void testGenesAreEmpty(){
         // Given a set of genes with zero value
         Config config = new Config();
         BitSetGenes genes = new SinPiOver2Genes(config);
@@ -112,7 +112,7 @@ public class GenesTest {
         thenTheyFallIntoTheFloatRange(genes);
     }
 
-    @Test public void TestGenesWithLargeBitCoding(){
+    @Test public void testGenesWithLargeBitCoding(){
         // Given a set of genes with non zero values
         Config config = new Config();
         config.number_of_genes = 10000;
@@ -123,7 +123,7 @@ public class GenesTest {
         thenTheyFallIntoTheFloatRange(genes);
     }
 
-    @Test public void TestGenesWithConfiguredFloatRange(){
+    @Test public void testGenesWithConfiguredFloatRange(){
         // Given a set of genes with non zero values
         Config config = new Config();
         config.float_lower = 1.5;

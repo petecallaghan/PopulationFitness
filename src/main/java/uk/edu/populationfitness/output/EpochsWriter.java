@@ -39,7 +39,9 @@ public class EpochsWriter {
     public static void deleteExisting(String path){
         try {
             File existing = new File(path);
-            existing.delete();
+            if (!existing.delete()){
+                System.out.println("Could not delete "+path);
+            }
         }
         catch(Exception ignored){
         }

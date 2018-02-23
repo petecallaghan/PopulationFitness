@@ -12,14 +12,14 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
 
     private static final double SchwefelConstant2 = 420.9687;
 
-    private static class NormalizationRatioCalculator implements ValueCalculator {
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             return SchwefelConstant * n + SchwefelConstant2 * CosSineCache.sin(Math.sqrt(SchwefelConstant2)) * n;
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
 
     public Schwefel226Genes(Config config) {
         super(config, 50000.0);

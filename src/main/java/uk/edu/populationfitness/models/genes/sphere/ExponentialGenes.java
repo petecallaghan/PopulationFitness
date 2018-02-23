@@ -6,14 +6,14 @@ import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class ExponentialGenes extends NormalizingBitSetGenes {
-    private static class NormalizationRatioCalculator implements ValueCalculator {
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             return 1.0 - Math.exp(-0.5 * n);
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new ExponentialGenes.NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new ExponentialGenes.NormalizationRatioCalculator());
 
     public ExponentialGenes(Config config) {
         super(config, 1.0);

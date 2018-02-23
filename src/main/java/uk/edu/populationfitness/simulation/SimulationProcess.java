@@ -44,13 +44,14 @@ class SimulationProcess extends Simulation {
     }
 
     private void displayProcessOutput(Process simulation) throws IOException {
-        BufferedReader processOutput = new BufferedReader(new InputStreamReader(simulation.getInputStream()));
-        String nextLine;
-        while((nextLine = processOutput.readLine()) != null){
-            System.out.print("Process(");
-            System.out.print(parallel_run);
-            System.out.print("):");
-            System.out.println(nextLine);
+        try (BufferedReader processOutput = new BufferedReader(new InputStreamReader(simulation.getInputStream()))) {
+            String nextLine;
+            while ((nextLine = processOutput.readLine()) != null) {
+                System.out.print("Process(");
+                System.out.print(parallel_run);
+                System.out.print("):");
+                System.out.println(nextLine);
+            }
         }
     }
 

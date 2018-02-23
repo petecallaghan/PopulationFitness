@@ -7,9 +7,9 @@ import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class AckleysGenes extends NormalizingBitSetGenes {
-    private static class NormalizationRatioCalculator implements ValueCalculator {
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             /*
               {f left (x right )} over {20 left (1- {e} ^ {-0.2α} right ) +e- {e} ^ {-1}}
              */
@@ -17,7 +17,7 @@ public class AckleysGenes extends NormalizingBitSetGenes {
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new AckleysGenes.NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new AckleysGenes.NormalizationRatioCalculator());
 
     private static final double alpha = 4.5;
 

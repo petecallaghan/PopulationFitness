@@ -25,7 +25,7 @@ public class TuneFunctionsTest {
 
     private static final int NumberOfGenes = 20000; //1000;
 
-    private static final int SizeOfGenes = 2250; //10;
+    private static final int SizeOfGenes = 1000; //2250; //10;
 
     private static final int PopulationRatio = ReducedPopuation;
 
@@ -55,12 +55,12 @@ public class TuneFunctionsTest {
 
         GenesTimer.showAll();
 
+        SharedCache.cache().close();
+
         Assert.assertTrue(result == PopulationComparison.WithinRange);
 
         // Record the result
         EpochsWriter.writeCsv(function, config.number_of_genes, Mutations, epochs);
-
-        SharedCache.cache().close();
     }
 
     private void chooseCacheForGeneSize(int numberOfGenes, int sizeOfGenes) {
@@ -73,7 +73,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, 2.0, 10);
+        tune(Function.Rastrigin, 2.0, 20);
     }
 
     @Test public void testTuneSphere() throws IOException {
@@ -81,23 +81,23 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
-        tune(Function.StyblinksiTang, 4, 30);
+        tune(Function.StyblinksiTang, 10, 30);
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {
-        tune(Function.Schwefel226, 20, 15);
+        tune(Function.Schwefel226, 20, 20);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, 10, 30);
+        tune(Function.Rosenbrock, -1, 30);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        tune(Function.SumOfPowers, 10, 15);
+        tune(Function.SumOfPowers, 10, 20);
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, 20, 15);
+        tune(Function.SumSquares, 20, 20);
     }
 
     @Test public void testTuneAckleys() throws IOException {
@@ -105,7 +105,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneAlpine() throws IOException {
-        tune(Function.Alpine, 10, 20);
+        tune(Function.Alpine, 20, 30);
     }
 
     @Test public void testTuneBrown() throws IOException {
@@ -113,7 +113,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneChungReynolds() throws IOException {
-        tune(Function.ChungReynolds, 8, 15);
+        tune(Function.ChungReynolds, 8, 20);
     }
 
     @Test public void testTuneDixonPrice() throws IOException {
@@ -121,15 +121,15 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneExponential() throws IOException {
-        tune(Function.Exponential, 2, 15);
+        tune(Function.Exponential, 2, 20);
     }
 
     @Test public void testTuneGriewank() throws IOException {
-        tune(Function.Griewank, 4, 15);
+        tune(Function.Griewank, 4, 20);
     }
 
     @Test public void testTuneQing() throws IOException {
-        tune(Function.Qing, 8, 15);
+        tune(Function.Qing, 8, 20);
     }
 
     @Test public void testTuneSalomon() throws IOException {

@@ -33,7 +33,7 @@ class SimulationThread extends Simulation{
         for(int series_run = 1; series_run <= tuning.series_runs; series_run++){
             Generations current = RunSimulation(series_run);
             try {
-                total = GenerationsWriter.CombineGenerationsAndWriteResult(parallel_run, series_run, current, total, tuning);
+                total = GenerationsWriter.combineGenerationsAndWriteResult(parallel_run, series_run, current, total, tuning);
             } catch (IOException e) {
                 e.printStackTrace();
             }

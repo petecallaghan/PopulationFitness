@@ -6,9 +6,9 @@ import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class QingGenes extends NormalizingBitSetGenes {
-    private static class NormalizationRatioCalculator implements ValueCalculator {
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             double ratio = 0.0;
             for(int i = 1; i <= n; i++){
                 double value = 250000.0  - i;
@@ -18,7 +18,7 @@ public class QingGenes extends NormalizingBitSetGenes {
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new QingGenes.NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new QingGenes.NormalizationRatioCalculator());
 
     public QingGenes(Config config) {
         super(config, 500.0);

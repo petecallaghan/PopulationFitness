@@ -10,14 +10,14 @@ public class DixonPriceGenes extends NormalizingBitSetGenes {
 
     private static final double TwoTenSquared = FastMaths.pow(210.0, 2);
 
-    private static class NormalizationRatioCalculator implements ValueCalculator {
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             return 121.0 + TwoTenSquared * (( 2.0 + n) / 2.0) * (n - 1);
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new DixonPriceGenes.NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new DixonPriceGenes.NormalizationRatioCalculator());
 
     public DixonPriceGenes(Config config) {
         super(config, 10.0);

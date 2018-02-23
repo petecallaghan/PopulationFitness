@@ -7,9 +7,9 @@ import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SumSquaresGenes extends NormalizingBitSetGenes {
 
-    private static class NormalizationRatioCalculator implements ValueCalculator {
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             double sum = 0.0;
 
             for(int i = 1; i <= n; i++){
@@ -19,7 +19,7 @@ public class SumSquaresGenes extends NormalizingBitSetGenes {
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
 
     public SumSquaresGenes(Config config) {
         super(config, 10.0);

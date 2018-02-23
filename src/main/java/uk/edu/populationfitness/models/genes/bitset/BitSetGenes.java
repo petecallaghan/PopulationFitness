@@ -47,20 +47,20 @@ public abstract class BitSetGenes implements Genes {
 
     @Override
     public void buildEmpty() {
-        BitSet genes = new BitSet(size_of_genes);
+        final BitSet genes = new BitSet(size_of_genes);
         genes.clear();
         storeGenesInCache(genes);
     }
 
     public void buildFull() {
-        BitSet genes = new BitSet(size_of_genes);
+        final BitSet genes = new BitSet(size_of_genes);
         genes.set(0, size_of_genes - 1);
         storeGenesInCache(genes);
     }
 
     @Override
     public void buildFromRandom() {
-        BitSet genes = new BitSet(size_of_genes);
+        final BitSet genes = new BitSet(size_of_genes);
         genes.clear();
 
         for (int i = 0; i < size_of_genes; i++) {
@@ -93,17 +93,19 @@ public abstract class BitSetGenes implements Genes {
     }
 
     private void mutateAndStore(BitSet genes) {
-        if (config.mutations_per_gene < 1) {
-            return;
+        if (config.mutations_per_gene >= 1) {
+            flipRandomBits(genes);
         }
+        stored_fitness_factor = 0;
+        storeGenesInCache(genes);
+    }
 
-        int interval = size_of_genes / config.mutations_per_gene;
+    private void flipRandomBits(BitSet genes) {
+        final int interval = size_of_genes / config.mutations_per_gene;
 
         for (int i = RepeatableRandom.generateNextInt(interval); i < size_of_genes; i += RepeatableRandom.generateNextInt(interval) + 1) {
             genes.flip(i);
         }
-        stored_fitness_factor = 0;
-        storeGenesInCache(genes);
     }
 
     /**
@@ -147,32 +149,21 @@ public abstract class BitSetGenes implements Genes {
 
     @Override
     public void inheritFrom(Genes mother, Genes father) {
-        long[] motherEncoding = ((BitSetGenes) mother.getImplementation()).getGenesFromCache();
-        long[] fatherEncoding = ((BitSetGenes) father.getImplementation()).getGenesFromCache();
+        final long[] motherEncoding = ((BitSetGenes) mother.getImplementation()).getGenesFromCache();
+        final long[] fatherEncoding = ((BitSetGenes) father.getImplementation()).getGenesFromCache();
+        final long[] babyEncoding = new long[Math.max(motherEncoding.length, fatherEncoding.length)];
 
         // Randomly picks the code index that crosses over from mother to father
-        int cross_over_index = 1 + RepeatableRandom.generateNextInt(size_of_genes - 1);
-        long[] encoding = new long[Math.max(motherEncoding.length, fatherEncoding.length)];
-        int cross_over_word = Math.min(cross_over_index / Long.SIZE, encoding.length - 1);
-        int cross_over_word_start = cross_over_word * Long.SIZE;
-        int cross_over_word_end = cross_over_word_start + Long.SIZE;
-        int mother_length = Math.min(cross_over_word + 1, motherEncoding.length);
-        int father_length = Math.min(encoding.length - cross_over_word - 1, fatherEncoding.length - cross_over_word - 1);
+        final int cross_over_word = Math.min(1 + RepeatableRandom.generateNextInt(babyEncoding.length - 1), babyEncoding.length - 1);
+        final int mother_length = Math.min(cross_over_word + 1, motherEncoding.length);
+        final int father_length = Math.min(babyEncoding.length - cross_over_word - 1, fatherEncoding.length - cross_over_word - 1);
 
-        System.arraycopy(motherEncoding, 0, encoding, 0, mother_length);
+        System.arraycopy(motherEncoding, 0, babyEncoding, 0, mother_length);
         if (father_length > 0){
-            System.arraycopy(fatherEncoding, cross_over_word + 1, encoding, cross_over_word + 1, father_length);
+            System.arraycopy(fatherEncoding, cross_over_word + 1, babyEncoding, cross_over_word + 1, father_length);
         }
 
-        BitSet genes = BitSet.valueOf(encoding);
-        BitSet fatherGenes = BitSet.valueOf(fatherEncoding);
-
-        // Now do the bitwise copy from the father from the cross over index for just that word
-        for (int i = cross_over_index; i < cross_over_word_end; i++) {
-            genes.set(i, fatherGenes.get(i));
-        }
-
-        mutateAndStore(genes);
+        mutateAndStore(BitSet.valueOf(babyEncoding));
     }
 
     @Override

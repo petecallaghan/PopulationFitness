@@ -7,24 +7,24 @@ import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class TridGenes extends NormalizingBitSetGenes{
-    private static class MinCalculator implements ValueCalculator{
+    private static class MinCalculator implements ValueCalculator<Double>{
 
         @Override
-        public double calculateValue(long index) {
+        public Double calculateValue(long index) {
             double min = (0.0 - index) * (index + 4.0) * (index + 1.0);
             return min / 6;
         }
     }
 
-    private static class MaxCalculator implements ValueCalculator{
+    private static class MaxCalculator implements ValueCalculator<Double>{
 
         @Override
-        public double calculateValue(long index) {
+        public Double calculateValue(long index) {
             /*
               M= left [{n} over {2} right ] {( {n} ^ {2} +1)} ^ {2} + left (n- left [{n} over {2} right ] right ) {( {n} ^ {2} -1)} ^ {2} + left (n-1 right ) {n} ^ {4}
 
              */
-            long nOver2 = Math.round(((double)index) / 2.0);
+            double nOver2 = Math.round(((double)index) / 2.0);
             long nSquared = index * index;
 
             return nOver2 * FastMaths.pow(nSquared + 1, 2) +
@@ -33,8 +33,8 @@ public class TridGenes extends NormalizingBitSetGenes{
         }
     }
 
-    private static final ExpensiveCalculatedValues CachedMinValues = new ExpensiveCalculatedValues(new MinCalculator());
-    private static final ExpensiveCalculatedValues CachedMaxValues = new ExpensiveCalculatedValues(new MaxCalculator());
+    private static final ExpensiveCalculatedValues<Double> CachedMinValues = new ExpensiveCalculatedValues(new MinCalculator());
+    private static final ExpensiveCalculatedValues<Double> CachedMaxValues = new ExpensiveCalculatedValues(new MaxCalculator());
 
     private double min;
 

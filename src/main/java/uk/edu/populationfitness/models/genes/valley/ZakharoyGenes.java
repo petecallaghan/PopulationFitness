@@ -7,15 +7,15 @@ import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class ZakharoyGenes extends NormalizingBitSetGenes {
-    private static class NormalizationRatioCalculator implements ValueCalculator{
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double>{
         @Override
-        public double calculateValue(long n) {
+        public Double calculateValue(long n) {
             double value = (n * (n + 1.0) ) / 2.0;
             return 100 * n + 25 * (value * value + 35.0 * FastMaths.pow(value, 3));
         }
     }
 
-    private static final ExpensiveCalculatedValues NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
 
     public ZakharoyGenes(Config config) {
         super(config, 10.0);

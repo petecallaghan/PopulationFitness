@@ -25,7 +25,7 @@ public class Simulations {
      * @param cacheType
      * @throws IOException
      */
-    public static void RunAllInParallel(SimulationFactory factory, CacheType cacheType) throws IOException {
+    public static void runAllInParallel(SimulationFactory factory, CacheType cacheType) throws IOException {
         if (cacheType == CacheType.DiskBacked){
             SharedCache.set(new ThreadLocalGenesCache(factory.tuning().parallel_runs));
         }
@@ -57,7 +57,7 @@ public class Simulations {
                 e.printStackTrace();
             }
             if (tuning.parallel_runs > 1){
-                total = GenerationsWriter.CombineGenerationsAndWriteResult(tuning.parallel_runs,
+                total = GenerationsWriter.combineGenerationsAndWriteResult(tuning.parallel_runs,
                         tuning.series_runs,
                         simulation.generations,
                         total,
@@ -83,7 +83,7 @@ public class Simulations {
      * @param diseaseYears
      * @param postDiseaseYears
      */
-    public static void AddSimulatedEpochsToEndOfTunedEpochs(Config config,
+    public static void addSimulatedEpochsToEndOfTunedEpochs(Config config,
                                                             Epochs epochs,
                                                             Tuning tuning,
                                                             int diseaseYears,
@@ -104,7 +104,7 @@ public class Simulations {
      * @param config
      * @param epochs
      */
-    public static void SetInitialPopulationFromFirstEpochCapacity(Config config, Epochs epochs) {
+    public static void setInitialPopulationFromFirstEpochCapacity(Config config, Epochs epochs) {
         config.initial_population = epochs.first().expected_max_population;
     }
 }
