@@ -17,17 +17,19 @@ public class TuneFunctionsTest {
 
     private static final int NoReduction = 1;
 
-    private static final int ReducedPopuation = 100;
+    private static final int ReducedPopulation = 100;
     
     private static final int Mutations = 100;
 
     private static final int SmallGenes = 100000;
 
-    private static final int NumberOfGenes = 20000; //1000;
+    private static final int NumberOfGenes = 20000;
 
-    private static final int SizeOfGenes = 1000; //2250; //10;
+    private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationRatio = ReducedPopuation;
+    private static final int PopulationRatio = ReducedPopulation;
+
+    private static final String EpochsPath = "epochs";
 
     private void tune(Function function,
                       double maxFactor,
@@ -60,7 +62,7 @@ public class TuneFunctionsTest {
         Assert.assertTrue(result == PopulationComparison.WithinRange);
 
         // Record the result
-        EpochsWriter.writeCsv(function, config.number_of_genes, Mutations, epochs);
+        EpochsWriter.writeCsv(EpochsPath, function, config.number_of_genes, config.size_of_each_gene, config.mutations_per_gene, epochs);
     }
 
     private void chooseCacheForGeneSize(int numberOfGenes, int sizeOfGenes) {

@@ -12,14 +12,21 @@ import static org.junit.Assert.assertTrue;
 
 public class GenesDistributionTest {
 
+    private static final int Population = 40000;
+
+    private static final int NumberOfGenes = 100;
+
+    private static final int SizeOfGenes = 10;
+
     private void GenesAreDistributedWithoutExcessiveSpikes(Function function, double fitness_factor){
         BitSetGenesFactory factory = new BitSetGenesFactory();
         factory.useFitnessFunction(function);
         // Given a number of randomly generated genes
         Config config = new Config();
-        config.number_of_genes = 100;
+        config.number_of_genes = NumberOfGenes;
+        config.size_of_each_gene = SizeOfGenes;
         ArrayList<Genes> genes = new ArrayList<>();
-        for(int i = 0; i < 40000; i++){
+        for(int i = 0; i < Population; i++){
             Genes next = factory.build(config);
             next.buildFromRandom();
             genes.add(next);

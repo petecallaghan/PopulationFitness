@@ -11,9 +11,11 @@ import java.io.IOException;
 
 @SuppressWarnings("ALL")
 public class EpochsWriter {
-    private static String filePath(Function function, int size, int mutations){
-        String filePath = "functionepochs" + "-" +
+    private static String filePath(String path, Function function, int genes, int size, int mutations){
+        String filePath = path + "/" + "functionepochs" + "-" +
                 function +
+                "-" +
+                genes +
                 "-" +
                 size +
                 "-" +
@@ -22,8 +24,8 @@ public class EpochsWriter {
         return filePath;
     }
 
-    public static String writeCsv(Function function, int size, int mutations, Epochs epochs) throws IOException {
-        String filePath = filePath(function, size, mutations);
+    public static String writeCsv(String path, Function function, int genes, int size, int mutations, Epochs epochs) throws IOException {
+        String filePath = filePath(path, function, genes, size, mutations);
         deleteExisting(filePath);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
         addHeaderRow(writer);

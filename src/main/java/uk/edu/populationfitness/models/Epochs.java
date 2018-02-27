@@ -64,6 +64,19 @@ public class Epochs {
         }
     }
 
+    /**
+     * Increases the populations for all epochs by the same ratio
+     *
+     * P' = P * ratio
+     *
+     * @param ratio
+     */
+    public void increasePopulation(int ratio){
+        for(Epoch epoch: epochs){
+            epoch.increasePopulation(ratio);
+        }
+    }
+
     public void printFitnessFactors(){
         for(Epoch epoch: epochs){
             System.out.print("Epoch ");

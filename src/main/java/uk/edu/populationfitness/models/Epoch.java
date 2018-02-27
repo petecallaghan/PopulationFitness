@@ -139,4 +139,17 @@ public class Epoch {
         this.environment_capacity = this.environment_capacity / ratio;
         return this;
     }
+
+    /**
+     * Increases the populations by the ratio
+     *
+     * P' = P * ratio
+     *
+     * @param ratio
+     */
+    public Epoch increasePopulation(int ratio){
+        this.expected_max_population = this.expected_max_population * ratio;
+        this.environment_capacity = this.environment_capacity * ratio;
+        return this;
+    }
 }
