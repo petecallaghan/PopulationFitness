@@ -28,9 +28,12 @@ public abstract class BitSetGenes implements Genes {
 
     private final int size_of_genes;
 
+    private final int mutation_bit_interval;
+
     BitSetGenes(Config config) {
         this.config = config;
-        size_of_genes = config.number_of_genes * config.size_of_each_gene;
+        size_of_genes = config.getGeneBitCount();
+        mutation_bit_interval = config.getMutationBitInterval();
     }
 
     private long[] getGenesFromCache() {
@@ -93,17 +96,15 @@ public abstract class BitSetGenes implements Genes {
     }
 
     private void mutateAndStore(BitSet genes) {
-        if (config.mutations_per_gene >= 1) {
-            flipRandomBits(genes);
-        }
+        flipRandomBits(genes);
         stored_fitness_factor = 0;
         storeGenesInCache(genes);
     }
 
     private void flipRandomBits(BitSet genes) {
-        final int interval = size_of_genes / config.mutations_per_gene;
-
-        for (int i = RepeatableRandom.generateNextInt(interval); i < size_of_genes; i += RepeatableRandom.generateNextInt(interval) + 1) {
+        for (int i = RepeatableRandom.generateNextInt(mutation_bit_interval);
+             i < size_of_genes;
+             i += RepeatableRandom.generateNextInt(mutation_bit_interval) + 1) {
             genes.flip(i);
         }
     }
@@ -116,7 +117,7 @@ public abstract class BitSetGenes implements Genes {
      * @return the scaled stored fitness
      */
     protected double scaleAndStoreFitness(double fitness_factor, double fitness) {
-        return storeScaledFitness(fitness_factor, config.range.toScale(fitness));
+        return storeScaledFitness(fitness_factor, config.getRange().toScale(fitness));
     }
 
     /**

@@ -22,15 +22,15 @@ public class GenerationsWriter {
                 "of" +
                 number_of_runs +
                 "-" +
-                config.genesFactory.getFitnessFunction() +
+                config.getGenesFactory().getFitnessFunction() +
                 "-genes" +
-                config.number_of_genes +
+                config.getNumberOfGenes() +
                 "x" +
-                config.size_of_each_gene +
+                config.getSizeOfEachGene() +
                 "-pop" +
-                config.initial_population +
+                config.getInitialPopulation() +
                 "-mut" +
-                config.mutations_per_gene +
+                config.getMutationsPerGene() +
                 "-" +
                 config.id.replaceAll(":", "-") +
                 ".csv";
@@ -76,7 +76,7 @@ public class GenerationsWriter {
                 Integer.toString(generation.epoch.start_year),
                 Integer.toString(generation.epoch.end_year),
                 Double.toString(generation.epoch.kill()),
-                Double.toString(generation.epoch.environment_capacity),
+                Double.toString(generation.epoch.capacityForYear(generation.year)),
                 Boolean.toString(generation.epoch.isFitnessEnabled()),
                 Double.toString(generation.epoch.breedingProbability()),
                 Integer.toString(generation.year),
@@ -90,6 +90,8 @@ public class GenerationsWriter {
                 Double.toString(generation.average_fitness),
                 Double.toString(generation.fitness_deviation),
                 Integer.toString(generation.average_age),
+                Double.toString(generation.epoch.averageCapacityFactor()),
+                Double.toString(generation.epoch.averageCapacityFactor() * generation.epoch.fitness()),
         });
     }
 
@@ -112,6 +114,8 @@ public class GenerationsWriter {
                 "Avg Fitness",
                 "Fitness Deviation",
                 "Average Age",
+                "Avg Capacity Factor",
+                "Avg Capacity Fitness",
         });
     }
 

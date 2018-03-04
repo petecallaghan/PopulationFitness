@@ -19,7 +19,7 @@ public class Individual {
     public Individual(Config config, int birth_year){
         this.config = config;
         this.birth_year = birth_year;
-        this.genes = config.genesFactory.build(config);
+        this.genes = config.getGenesFactory().build(config);
     }
 
     public int age(int current_year){
@@ -27,12 +27,12 @@ public class Individual {
     }
 
     public boolean isReadyToDie(int current_year){
-        return age(current_year) >= config.max_age;
+        return age(current_year) >= config.getMaxAge();
     }
 
     public boolean canBreed(int current_year){
         int age = age(current_year);
-        return age >= config.min_breeding_age && age <= config.max_breeding_age;
+        return age >= config.getMinBreedingAge() && age <= config.getMaxBreedingAge();
     }
 
     public void inheritFromParents(Individual mother, Individual father){

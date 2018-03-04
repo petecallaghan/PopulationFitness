@@ -11,7 +11,7 @@ import java.io.IOException;
 
 @SuppressWarnings("ALL")
 public class EpochsWriter {
-    private static String filePath(String path, Function function, int genes, int size, int mutations){
+    private static String filePath(String path, Function function, int genes, int size, double mutations){
         String filePath = path + "/" + "functionepochs" + "-" +
                 function +
                 "-" +
@@ -19,12 +19,12 @@ public class EpochsWriter {
                 "-" +
                 size +
                 "-" +
-                mutations +
+                (int)mutations +
                 ".csv";
         return filePath;
     }
 
-    public static String writeCsv(String path, Function function, int genes, int size, int mutations, Epochs epochs) throws IOException {
+    public static String writeCsv(String path, Function function, int genes, int size, double mutations, Epochs epochs) throws IOException {
         String filePath = filePath(path, function, genes, size, mutations);
         deleteExisting(filePath);
         CSVWriter writer = new CSVWriter(new FileWriter(filePath), ',');
@@ -61,6 +61,7 @@ public class EpochsWriter {
                 Integer.toString(epoch.expected_max_population),
                 Double.toString(epoch.averageCapacityFactor()),
                 Double.toString(epoch.averageCapacityFactor() * epoch.fitness()),
+                Double.toString(epoch.config().getMutationsPerGene()),
         });
     }
 
@@ -76,6 +77,7 @@ public class EpochsWriter {
                 "Expected Max Population",
                 "Avg Capacity Factor",
                 "Avg Capacity Fitness",
+                "Mutations"
         });
     }
 }

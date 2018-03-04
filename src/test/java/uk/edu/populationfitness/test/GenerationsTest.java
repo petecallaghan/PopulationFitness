@@ -19,7 +19,7 @@ public class GenerationsTest {
     @Test public void testProduceGenerationHistory(){
         // Given a standard configuration ...
         Config config = new Config();
-        config.min_breeding_age = 1; // so we get some babies
+        config.setMinBreedingAge(1); // so we get some babies
         Population population = new Population(config);
         Generations generations = new Generations(population);
         // ... with some epochs
@@ -58,6 +58,9 @@ public class GenerationsTest {
         assertEquals(result.population, first.population + second.population);
         assertEquals(result.number_born, first.number_born + second.number_born);
         assertEquals(result.number_killed, first.number_killed + second.number_killed);
+        assertEquals(result.epoch.averageCapacityFactor(),
+                (first.epoch.averageCapacityFactor() * first.population +
+                        second.epoch.averageCapacityFactor() * second.population) / result.population, 0.00001);
     }
 
     @Test public void addCollectionsOfGenerationStatistics(){
@@ -81,7 +84,7 @@ public class GenerationsTest {
     @Test public void writeAndReadGenerationStatistics() throws IOException {
         // Given a standard configuration ...
         Config config = new Config();
-        config.min_breeding_age = 1; // so we get some babies
+        config.setMinBreedingAge(1); // so we get some babies
         Population population = new Population(config);
         Generations generations = new Generations(population);
         // ... with some epochs ...
@@ -131,5 +134,6 @@ public class GenerationsTest {
         assertEquals(e.average_fitness, a.average_fitness, 0.001);
         assertEquals(e.fitness_deviation, a.fitness_deviation, 0.001);
         assertEquals(e.average_age, a.average_age, 0.001);
+        assertEquals(e.epoch.averageCapacityFactor(), a.epoch.averageCapacityFactor(), 0.001);
     }
 }

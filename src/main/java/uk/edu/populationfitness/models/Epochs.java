@@ -24,9 +24,20 @@ public class Epochs {
         if (!epochs.isEmpty()){
             Epoch previous = epochs.get(epochs.size() - 1);
             previous.end_year = epoch.start_year - 1;
+            epoch.prev_environment_capacity = previous.environment_capacity;
+        }
+        else
+        {
+            epoch.prev_environment_capacity = epoch.environment_capacity;
         }
 
         epochs.add(epoch);
+    }
+
+    public void addAll(List<Epoch> epochs){
+        for (Epoch e: epochs) {
+            this.addNextEpoch(e);
+        }
     }
 
     /***

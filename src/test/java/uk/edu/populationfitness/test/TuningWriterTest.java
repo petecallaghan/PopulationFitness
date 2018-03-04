@@ -43,7 +43,7 @@ public class TuningWriterTest {
         assertEquals(expected.size_of_genes, actual.size_of_genes);
         assertEquals(expected.min_fitness, actual.min_fitness, delta);
         assertEquals(expected.max_fitness, actual.max_fitness, delta);
-        assertEquals(expected.mutations_per_gene, actual.mutations_per_gene);
+        assertEquals(expected.mutations_per_gene, actual.mutations_per_gene, delta);
         assertEquals(expected.series_runs, actual.series_runs);
         assertEquals(expected.parallel_runs, actual.parallel_runs);
     }

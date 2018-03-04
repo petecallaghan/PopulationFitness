@@ -23,8 +23,8 @@ public class GenesDistributionTest {
         factory.useFitnessFunction(function);
         // Given a number of randomly generated genes
         Config config = new Config();
-        config.number_of_genes = NumberOfGenes;
-        config.size_of_each_gene = SizeOfGenes;
+        config.setNumberOfGenes(NumberOfGenes);
+        config.setSizeOfEachGene(SizeOfGenes);
         ArrayList<Genes> genes = new ArrayList<>();
         for(int i = 0; i < Population; i++){
             Genes next = factory.build(config);

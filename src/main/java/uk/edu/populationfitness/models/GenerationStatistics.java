@@ -67,6 +67,7 @@ public class GenerationStatistics {
         result.average_fitness = average(first.average_fitness * first.population + second.average_fitness * second.population, result.population);
         result.epoch.expected_max_population += second.epoch.expected_max_population;
         result.epoch.environment_capacity += second.epoch.environment_capacity;
+        result.epoch.setAverageCapacityFactor(average(first.epoch.averageCapacityFactor() * first.population + second.epoch.averageCapacityFactor() * second.population, result.population));
         return result;
     }
 

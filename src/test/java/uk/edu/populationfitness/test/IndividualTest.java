@@ -15,7 +15,7 @@ public class IndividualTest {
         // Given an old individual
         Config config = new Config();
         int birth_year = 1964;
-        int current_year = birth_year + config.max_age + 10;
+        int current_year = birth_year + config.getMaxAge() + 10;
         Individual individual = new Individual(config, birth_year);
 
         // Then they are ready to die
@@ -26,7 +26,7 @@ public class IndividualTest {
         // Given a young individual
         Config config = new Config();
         int birth_year = 1964;
-        int current_year = birth_year + config.max_age - 10;
+        int current_year = birth_year + config.getMaxAge() - 10;
         Individual individual = new Individual(config, birth_year);
 
         // Then they are not ready to die
@@ -37,7 +37,7 @@ public class IndividualTest {
         // Given a breeding age individual
         Config config = new Config();
         int birth_year = 1964;
-        int current_year = birth_year + config.min_breeding_age + 1;
+        int current_year = birth_year + config.getMinBreedingAge() + 1;
         Individual individual = new Individual(config, birth_year);
 
         // Then they can breed
@@ -48,7 +48,7 @@ public class IndividualTest {
         // Given a breeding age individual
         Config config = new Config();
         int birth_year = 1964;
-        int current_year = birth_year + config.min_breeding_age - 1;
+        int current_year = birth_year + config.getMinBreedingAge() - 1;
         Individual individual = new Individual(config, birth_year);
 
         // Then they can breed
@@ -59,7 +59,7 @@ public class IndividualTest {
         // Given a breeding age individual
         Config config = new Config();
         int birth_year = 1964;
-        int current_year = birth_year + config.max_breeding_age + 1;
+        int current_year = birth_year + config.getMaxBreedingAge() + 1;
         Individual individual = new Individual(config, birth_year);
 
         // Then they can breed

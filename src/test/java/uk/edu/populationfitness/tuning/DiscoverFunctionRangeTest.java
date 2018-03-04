@@ -26,10 +26,10 @@ public class DiscoverFunctionRangeTest {
         factory.useFitnessFunction(function);
         // Given a number of randomly generated genes
         Config config = new Config();
-        config.number_of_genes = numberOfGenes;
-        config.size_of_each_gene = sizeOfGenes;
-        config.range.min(range.min()).max(range.max());
-        config.genesFactory = factory;
+        config.setNumberOfGenes(numberOfGenes);
+        config.setSizeOfEachGene(sizeOfGenes);
+        config.getRange().min(range.min()).max(range.max());
+        config.setGenesFactory(factory);
         GenesTimer.resetAll();
 
         ArrayList<Genes> genes = new ArrayList<>();

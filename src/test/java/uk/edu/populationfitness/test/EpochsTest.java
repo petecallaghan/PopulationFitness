@@ -34,7 +34,7 @@ public class EpochsTest {
         epochs.addNextEpoch(new Epoch(config, 1400));
         epochs.addNextEpoch(new Epoch(config, 2016));
         epochs.addNextEpoch(new Epoch(config, 2068));
-        epochs.setFinalEpochYear(-50 + config.number_of_years - 1);
+        epochs.setFinalEpochYear(-50 + config.getNumberOfYears() - 1);
 
         // When we iterate over the epochs
         int first_year = UNDEFINED_YEAR;
@@ -53,8 +53,8 @@ public class EpochsTest {
 
         // Then we traverse all the years
         assertEquals(-50, first_year);
-        assertEquals( -50 + config.number_of_years - 1, last_year);
-        assertEquals( + config.number_of_years, number_of_years);
+        assertEquals( -50 + config.getNumberOfYears() - 1, last_year);
+        assertEquals( +config.getNumberOfYears(), number_of_years);
     }
 
     @Test public void testEpochFitnessFactors(){
@@ -95,6 +95,20 @@ public class EpochsTest {
         assertFalse(epochs.epochs.get(0).isCapacityUnlimited());
         assertEquals(Epoch.UNLIMITED_CAPACITY, epochs.epochs.get(1).environment_capacity);
         assertTrue(epochs.epochs.get(1).isCapacityUnlimited());
+        assertEquals(epochs.epochs.get(0).environment_capacity, epochs.epochs.get(0).prev_environment_capacity);
+        assertEquals(epochs.epochs.get(0).environment_capacity, epochs.epochs.get(1).prev_environment_capacity);
+    }
+
+    @Test public void testEnvironmentCapacityScales(){
+        Config config = new Config();
+        Epoch epoch = new Epoch(config, 1000);
+        epoch.end_year = 1500;
+        epoch.prev_environment_capacity = 1000;
+        epoch.environment_capacity = 2000;
+
+        assertEquals(epoch.prev_environment_capacity, epoch.capacityForYear(epoch.start_year));
+        assertEquals(epoch.environment_capacity, epoch.capacityForYear(epoch.end_year));
+        assertEquals((epoch.environment_capacity + epoch.prev_environment_capacity)/2, epoch.capacityForYear((epoch.end_year+epoch.start_year)/2));
     }
 
     @Test public void testEpochWriteAndRead() throws IOException{
@@ -104,7 +118,7 @@ public class EpochsTest {
         double delta = 0.0000000001;
 
         // When we write them and then read them
-        String path = EpochsWriter.writeCsv("epochs", Function.Undefined, config.number_of_genes, config.size_of_each_gene, config.mutations_per_gene, epochs);
+        String path = EpochsWriter.writeCsv("epochs", Function.Undefined, config.getNumberOfGenes(), config.getSizeOfEachGene(), config.getMutationsPerGene(), epochs);
         Epochs found = new Epochs();
         found.epochs.addAll(EpochsReader.readEpochs(config, path));
 

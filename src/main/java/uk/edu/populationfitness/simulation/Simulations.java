@@ -105,6 +105,6 @@ public class Simulations {
      * @param epochs
      */
     public static void setInitialPopulationFromFirstEpochCapacity(Config config, Epochs epochs) {
-        config.initial_population = epochs.first().expected_max_population;
+        config.setInitialPopulation(epochs.first().expected_max_population);
     }
 }

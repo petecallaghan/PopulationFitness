@@ -26,7 +26,7 @@ public class GenesTest {
         Config config = new Config();
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
-        config.mutations_per_gene *= 10;
+        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
 
         // When they are mutated
         genes.mutate();
@@ -40,7 +40,7 @@ public class GenesTest {
         }
 
         assertTrue(mutated_count > 0);
-        assertTrue(mutated_count <= 2.5 * config.mutations_per_gene);
+        assertTrue(mutated_count <= 2.5 * config.getMutationsPerGene());
     }
 
     @Test public void testRandomGenesAreNotAllZero(){
@@ -80,7 +80,7 @@ public class GenesTest {
         Config config = new Config();
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
-        config.mutations_per_gene = 0;
+        config.setMutationsPerGene(0);
 
         // When they are mutated
         genes.mutate();
@@ -115,8 +115,8 @@ public class GenesTest {
     @Test public void testGenesWithLargeBitCoding(){
         // Given a set of genes with non zero values
         Config config = new Config();
-        config.number_of_genes = 10000;
-        config.size_of_each_gene = 2250;
+        config.setNumberOfGenes(10000);
+        config.setSizeOfEachGene(2250);
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildFromRandom();
 
@@ -126,8 +126,8 @@ public class GenesTest {
     @Test public void testGenesWithConfiguredFloatRange(){
         // Given a set of genes with non zero values
         Config config = new Config();
-        config.float_lower = 1.5;
-        config.float_upper = 10.5;
+        config.setFloatLower(1.5);
+        config.setFloatUpper(10.5);
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildFromRandom();
 
@@ -147,7 +147,7 @@ public class GenesTest {
     @Test public void testBabyIsNotIdenticalToMotherOrFather() {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.mutations_per_gene *= 10;
+        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
         BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
@@ -164,7 +164,7 @@ public class GenesTest {
     @Test public void testBabyIsNotZero(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.mutations_per_gene *= 10;
+        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
         BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
@@ -180,7 +180,7 @@ public class GenesTest {
     @Test public void testBabyIsSimilarToMotherAndFather(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.mutations_per_gene *= 10;
+        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
         BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);

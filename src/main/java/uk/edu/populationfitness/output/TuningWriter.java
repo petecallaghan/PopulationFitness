@@ -30,7 +30,7 @@ public class TuningWriter {
                 Integer.toString(tuning.size_of_genes),
                 Double.toString(tuning.min_fitness),
                 Double.toString(tuning.max_fitness),
-                Integer.toString(tuning.mutations_per_gene),
+                Double.toString(tuning.mutations_per_gene),
                 Integer.toString(tuning.series_runs),
                 Integer.toString(tuning.parallel_runs),
         });

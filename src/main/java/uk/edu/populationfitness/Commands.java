@@ -76,18 +76,18 @@ public class Commands {
                 if (argument.startsWith(TuningFile)){
                     tuningFile = value;
                     TuningReader.read(tuning, tuningFile);
-                    config.size_of_each_gene = tuning.size_of_genes;
-                    config.number_of_genes = tuning.number_of_genes;
-                    config.genesFactory.useFitnessFunction(tuning.function);
-                    config.range.min(tuning.min_fitness).max(tuning.max_fitness);
-                    config.mutations_per_gene = tuning.mutations_per_gene;
+                    config.setSizeOfEachGene(tuning.size_of_genes);
+                    config.setNumberOfGenes(tuning.number_of_genes);
+                    config.getGenesFactory().useFitnessFunction(tuning.function);
+                    config.getRange().min(tuning.min_fitness).max(tuning.max_fitness);
+                    config.setMutationsPerGene(tuning.mutations_per_gene);
                     parallelCount = tuning.parallel_runs;
                     continue;
                 }
                 if (argument.startsWith(EpochsFile)){
                     epochsFile = value;
                     List<Epoch> read = EpochsReader.readEpochs(config, epochsFile);
-                    epochs.epochs.addAll(read);
+                    epochs.addAll(read);
                     continue;
                 }
                 if (argument.startsWith(Id)){

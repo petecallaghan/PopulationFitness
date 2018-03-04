@@ -9,7 +9,7 @@ import uk.edu.populationfitness.models.genes.bitset.InterpolatingBitSetGenes;
 @SuppressWarnings("Duplicates")
 public class SinPiOver2Genes extends InterpolatingBitSetGenes {
     public SinPiOver2Genes(Config config){
-        super(config, (config.float_upper/2.0) - config.float_lower);
+        super(config, (config.getFloatUpper() /2.0) - config.getFloatLower());
     }
 
     @Override
@@ -31,7 +31,7 @@ public class SinPiOver2Genes extends InterpolatingBitSetGenes {
         long[] integer_values = asIntegers();
 
         for (long value : integer_values) {
-            fitness *= Math.pow(Math.sin(config.float_lower + interpolation_ratio * value), fitness_factor);
+            fitness *= Math.pow(Math.sin(config.getFloatLower() + interpolation_ratio * value), fitness_factor);
         }
 
         fitness = Math.abs(fitness);

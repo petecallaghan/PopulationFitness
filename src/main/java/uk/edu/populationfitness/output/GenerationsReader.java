@@ -35,7 +35,8 @@ public class GenerationsReader {
     }
 
     private static GenerationStatistics readFromRow(Config config, String[] row) {
-        GenerationStatistics generation = new GenerationStatistics(new Epoch(config, Integer.parseInt(row[0])),
+        GenerationStatistics generation = new GenerationStatistics(new Epoch(config,
+                Integer.parseInt(row[0])),
                 Integer.parseInt(row[6]),
                 Integer.parseInt(row[9]),
                 Integer.parseInt(row[10]),
@@ -54,6 +55,7 @@ public class GenerationsReader {
         generation.average_fitness = Double.parseDouble(row[14]);
         generation.fitness_deviation = Double.parseDouble(row[15]);
         generation.average_age = Integer.parseInt(row[16]);
+        generation.epoch.setAverageCapacityFactor(Double.parseDouble(row[17]));
         return generation;
     }
 }

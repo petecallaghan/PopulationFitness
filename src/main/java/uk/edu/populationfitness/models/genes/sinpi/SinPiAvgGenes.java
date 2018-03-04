@@ -24,7 +24,7 @@ public class SinPiAvgGenes extends SinPiGenes {
         long[] integer_values = asIntegers();
 
         for (long value : integer_values) {
-            fitness += Math.abs(Math.pow(Math.sin(config.float_lower + interpolation_ratio * value), fitness_factor));
+            fitness += Math.abs(Math.pow(Math.sin(config.getFloatLower() + interpolation_ratio * value), fitness_factor));
         }
 
         fitness = integer_values.length > 0 ? Math.abs(fitness) / integer_values.length : 0;

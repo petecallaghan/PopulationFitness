@@ -25,6 +25,8 @@ public class Epoch {
     // Defines the holding capacity of the environment for this epoch
     public int environment_capacity = UNLIMITED_CAPACITY;
 
+    public int prev_environment_capacity;
+
     // Use this to turn off fitness. By default fitness is enabled
     public boolean enable_fitness = true;
 
@@ -41,7 +43,7 @@ public class Epoch {
     public Epoch(Config config, int start_year){
         this.start_year = start_year;
         this.config = config;
-        this.probability_of_breeding = config.probability_of_breeding;
+        this.probability_of_breeding = config.getProbabilityOfBreeding();
     }
 
     public Epoch(Epoch source){
@@ -56,10 +58,17 @@ public class Epoch {
         this.kill_constant = source.kill_constant;
         this.probability_of_breeding = source.probability_of_breeding;
         this.total_capacity_factor = source.total_capacity_factor;
+        this.prev_environment_capacity = source.prev_environment_capacity;
     }
 
     public boolean isCapacityUnlimited(){
         return environment_capacity == UNLIMITED_CAPACITY;
+    }
+
+    public int capacityForYear(int year){
+        final long capacityRange = environment_capacity - prev_environment_capacity;
+        final long yearRange = end_year - start_year;
+        return prev_environment_capacity + (int)((capacityRange * (year - start_year)) / yearRange);
     }
 
     public boolean isFitnessEnabled(){
@@ -127,6 +136,10 @@ public class Epoch {
         return this.total_capacity_factor / (this.end_year - this.start_year + 1);
     }
 
+    public void setAverageCapacityFactor(double average){
+        total_capacity_factor = average * (this.end_year - this.start_year + 1);
+    }
+
     /**
      * Reduces the populations by the ratio
      *
@@ -137,6 +150,7 @@ public class Epoch {
     public Epoch reducePopulation(int ratio){
         this.expected_max_population = this.expected_max_population / ratio;
         this.environment_capacity = this.environment_capacity / ratio;
+        this.prev_environment_capacity = this.prev_environment_capacity / ratio;
         return this;
     }
 
@@ -150,6 +164,11 @@ public class Epoch {
     public Epoch increasePopulation(int ratio){
         this.expected_max_population = this.expected_max_population * ratio;
         this.environment_capacity = this.environment_capacity * ratio;
+        this.prev_environment_capacity = this.prev_environment_capacity * ratio;
         return this;
+    }
+
+    public Config config(){
+        return this.config;
     }
 }
