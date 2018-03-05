@@ -12,8 +12,8 @@ public class SinPiLinearGenes extends SinPiGenes {
     }
 
     @Override
-    public double fitness(double fitness_factor){
-        if (isSameFitnessFactor(fitness_factor)) {
+    public double fitness(){
+        if (isFitnessStored()) {
             return storedFitness();
         }
         /*
@@ -30,9 +30,9 @@ public class SinPiLinearGenes extends SinPiGenes {
         long[] integer_values = asIntegers();
 
         for (long value : integer_values) {
-            fitness *= fitness_factor * Math.sin(config.getFloatLower() + interpolation_ratio * value);
+            fitness *= Math.sin(config.getFloatLower() + interpolation_ratio * value);
         }
 
-        return scaleAndStoreFitness(fitness_factor, Math.abs(fitness));
+        return scaleAndStoreFitness(Math.abs(fitness));
     }
 }

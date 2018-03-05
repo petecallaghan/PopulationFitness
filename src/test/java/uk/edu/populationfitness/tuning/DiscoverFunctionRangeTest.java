@@ -52,7 +52,7 @@ public class DiscoverFunctionRangeTest {
         double min = Double.MAX_VALUE;
         double max = Double.MIN_VALUE;
         for (Genes g: genes) {
-            double fitness = g.fitness(1.0);
+            double fitness = g.fitness();
 
             if (fitness < min) min = fitness;
             if (fitness > max) max = fitness;

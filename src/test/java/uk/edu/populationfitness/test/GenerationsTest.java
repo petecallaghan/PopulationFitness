@@ -38,8 +38,8 @@ public class GenerationsTest {
         // Given two sets of generation statistics
         Config config = new Config();
         Epoch epoch = new Epoch(config, -50);
-        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13);
-        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78);
+        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0);
+        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0);
 
         // When they are added
         GenerationStatistics result = GenerationStatistics.add(first, second);
@@ -58,17 +58,17 @@ public class GenerationsTest {
         assertEquals(result.population, first.population + second.population);
         assertEquals(result.number_born, first.number_born + second.number_born);
         assertEquals(result.number_killed, first.number_killed + second.number_killed);
-        assertEquals(result.epoch.averageCapacityFactor(),
-                (first.epoch.averageCapacityFactor() * first.population +
-                        second.epoch.averageCapacityFactor() * second.population) / result.population, 0.00001);
+        assertEquals(result.capacity_factor,
+                (first.capacity_factor * first.population +
+                        second.capacity_factor * second.population) / result.population, 0.00001);
     }
 
     @Test public void addCollectionsOfGenerationStatistics(){
         // Given two collections of statistics
         Config config = new Config();
         Epoch epoch = new Epoch(config, -50);
-        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13);
-        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78);
+        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0);
+        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0);
         List<GenerationStatistics> firstSet = new ArrayList<>();
         firstSet.add(first);
         List<GenerationStatistics> secondSet = new ArrayList<>();
@@ -132,8 +132,9 @@ public class GenerationsTest {
         assertEquals(e.bornElapsedInHundredths(), a.bornElapsedInHundredths(), 0.001);
         assertEquals(e.killElapsedInHundredths(), a.killElapsedInHundredths(), 0.001);
         assertEquals(e.average_fitness, a.average_fitness, 0.001);
+        assertEquals(e.average_factored_fitness, a.average_factored_fitness, 0.001);
         assertEquals(e.fitness_deviation, a.fitness_deviation, 0.001);
         assertEquals(e.average_age, a.average_age, 0.001);
-        assertEquals(e.epoch.averageCapacityFactor(), a.epoch.averageCapacityFactor(), 0.001);
+        assertEquals(e.capacity_factor, a.capacity_factor, 0.001);
     }
 }

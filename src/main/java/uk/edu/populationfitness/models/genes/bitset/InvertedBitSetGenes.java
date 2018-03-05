@@ -10,11 +10,10 @@ abstract class InvertedBitSetGenes extends BitSetGenes {
     /**
      * Call this to store the fitness, inverted to 1- fitness
      *
-     * @param fitness_factor
      * @param fitness
      * @return the scaled stored fitness
      */
-    double storeScaledInvertedFitness(double fitness_factor, double fitness){
-        return storeScaledFitness(fitness_factor, fitness_factor * (1 - config.getRange().toScale(fitness)));
+    double storeScaledInvertedFitness(double fitness){
+        return storeFitness((1 - config.getRange().toScale(fitness)));
     }
 }

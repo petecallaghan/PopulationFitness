@@ -8,9 +8,9 @@ public class UkPopulationEpochs {
     public static Epochs define(Config config){
         Epochs epochs = new Epochs();
 
-        final double historic_kill = 1; //1.066;
-        final double modern_breeding = 0.13;
-        final double modern_kill = 1; //1.003;
+        final double historic_kill = 1.066;
+        final double modern_breeding = config.getProbabilityOfBreeding();
+        final double modern_kill = 1.066;
 
         // Src: silvia.carpitella@unipa.it
         epochs.addNextEpoch(new Epoch(config, -50).kill(historic_kill).capacity(1500));
@@ -54,18 +54,18 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1872).kill(historic_kill).capacity(35000));
         epochs.addNextEpoch(new Epoch(config, 1882).kill(historic_kill).capacity(37800));
         epochs.addNextEpoch(new Epoch(config, 1892).kill(historic_kill).capacity(38200));
-        epochs.addNextEpoch(new Epoch(config, 1902).kill(modern_kill).capacity(42100)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1912).kill(modern_kill).capacity(44000)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1922).kill(modern_kill).capacity(45000)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1932).kill(modern_kill).capacity(50200)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1942).kill(modern_kill).capacity(52800)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1952).kill(modern_kill).capacity(55900)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1962).kill(modern_kill).capacity(56300)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1972).kill(modern_kill).capacity(57400)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1982).kill(modern_kill).capacity(59300)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1992).kill(modern_kill).capacity(63200)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 2002).kill(modern_kill).capacity(65600)); //.breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 2012).kill(modern_kill).capacity(66270)); //.breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1902).kill(modern_kill).capacity(42100).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1912).kill(modern_kill).capacity(44000).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1922).kill(modern_kill).capacity(45000).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1932).kill(modern_kill).capacity(50200).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1942).kill(modern_kill).capacity(52800).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1952).kill(modern_kill).capacity(55900).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1962).kill(modern_kill).capacity(56300).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1972).kill(modern_kill).capacity(57400).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1982).kill(modern_kill).capacity(59300).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1992).kill(modern_kill).capacity(63200).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 2002).kill(modern_kill).capacity(65600).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 2012).kill(modern_kill).capacity(66270).breedingProbability(modern_breeding));
         epochs.setFinalEpochYear(2015);
 
         return epochs;

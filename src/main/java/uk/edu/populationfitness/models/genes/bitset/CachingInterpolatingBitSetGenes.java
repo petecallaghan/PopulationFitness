@@ -20,12 +20,12 @@ public abstract class CachingInterpolatingBitSetGenes extends InterpolatingBitSe
     protected abstract double calculateFitnessFromIntegers(long[] integer_values);
 
     @Override
-    public double fitness(double fitness_factor) {
-        if (isSameFitnessFactor(fitness_factor)) {
+    public double fitness() {
+        if (isFitnessStored()) {
             return storedFitness();
         }
 
-        return storeScaledInvertedFitness(fitness_factor, calculateFitnessFromIntegers(asIntegers()));
+        return storeScaledInvertedFitness(calculateFitnessFromIntegers(asIntegers()));
     }
 }
 

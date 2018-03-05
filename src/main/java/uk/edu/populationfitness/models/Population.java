@@ -16,8 +16,10 @@ public class Population {
     public int average_age = 0;
 
     private double total_fitness = 0.0;
+    private double total_factored_fitness = 0.0;
     private int checked_fitness = 0;
     private ArrayList<Double> fitnesses;
+    private double environment_capacity = 0.0;
 
     public Population(Config config){
         this.config = config;
@@ -71,21 +73,21 @@ public class Population {
         return babies;
     }
 
-    private boolean isUnfit(double fitness, double kill_constant){
+    private boolean isUnfit(double fitness, double kill_constant, double fitness_factor){
+        final double factored_fitness = fitness * fitness_factor;
         total_fitness += fitness;
+        total_factored_fitness += factored_fitness;
         checked_fitness++;
         fitnesses.add(fitness);
-        return fitness < (RepeatableRandom.generateNext() * kill_constant);
+        return factored_fitness < (RepeatableRandom.generateNext() * kill_constant);
     }
 
     private boolean isUnfitForEnvironment(Individual individual, double fitness_factor, double environment_capacity, double kill_constant){
-        individual.fitness = individual.genes.fitness(fitness_factor) * environment_capacity;
-        return isUnfit(individual.fitness, kill_constant);
+        return isUnfit(individual.genes.fitness(), kill_constant, fitness_factor * environment_capacity);
     }
 
     private boolean isUnfit(Individual individual, double fitness_factor, double kill_constant){
-        individual.fitness = individual.genes.fitness(fitness_factor);
-        return isUnfit(individual.fitness, kill_constant);
+        return isUnfit(individual.genes.fitness(), kill_constant, fitness_factor);
     }
 
     private int addSurvivors(Predicate<Individual> survivor){
@@ -103,7 +105,9 @@ public class Population {
      */
     public int killThoseUnfitOrReadyToDie(int current_year, Epoch epoch){
         total_fitness = 0.0;
+        total_factored_fitness = 0.0;
         checked_fitness = 0;
+        environment_capacity = 0.0;
         fitnesses = new ArrayList<>();
 
         if (individuals.size() < 1)
@@ -117,13 +121,21 @@ public class Population {
             return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfit(i, epoch.fitness(), epoch.kill())));
         }
 
-        double environment_capacity = (double)(epoch.capacityForYear(current_year)) / individuals.size();
+        environment_capacity = (double)(epoch.capacityForYear(current_year)) / individuals.size();
         epoch.addCapacityFactor(environment_capacity);
         return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitness(), environment_capacity, epoch.kill())));
     }
 
     public double averageFitness(){
         return checked_fitness > 0 ? total_fitness / checked_fitness : 0;
+    }
+
+    public double averageFactoredFitness(){
+        return checked_fitness > 0 ? total_factored_fitness / checked_fitness : 0;
+    }
+
+    public double capacityFactor() {
+        return environment_capacity;
     }
 
     public double standardDeviationFitness(){

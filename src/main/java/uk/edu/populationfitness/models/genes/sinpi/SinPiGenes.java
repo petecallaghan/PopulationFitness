@@ -13,8 +13,8 @@ public class SinPiGenes extends InterpolatingBitSetGenes {
     }
 
     @Override
-    public double fitness(double fitness_factor){
-        if (isSameFitnessFactor(fitness_factor)) {
+    public double fitness(){
+        if (isFitnessStored()) {
             return storedFitness();
         }
         /*
@@ -31,10 +31,10 @@ public class SinPiGenes extends InterpolatingBitSetGenes {
         long[] integer_values = asIntegers();
 
         for (long value : integer_values) {
-            fitness *= Math.pow(Math.sin(config.getFloatLower() + interpolation_ratio * value), fitness_factor);
+            fitness *= Math.sin(config.getFloatLower() + interpolation_ratio * value);
         }
 
         fitness = Math.abs(fitness);
-        return scaleAndStoreFitness(fitness_factor, integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness);
+        return scaleAndStoreFitness(integer_values.length > 1 ? Math.pow(fitness, 1.0 / integer_values.length) :  fitness);
     }
 }

@@ -152,8 +152,16 @@ public class Generations {
     }
 
     private void addHistory(Epoch epoch, int year, int number_born, int number_killed, long born_elapsed, long kill_elapsed) {
-        GenerationStatistics generation = new GenerationStatistics(epoch, year, population.individuals.size(), number_born, number_killed, born_elapsed, kill_elapsed);
+        GenerationStatistics generation = new GenerationStatistics(epoch,
+                year,
+                population.individuals.size(),
+                number_born,
+                number_killed,
+                born_elapsed,
+                kill_elapsed,
+                population.capacityFactor());
         generation.average_fitness = population.averageFitness();
+        generation.average_factored_fitness = population.averageFactoredFitness();
         generation.fitness_deviation = population.standardDeviationFitness();
         generation.average_age = population.average_age;
         history.add(generation);

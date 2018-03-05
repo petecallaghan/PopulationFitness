@@ -90,8 +90,8 @@ public class GenerationsWriter {
                 Double.toString(generation.average_fitness),
                 Double.toString(generation.fitness_deviation),
                 Integer.toString(generation.average_age),
-                Double.toString(generation.epoch.averageCapacityFactor()),
-                Double.toString(generation.epoch.averageCapacityFactor() * generation.epoch.fitness()),
+                Double.toString(generation.capacity_factor),
+                Double.toString(generation.average_factored_fitness),
         });
     }
 
@@ -114,8 +114,8 @@ public class GenerationsWriter {
                 "Avg Fitness",
                 "Fitness Deviation",
                 "Average Age",
-                "Avg Capacity Factor",
-                "Avg Capacity Fitness",
+                "Capacity Factor",
+                "Avg Factored Fitness",
         });
     }
 

@@ -58,11 +58,10 @@ public interface Genes {
 
     /**
      * Calculate the fitness in a range of 0..1
-     *
-     * @param fitness_factor
+
      * @return
      */
-    double fitness(double fitness_factor);
+    double fitness();
 
     /**
      *

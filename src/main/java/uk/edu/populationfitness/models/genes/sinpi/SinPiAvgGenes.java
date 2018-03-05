@@ -11,8 +11,8 @@ public class SinPiAvgGenes extends SinPiGenes {
     }
 
     @Override
-    public double fitness(double fitness_factor){
-        if (isSameFitnessFactor(fitness_factor)) {
+    public double fitness(){
+        if (isFitnessStored()) {
             return storedFitness();
         }
         /*
@@ -24,10 +24,10 @@ public class SinPiAvgGenes extends SinPiGenes {
         long[] integer_values = asIntegers();
 
         for (long value : integer_values) {
-            fitness += Math.abs(Math.pow(Math.sin(config.getFloatLower() + interpolation_ratio * value), fitness_factor));
+            fitness += Math.abs(Math.sin(config.getFloatLower() + interpolation_ratio * value));
         }
 
         fitness = integer_values.length > 0 ? Math.abs(fitness) / integer_values.length : 0;
-        return scaleAndStoreFitness(fitness_factor, fitness);
+        return scaleAndStoreFitness(fitness);
     }
 }

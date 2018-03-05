@@ -83,9 +83,9 @@ public class GenesTimer implements Genes {
     }
 
     @Override
-    public double fitness(double fitness_factor) {
+    public double fitness() {
         long start_time = System.nanoTime();
-        double fitness = delegate.fitness(fitness_factor);
+        double fitness = delegate.fitness();
         Fitness.add(getElapsed(start_time));
         return fitness;
     }

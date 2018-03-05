@@ -42,8 +42,8 @@ public class GenerationsReader {
                 Integer.parseInt(row[10]),
                 Integer.parseInt(row[11]),
                 (int)(Double.parseDouble(row[12]) * 1000),
-                (int)(Double.parseDouble(row[13]) * 1000)
-                );
+                (int)(Double.parseDouble(row[13]) * 1000),
+                Double.parseDouble(row[17]));
         generation.epoch.end_year = Integer.parseInt(row[1]);
         generation.epoch.kill(Double.parseDouble(row[2]));
         generation.epoch.environment_capacity = (int)(Double.parseDouble(row[3]));
@@ -55,7 +55,7 @@ public class GenerationsReader {
         generation.average_fitness = Double.parseDouble(row[14]);
         generation.fitness_deviation = Double.parseDouble(row[15]);
         generation.average_age = Integer.parseInt(row[16]);
-        generation.epoch.setAverageCapacityFactor(Double.parseDouble(row[17]));
+        generation.average_factored_fitness = Double.parseDouble(row[18]);
         return generation;
     }
 }

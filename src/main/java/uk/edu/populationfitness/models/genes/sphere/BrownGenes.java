@@ -10,7 +10,7 @@ public class BrownGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 2.0 * (n - 1);
+        return n > 1 ? 2.0 * (n - 1) : 1.0;
     }
 
     @Override
@@ -23,6 +23,10 @@ public class BrownGenes extends NormalizingBitSetGenes {
 
         double xN = interpolate(integer_values[0]);
         double xNSquared = xN * xN;
+
+        if (integer_values.length < 2){
+            return xNSquared;
+        }
 
         for(int i = 0; i < integer_values.length - 1; i++){
             double xNPlus1 = interpolate(integer_values[i+1]);

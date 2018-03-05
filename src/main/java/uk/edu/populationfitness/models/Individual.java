@@ -14,8 +14,6 @@ public class Individual {
 
     public final Genes genes;
 
-    public double fitness;
-
     public Individual(Config config, int birth_year){
         this.config = config;
         this.birth_year = birth_year;

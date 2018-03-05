@@ -24,7 +24,7 @@ public abstract class BitSetGenes implements Genes {
 
     private double stored_fitness = 0;
 
-    private double stored_fitness_factor = 0;
+    private boolean fitness_stored = false;
 
     private final int size_of_genes;
 
@@ -72,7 +72,7 @@ public abstract class BitSetGenes implements Genes {
             }
         }
         storeGenesInCache(genes);
-        stored_fitness_factor = 0;
+        fitness_stored = false;
     }
 
     @Override
@@ -97,7 +97,7 @@ public abstract class BitSetGenes implements Genes {
 
     private void mutateAndStore(BitSet genes) {
         flipRandomBits(genes);
-        stored_fitness_factor = 0;
+        fitness_stored = false;
         storeGenesInCache(genes);
     }
 
@@ -112,24 +112,22 @@ public abstract class BitSetGenes implements Genes {
     /**
      * Call this to scale and then store the fitness
      *
-     * @param fitness_factor
      * @param fitness
      * @return the scaled stored fitness
      */
-    protected double scaleAndStoreFitness(double fitness_factor, double fitness) {
-        return storeScaledFitness(fitness_factor, config.getRange().toScale(fitness));
+    protected double scaleAndStoreFitness(double fitness) {
+        return storeFitness(config.getRange().toScale(fitness));
     }
 
     /**
-     * Call this to store a scaled fitness
+     * Call this to store a fitness
      *
-     * @param fitness_factor
      * @param fitness
      * @return
      */
-    double storeScaledFitness(double fitness_factor, double fitness) {
-        stored_fitness_factor = fitness_factor;
+    double storeFitness(double fitness) {
         stored_fitness = fitness;
+        fitness_stored = true;
         return stored_fitness;
     }
 
@@ -140,12 +138,8 @@ public abstract class BitSetGenes implements Genes {
         return stored_fitness;
     }
 
-    /**
-     * @param fitness_factor
-     * @return true if the fitness factor is the same as the stored factor
-     */
-    protected boolean isSameFitnessFactor(double fitness_factor) {
-        return (abs(fitness_factor - stored_fitness_factor) < 0.000001);
+    protected boolean isFitnessStored(){
+        return fitness_stored;
     }
 
     @Override

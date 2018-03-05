@@ -39,7 +39,7 @@ public class GenesDistributionTest {
         }
 
         for (Genes g: genes) {
-            double fitness = g.fitness(fitness_factor);
+            double fitness = g.fitness() * fitness_factor;
             int i = Math.abs(Math.min(99, (int)(fitness * 100)));
             fitnesses[i]++;
         }

@@ -18,11 +18,11 @@ public class TuneFunctionsTest {
 
     private static final int SmallGenes = 100000;
 
-    private static final int NumberOfGenes = 10;
+    private static final int NumberOfGenes = 20000;
 
-    private static final int SizeOfGenes = 4;
+    private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationRatio = 1;
+    private static final int PopulationRatio = 10;
 
     private static final String EpochsPath = "epochs";
 
@@ -85,7 +85,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, -1, 10);
+        tune(Function.Rosenbrock, 100, 10);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
@@ -105,7 +105,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneBrown() throws IOException {
-        tune(Function.Brown, 5, 10);
+        tune(Function.Brown, 10, 10);
     }
 
     @Test public void testTuneChungReynolds() throws IOException {
@@ -121,7 +121,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneGriewank() throws IOException {
-        tune(Function.Griewank, 400, 10);
+        tune(Function.Griewank, 400, 15);
     }
 
     @Test public void testTuneQing() throws IOException {

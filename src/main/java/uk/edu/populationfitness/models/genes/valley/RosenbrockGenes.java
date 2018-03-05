@@ -11,7 +11,7 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 1222100 * (n - 1);
+        return n > 1 ? 1222100.0 * (n - 1) : 100.0;
     }
 
     @Override
@@ -38,6 +38,11 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
          f(x) = 0, at x = (1,...,1)
 
          */
+        if (integer_values.length < 2){
+            double x = interpolate(integer_values[0]);
+            return 100.0 * (x - 1) * (x - 1);
+        }
+
         double fitness = 0;
 
         for(int i = 0; i < integer_values.length - 1; i++){

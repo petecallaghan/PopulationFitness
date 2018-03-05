@@ -24,8 +24,8 @@ public abstract class NormalizingBitSetGenes extends CachingInterpolatingBitSetG
     protected abstract double calculateNormalizationRatio(int n);
 
     @Override
-    public double fitness(double fitness_factor) {
-        if (isSameFitnessFactor(fitness_factor)) {
+    public double fitness() {
+        if (isFitnessStored()) {
             return storedFitness();
         }
 
@@ -36,6 +36,6 @@ public abstract class NormalizingBitSetGenes extends CachingInterpolatingBitSetG
             isNormalisationRatioSet = true;
         }
 
-        return storeScaledFitness(fitness_factor, fitness_factor * (calculateFitnessFromIntegers(integers) / normalizationRatio));
+        return storeFitness(calculateFitnessFromIntegers(integers) / normalizationRatio);
     }
 }

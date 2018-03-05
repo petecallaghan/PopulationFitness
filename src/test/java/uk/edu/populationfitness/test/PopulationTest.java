@@ -63,7 +63,10 @@ public class PopulationTest {
         // Given a population that contains just babies
         Config config = new Config();
         Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(config, -50));
+        Epoch epoch = new Epoch(config, -50);
+        epoch.environment_capacity = INITIAL_POPULATION_SIZE;
+        epoch.expected_max_population = INITIAL_POPULATION_SIZE;
+        epochs.addNextEpoch(epoch);
         config.setInitialPopulation(INITIAL_POPULATION_SIZE);
         Population population = new Population(config);
         population.addNewIndividuals(BIRTH_YEAR);
@@ -75,6 +78,7 @@ public class PopulationTest {
         assertTrue(0 < population.individuals.size());
         assertTrue(0 < fatalities);
         assertTrue(INITIAL_POPULATION_SIZE > population.individuals.size());
+        assertEquals(population.capacityFactor(), 1.0, 0.1);
     }
 
     @Test public void testCreateANewGenerationFromTheCurrentOne(){

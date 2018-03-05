@@ -98,7 +98,7 @@ public class GenesTest {
 
     private void thenTheyFallIntoTheFloatRange(BitSetGenes genes) {
         // Then they fall into the float range
-        double fitness = genes.fitness(1.0);
+        double fitness = genes.fitness();
         assertTrue(0.0 <= fitness);
         assertTrue( 1.0 >= fitness);
     }
