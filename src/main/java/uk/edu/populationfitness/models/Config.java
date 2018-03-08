@@ -13,7 +13,7 @@ public class Config {
     private static final double ZERO = 0.0;
     private static final double PI = Math.PI;
 
-    private static final double MutationScale = 100.0 / 20000.0;
+    public static final double MutationScale = 100.0 / 20000000.0;
 
     // Unique identifier
     public String id = Instant.now().toString().replaceAll(":", "-");

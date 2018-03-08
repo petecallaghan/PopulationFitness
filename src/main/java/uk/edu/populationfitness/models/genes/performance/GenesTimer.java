@@ -9,21 +9,18 @@ public class GenesTimer implements Genes {
     private final Genes delegate;
 
     private static final TimingStatistics BuildRandom = new TimingStatistics("Build random genes");
-    private static final TimingStatistics Mutate = new TimingStatistics("Mutate genes");
     private static final TimingStatistics Inherit = new TimingStatistics("Inherit from parents");
     private static final TimingStatistics Fitness = new TimingStatistics("Calculate fitness");
 
     public static void resetAll()
     {
         BuildRandom.reset();
-        Mutate.reset();
         Inherit.reset();
         Fitness.reset();
     }
 
     public static void showAll(){
         BuildRandom.show();
-        Mutate.show();
         Inherit.show();
         Fitness.show();
     }
@@ -65,9 +62,7 @@ public class GenesTimer implements Genes {
 
     @Override
     public void mutate() {
-        long start_time = System.nanoTime();
         delegate.mutate();
-        Mutate.add(getElapsed(start_time));
     }
 
     @Override

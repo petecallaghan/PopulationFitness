@@ -9,7 +9,7 @@ public class UkPopulationEpochs {
         Epochs epochs = new Epochs();
 
         final double historic_kill = 1.066;
-        final double modern_breeding = config.getProbabilityOfBreeding();
+        final double modern_breeding = 0.13; //config.getProbabilityOfBreeding();
         final double modern_kill = 1.066;
 
         // Src: silvia.carpitella@unipa.it
@@ -54,8 +54,8 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1872).kill(historic_kill).capacity(35000));
         epochs.addNextEpoch(new Epoch(config, 1882).kill(historic_kill).capacity(37800));
         epochs.addNextEpoch(new Epoch(config, 1892).kill(historic_kill).capacity(38200));
-        epochs.addNextEpoch(new Epoch(config, 1902).kill(modern_kill).capacity(42100).breedingProbability(modern_breeding));
-        epochs.addNextEpoch(new Epoch(config, 1912).kill(modern_kill).capacity(44000).breedingProbability(modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, 1902).kill(modern_kill).capacity(42100));
+        epochs.addNextEpoch(new Epoch(config, 1912).kill(modern_kill).capacity(44000));
         epochs.addNextEpoch(new Epoch(config, 1922).kill(modern_kill).capacity(45000).breedingProbability(modern_breeding));
         epochs.addNextEpoch(new Epoch(config, 1932).kill(modern_kill).capacity(50200).breedingProbability(modern_breeding));
         epochs.addNextEpoch(new Epoch(config, 1942).kill(modern_kill).capacity(52800).breedingProbability(modern_breeding));

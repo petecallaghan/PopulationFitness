@@ -1,2 +1,0 @@
-Function,Historic Fit,Disease Fit,Modern Fit,Modern Kill,Historic Kill,Modern Breeding,Number of Genes,Size of Genes,Min Fitness,Max Fitness,Mutation,Runs
-Rosenbrock,0.0020388165533396316,0.002154166666666666,0.0020048051185385446,1.003,1.066,0.13,20000,2250,0,1,100,1000

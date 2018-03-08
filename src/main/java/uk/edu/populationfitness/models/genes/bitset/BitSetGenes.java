@@ -46,6 +46,7 @@ public abstract class BitSetGenes implements Genes {
 
     private void storeGenesInCache(BitSet genes) {
         genesIdentifier = SharedCache.cache().add(genes.toLongArray());
+        fitness_stored = false;
     }
 
     @Override
@@ -72,7 +73,6 @@ public abstract class BitSetGenes implements Genes {
             }
         }
         storeGenesInCache(genes);
-        fitness_stored = false;
     }
 
     @Override
@@ -97,7 +97,6 @@ public abstract class BitSetGenes implements Genes {
 
     private void mutateAndStore(BitSet genes) {
         flipRandomBits(genes);
-        fitness_stored = false;
         storeGenesInCache(genes);
     }
 
