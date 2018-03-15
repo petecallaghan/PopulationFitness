@@ -14,11 +14,11 @@ import uk.edu.populationfitness.output.TuningWriter;
 import java.io.IOException;
 
 public class TuneFunctionsTest {
-    private static final int NumberOfGenes = 20000;
+    private static final int NumberOfGenes = 10;
 
-    private static final int SizeOfGenes = 1000;
+    private static final int SizeOfGenes = 4;
 
-    private static final int PopulationRatio = 100;
+    private static final int PopulationRatio = 1;
 
     private static final String EpochsPath = "epochs";
 
@@ -26,17 +26,24 @@ public class TuneFunctionsTest {
 
     private static final int TuningPercentage = 20;
 
+    private static final int MutationsPerIndividual = 1;
+
     private void tune(Function function, double maxFactor) throws IOException {
+        tune(function, maxFactor, TuningPercentage);
+    }
+
+    private void tune(Function function, double maxFactor, int tuningPercentage) throws IOException {
         RepeatableRandom.resetSeed();
 
         final Config config = buildTimedTuningConfig(function);
         final Epochs epochs = UkPopulationEpochs.define(config);
         final Generations generations = new Generations(new Population(config));
 
-        epochs.reducePopulation(PopulationRatio);
+        epochs.increasePopulation(PopulationRatio);
         config.setInitialPopulation(epochs.first().environment_capacity);
+        config.setMutationsPerGene(MutationsPerIndividual);
 
-        final PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, TuningPercentage);
+        final PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, tuningPercentage);
         final Tuning tuning = createTuningFromEpochs(config, epochs);
 
         epochs.printFitnessFactors();
@@ -142,7 +149,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSphere() throws IOException {
-        tune(Function.Sphere, 5);
+        tune(Function.Sphere, 5, 25);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
@@ -158,11 +165,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        tune(Function.SumOfPowers, 10);
+        tune(Function.SumOfPowers, 10, 25);
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, 20);
+        tune(Function.SumSquares, 20, 25);
     }
 
     @Test public void testTuneAckleys() throws IOException {
@@ -174,7 +181,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneBrown() throws IOException {
-        tune(Function.Brown, 10);
+        tune(Function.Brown, 10, 25);
     }
 
     @Test public void testTuneChungReynolds() throws IOException {
@@ -194,7 +201,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneQing() throws IOException {
-        tune(Function.Qing, 8);
+        tune(Function.Qing, 8, 25);
     }
 
     @Test public void testTuneSalomon() throws IOException {
@@ -202,7 +209,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSchumerSteiglitz() throws IOException {
-        tune(Function.SchumerSteiglitz, 8);
+        tune(Function.SchumerSteiglitz, 8, 25);
     }
 
     @Test public void testTuneSchwefel220() throws IOException {

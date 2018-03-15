@@ -24,9 +24,9 @@ public class GenesTest {
     @Test public void testMutatedGenesAreNotAllZero(){
         // Given a set of genes that are empty and a high probability that they will mutate
         Config config = new Config();
+        config.setMutationsPerGene(100);
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
-        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
 
         // When they are mutated
         genes.mutate();
@@ -78,9 +78,9 @@ public class GenesTest {
     @Test public void testMutationCanBeDisabled(){
         // Given a set of genes with zero values that will not mutate
         Config config = new Config();
+        config.setMutationsPerGene(0);
         BitSetGenes genes = new SinPiOver2Genes(config);
         genes.buildEmpty();
-        config.setMutationsPerGene(0);
 
         // When they are mutated
         genes.mutate();
@@ -147,7 +147,7 @@ public class GenesTest {
     @Test public void testBabyIsNotIdenticalToMotherOrFather() {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
+        config.setMutationsPerGene(config.getMutationsPerGene() * 100000);
         BitSetGenes mother = new SinPiOver2Genes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);

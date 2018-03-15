@@ -113,10 +113,6 @@ public class Population {
         if (individuals.size() < 1)
             return 0;
 
-        if (!epoch.isFitnessEnabled()){
-            return addSurvivors(i -> !i.isReadyToDie(current_year));
-        }
-
         if (epoch.isCapacityUnlimited()){
             return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfit(i, epoch.fitness(), epoch.kill())));
         }
