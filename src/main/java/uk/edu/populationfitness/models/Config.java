@@ -13,7 +13,7 @@ public class Config {
     private static final double ZERO = 0.0;
     private static final double PI = Math.PI;
 
-    public static final double MutationScale = 100.0 / 20000000.0;
+    public static final double MutationScale = 1.0 / 30.0;
 
     // Unique identifier
     public String id = Instant.now().toString().replaceAll(":", "-");
@@ -30,7 +30,7 @@ public class Config {
     private double mutations_per_gene;
 
     // A function of mutations per gene and size of gene
-    private int mutation_bit_interval;
+    private double mutation_bit_interval;
 
     private final int max_age;
 
@@ -108,10 +108,10 @@ public class Config {
 
     private void geneSizeUpdated(){
         gene_bit_count = number_of_genes * size_of_each_gene;
-        mutation_bit_interval = (int)(gene_bit_count / mutations_per_gene);
+        mutation_bit_interval = gene_bit_count / mutations_per_gene;
     }
 
-    public int getMutationBitInterval(){
+    public double getMutationBitInterval(){
         return mutation_bit_interval;
     }
 

@@ -19,6 +19,10 @@ public class BrownGenes extends NormalizingBitSetGenes {
           f left (x right ) = sum from {i=1} to {n-1} {left [{left ({x} rsub {i} rsup {2} right )} ^ {{x} rsub {i+1} rsup {2} +1} + {left ({x} rsub {i+1} rsup {2} right )} ^ {{x} rsub {i} rsup {2} +1} right ]}
          */
 
+        if (integer_values.length < 1){
+            return 0.0;
+        }
+
         double fitness = 0.0;
 
         double xN = interpolate(integer_values[0]);

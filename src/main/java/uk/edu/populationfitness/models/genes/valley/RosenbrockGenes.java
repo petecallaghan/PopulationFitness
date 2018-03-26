@@ -38,6 +38,10 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
          f(x) = 0, at x = (1,...,1)
 
          */
+        if (integer_values.length < 1){
+            return 0.0;
+        }
+
         if (integer_values.length < 2){
             double x = interpolate(integer_values[0]);
             return 100.0 * (x - 1) * (x - 1);

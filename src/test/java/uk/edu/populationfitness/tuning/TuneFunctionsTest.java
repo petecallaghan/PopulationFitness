@@ -14,9 +14,9 @@ import uk.edu.populationfitness.output.TuningWriter;
 import java.io.IOException;
 
 public class TuneFunctionsTest {
-    private static final int NumberOfGenes = 10;
+    private static final int NumberOfGenes = 200;
 
-    private static final int SizeOfGenes = 4;
+    private static final int SizeOfGenes = 40;
 
     private static final int PopulationRatio = 1;
 
@@ -26,7 +26,7 @@ public class TuneFunctionsTest {
 
     private static final int TuningPercentage = 20;
 
-    private static final int MutationsPerIndividual = 1;
+    private static final double MutationsPerIndividual = 10.1;
 
     private void tune(Function function, double maxFactor) throws IOException {
         tune(function, maxFactor, TuningPercentage);
@@ -157,7 +157,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {
-        tune(Function.Schwefel226, 20);
+        tune(Function.Schwefel226, 20, 40);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
@@ -213,7 +213,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSchwefel220() throws IOException {
-        tune(Function.Schwefel220, 4);
+        tune(Function.Schwefel220, 4, 25);
     }
 
     @Test public void testTuneTrid() throws IOException {

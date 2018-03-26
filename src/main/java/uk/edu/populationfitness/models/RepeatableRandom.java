@@ -40,7 +40,7 @@ public class RepeatableRandom {
      * @param range the range
      * @return the next random number between 0 (inclusive) and range  (exclusive)
      */
-    public static int generateNextInt(int range){
+    public static int generateNextInt(double range){
         return (int)(random.nextDouble() * range);
     }
 

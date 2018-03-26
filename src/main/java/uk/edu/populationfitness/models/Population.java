@@ -73,21 +73,14 @@ public class Population {
         return babies;
     }
 
-    private boolean isUnfit(double fitness, double kill_constant, double fitness_factor){
+    private boolean isUnfit(Individual individual, int current_year, double fitness_factor, double kill_constant){
+        final double fitness = individual.genes.fitness();
         final double factored_fitness = fitness * fitness_factor;
         total_fitness += fitness;
         total_factored_fitness += factored_fitness;
         checked_fitness++;
         fitnesses.add(fitness);
-        return factored_fitness < (RepeatableRandom.generateNext() * kill_constant);
-    }
-
-    private boolean isUnfitForEnvironment(Individual individual, double fitness_factor, double environment_capacity, double kill_constant){
-        return isUnfit(individual.genes.fitness(), kill_constant, fitness_factor * environment_capacity);
-    }
-
-    private boolean isUnfit(Individual individual, double fitness_factor, double kill_constant){
-        return isUnfit(individual.genes.fitness(), kill_constant, fitness_factor);
+        return individual.isReadyToDie(current_year) ? true : factored_fitness < (RepeatableRandom.generateNext() * kill_constant);
     }
 
     private int addSurvivors(Predicate<Individual> survivor){
@@ -114,12 +107,12 @@ public class Population {
             return 0;
 
         if (epoch.isCapacityUnlimited()){
-            return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfit(i, epoch.fitness(), epoch.kill())));
+            return addSurvivors(i -> !isUnfit(i, current_year, epoch.fitness(), epoch.kill()));
         }
 
         environment_capacity = (double)(epoch.capacityForYear(current_year)) / individuals.size();
         epoch.addCapacityFactor(environment_capacity);
-        return addSurvivors(i -> !(i.isReadyToDie(current_year) || isUnfitForEnvironment(i, epoch.fitness(), environment_capacity, epoch.kill())));
+        return addSurvivors(i -> !isUnfit(i, current_year, epoch.fitness() * environment_capacity, epoch.kill()));
     }
 
     public double averageFitness(){

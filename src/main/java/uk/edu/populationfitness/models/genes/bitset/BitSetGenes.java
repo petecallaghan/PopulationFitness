@@ -28,7 +28,7 @@ public abstract class BitSetGenes implements Genes {
 
     private final int size_of_genes;
 
-    private final int mutation_bit_interval;
+    private final double mutation_bit_interval;
 
     BitSetGenes(Config config) {
         this.config = config;
