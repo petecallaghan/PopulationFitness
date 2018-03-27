@@ -159,7 +159,8 @@ public class Generations {
                 number_killed,
                 born_elapsed,
                 kill_elapsed,
-                population.capacityFactor());
+                population.capacityFactor(),
+                population.average_mutations);
         generation.average_fitness = population.averageFitness();
         generation.average_factored_fitness = population.averageFactoredFitness();
         generation.fitness_deviation = population.standardDeviationFitness();

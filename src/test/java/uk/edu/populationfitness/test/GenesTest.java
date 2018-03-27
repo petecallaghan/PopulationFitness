@@ -154,11 +154,12 @@ public class GenesTest {
         BitSetGenes baby = new SinPiOver2Genes(config);
 
         // When the baby inherits from the mother and father
-        baby.inheritFrom(mother, father);
+        final int mutated = baby.inheritFrom(mother, father);
 
         // Then the baby's genes are different to both
         assertFalse(baby.isEqual(mother));
         assertFalse(baby.isEqual(father));
+        assertNotEquals(0, mutated);
     }
 
     @Test public void testBabyIsNotZero(){

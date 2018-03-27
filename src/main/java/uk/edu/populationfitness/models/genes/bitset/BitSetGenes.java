@@ -33,7 +33,7 @@ public abstract class BitSetGenes implements Genes {
     BitSetGenes(Config config) {
         this.config = config;
         size_of_genes = config.getGeneBitCount();
-        mutation_bit_interval = config.getMutationBitInterval();
+        mutation_bit_interval = config.getMutationBitInterval() * 2;
     }
 
     private long[] getGenesFromCache() {
@@ -91,21 +91,25 @@ public abstract class BitSetGenes implements Genes {
     }
 
     @Override
-    public void mutate(){
-        mutateAndStore(getBitSetGenesFromCache());
+    public int mutate(){
+        return mutateAndStore(getBitSetGenesFromCache());
     }
 
-    private void mutateAndStore(BitSet genes) {
-        flipRandomBits(genes);
+    private int mutateAndStore(BitSet genes) {
+        final int mutatedCount = flipRandomBits(genes);
         storeGenesInCache(genes);
+        return mutatedCount;
     }
 
-    private void flipRandomBits(BitSet genes) {
+    private int flipRandomBits(BitSet genes) {
+        int mutatedCount = 0;
         for (int i = RepeatableRandom.generateNextInt(mutation_bit_interval);
              i < size_of_genes;
              i += RepeatableRandom.generateNextInt(mutation_bit_interval) + 1) {
             genes.flip(i);
+            mutatedCount++;
         }
+        return mutatedCount;
     }
 
     /**
@@ -142,7 +146,7 @@ public abstract class BitSetGenes implements Genes {
     }
 
     @Override
-    public void inheritFrom(Genes mother, Genes father) {
+    public int inheritFrom(Genes mother, Genes father) {
         final long[] motherEncoding = ((BitSetGenes) mother.getImplementation()).getGenesFromCache();
         final long[] fatherEncoding = ((BitSetGenes) father.getImplementation()).getGenesFromCache();
         final long[] babyEncoding = new long[Math.max(motherEncoding.length, fatherEncoding.length)];
@@ -157,7 +161,7 @@ public abstract class BitSetGenes implements Genes {
             System.arraycopy(fatherEncoding, cross_over_word + 1, babyEncoding, cross_over_word + 1, father_length);
         }
 
-        mutateAndStore(BitSet.valueOf(babyEncoding));
+        return mutateAndStore(BitSet.valueOf(babyEncoding));
     }
 
     @Override

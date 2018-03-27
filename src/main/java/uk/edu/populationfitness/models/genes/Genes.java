@@ -39,16 +39,20 @@ public interface Genes {
 
     /**
      * Randomly mutate
+     *
+     * @return the number of bits mutated
      */
-    void mutate();
+    int mutate();
 
     /**
      * Inherit from parents.
      *
      * @param mother
      * @param father
+     *
+     * @return the number of bits mutated for the offspring
      */
-    void inheritFrom(Genes mother, Genes father);
+    int inheritFrom(Genes mother, Genes father);
 
     /**
      *

@@ -92,6 +92,7 @@ public class GenerationsWriter {
                 Integer.toString(generation.average_age),
                 Double.toString(generation.capacity_factor),
                 Double.toString(generation.average_factored_fitness),
+                Double.toString(generation.average_mutations),
         });
     }
 
@@ -116,6 +117,7 @@ public class GenerationsWriter {
                 "Average Age",
                 "Capacity Factor",
                 "Avg Factored Fitness",
+                "Avg Mutations",
         });
     }
 

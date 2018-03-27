@@ -38,8 +38,8 @@ public class GenerationsTest {
         // Given two sets of generation statistics
         Config config = new Config();
         Epoch epoch = new Epoch(config, -50);
-        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0);
-        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0);
+        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0, 2.0);
+        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0, 2.0);
 
         // When they are added
         GenerationStatistics result = GenerationStatistics.add(first, second);
@@ -67,8 +67,8 @@ public class GenerationsTest {
         // Given two collections of statistics
         Config config = new Config();
         Epoch epoch = new Epoch(config, -50);
-        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0);
-        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0);
+        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0, 2.0);
+        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0, 2.0);
         List<GenerationStatistics> firstSet = new ArrayList<>();
         firstSet.add(first);
         List<GenerationStatistics> secondSet = new ArrayList<>();
@@ -136,5 +136,6 @@ public class GenerationsTest {
         assertEquals(e.fitness_deviation, a.fitness_deviation, 0.001);
         assertEquals(e.average_age, a.average_age, 0.001);
         assertEquals(e.capacity_factor, a.capacity_factor, 0.001);
+        assertEquals(e.average_mutations, a.average_mutations, 0.001);
     }
 }

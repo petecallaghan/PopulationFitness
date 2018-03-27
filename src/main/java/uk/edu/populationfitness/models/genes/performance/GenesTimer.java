@@ -61,15 +61,16 @@ public class GenesTimer implements Genes {
     }
 
     @Override
-    public void mutate() {
-        delegate.mutate();
+    public int mutate() {
+        return delegate.mutate();
     }
 
     @Override
-    public void inheritFrom(Genes mother, Genes father) {
-        long start_time = System.nanoTime();
-        delegate.inheritFrom(mother, father);
+    public int inheritFrom(Genes mother, Genes father) {
+        final long start_time = System.nanoTime();
+        final int mutatedCount = delegate.inheritFrom(mother, father);
         Inherit.add(getElapsed(start_time));
+        return mutatedCount;
     }
 
     @Override

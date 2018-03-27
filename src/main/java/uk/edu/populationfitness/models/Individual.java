@@ -33,7 +33,7 @@ public class Individual {
         return age >= config.getMinBreedingAge() && age <= config.getMaxBreedingAge();
     }
 
-    public void inheritFromParents(Individual mother, Individual father){
-        genes.inheritFrom(mother.genes, father.genes);
+    public int inheritFromParents(Individual mother, Individual father){
+        return genes.inheritFrom(mother.genes, father.genes);
     }
 }

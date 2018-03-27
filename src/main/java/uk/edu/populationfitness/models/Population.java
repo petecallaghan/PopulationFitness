@@ -14,6 +14,7 @@ public class Population {
     public ArrayList<Individual> individuals;
 
     public int average_age = 0;
+    public double average_mutations = 0.0;
 
     private double total_fitness = 0.0;
     private double total_factored_fitness = 0.0;
@@ -55,6 +56,7 @@ public class Population {
     public List<Individual> addNewGeneration(Epoch epoch, int current_year){
         long totalAge = 0;
         ArrayList<Individual> babies = new ArrayList<>();
+        double totalMutations = 0;
 
         for(int i = 0; i < individuals.size() - 1; i+=2){
             Individual father = individuals.get(i);
@@ -64,12 +66,13 @@ public class Population {
             boolean pairCanBreed = RepeatableRandom.generateNext() < epoch.breedingProbability();
             if (pairCanBreed && father.canBreed(current_year) && mother.canBreed(current_year)){
                 Individual baby = new Individual(config, current_year);
-                baby.inheritFromParents(mother, father);
+                totalMutations += baby.inheritFromParents(mother, father);
                 babies.add(baby);
             }
         }
         individuals.addAll(babies);
         average_age = individuals.size() > 0 ? (int)(totalAge / individuals.size()) : 0;
+        average_mutations = babies.size() > 0 ? totalMutations / babies.size() : 0;
         return babies;
     }
 

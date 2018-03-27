@@ -43,7 +43,8 @@ public class GenerationsReader {
                 Integer.parseInt(row[11]),
                 (int)(Double.parseDouble(row[12]) * 1000),
                 (int)(Double.parseDouble(row[13]) * 1000),
-                Double.parseDouble(row[17]));
+                Double.parseDouble(row[17]),
+                Double.parseDouble(row[19]));
         generation.epoch.end_year = Integer.parseInt(row[1]);
         generation.epoch.kill(Double.parseDouble(row[2]));
         generation.epoch.environment_capacity = (int)(Double.parseDouble(row[3]));
