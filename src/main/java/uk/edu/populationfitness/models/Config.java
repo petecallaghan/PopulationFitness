@@ -1,5 +1,6 @@
 package uk.edu.populationfitness.models;
 
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.GenesFactory;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
 import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
@@ -22,15 +23,16 @@ public class Config {
     private int number_of_genes;
 
     // Number of codes per gene
-    private int size_of_each_gene;
+    private int size_of_each_gene = 10;
 
     private int gene_bit_count;
 
+    private long max_gene_value;
+
+    private long last_max_gene_value;
+
     // The likely number of mutations per gene
     private double mutations_per_gene;
-
-    // A function of mutations per gene and size of gene
-    private double mutation_bit_interval;
 
     private final int max_age;
 
@@ -108,11 +110,9 @@ public class Config {
 
     private void geneSizeUpdated(){
         gene_bit_count = number_of_genes * size_of_each_gene;
-        mutation_bit_interval = gene_bit_count / mutations_per_gene;
-    }
-
-    public double getMutationBitInterval(){
-        return mutation_bit_interval;
+        final long excess_bits = gene_bit_count % Long.SIZE;
+        last_max_gene_value = excess_bits == 0 ? Long.MAX_VALUE : Math.min(Long.MAX_VALUE, (long)FastMaths.pow(2, excess_bits)-1);
+        max_gene_value = gene_bit_count < Long.SIZE ? last_max_gene_value : Long.MAX_VALUE;
     }
 
     public int getMaxAge() {
@@ -173,5 +173,13 @@ public class Config {
 
     public void setInitialPopulation(int initial_population) {
         this.initial_population = initial_population;
+    }
+
+    public long getLastMaxGeneValue(){
+        return last_max_gene_value;
+    }
+
+    public long getMaxGeneValue(){
+        return max_gene_value;
     }
 }

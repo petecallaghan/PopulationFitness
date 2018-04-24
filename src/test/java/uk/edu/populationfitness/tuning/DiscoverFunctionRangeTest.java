@@ -17,7 +17,7 @@ public class DiscoverFunctionRangeTest {
 
     private static final int NumberOfGenes = 20000;
 
-    private static final int SizeOfGenes = 2250;
+    private static final int SizeOfGenes = 1000;
 
     private static final int PopulationSize = 10;
 

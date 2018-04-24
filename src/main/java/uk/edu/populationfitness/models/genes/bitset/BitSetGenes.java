@@ -6,6 +6,7 @@ import uk.edu.populationfitness.models.genes.Genes;
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 import uk.edu.populationfitness.models.genes.cache.*;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import static java.lang.Math.abs;
@@ -28,12 +29,9 @@ public abstract class BitSetGenes implements Genes {
 
     private final int size_of_genes;
 
-    private final double mutation_bit_interval;
-
     BitSetGenes(Config config) {
         this.config = config;
         size_of_genes = config.getGeneBitCount();
-        mutation_bit_interval = config.getMutationBitInterval() * 2;
     }
 
     private long[] getGenesFromCache() {
@@ -45,14 +43,19 @@ public abstract class BitSetGenes implements Genes {
     }
 
     private void storeGenesInCache(BitSet genes) {
-        genesIdentifier = SharedCache.cache().add(genes.toLongArray());
+        storeGenesInCache(genes.toLongArray());
+    }
+
+    private void storeGenesInCache(long[] genes) {
+        genesIdentifier = SharedCache.cache().add(genes);
         fitness_stored = false;
     }
 
     @Override
     public void buildEmpty() {
-        final BitSet genes = new BitSet(size_of_genes);
-        genes.clear();
+        final int numberOfInts = (int)((size_of_genes / Long.MAX_VALUE) + (Long.MAX_VALUE % size_of_genes == 0 ? 0 : 1));
+        final long[] genes = new long[numberOfInts];
+        Arrays.fill(genes, 0);
         storeGenesInCache(genes);
     }
 
@@ -92,24 +95,35 @@ public abstract class BitSetGenes implements Genes {
 
     @Override
     public int mutate(){
-        return mutateAndStore(getBitSetGenesFromCache());
+        return mutateAndStore(asIntegers());
     }
 
-    private int mutateAndStore(BitSet genes) {
-        final int mutatedCount = flipRandomBits(genes);
+    private int mutateAndStore(long[] genes){
+        final int mutatedCount = mutateGenes(genes);
         storeGenesInCache(genes);
         return mutatedCount;
     }
 
-    private int flipRandomBits(BitSet genes) {
+    private int mutateGenes(long[] genes) {
+        if (config.getMutationsPerGene() <= 0){
+            return 0;
+        }
+        final long mutation_genes_interval = 1 + (long)(genes.length * 2.0 / config.getMutationsPerGene());
+        final long max = config.getMaxGeneValue();
+        final long lastMax = config.getLastMaxGeneValue();
+        final int last = genes.length - 1;
         int mutatedCount = 0;
-        for (int i = RepeatableRandom.generateNextInt(mutation_bit_interval);
-             i < size_of_genes;
-             i += RepeatableRandom.generateNextInt(mutation_bit_interval) + 1) {
-            genes.flip(i);
+        for (int i = RepeatableRandom.generateNextInt(mutation_genes_interval);
+             i < genes.length;
+             i += (int)RepeatableRandom.generateNextLong(1, mutation_genes_interval)) {
+            genes[i] = getMutatedValue(genes[i], i == last ? lastMax : max);
             mutatedCount++;
         }
         return mutatedCount;
+    }
+
+    private long getMutatedValue(long gene, long max) {
+        return gene + RepeatableRandom.generateNextLong(0 - gene, max);
     }
 
     /**
@@ -161,7 +175,7 @@ public abstract class BitSetGenes implements Genes {
             System.arraycopy(fatherEncoding, cross_over_word + 1, babyEncoding, cross_over_word + 1, father_length);
         }
 
-        return mutateAndStore(BitSet.valueOf(babyEncoding));
+        return mutateAndStore(babyEncoding);
     }
 
     @Override

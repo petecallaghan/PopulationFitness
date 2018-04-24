@@ -44,6 +44,10 @@ public class RepeatableRandom {
         return (int)(random.nextDouble() * range);
     }
 
+    public static long generateNextLong(long min, long max){
+        return random.nextLong(min, max);
+    }
+
     public static SplittableRandom getRandom() {
         return random;
     }

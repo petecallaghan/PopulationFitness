@@ -94,7 +94,7 @@ public class Generations {
         population = new Population(previousPopulation);
         epoch.fitness(search.current());
         PopulationComparison divergence = compareToExpectedForEpoch(epoch, percentage);
-        System.out.println("Year "+epoch.end_year+" Pop "+population.individuals.size()+" Expected "+epoch.expected_max_population+" F="+epoch.fitness());
+        System.out.println("Year "+epoch.end_year+" Pop "+population.individuals.size()+" Expected "+epoch.expected_max_population+" F="+epoch.fitness()+" F'="+epoch.averageCapacityFactor()*epoch.fitness());
 
         if (divergence != PopulationComparison.WithinRange){
             Search nextSearch = search.findNext(divergence);
