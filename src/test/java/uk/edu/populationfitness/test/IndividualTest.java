@@ -3,6 +3,7 @@ package uk.edu.populationfitness.test;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.Epoch;
 import uk.edu.populationfitness.models.Individual;
 
 
@@ -16,7 +17,8 @@ public class IndividualTest {
         Config config = new Config();
         int birth_year = 1964;
         int current_year = birth_year + config.getMaxAge() + 10;
-        Individual individual = new Individual(config, birth_year);
+        Epoch epoch = new Epoch(config, current_year);
+        Individual individual = new Individual(epoch, birth_year);
 
         // Then they are ready to die
         assertTrue(individual.isReadyToDie(current_year));
@@ -27,7 +29,8 @@ public class IndividualTest {
         Config config = new Config();
         int birth_year = 1964;
         int current_year = birth_year + config.getMaxAge() - 10;
-        Individual individual = new Individual(config, birth_year);
+        Epoch epoch = new Epoch(config, current_year);
+        Individual individual = new Individual(epoch, birth_year);
 
         // Then they are not ready to die
         assertFalse(individual.isReadyToDie(current_year));
@@ -38,7 +41,8 @@ public class IndividualTest {
         Config config = new Config();
         int birth_year = 1964;
         int current_year = birth_year + config.getMinBreedingAge() + 1;
-        Individual individual = new Individual(config, birth_year);
+        Epoch epoch = new Epoch(config, current_year);
+        Individual individual = new Individual(epoch, birth_year);
 
         // Then they can breed
         assertTrue(individual.canBreed(current_year));
@@ -49,7 +53,8 @@ public class IndividualTest {
         Config config = new Config();
         int birth_year = 1964;
         int current_year = birth_year + config.getMinBreedingAge() - 1;
-        Individual individual = new Individual(config, birth_year);
+        Epoch epoch = new Epoch(config, current_year);
+        Individual individual = new Individual(epoch, birth_year);
 
         // Then they can breed
         assertFalse(individual.canBreed(current_year));
@@ -60,7 +65,8 @@ public class IndividualTest {
         Config config = new Config();
         int birth_year = 1964;
         int current_year = birth_year + config.getMaxBreedingAge() + 1;
-        Individual individual = new Individual(config, birth_year);
+        Epoch epoch = new Epoch(config, current_year);
+        Individual individual = new Individual(epoch, birth_year);
 
         // Then they can breed
         assertFalse(individual.canBreed(current_year));

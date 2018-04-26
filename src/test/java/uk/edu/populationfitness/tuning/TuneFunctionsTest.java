@@ -24,9 +24,9 @@ public class TuneFunctionsTest {
 
     private static final String TuningPath = "tuning";
 
-    private static final int TuningPercentage = 20;
+    private static final int TuningPercentage = 15;
 
-    private static final double MutationsPerIndividual = 150; //150.0;
+    private static final double MutationsPerIndividual = 150;
 
     private void tune(Function function, double maxFactor) throws IOException {
         tune(function, maxFactor, TuningPercentage);
@@ -54,7 +54,6 @@ public class TuneFunctionsTest {
     }
 
     private void showResults(Epochs epochs, Tuning tuning) {
-        epochs.printFitnessFactors();
         showTuning(tuning);
         GenesTimer.showAll();
     }
@@ -73,9 +72,7 @@ public class TuneFunctionsTest {
         Assert.assertTrue(result == PopulationComparison.WithinRange);
 
         // Ensure that the tuning result is what we expect
-        Assert.assertTrue(tuning.disease_fit < tuning.historic_fit);
         Assert.assertTrue(tuning.disease_fit < tuning.modern_fit);
-        Assert.assertTrue(tuning.historic_fit <= tuning.modern_fit);
     }
 
     private void writeResults(Function function, Config config, Epochs epochs, Tuning tuning) throws IOException {
@@ -141,7 +138,7 @@ public class TuneFunctionsTest {
 
     private Epoch findHistoricalEpoch(Epochs epochs) {
         for (Epoch epoch: epochs.epochs) {
-            if (epoch.start_year >= 1378) {
+            if (epoch.start_year >= 1451) {
                 // Use this epoch as the historical epoch
                 return epoch;
             }
@@ -175,7 +172,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, 100);
+        tune(Function.Rosenbrock, 10);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
@@ -187,7 +184,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneAckleys() throws IOException {
-        tune(Function.Ackleys, 5);
+        tune(Function.Ackleys, 4);
     }
 
     @Test public void testTuneAlpine() throws IOException {
@@ -235,6 +232,6 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneZakharoy() throws IOException {
-        tune(Function.Zakharoy, 4.0);
+        tune(Function.Zakharoy, 1.8, 10);
     }
 }

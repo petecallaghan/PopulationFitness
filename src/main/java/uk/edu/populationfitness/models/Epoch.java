@@ -38,12 +38,18 @@ public class Epoch {
 
     private boolean isDisease = false;
 
+    private int max_age;
+
+    private int max_breeding_age;
+
     private double total_capacity_factor = 0;
 
     public Epoch(Config config, int start_year){
         this.start_year = start_year;
         this.config = config;
         this.probability_of_breeding = config.getProbabilityOfBreeding();
+        this.max_breeding_age = config.getMaxBreedingAge();
+        this.max_age = config.getMaxAge();
     }
 
     public Epoch(Epoch source){
@@ -59,6 +65,8 @@ public class Epoch {
         this.probability_of_breeding = source.probability_of_breeding;
         this.total_capacity_factor = source.total_capacity_factor;
         this.prev_environment_capacity = source.prev_environment_capacity;
+        this.max_age = source.max_age;
+        this.max_breeding_age = source.max_breeding_age;
     }
 
     public boolean isCapacityUnlimited(){
@@ -117,11 +125,6 @@ public class Epoch {
         return this;
     }
 
-    public Epoch disableFitness(){
-        this.enable_fitness = false;
-        return this;
-    }
-
     public Epoch max(int expected_max_population){
         this.expected_max_population = expected_max_population;
         return this;
@@ -136,9 +139,24 @@ public class Epoch {
         return this.total_capacity_factor / (this.end_year - this.start_year + 1);
     }
 
-    public void setAverageCapacityFactor(double average){
-        total_capacity_factor = average * (this.end_year - this.start_year + 1);
+    public int maxAge() {
+        return max_age;
     }
+
+    public Epoch maxAge(int max_age) {
+        this.max_age = max_age;
+        return this;
+    }
+
+    public int maxBreedingAge() {
+        return max_breeding_age;
+    }
+
+    public Epoch maxBreedingAge(int max_breeding_age) {
+        this.max_breeding_age = max_breeding_age;
+        return this;
+    }
+
 
     /**
      * Reduces the populations by the ratio

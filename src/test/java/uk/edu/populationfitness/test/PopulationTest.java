@@ -23,9 +23,10 @@ public class PopulationTest {
         Config config = new Config();
         config.setInitialPopulation(INITIAL_POPULATION_SIZE);
         Population population = new Population(config);
+        Epoch epoch = new Epoch(config, BIRTH_YEAR);
 
         // When the population is created from scratch
-        population.addNewIndividuals(BIRTH_YEAR);
+        population.addNewIndividuals(epoch, BIRTH_YEAR);
 
         // Then it has the right number of individuals for the birth year
         // and each individual has a set of genes
@@ -46,7 +47,7 @@ public class PopulationTest {
         epochs.addNextEpoch(epoch);
         config.setInitialPopulation(INITIAL_POPULATION_SIZE);
         Population population = new Population(config);
-        population.addNewIndividuals(BIRTH_YEAR);
+        population.addNewIndividuals(epoch, BIRTH_YEAR);
 
         // When we kill off the unfit
         int fatalities = population.killThoseUnfitOrReadyToDie(BIRTH_YEAR, epochs.epochs.get(0));
@@ -65,12 +66,13 @@ public class PopulationTest {
         Population population = new Population(config);
         int current_year = BIRTH_YEAR + config.getMaxBreedingAge();
         int breeding_birth_year = current_year - config.getMinBreedingAge();
+        Epoch epoch = new Epoch(config, BIRTH_YEAR);
         // .. some who will be too old to breed
-        population.addNewIndividuals(BIRTH_YEAR);
+        population.addNewIndividuals(epoch, BIRTH_YEAR);
         // .. some who will be too young to breed
-        population.addNewIndividuals(current_year);
+        population.addNewIndividuals(epoch, current_year);
         // .. some who can breed
-        population.addNewIndividuals(breeding_birth_year);
+        population.addNewIndividuals(epoch, breeding_birth_year);
 
         // When we create a new population
         List<Individual> babies = population.addNewGeneration(new Epoch(config, current_year), current_year);

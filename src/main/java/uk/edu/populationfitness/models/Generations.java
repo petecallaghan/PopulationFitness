@@ -54,8 +54,9 @@ public class Generations {
     }
 
     private void addInitialPopulation(Epochs epochs) {
-        first_year = epochs.epochs.get(0).start_year;
-        population.addNewIndividuals(first_year);
+        final Epoch epoch = epochs.epochs.get(0);
+        first_year = epoch.start_year;
+        population.addNewIndividuals(epoch, first_year);
     }
 
     public PopulationComparison tuneFitnessFactorsForAllEpochs(Epochs epochs, double minFactor, double maxFactor, double increment, int percentage){

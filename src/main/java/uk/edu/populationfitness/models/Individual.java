@@ -8,16 +8,16 @@ import static java.lang.Math.abs;
  * Created by pete.callaghan on 03/07/2017.
  */
 public class Individual {
-    private final Config config;
+    private final Epoch epoch;
 
     public final int birth_year;
 
     public final Genes genes;
 
-    public Individual(Config config, int birth_year){
-        this.config = config;
+    public Individual(Epoch epoch, int birth_year){
+        this.epoch = epoch;
         this.birth_year = birth_year;
-        this.genes = config.getGenesFactory().build(config);
+        this.genes = epoch.config().getGenesFactory().build(epoch.config());
     }
 
     public int age(int current_year){
@@ -25,12 +25,12 @@ public class Individual {
     }
 
     public boolean isReadyToDie(int current_year){
-        return age(current_year) >= config.getMaxAge();
+        return age(current_year) >= epoch.maxAge();
     }
 
     public boolean canBreed(int current_year){
         int age = age(current_year);
-        return age >= config.getMinBreedingAge() && age <= config.getMaxBreedingAge();
+        return age >= epoch.config().getMinBreedingAge() && age <= epoch.maxBreedingAge();
     }
 
     public int inheritFromParents(Individual mother, Individual father){

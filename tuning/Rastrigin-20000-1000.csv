@@ -1,2 +1,2 @@
 "Function","Historic Fit","Disease Fit","Modern Fit","Modern Kill","Historic Kill","Modern Breeding","Size of Genes","Number of Genes","Min Fitness","Max Fitness","Mutations","SeriesRuns","ParallelRuns"
-"Rastrigin","2.203940622628356","1.8998258704909512","2.2941929809106933","1.066","1.066","0.13","1000","20000","0.0","1.0","100.00000000000001","1","1"
+"Rastrigin","2.0247666317129633","1.699772474576271","2.3009456669121318","1.0","1.0","0.09","1000","20000","0.0","1.0","150.0","1","1"

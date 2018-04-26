@@ -39,9 +39,9 @@ public class Population {
      *
      * @param birth_year
      */
-    public void addNewIndividuals(int birth_year){
+    public void addNewIndividuals(Epoch epoch, int birth_year){
         for(int i = 0; i < config.getInitialPopulation(); i++){
-            Individual individual = new Individual(config, birth_year);
+            Individual individual = new Individual(epoch, birth_year);
             individual.genes.buildFromRandom();
             individuals.add(individual);
         }
@@ -65,7 +65,7 @@ public class Population {
             totalAge += mother.age(current_year);
             boolean pairCanBreed = RepeatableRandom.generateNext() < epoch.breedingProbability();
             if (pairCanBreed && father.canBreed(current_year) && mother.canBreed(current_year)){
-                Individual baby = new Individual(config, current_year);
+                Individual baby = new Individual(epoch, current_year);
                 totalMutations += baby.inheritFromParents(mother, father);
                 babies.add(baby);
             }

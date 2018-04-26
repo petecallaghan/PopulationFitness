@@ -35,6 +35,8 @@ public class EpochsReader {
         epoch.disease(Boolean.parseBoolean(row[5]));
         epoch.fitness(Double.parseDouble(row[6]));
         epoch.expected_max_population = Integer.parseInt(row[7]);
+        epoch.maxAge(Integer.parseInt(row[8]));
+        epoch.maxBreedingAge(Integer.parseInt(row[9]));
         return epoch;
     }
 }

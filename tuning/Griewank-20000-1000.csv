@@ -1,2 +1,2 @@
 "Function","Historic Fit","Disease Fit","Modern Fit","Modern Kill","Historic Kill","Modern Breeding","Size of Genes","Number of Genes","Min Fitness","Max Fitness","Mutations","SeriesRuns","ParallelRuns"
-"Griewank","2.9815650070188915","2.395937188434696","3.2135240148796598","1.066","1.066","0.13","1000","20000","0.0","1.0","100.00000000000001","1","1"
+"Griewank","2.920096261911534","2.3343341925544756","3.108284160295038","1.0","1.0","0.09","1000","20000","0.0","1.0","150.0","1","1"

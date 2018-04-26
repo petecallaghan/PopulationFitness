@@ -1,2 +1,2 @@
 "Function","Historic Fit","Disease Fit","Modern Fit","Modern Kill","Historic Kill","Modern Breeding","Size of Genes","Number of Genes","Min Fitness","Max Fitness","Mutations","SeriesRuns","ParallelRuns"
-"Exponential","0.99852165844192","0.8130179096498261","1.076245805046374","1.066","1.066","0.13","1000","20000","0.0","1.0","100.00000000000001","1","1"
+"Exponential","3.6535252481632448","0.7587657038621901","1.0085665174037624","1.0","1.0","0.09","1000","20000","0.0","1.0","150.0","1","1"

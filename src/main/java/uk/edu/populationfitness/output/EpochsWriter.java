@@ -59,6 +59,8 @@ public class EpochsWriter {
                 Boolean.toString(epoch.disease()),
                 Double.toString(epoch.fitness()),
                 Integer.toString(epoch.expected_max_population),
+                Integer.toString(epoch.maxAge()),
+                Integer.toString(epoch.maxBreedingAge()),
                 Double.toString(epoch.averageCapacityFactor()),
                 Double.toString(epoch.averageCapacityFactor() * epoch.fitness()),
                 Double.toString(epoch.config().getMutationsPerGene()),
@@ -75,9 +77,11 @@ public class EpochsWriter {
                 "Disease",
                 "Fitness Factor",
                 "Expected Max Population",
+                "Max Age",
+                "Max Breeding Age",
                 "Avg Capacity Factor",
                 "Avg Capacity Fitness",
-                "Mutations"
+                "Mutations",
         });
     }
 }

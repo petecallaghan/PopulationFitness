@@ -115,7 +115,7 @@ public abstract class BitSetGenes implements Genes {
         int mutatedCount = 0;
         for (int i = RepeatableRandom.generateNextInt(mutation_genes_interval);
              i < genes.length;
-             i += (int)RepeatableRandom.generateNextLong(1, mutation_genes_interval)) {
+             i += Math.max(1, (int)RepeatableRandom.generateNextLong(0, mutation_genes_interval))) {
             genes[i] = getMutatedValue(genes[i], i == last ? lastMax : max);
             mutatedCount++;
         }
