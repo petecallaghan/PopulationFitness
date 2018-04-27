@@ -98,7 +98,7 @@ public class Population {
         total_age_at_death = 0.0;
         individuals = individuals.stream().filter(survivor).collect(Collectors.toCollection(ArrayList::new));
         int killed = population_size - individuals.size();
-        average_life_expectancy = (int)(total_age_at_death / killed);
+        average_life_expectancy = killed < 1 ? 0 : (int)Math.round(total_age_at_death / killed);
         return killed;
     }
 

@@ -65,8 +65,8 @@ public class GenerationsTest {
                 (first.average_age * first.population +
                         second.average_age * second.population) / result.population);
         assertEquals(result.average_life_expectancy,
-                (first.average_life_expectancy * first.population +
-                        second.average_life_expectancy * second.population) / result.population);
+                (first.average_life_expectancy * first.number_killed +
+                        second.average_life_expectancy * second.number_killed) / result.number_killed);
     }
 
     @Test public void addCollectionsOfGenerationStatistics(){
