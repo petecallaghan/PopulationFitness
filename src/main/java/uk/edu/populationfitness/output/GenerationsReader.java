@@ -57,6 +57,7 @@ public class GenerationsReader {
         generation.fitness_deviation = Double.parseDouble(row[15]);
         generation.average_age = Integer.parseInt(row[16]);
         generation.average_factored_fitness = Double.parseDouble(row[18]);
+        generation.average_life_expectancy = Integer.parseInt(row[20]);
         return generation;
     }
 }

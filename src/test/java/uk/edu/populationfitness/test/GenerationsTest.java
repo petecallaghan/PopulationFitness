@@ -61,6 +61,12 @@ public class GenerationsTest {
         assertEquals(result.capacity_factor,
                 (first.capacity_factor * first.population +
                         second.capacity_factor * second.population) / result.population, 0.00001);
+        assertEquals(result.average_age,
+                (first.average_age * first.population +
+                        second.average_age * second.population) / result.population);
+        assertEquals(result.average_life_expectancy,
+                (first.average_life_expectancy * first.population +
+                        second.average_life_expectancy * second.population) / result.population);
     }
 
     @Test public void addCollectionsOfGenerationStatistics(){
@@ -73,6 +79,11 @@ public class GenerationsTest {
         firstSet.add(first);
         List<GenerationStatistics> secondSet = new ArrayList<>();
         secondSet.add(second);
+
+        first.average_age = 10;
+        second.average_age = 20;
+        first.average_life_expectancy = 50;
+        second.average_life_expectancy = 60;
 
         // When they are added
         List<GenerationStatistics> result = GenerationStatistics.add(firstSet, secondSet);
@@ -137,5 +148,6 @@ public class GenerationsTest {
         assertEquals(e.average_age, a.average_age, 0.001);
         assertEquals(e.capacity_factor, a.capacity_factor, 0.001);
         assertEquals(e.average_mutations, a.average_mutations, 0.001);
+        assertEquals(e.average_life_expectancy, a.average_life_expectancy, 0.001);
     }
 }

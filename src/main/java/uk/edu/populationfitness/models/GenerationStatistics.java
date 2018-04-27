@@ -20,6 +20,7 @@ public class GenerationStatistics {
     public int average_age;
     public double capacity_factor;
     public double average_mutations;
+    public int average_life_expectancy;
 
     public GenerationStatistics(Epoch epoch,
                                 int year,
@@ -86,6 +87,7 @@ public class GenerationStatistics {
         result.epoch.environment_capacity += second.epoch.environment_capacity;
         result.capacity_factor = average(first.capacity_factor * first.population + second.capacity_factor * second.population, result.population);
         result.average_mutations = average((first.average_mutations * first.number_born + second.average_mutations * second.number_born), result.number_born);
+        result.average_life_expectancy = (int)average(((long)first.average_life_expectancy * first.population + (long)second.average_life_expectancy * second.population), result.population);
         return result;
     }
 

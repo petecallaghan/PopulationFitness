@@ -15,8 +15,10 @@ public class Population {
 
     public int average_age = 0;
     public double average_mutations = 0.0;
+    public int average_life_expectancy = 0;
 
     private double total_fitness = 0.0;
+    private double total_age_at_death = 0.0;
     private double total_factored_fitness = 0.0;
     private int checked_fitness = 0;
     private ArrayList<Double> fitnesses;
@@ -76,20 +78,28 @@ public class Population {
         return babies;
     }
 
-    private boolean isUnfit(Individual individual, int current_year, double fitness_factor, double kill_constant){
+    private boolean kill(Individual individual, int current_year, double fitness_factor, double kill_constant){
         final double fitness = individual.genes.fitness();
         final double factored_fitness = fitness * fitness_factor;
         total_fitness += fitness;
         total_factored_fitness += factored_fitness;
         checked_fitness++;
         fitnesses.add(fitness);
-        return individual.isReadyToDie(current_year) ? true : factored_fitness < (RepeatableRandom.generateNext() * kill_constant);
+
+        if (individual.isReadyToDie(current_year) ? true : factored_fitness < (RepeatableRandom.generateNext() * kill_constant)){
+            total_age_at_death += individual.age(current_year);
+            return true;
+        }
+        return false;
     }
 
     private int addSurvivors(Predicate<Individual> survivor){
         int population_size = individuals.size();
+        total_age_at_death = 0.0;
         individuals = individuals.stream().filter(survivor).collect(Collectors.toCollection(ArrayList::new));
-        return population_size - individuals.size();
+        int killed = population_size - individuals.size();
+        average_life_expectancy = (int)(total_age_at_death / killed);
+        return killed;
     }
 
     /**
@@ -110,12 +120,12 @@ public class Population {
             return 0;
 
         if (epoch.isCapacityUnlimited()){
-            return addSurvivors(i -> !isUnfit(i, current_year, epoch.fitness(), epoch.kill()));
+            return addSurvivors(i -> !kill(i, current_year, epoch.fitness(), epoch.kill()));
         }
 
         environment_capacity = (double)(epoch.capacityForYear(current_year)) / individuals.size();
         epoch.addCapacityFactor(environment_capacity);
-        return addSurvivors(i -> !isUnfit(i, current_year, epoch.fitness() * environment_capacity, epoch.kill()));
+        return addSurvivors(i -> !kill(i, current_year, epoch.fitness() * environment_capacity, epoch.kill()));
     }
 
     public double averageFitness(){

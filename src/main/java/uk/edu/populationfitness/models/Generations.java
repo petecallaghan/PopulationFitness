@@ -166,6 +166,7 @@ public class Generations {
         generation.average_factored_fitness = population.averageFactoredFitness();
         generation.fitness_deviation = population.standardDeviationFitness();
         generation.average_age = population.average_age;
+        generation.average_life_expectancy = population.average_life_expectancy;
         history.add(generation);
 
         System.out.println("Run "+parallel_run+"x"+series_run+" Year "+generation.year+" Pop "+generation.population+" Expected "+epoch.expected_max_population+" Born "+generation.number_born+" in "+generation.bornElapsedInHundredths()+"s Killed "+generation.number_killed+" in "+generation.killElapsedInHundredths()+"s");
