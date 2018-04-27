@@ -46,14 +46,14 @@ public class TuneFunctionsTest {
         final PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, tuningPercentage);
         final Tuning tuning = createTuningFromEpochs(config, epochs);
 
-        showResults(epochs, tuning);
+        showResults(tuning);
 
         writeResults(function, config, epochs, tuning);
 
         assertTuned(result, tuning);
     }
 
-    private void showResults(Epochs epochs, Tuning tuning) {
+    private void showResults(Tuning tuning) {
         showTuning(tuning);
         GenesTimer.showAll();
     }
@@ -200,7 +200,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneExponential() throws IOException {
-        tune(Function.Exponential, 2);
+        tune(Function.Exponential, 4, 20);
     }
 
     @Test public void testTuneGriewank() throws IOException {
@@ -224,7 +224,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneTrid() throws IOException {
-        tune(Function.Trid, 10.0);
+        tune(Function.Trid, 5.0, 25);
     }
 
     @Test public void testTuneZakharoy() throws IOException {

@@ -36,12 +36,12 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1431).capacity(2300));
         epochs.addNextEpoch(new Epoch(config, 1451).capacity(2600));
         epochs.addNextEpoch(new Epoch(config, 1491).capacity(2800));
-        epochs.addNextEpoch(new Epoch(config, 1523).capacity(3400));
-        epochs.addNextEpoch(new Epoch(config, 1542).capacity(3800));
-        epochs.addNextEpoch(new Epoch(config, 1561).capacity(5000));
-        epochs.addNextEpoch(new Epoch(config, 1601).capacity(6300));
-        epochs.addNextEpoch(new Epoch(config, 1651).capacity(6200));
-        epochs.addNextEpoch(new Epoch(config, 1701).capacity(11300).breedingProbability(0.28));
+        epochs.addNextEpoch(new Epoch(config, 1523).capacity(3400).breedingProbability(0.35));
+        epochs.addNextEpoch(new Epoch(config, 1542).capacity(3800).breedingProbability(0.35));
+        epochs.addNextEpoch(new Epoch(config, 1561).capacity(5000).breedingProbability(0.31));
+        epochs.addNextEpoch(new Epoch(config, 1601).capacity(6300).breedingProbability(0.29));
+        epochs.addNextEpoch(new Epoch(config, 1651).capacity(6200).breedingProbability(0.26));
+        epochs.addNextEpoch(new Epoch(config, 1701).capacity(11300).breedingProbability(0.25));
         epochs.addNextEpoch(new Epoch(config, 1802).capacity(12500).breedingProbability(0.28));
         epochs.addNextEpoch(new Epoch(config, 1812).capacity(13400).breedingProbability(0.28));
         epochs.addNextEpoch(new Epoch(config, 1822).capacity(15800).breedingProbability(0.26));

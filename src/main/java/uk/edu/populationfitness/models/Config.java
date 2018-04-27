@@ -58,7 +58,7 @@ public class Config {
         max_age = 90;
         max_breeding_age = 41;
         setMinBreedingAge(16);
-        probability_of_breeding = 0.55; // Derived from Max Crude Birth Rate W&S 1981 1730-2009
+        probability_of_breeding = 0.35; // Derived from Max Crude Birth Rate W&S 1981 1730-2009
         number_of_years = 2150;
         scaleMutationsPerGeneFromBitCount(MutationScale);
     }
