@@ -53,7 +53,6 @@ public class EpochsWriter {
         writer.writeNext(new String[]{
                 Integer.toString(epoch.start_year),
                 Integer.toString(epoch.end_year),
-                Double.toString(epoch.kill()),
                 Integer.toString(epoch.environment_capacity),
                 Double.toString(epoch.breedingProbability()),
                 Boolean.toString(epoch.disease()),
@@ -71,7 +70,6 @@ public class EpochsWriter {
         writer.writeNext(new String[]{
                 "Start Year",
                 "End Year",
-                "Kill Constant",
                 "Environment Capacity",
                 "Breeding Probability",
                 "Disease",

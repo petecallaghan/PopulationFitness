@@ -127,16 +127,6 @@ public abstract class BitSetGenes implements Genes {
     }
 
     /**
-     * Call this to scale and then store the fitness
-     *
-     * @param fitness
-     * @return the scaled stored fitness
-     */
-    protected double scaleAndStoreFitness(double fitness) {
-        return storeFitness(config.getRange().toScale(fitness));
-    }
-
-    /**
      * Call this to store a fitness
      *
      * @param fitness

@@ -16,9 +16,6 @@ public class Epoch {
 
     public int end_year = UNDEFINED_YEAR;
 
-    // Defines the kill constant for this epoch
-    private double kill_constant = 1.0;
-
     // Defines the fitness adjustment for this epoch
     private double fitness_factor = 1.0;
 
@@ -61,7 +58,6 @@ public class Epoch {
         this.config = source.config;
         this.fitness_factor = source.fitness_factor;
         this.isDisease = source.isDisease;
-        this.kill_constant = source.kill_constant;
         this.probability_of_breeding = source.probability_of_breeding;
         this.total_capacity_factor = source.total_capacity_factor;
         this.prev_environment_capacity = source.prev_environment_capacity;
@@ -99,15 +95,6 @@ public class Epoch {
 
     public boolean disease(){
         return isDisease;
-    }
-
-    public Epoch kill(double kill_constant){
-        this.kill_constant = kill_constant;
-        return this;
-    }
-
-    public double kill(){
-        return this.kill_constant;
     }
 
     public Epoch fitness(double fitness_factor){

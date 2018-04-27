@@ -25,7 +25,7 @@ public abstract class CachingInterpolatingBitSetGenes extends InterpolatingBitSe
             return storedFitness();
         }
 
-        return storeScaledInvertedFitness(calculateFitnessFromIntegers(asIntegers()));
+        return storeInvertedFitness(calculateFitnessFromIntegers(asIntegers()));
     }
 }
 

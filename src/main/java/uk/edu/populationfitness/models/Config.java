@@ -40,12 +40,6 @@ public class Config {
 
     private int min_breeding_age;
 
-    // The lower bound of the float conversion for genes
-    private double float_lower;
-
-    // The upper bound of the float conversion for genes
-    private double float_upper;
-
     //  Probability that a pair will produce offspring in a year
     private final double probability_of_breeding;
 
@@ -54,8 +48,6 @@ public class Config {
 
     // Defines genes for each individual
     private GenesFactory genesFactory = new BitSetGenesFactory();
-
-    private final FitnessRange range = new FitnessRange();
 
     private int initial_population = 4000;
 
@@ -66,8 +58,6 @@ public class Config {
         max_age = 90;
         max_breeding_age = 41;
         setMinBreedingAge(16);
-        setFloatLower(ZERO);
-        setFloatUpper(PI);
         probability_of_breeding = 0.55; // Derived from Max Crude Birth Rate W&S 1981 1730-2009
         number_of_years = 2150;
         scaleMutationsPerGeneFromBitCount(MutationScale);
@@ -131,22 +121,6 @@ public class Config {
         this.min_breeding_age = min_breeding_age;
     }
 
-    public double getFloatLower() {
-        return float_lower;
-    }
-
-    public void setFloatLower(double float_lower) {
-        this.float_lower = float_lower;
-    }
-
-    public double getFloatUpper() {
-        return float_upper;
-    }
-
-    public void setFloatUpper(double float_upper) {
-        this.float_upper = float_upper;
-    }
-
     public double getProbabilityOfBreeding() {
         return probability_of_breeding;
     }
@@ -161,10 +135,6 @@ public class Config {
 
     public void setGenesFactory(GenesFactory genesFactory) {
         this.genesFactory = genesFactory;
-    }
-
-    public FitnessRange getRange() {
-        return range;
     }
 
     public int getInitialPopulation() {

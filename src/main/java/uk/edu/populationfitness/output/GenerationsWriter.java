@@ -75,7 +75,6 @@ public class GenerationsWriter {
         writer.writeNext(new String[]{
                 Integer.toString(generation.epoch.start_year),
                 Integer.toString(generation.epoch.end_year),
-                Double.toString(generation.epoch.kill()),
                 Double.toString(generation.epoch.capacityForYear(generation.year)),
                 Boolean.toString(generation.epoch.isFitnessEnabled()),
                 Double.toString(generation.epoch.breedingProbability()),
@@ -101,7 +100,6 @@ public class GenerationsWriter {
         writer.writeNext(new String[]{
                 "Epoch Start Year",
                 "Epoch End Year",
-                "Epoch Kill Constant",
                 "Epoch Environment Capacity",
                 "Epoch Enable Fitness",
                 "Epoch Breeding Probability",

@@ -22,21 +22,11 @@ public class TuningReader {
         tuning.historic_fit = Double.parseDouble(row[1]);
         tuning.disease_fit = Double.parseDouble(row[2]);
         tuning.modern_fit = Double.parseDouble(row[3]);
-        tuning.modern_kill = Double.parseDouble(row[4]);
-        tuning.historic_kill = Double.parseDouble(row[5]);
-        tuning.modern_breeding = Double.parseDouble(row[6]);
-        tuning.size_of_genes = Integer.parseInt(row[7]);
-        tuning.number_of_genes = Integer.parseInt(row[8]);
-        tuning.min_fitness = Double.parseDouble(row[9]);
-        tuning.max_fitness = Double.parseDouble(row[10]);
-        if (row.length > 11){
-            tuning.mutations_per_gene = Double.parseDouble(row[11]);
-        }
-        if (row.length > 12){
-            tuning.series_runs = Integer.parseInt(row[12]);
-        }
-        if (row.length > 13){
-            tuning.parallel_runs = Integer.parseInt(row[13]);
-        }
+        tuning.modern_breeding = Double.parseDouble(row[4]);
+        tuning.size_of_genes = Integer.parseInt(row[5]);
+        tuning.number_of_genes = Integer.parseInt(row[6]);
+        tuning.mutations_per_gene = Double.parseDouble(row[7]);
+        tuning.series_runs = Integer.parseInt(row[8]);
+        tuning.parallel_runs = Integer.parseInt(row[9]);
     }
 }

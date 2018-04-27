@@ -4,10 +4,6 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
 import uk.edu.populationfitness.models.genes.Ridge.Schwefel220Genes;
 import uk.edu.populationfitness.models.genes.localmimina.*;
-import uk.edu.populationfitness.models.genes.sinpi.SinPiAvgGenes;
-import uk.edu.populationfitness.models.genes.sinpi.SinPiGenes;
-import uk.edu.populationfitness.models.genes.sinpi.SinPiLinearGenes;
-import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
 import uk.edu.populationfitness.models.genes.sphere.*;
 import uk.edu.populationfitness.models.genes.valley.DixonPriceGenes;
 import uk.edu.populationfitness.models.genes.valley.RosenbrockGenes;
@@ -29,12 +25,6 @@ public class BitSetGenesFactory implements GenesFactory {
     @Override
     public Genes build(Config config) {
         switch(function){
-            case SinPi:
-                return new SinPiGenes(config);
-            case SinPiAvg:
-                return new SinPiAvgGenes(config);
-            case SinPiLinear:
-                return new SinPiLinearGenes(config);
             case Rastrigin:
                 return new RastriginGenes(config);
             case Sphere:
@@ -73,11 +63,9 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new SchumerSteiglitzGenes(config);
             case Trid:
                 return new TridGenes(config);
+            default:
             case Zakharoy:
                 return new ZakharoyGenes(config);
-            default:
-            case SinPiOver2:
-                return new SinPiOver2Genes(config);
         }
     }
 

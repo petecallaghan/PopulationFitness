@@ -3,7 +3,7 @@ package uk.edu.populationfitness.test;
 import org.junit.Test;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenes;
-import uk.edu.populationfitness.models.genes.sinpi.SinPiOver2Genes;
+import uk.edu.populationfitness.models.genes.localmimina.AckleysGenes;
 
 import static org.junit.Assert.*;
 
@@ -14,7 +14,7 @@ public class GenesTest {
     @Test public void testGenesAreEmpty(){
         // Given a set of genes with zero value
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2Genes(config);
+        BitSetGenes genes = new AckleysGenes(config);
         genes.buildEmpty();
 
         // When tested they are all empty
@@ -25,7 +25,7 @@ public class GenesTest {
         // Given a set of genes that are empty and a high probability that they will mutate
         Config config = new Config();
         config.setMutationsPerGene(100);
-        BitSetGenes genes = new SinPiOver2Genes(config);
+        BitSetGenes genes = new AckleysGenes(config);
         genes.buildEmpty();
 
         // When they are mutated
@@ -46,7 +46,7 @@ public class GenesTest {
     @Test public void testRandomGenesAreNotAllZero(){
         // Given a set of genes that are random
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2Genes(config);
+        BitSetGenes genes = new AckleysGenes(config);
         genes.buildFromRandom();
 
         // Then the number of bits set falls inside the probability range
@@ -64,7 +64,7 @@ public class GenesTest {
     @Test public void testGenesAsIntegers(){
         // Given a set of genes that are random
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2Genes(config);
+        BitSetGenes genes = new AckleysGenes(config);
         genes.buildFromRandom();
 
         // Then the genes as integers are non zero
@@ -79,7 +79,7 @@ public class GenesTest {
         // Given a set of genes with zero values that will not mutate
         Config config = new Config();
         config.setMutationsPerGene(0);
-        BitSetGenes genes = new SinPiOver2Genes(config);
+        BitSetGenes genes = new AckleysGenes(config);
         genes.buildEmpty();
 
         // When they are mutated
@@ -106,7 +106,7 @@ public class GenesTest {
     @Test public void testGenesAsFloatUseDefaultRange(){
         // Given a set of genes with non zero values
         Config config = new Config();
-        BitSetGenes genes = new SinPiOver2Genes(config);
+        BitSetGenes genes = new AckleysGenes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
@@ -117,25 +117,14 @@ public class GenesTest {
         Config config = new Config();
         config.setNumberOfGenes(10000);
         config.setSizeOfEachGene(2250);
-        BitSetGenes genes = new SinPiOver2Genes(config);
-        genes.buildFromRandom();
-
-        thenTheyFallIntoTheFloatRange(genes);
-    }
-
-    @Test public void testGenesWithConfiguredFloatRange(){
-        // Given a set of genes with non zero values
-        Config config = new Config();
-        config.setFloatLower(1.5);
-        config.setFloatUpper(10.5);
-        BitSetGenes genes = new SinPiOver2Genes(config);
+        BitSetGenes genes = new AckleysGenes(config);
         genes.buildFromRandom();
 
         thenTheyFallIntoTheFloatRange(genes);
     }
 
     private BitSetGenes createFatherDifferentFromMother(Config config, BitSetGenes mother){
-        BitSetGenes father = new SinPiOver2Genes(config);
+        BitSetGenes father = new AckleysGenes(config);
         father.buildFromRandom();
 
         while(father.isEqual(mother)){
@@ -148,10 +137,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.setMutationsPerGene(config.getMutationsPerGene() * 100000);
-        BitSetGenes mother = new SinPiOver2Genes(config);
+        BitSetGenes mother = new AckleysGenes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
-        BitSetGenes baby = new SinPiOver2Genes(config);
+        BitSetGenes baby = new AckleysGenes(config);
 
         // When the baby inherits from the mother and father
         final int mutated = baby.inheritFrom(mother, father);
@@ -166,10 +155,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.setMutationsPerGene(config.getMutationsPerGene() * 10);
-        BitSetGenes mother = new SinPiOver2Genes(config);
+        BitSetGenes mother = new AckleysGenes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
-        BitSetGenes baby = new SinPiOver2Genes(config);
+        BitSetGenes baby = new AckleysGenes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);
@@ -182,10 +171,10 @@ public class GenesTest {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
         config.setMutationsPerGene(config.getMutationsPerGene() * 10);
-        BitSetGenes mother = new SinPiOver2Genes(config);
+        BitSetGenes mother = new AckleysGenes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
-        BitSetGenes baby = new SinPiOver2Genes(config);
+        BitSetGenes baby = new AckleysGenes(config);
 
         // When the baby inherits from the mother and father
         baby.inheritFrom(mother, father);

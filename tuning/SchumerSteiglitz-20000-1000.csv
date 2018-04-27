@@ -1,2 +1,2 @@
-"Function","Historic Fit","Disease Fit","Modern Fit","Modern Kill","Historic Kill","Modern Breeding","Size of Genes","Number of Genes","Min Fitness","Max Fitness","Mutations","SeriesRuns","ParallelRuns"
-"SchumerSteiglitz","4.816160545149254","4.030159141121237","5.134612923779505","1.0","1.0","0.09","1000","20000","0.0","1.0","150.0","1","1"
+"Function","Historic Fit","Disease Fit","Modern Fit","Modern Breeding","Size of Genes","Number of Genes","Mutations","SeriesRuns","ParallelRuns"
+"SchumerSteiglitz","4.816160545149254","4.030159141121237","5.134612923779505","0.09","1000","20000","150.0","1","1"

@@ -21,14 +21,13 @@ public class DiscoverFunctionRangeTest {
 
     private static final int PopulationSize = 10;
 
-    private void DiscoverFunctionRange(Function function, int numberOfGenes, int sizeOfGenes, FitnessRange range, int populationSize){
+    private void DiscoverFunctionRange(Function function){
         GenesFactory factory = new GenesTimerFactory(new BitSetGenesFactory());
         factory.useFitnessFunction(function);
         // Given a number of randomly generated genes
         Config config = new Config();
-        config.setNumberOfGenes(numberOfGenes);
-        config.setSizeOfEachGene(sizeOfGenes);
-        config.getRange().min(range.min()).max(range.max());
+        config.setNumberOfGenes(NumberOfGenes);
+        config.setSizeOfEachGene(SizeOfGenes);
         config.setGenesFactory(factory);
         GenesTimer.resetAll();
 
@@ -42,7 +41,7 @@ public class DiscoverFunctionRangeTest {
         full.buildFull();
         genes.add(full);
 
-        for(int i = 0; i < populationSize; i++){
+        for(int i = 0; i < PopulationSize; i++){
             Genes next = factory.build(config);
             next.buildFromRandom();
             next.mutate();
@@ -60,7 +59,7 @@ public class DiscoverFunctionRangeTest {
 
         System.out.print(function.toString());
         System.out.print("(");
-        System.out.print(numberOfGenes);
+        System.out.print(NumberOfGenes);
         System.out.print(") min=");
         System.out.print(min);
         System.out.print(" max=");
@@ -73,82 +72,82 @@ public class DiscoverFunctionRangeTest {
     }
 
     @Test public void testDiscoverRastrigin() {
-        DiscoverFunctionRange(Function.Rastrigin, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Rastrigin);
     }
 
     @Test public void testDiscoverSphere() {
-        DiscoverFunctionRange(Function.Sphere, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Sphere);
     }
 
     @Test public void testDiscoverStyblinksiTang() {
-        DiscoverFunctionRange(Function.StyblinksiTang, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.StyblinksiTang);
     }
 
     @Test public void testDiscoverSchwefel226() {
-        DiscoverFunctionRange(Function.Schwefel226, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Schwefel226);
     }
 
     @Test public void testDiscoverRosenbrock() {
-        DiscoverFunctionRange(Function.Rosenbrock, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Rosenbrock);
     }
 
     @Test public void testDiscoverSumOfPowers() {
-        DiscoverFunctionRange(Function.SumOfPowers, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.SumOfPowers);
     }
 
     @Test public void testDiscoverSumSquares() {
-        DiscoverFunctionRange(Function.SumSquares, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.SumSquares);
     }
 
     @Test public void testDiscoverAckleys() {
-        DiscoverFunctionRange(Function.Ackleys, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Ackleys);
     }
 
     @Test public void testDiscoverAlpine() {
-        DiscoverFunctionRange(Function.Alpine, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Alpine);
     }
 
     @Test public void testDiscoverBrown() {
-        DiscoverFunctionRange(Function.Brown, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Brown);
     }
 
     @Test public void testDiscoverChungReynolds() {
-        DiscoverFunctionRange(Function.ChungReynolds, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.ChungReynolds);
     }
 
     @Test public void testDiscoverDixonPrice() {
-        DiscoverFunctionRange(Function.DixonPrice, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.DixonPrice);
     }
 
     @Test public void testDiscoverExponential() {
-        DiscoverFunctionRange(Function.Exponential, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Exponential);
     }
 
     @Test public void testDiscoverGriewank() {
-        DiscoverFunctionRange(Function.Griewank, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Griewank);
     }
 
     @Test public void testDiscoverQing() {
-        DiscoverFunctionRange(Function.Qing, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Qing);
     }
 
     @Test public void testDiscoverSalomon() {
-        DiscoverFunctionRange(Function.Salomon, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Salomon);
     }
 
     @Test public void testDiscoverSchumerSteiglitz() {
-        DiscoverFunctionRange(Function.SchumerSteiglitz, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.SchumerSteiglitz);
     }
 
     @Test public void testDiscoverSchwefel220() {
-        DiscoverFunctionRange(Function.Schwefel220, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Schwefel220);
     }
 
     @Test public void testDiscoverTrid() {
-        DiscoverFunctionRange(Function.Trid, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Trid);
     }
 
     @Test public void testDiscoverZakharoy() {
-        DiscoverFunctionRange(Function.Zakharoy, NumberOfGenes, SizeOfGenes, new FitnessRange(), PopulationSize);
+        DiscoverFunctionRange(Function.Zakharoy);
     }
 }

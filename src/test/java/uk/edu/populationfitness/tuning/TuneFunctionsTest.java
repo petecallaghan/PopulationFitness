@@ -103,16 +103,12 @@ public class TuneFunctionsTest {
         tuning.parallel_runs = 1;
         tuning.series_runs = 1;
         tuning.mutations_per_gene = config.getMutationsPerGene();
-        tuning.max_fitness = 1.0;
-        tuning.min_fitness = 0.0;
 
         Epoch diseaseEpoch = findDiseaseEpoch(epochs);
         Epoch historicalEpoch = findHistoricalEpoch(epochs);
         Epoch modernEpoch = findModernEpoch(epochs);
 
-        tuning.historic_kill = historicalEpoch.kill();
         tuning.historic_fit = historicalEpoch.averageCapacityFactor() * historicalEpoch.fitness();
-        tuning.modern_kill = modernEpoch.kill();
         tuning.modern_fit = modernEpoch.averageCapacityFactor() * modernEpoch.fitness();
         tuning.modern_breeding = modernEpoch.breedingProbability();
         tuning.disease_fit = diseaseEpoch.averageCapacityFactor() * diseaseEpoch.fitness();

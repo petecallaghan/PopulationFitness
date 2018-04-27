@@ -78,7 +78,7 @@ public class Population {
         return babies;
     }
 
-    private boolean kill(Individual individual, int current_year, double fitness_factor, double kill_constant){
+    private boolean kill(Individual individual, int current_year, double fitness_factor){
         final double fitness = individual.genes.fitness();
         final double factored_fitness = fitness * fitness_factor;
         total_fitness += fitness;
@@ -86,7 +86,7 @@ public class Population {
         checked_fitness++;
         fitnesses.add(fitness);
 
-        if (individual.isReadyToDie(current_year) ? true : factored_fitness < (RepeatableRandom.generateNext() * kill_constant)){
+        if (individual.isReadyToDie(current_year) ? true : factored_fitness < (RepeatableRandom.generateNext())){
             total_age_at_death += individual.age(current_year);
             return true;
         }
@@ -120,12 +120,12 @@ public class Population {
             return 0;
 
         if (epoch.isCapacityUnlimited()){
-            return addSurvivors(i -> !kill(i, current_year, epoch.fitness(), epoch.kill()));
+            return addSurvivors(i -> !kill(i, current_year, epoch.fitness()));
         }
 
         environment_capacity = (double)(epoch.capacityForYear(current_year)) / individuals.size();
         epoch.addCapacityFactor(environment_capacity);
-        return addSurvivors(i -> !kill(i, current_year, epoch.fitness() * environment_capacity, epoch.kill()));
+        return addSurvivors(i -> !kill(i, current_year, epoch.fitness() * environment_capacity));
     }
 
     public double averageFitness(){

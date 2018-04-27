@@ -52,15 +52,6 @@ public class GenesDistributionTest {
         }
     }
 
-    @Test
-    public void testGenesAreDistributedWithoutExcessiveSpikesSinPi(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel220, 1.0);
-    }
-
-    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSinPiAvg(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel220, 1.0);
-    }
-
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesSchwefel220(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.Schwefel220, 1.0);
     }

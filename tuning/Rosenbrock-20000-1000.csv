@@ -1,2 +1,2 @@
-"Function","Historic Fit","Disease Fit","Modern Fit","Modern Kill","Historic Kill","Modern Breeding","Size of Genes","Number of Genes","Min Fitness","Max Fitness","Mutations","SeriesRuns","ParallelRuns"
-"Rosenbrock","5.547823960107666","4.225160333333333","6.156382074680961","1.0","1.0","0.09","1000","20000","0.0","1.0","150.0","1","1"
+"Function","Historic Fit","Disease Fit","Modern Fit","Modern Breeding","Size of Genes","Number of Genes","Mutations","SeriesRuns","ParallelRuns"
+"Rosenbrock","5.547823960107666","4.225160333333333","6.156382074680961","0.09","1000","20000","150.0","1","1"

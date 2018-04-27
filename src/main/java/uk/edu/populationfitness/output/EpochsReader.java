@@ -29,14 +29,13 @@ public class EpochsReader {
     private static Epoch readFromRow(Config config, String[] row) {
         Epoch epoch = new Epoch(config, Integer.parseInt(row[0]));
         epoch.end_year = Integer.parseInt(row[1]);
-        epoch.kill(Double.parseDouble(row[2]));
-        epoch.environment_capacity = Integer.parseInt(row[3]);
-        epoch.breedingProbability(Double.parseDouble(row[4]));
-        epoch.disease(Boolean.parseBoolean(row[5]));
-        epoch.fitness(Double.parseDouble(row[6]));
-        epoch.expected_max_population = Integer.parseInt(row[7]);
-        epoch.maxAge(Integer.parseInt(row[8]));
-        epoch.maxBreedingAge(Integer.parseInt(row[9]));
+        epoch.environment_capacity = Integer.parseInt(row[2]);
+        epoch.breedingProbability(Double.parseDouble(row[3]));
+        epoch.disease(Boolean.parseBoolean(row[4]));
+        epoch.fitness(Double.parseDouble(row[5]));
+        epoch.expected_max_population = Integer.parseInt(row[6]);
+        epoch.maxAge(Integer.parseInt(row[7]));
+        epoch.maxBreedingAge(Integer.parseInt(row[8]));
         return epoch;
     }
 }

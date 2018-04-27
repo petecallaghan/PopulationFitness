@@ -24,7 +24,7 @@ public class GenerationsTest {
         Generations generations = new Generations(population);
         // ... with some epochs
         Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(config, -50).fitness(1.0).kill(1.0).capacity(4000));
+        epochs.addNextEpoch(new Epoch(config, -50).fitness(1.0).capacity(4000));
         epochs.setFinalEpochYear(-40);
 
         // When the simulation runs through the epochs
@@ -100,9 +100,9 @@ public class GenerationsTest {
         Generations generations = new Generations(population);
         // ... with some epochs ...
         Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(config, -25).fitness(1.0).kill(1.0).capacity(4000));
-        epochs.addNextEpoch(new Epoch(config, 0).fitness(1.0).kill(1.0).capacity(4000));
-        epochs.addNextEpoch(new Epoch(config, 25).fitness(1.0).kill(1.0).capacity(4000));
+        epochs.addNextEpoch(new Epoch(config, -25).fitness(1.0).capacity(4000));
+        epochs.addNextEpoch(new Epoch(config, 0).fitness(1.0).capacity(4000));
+        epochs.addNextEpoch(new Epoch(config, 25).fitness(1.0).capacity(4000));
         epochs.setFinalEpochYear(50);
         //  ... and some results written to a file
         generations.createForAllEpochs(epochs);
@@ -130,7 +130,6 @@ public class GenerationsTest {
     private void assertAreEqual(GenerationStatistics e, GenerationStatistics a) {
         assertEquals(e.epoch.start_year, a.epoch.start_year);
         assertEquals(e.epoch.end_year, a.epoch.end_year);
-        assertEquals(e.epoch.kill(), a.epoch.kill(), 0.01);
         assertEquals(e.epoch.environment_capacity, a.epoch.environment_capacity);
         assertEquals(e.epoch.isFitnessEnabled(), a.epoch.isFitnessEnabled());
         assertEquals(e.epoch.breedingProbability(), a.epoch.breedingProbability(), 0.01);

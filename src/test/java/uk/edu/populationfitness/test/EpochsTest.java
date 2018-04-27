@@ -70,18 +70,6 @@ public class EpochsTest {
         assertEquals(2.0, epochs.epochs.get(1).fitness(), 0.1);
     }
 
-    @Test public void testEpochKillConstants(){
-        // Given a set of epochs
-        Config config = new Config();
-        Epochs epochs = new Epochs();
-        epochs.addNextEpoch(new Epoch(config, -50));
-        epochs.addNextEpoch(new Epoch(config, 400).kill(2.0));
-
-        // When we iterate over the epochs we find the right kill constants
-        assertEquals(1.0, epochs.epochs.get(0).kill(), 0.1);
-        assertEquals(2.0, epochs.epochs.get(1).kill(), 0.1);
-    }
-
     @Test public void testEpochEnvironmentCapacity(){
         // Given a set of epochs
         Config config = new Config();
@@ -130,7 +118,6 @@ public class EpochsTest {
 
             assertEquals(expected.start_year, actual.start_year);
             assertEquals(expected.end_year, actual.end_year);
-            assertEquals(expected.kill(), actual.kill(), delta);
             assertEquals(expected.environment_capacity, actual.environment_capacity);
             assertEquals(expected.breedingProbability(), actual.breedingProbability(), delta);
             assertEquals(expected.disease(), actual.disease());
