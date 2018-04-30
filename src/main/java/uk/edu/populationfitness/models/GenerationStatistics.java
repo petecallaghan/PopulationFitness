@@ -17,10 +17,10 @@ public class GenerationStatistics {
     public double average_fitness;
     public double average_factored_fitness;
     public double fitness_deviation;
-    public int average_age;
+    public double average_age;
     public double capacity_factor;
     public double average_mutations;
-    public int average_life_expectancy;
+    public double average_life_expectancy;
 
     public GenerationStatistics(Epoch epoch,
                                 int year,
@@ -80,14 +80,14 @@ public class GenerationStatistics {
                 first.kill_time + second.kill_time,
                 first.capacity_factor,
                 first.average_mutations);
-        result.average_age = (int)average(((long)first.average_age * first.population + (long)second.average_age * second.population), result.population);
+        result.average_age = average(first.average_age * first.population + second.average_age * second.population, result.population);
         result.average_fitness = average(first.average_fitness * first.population + second.average_fitness * second.population, result.population);
         result.average_factored_fitness = average(first.average_factored_fitness * first.population + second.average_factored_fitness * second.population, result.population);
         result.epoch.expected_max_population += second.epoch.expected_max_population;
         result.epoch.environment_capacity += second.epoch.environment_capacity;
         result.capacity_factor = average(first.capacity_factor * first.population + second.capacity_factor * second.population, result.population);
         result.average_mutations = average((first.average_mutations * first.number_born + second.average_mutations * second.number_born), result.number_born);
-        result.average_life_expectancy = (int)average(((long)first.average_life_expectancy * first.number_killed + (long)second.average_life_expectancy * second.number_killed), result.number_killed);
+        result.average_life_expectancy = average(first.average_life_expectancy * first.number_killed + second.average_life_expectancy * second.number_killed, result.number_killed);
         return result;
     }
 

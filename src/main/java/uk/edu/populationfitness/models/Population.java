@@ -13,9 +13,9 @@ public class Population {
 
     public ArrayList<Individual> individuals;
 
-    public int average_age = 0;
+    public double average_age = 0.0;
     public double average_mutations = 0.0;
-    public int average_life_expectancy = 0;
+    public double average_life_expectancy = 0.0;
 
     private double total_fitness = 0.0;
     private double total_age_at_death = 0.0;
@@ -73,8 +73,8 @@ public class Population {
             }
         }
         individuals.addAll(babies);
-        average_age = individuals.size() > 0 ? (int)(totalAge / individuals.size()) : 0;
-        average_mutations = babies.size() > 0 ? totalMutations / babies.size() : 0;
+        average_age = individuals.size() > 0 ? totalAge / individuals.size() : 0.0;
+        average_mutations = babies.size() > 0 ? totalMutations / babies.size() : 0.0;
         return babies;
     }
 
@@ -98,7 +98,7 @@ public class Population {
         total_age_at_death = 0.0;
         individuals = individuals.stream().filter(survivor).collect(Collectors.toCollection(ArrayList::new));
         int killed = population_size - individuals.size();
-        average_life_expectancy = killed < 1 ? 0 : (int)Math.round(total_age_at_death / killed);
+        average_life_expectancy = killed < 1 ? 0.0 : Math.round(total_age_at_death / killed);
         return killed;
     }
 

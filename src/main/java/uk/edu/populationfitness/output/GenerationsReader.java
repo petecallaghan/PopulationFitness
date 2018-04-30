@@ -54,9 +54,9 @@ public class GenerationsReader {
         generation.epoch.expected_max_population = Integer.parseInt(row[7]);
         generation.average_fitness = Double.parseDouble(row[13]);
         generation.fitness_deviation = Double.parseDouble(row[14]);
-        generation.average_age = Integer.parseInt(row[15]);
+        generation.average_age = Double.parseDouble(row[15]);
         generation.average_factored_fitness = Double.parseDouble(row[17]);
-        generation.average_life_expectancy = Integer.parseInt(row[19]);
+        generation.average_life_expectancy = Double.parseDouble(row[19]);
         return generation;
     }
 }

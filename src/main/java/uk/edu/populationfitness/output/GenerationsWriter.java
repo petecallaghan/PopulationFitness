@@ -88,11 +88,11 @@ public class GenerationsWriter {
                 Double.toString(generation.killElapsedInHundredths()),
                 Double.toString(generation.average_fitness),
                 Double.toString(generation.fitness_deviation),
-                Integer.toString(generation.average_age),
+                Double.toString(generation.average_age),
                 Double.toString(generation.capacity_factor),
                 Double.toString(generation.average_factored_fitness),
                 Double.toString(generation.average_mutations),
-                Integer.toString(generation.average_life_expectancy),
+                Double.toString(generation.average_life_expectancy),
         });
     }
 
