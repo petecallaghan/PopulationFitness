@@ -17,3 +17,6 @@ test.csv
 ~genescache.tmp
 allgenerations-test-.csv
 test-results.csv
+DotNet/PopulationFitness/.vs/
+DotNet/PopulationFitness/PopulationFitness/bin/
+DotNet/PopulationFitness/PopulationFitness/obj/
