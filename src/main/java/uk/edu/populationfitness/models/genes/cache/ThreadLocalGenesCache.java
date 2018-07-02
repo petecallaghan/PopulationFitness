@@ -39,6 +39,11 @@ public class ThreadLocalGenesCache implements GeneValues {
         cache.remove();
     }
 
+    @Override
+    public boolean isFlushable() {
+        return cache.get().isFlushable();
+    }
+
     /**
      * Call this to clean up any files
      */

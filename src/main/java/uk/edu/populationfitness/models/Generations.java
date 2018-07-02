@@ -83,8 +83,10 @@ public class Generations {
     }
 
     private void flushBodiesFromTheCache(){
-        Collection<GenesIdentifier> survivors = population.individuals.stream().map(i -> i.genes.identifier()).collect(Collectors.toList());
-        SharedCache.cache().retainOnly(survivors);
+        if (SharedCache.cache().isFlushable()){
+            Collection<GenesIdentifier> survivors = population.individuals.stream().map(i -> i.genes.identifier()).collect(Collectors.toList());
+            SharedCache.cache().retainOnly(survivors);
+        }
     }
 
     private PopulationComparison generateAndCompareEpochPopulation(

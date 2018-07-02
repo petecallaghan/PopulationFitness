@@ -46,8 +46,12 @@ namespace PopulationFitness.Models.Genes.Performance
             return genes.GetCode(index);
         }
 
-        private long GetElapsed(Stopwatch stopWatch)
+        /**
+         * @return the elapsed time in micro seconds
+         */
+        public static long GetElapsed(Stopwatch stopWatch)
         {
+            stopWatch.Stop();
             return stopWatch.ElapsedTicks * MicrosecPerTick;
         }
 
@@ -55,7 +59,6 @@ namespace PopulationFitness.Models.Genes.Performance
         {
             Stopwatch stopWatch = Stopwatch.StartNew();
             genes.BuildFromRandom();
-            stopWatch.Stop();
             _buildRandom.Add(GetElapsed(stopWatch));
         }
 
@@ -73,7 +76,6 @@ namespace PopulationFitness.Models.Genes.Performance
         {
             Stopwatch stopWatch = Stopwatch.StartNew();
             int mutatedCount = genes.InheritFrom(mother, father);
-            stopWatch.Stop();
             _inherit.Add(GetElapsed(stopWatch));
             return mutatedCount;
         }

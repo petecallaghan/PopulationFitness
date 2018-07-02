@@ -43,11 +43,11 @@ namespace PopulationFitness.Models
         }
 
         /***
-         * Set the end year of the final epoch
+         * Set the end year of the readonly epoch
          *
          * @param last_year
          */
-        public void SetFinalEpochYear(int last_year)
+        public void SetreadonlyEpochYear(int last_year)
         {
             Last.end_year = last_year;
         }

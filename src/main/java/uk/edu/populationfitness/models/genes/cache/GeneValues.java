@@ -30,4 +30,9 @@ public interface GeneValues {
      * Called to release any values
      */
     void close();
+
+    /**
+     * @return true if the cache is flushable
+     */
+    boolean isFlushable();
 }

@@ -29,5 +29,13 @@ namespace PopulationFitness.Models.Genes.Cache
         {
 
         }
+
+        public bool IsFlushable
+        {
+            get
+            {
+                return false;
+            }
+        }
     }
 }

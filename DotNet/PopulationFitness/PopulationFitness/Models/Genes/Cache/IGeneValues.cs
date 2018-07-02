@@ -29,5 +29,10 @@ namespace PopulationFitness.Models.Genes.Cache
          * Called to release any values
          */
         void Close();
+
+        /**
+         * @return true if the cache is flushable
+         */
+        bool IsFlushable { get; }
     }
 }

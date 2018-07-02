@@ -29,4 +29,9 @@ public class OnHeapGeneValues implements GeneValues {
     public void close() {
 
     }
+
+    @Override
+    public boolean isFlushable() {
+        return false;
+    }
 }

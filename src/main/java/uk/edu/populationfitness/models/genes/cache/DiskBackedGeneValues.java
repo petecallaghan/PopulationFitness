@@ -149,6 +149,11 @@ public class DiskBackedGeneValues implements GeneValues {
         closeTheStores();
     }
 
+    @Override
+    public boolean isFlushable() {
+        return true;
+    }
+
     private void closeTheStores() {
         memoryStore.close();
         diskStore.close();
