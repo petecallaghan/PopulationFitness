@@ -16,7 +16,7 @@ namespace PopulationFitness.Models.Genes.LocalMinima
             }
         }
 
-        private static readonly ExpensiveCalculatedValues<double> NormalizationRatios = new ExpensiveCalculatedValues<double>(new AckleysGenes.NormalizationRatioCalculator());
+        private static readonly ExpensiveCalculatedValues<double> NormalizationRatios = new ExpensiveCalculatedValues<double>(new NormalizationRatioCalculator());
 
         private const double Alpha = 4.5;
 
@@ -30,7 +30,6 @@ namespace PopulationFitness.Models.Genes.LocalMinima
         {
             return NormalizationRatios.FindOrCalculate(n);
         }
-
 
         protected override double CalculateFitnessFromIntegers(long[] integer_values)
         {
