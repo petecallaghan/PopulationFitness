@@ -53,7 +53,7 @@ public abstract class BitSetGenes implements Genes {
 
     @Override
     public void buildEmpty() {
-        final int numberOfInts = (int)((size_of_genes / Long.MAX_VALUE) + (Long.MAX_VALUE % size_of_genes == 0 ? 0 : 1));
+        final int numberOfInts = (int)((size_of_genes / Long.SIZE) + (Long.SIZE % size_of_genes == 0 ? 0 : 1));
         final long[] genes = new long[numberOfInts];
         Arrays.fill(genes, 0);
         storeGenesInCache(genes);

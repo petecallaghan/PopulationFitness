@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace PopulationFitness.Models
 {
@@ -12,7 +13,29 @@ namespace PopulationFitness.Models
     {
         private const int DEFAULT_SEED = 31;
 
-        private static Random random = new Random(DEFAULT_SEED);
+        private static int _seed = DEFAULT_SEED;
+
+        private static readonly object Lock = new object();
+
+        private static int Seed
+        {
+            get
+            {
+                lock (Lock)
+                {
+                    return _seed;
+                }
+            }
+            set
+            {
+                lock (Lock)
+                {
+                    _seed = value;
+                }
+            }
+        }
+
+        private static ThreadLocal<Random> random = new ThreadLocal<Random>(() => { return new Random(Seed); });
 
         /**
          * Changes the seed for the sequence. Call this before generating any random numbers
@@ -21,7 +44,8 @@ namespace PopulationFitness.Models
          */
         public static void SetSeed(long seed)
         {
-            random = new Random((int)seed);
+            Seed = (int)seed;
+            random.Value = new Random(Seed);
         }
 
         /**
@@ -29,7 +53,8 @@ namespace PopulationFitness.Models
          */
         public static void ResetSeed()
         {
-            random = new Random(DEFAULT_SEED);
+            Seed = DEFAULT_SEED;
+            random.Value = new Random(Seed);
         }
 
         /**
@@ -38,7 +63,7 @@ namespace PopulationFitness.Models
          */
         public static double GenerateNext()
         {
-            return random.NextDouble();
+            return random.Value.NextDouble();
         }
 
         /**
@@ -47,17 +72,17 @@ namespace PopulationFitness.Models
          */
         public static int GenerateNextInt(double range)
         {
-            return (int)(random.NextDouble() * range);
+            return (int)(random.Value.NextDouble() * range);
         }
 
         public static long GenerateNextLong(long min, long max)
         {
-            return min + (long)(random.NextDouble() * (max - min + 1));
+            return min + (long)(random.Value.NextDouble() * (max - min + 1));
         }
 
         public static Random GetRandom()
         {
-            return random;
+            return random.Value;
         }
     }
 }

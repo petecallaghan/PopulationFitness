@@ -23,13 +23,16 @@ namespace PopulationFitness.Models.FastMaths
          */
         public T FindOrCalculate(long index)
         {
-            if (values.ContainsKey(index))
+            lock (values)
             {
-                return values.GetValueOrDefault(index);
+                if (values.ContainsKey(index))
+                {
+                    return values.GetValueOrDefault(index);
+                }
+                T value = calculator.CalculateValue(index);
+                values.Add(index, value);
+                return value;
             }
-            T value = calculator.CalculateValue(index);
-            values.Add(index, value);
-            return value;
         }
     }
 }

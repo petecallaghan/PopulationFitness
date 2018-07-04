@@ -47,13 +47,6 @@ namespace PopulationFitness.Models.Genes.BitSet
             return ((mask & bits[longIndex]) == mask);
         }
 
-        internal void Flip(int index)
-        {
-            int longIndex = index / Long.Size;
-            int bitIndex = index % Long.Size;
-            bits[longIndex] ^= (1u << bitIndex);
-        }
-
         internal void Clear()
         {
             Array.Clear(bits, 0, bits.Length);

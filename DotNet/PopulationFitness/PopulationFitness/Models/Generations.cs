@@ -17,7 +17,6 @@ namespace PopulationFitness.Models
     public class Generations
     {
         private static readonly int UNDEFINED_YEAR = -1;
-        private static readonly long NANOS_PER_MILLIS = 1000000;
 
         public readonly List<GenerationStatistics> history;
 

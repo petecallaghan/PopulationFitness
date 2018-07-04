@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace PopulationFitness.Models.Genes.Performance
 {
@@ -59,24 +60,24 @@ namespace PopulationFitness.Models.Genes.Performance
 
         public void Show()
         {
-            Console.Write(name);
+            Debug.Write(name);
             if (count > 0)
             {
-                Console.Write(" Min=");
-                Console.Write(Min);
-                Console.Write("(micros) Max=");
-                Console.Write(Max);
-                Console.Write("(micros) Mean=");
-                Console.Write(Mean);
-                Console.Write("(micros) Num=");
-                Console.Write(count);
-                Console.Write(" Tot=");
-                Console.Write(Math.Round(total) / 1000);
-                Console.WriteLine(" (millis)");
+                Debug.Write(" Min=");
+                Debug.Write(Min);
+                Debug.Write("(micros) Max=");
+                Debug.Write(Max);
+                Debug.Write("(micros) Mean=");
+                Debug.Write(Mean);
+                Debug.Write("(micros) Num=");
+                Debug.Write(count);
+                Debug.Write(" Tot=");
+                Debug.Write(Math.Round(total) / 1000);
+                Debug.WriteLine(" (millis)");
             }
             else
             {
-                Console.WriteLine(" None");
+                Debug.WriteLine(" None");
             }
         }
     }

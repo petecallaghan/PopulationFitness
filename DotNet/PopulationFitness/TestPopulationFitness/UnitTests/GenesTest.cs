@@ -3,7 +3,7 @@ using PopulationFitness.Models.Genes.BitSet;
 using PopulationFitness.Models.Genes.LocalMinima;
 using Xunit;
 
-namespace TestPopulationFitness
+namespace TestPopulationFitness.UnitTests
 {
     public class GenesTest
     {

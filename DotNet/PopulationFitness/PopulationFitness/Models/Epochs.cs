@@ -47,7 +47,7 @@ namespace PopulationFitness.Models
          *
          * @param last_year
          */
-        public void SetreadonlyEpochYear(int last_year)
+        public void SetFinalEpochYear(int last_year)
         {
             Last.end_year = last_year;
         }

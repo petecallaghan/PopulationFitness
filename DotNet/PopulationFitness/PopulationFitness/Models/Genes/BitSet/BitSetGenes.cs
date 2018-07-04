@@ -15,8 +15,6 @@ namespace PopulationFitness.Models.Genes.BitSet
 
         private IGenesIdentifier genesIdentifier;
 
-        private static readonly double HALF_PROBABILITY = 0.5;
-
         private double stored_fitness = 0;
 
         private bool fitness_stored = false;
@@ -52,7 +50,7 @@ namespace PopulationFitness.Models.Genes.BitSet
 
         public void BuildEmpty()
         {
-            int numberOfInts = (int)((size_of_genes / long.MaxValue) + (long.MaxValue % size_of_genes == 0 ? 0 : 1));
+            int numberOfInts = (int)((size_of_genes / Long.Size) + (Long.Size % size_of_genes == 0 ? 0 : 1));
             long[] genes = new long[numberOfInts];
             Array.Clear(genes, 0, genes.Length);
             StoreGenesInCache(genes);
@@ -67,16 +65,9 @@ namespace PopulationFitness.Models.Genes.BitSet
 
         public void BuildFromRandom()
         {
-            BitSet genes = new BitSet(size_of_genes);
-            genes.Clear();
-
-            for (int i = 0; i < size_of_genes; i++)
-            {
-                if (RepeatableRandom.GenerateNext() < HALF_PROBABILITY)
-                {
-                    genes.Flip(i);
-                }
-            }
+            BuildEmpty();
+            long[] genes = AsIntegers();
+            MutateGenesWithMutationInterval(genes, 0);
             StoreGenesInCache(genes);
         }
 
@@ -114,6 +105,11 @@ namespace PopulationFitness.Models.Genes.BitSet
                 return 0;
             }
             long mutation_genes_interval = 1 + (long)(genes.Length * 2.0 / config.GetMutationsPerGene());
+            return MutateGenesWithMutationInterval(genes, mutation_genes_interval);
+        }
+
+        private int MutateGenesWithMutationInterval(long[] genes, long mutation_genes_interval)
+        {
             long max = config.GetMaxGeneValue();
             long lastMax = config.GetLastMaxGeneValue();
             int last = genes.Length - 1;
