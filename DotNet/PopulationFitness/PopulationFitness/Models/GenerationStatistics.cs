@@ -8,20 +8,20 @@ namespace PopulationFitness.Models
      */
     public class GenerationStatistics
     {
-        public readonly int number_born;
-        public readonly int number_killed;
-        public readonly int population;
-        public readonly int year;
-        public readonly Epoch epoch;
-        private readonly long born_time;
-        private readonly long kill_time;
-        public double average_fitness;
-        public double average_factored_fitness;
-        public double fitness_deviation;
-        public double average_age;
-        public double capacity_factor;
-        public double average_mutations;
-        public double average_life_expectancy;
+        public readonly int NumberBorn;
+        public readonly int NumberKilled;
+        public readonly int Population;
+        public readonly int Year;
+        public readonly Epoch Epoch;
+        private readonly long BornTime;
+        private readonly long KillTime;
+        public double AverageFitness;
+        public double AverageFactoredFitness;
+        public double FitnessDeviation;
+        public double AverageAge;
+        public double CapacityFactor;
+        public double AverageMutations;
+        public double AverageLifeExpectancy;
 
         public GenerationStatistics(Epoch epoch,
                                     int year,
@@ -33,29 +33,29 @@ namespace PopulationFitness.Models
                                     double capacity_factor,
                                     double average_mutations)
         {
-            this.number_born = number_born;
-            this.number_killed = number_killed;
-            this.population = population;
-            this.year = year;
-            this.epoch = epoch;
-            this.born_time = born_time;
-            this.kill_time = kill_time;
-            this.average_fitness = 0;
-            this.average_factored_fitness = 0;
-            this.fitness_deviation = 0;
-            this.average_age = 0;
-            this.capacity_factor = capacity_factor;
-            this.average_mutations = average_mutations;
+            NumberBorn = number_born;
+            NumberKilled = number_killed;
+            Population = population;
+            Year = year;
+            Epoch = epoch;
+            BornTime = born_time;
+            KillTime = kill_time;
+            AverageFitness = 0;
+            AverageFactoredFitness = 0;
+            FitnessDeviation = 0;
+            AverageAge = 0;
+            CapacityFactor = capacity_factor;
+            AverageMutations = average_mutations;
         }
 
         public double BornElapsedInHundredths()
         {
-            return (double)(born_time / 10) / 100;
+            return (double)(BornTime / 10) / 100;
         }
 
         public double KillElapsedInHundredths()
         {
-            return (double)(kill_time / 10) / 100;
+            return (double)(KillTime / 10) / 100;
         }
 
         private static long Average(long value, long count)
@@ -78,25 +78,25 @@ namespace PopulationFitness.Models
 
         public static GenerationStatistics Add(GenerationStatistics first, GenerationStatistics second)
         {
-            if (first.year != second.year) throw new Exception("Cannot add different years");
+            if (first.Year != second.Year) throw new Exception("Cannot add different years");
 
-            GenerationStatistics result = new GenerationStatistics(new Epoch(first.epoch),
-                    first.year,
-                    first.population + second.population,
-                    first.number_born + second.number_born,
-                    first.number_killed + second.number_killed,
-                    first.born_time + second.born_time,
-                    first.kill_time + second.kill_time,
-                    first.capacity_factor,
-                    first.average_mutations);
-            result.average_age = Average(first.average_age * first.population + second.average_age * second.population, result.population);
-            result.average_fitness = Average(first.average_fitness * first.population + second.average_fitness * second.population, result.population);
-            result.average_factored_fitness = Average(first.average_factored_fitness * first.population + second.average_factored_fitness * second.population, result.population);
-            result.epoch.expected_max_population += second.epoch.expected_max_population;
-            result.epoch.environment_capacity += second.epoch.environment_capacity;
-            result.capacity_factor = Average(first.capacity_factor * first.population + second.capacity_factor * second.population, result.population);
-            result.average_mutations = Average((first.average_mutations * first.number_born + second.average_mutations * second.number_born), result.number_born);
-            result.average_life_expectancy = Average(first.average_life_expectancy * first.number_killed + second.average_life_expectancy * second.number_killed, result.number_killed);
+            GenerationStatistics result = new GenerationStatistics(new Epoch(first.Epoch),
+                    first.Year,
+                    first.Population + second.Population,
+                    first.NumberBorn + second.NumberBorn,
+                    first.NumberKilled + second.NumberKilled,
+                    first.BornTime + second.BornTime,
+                    first.KillTime + second.KillTime,
+                    first.CapacityFactor,
+                    first.AverageMutations);
+            result.AverageAge = Average(first.AverageAge * first.Population + second.AverageAge * second.Population, result.Population);
+            result.AverageFitness = Average(first.AverageFitness * first.Population + second.AverageFitness * second.Population, result.Population);
+            result.AverageFactoredFitness = Average(first.AverageFactoredFitness * first.Population + second.AverageFactoredFitness * second.Population, result.Population);
+            result.Epoch.ExpectedMaxPopulation += second.Epoch.ExpectedMaxPopulation;
+            result.Epoch.EnvironmentCapacity += second.Epoch.EnvironmentCapacity;
+            result.CapacityFactor = Average(first.CapacityFactor * first.Population + second.CapacityFactor * second.Population, result.Population);
+            result.AverageMutations = Average((first.AverageMutations * first.NumberBorn + second.AverageMutations * second.NumberBorn), result.NumberBorn);
+            result.AverageLifeExpectancy = Average(first.AverageLifeExpectancy * first.NumberKilled + second.AverageLifeExpectancy * second.NumberKilled, result.NumberKilled);
             return result;
         }
 

@@ -5,11 +5,11 @@ namespace PopulationFitness.Models
 {
     public class Epochs
     {
-        public readonly List<Epoch> epochs;
+        public readonly List<Epoch> All;
 
         public Epochs()
         {
-            epochs = new List<Epoch>();
+            All = new List<Epoch>();
         }
 
         /***
@@ -21,17 +21,17 @@ namespace PopulationFitness.Models
          */
         public void AddNextEpoch(Epoch epoch)
         {
-            if (epochs.Count > 0)
+            if (All.Count > 0)
             {
-                Last.end_year = epoch.start_year - 1;
-                epoch.prev_environment_capacity = Last.environment_capacity;
+                Last.EndYear = epoch.StartYear - 1;
+                epoch.PrevEnvironmentCapacity = Last.EnvironmentCapacity;
             }
             else
             {
-                epoch.prev_environment_capacity = epoch.environment_capacity;
+                epoch.PrevEnvironmentCapacity = epoch.EnvironmentCapacity;
             }
 
-            epochs.Add(epoch);
+            All.Add(epoch);
         }
 
         public void AddAll(List<Epoch> epochs)
@@ -49,7 +49,7 @@ namespace PopulationFitness.Models
          */
         public void SetFinalEpochYear(int last_year)
         {
-            Last.end_year = last_year;
+            Last.EndYear = last_year;
         }
 
         /***
@@ -60,7 +60,7 @@ namespace PopulationFitness.Models
         {
             get
             {
-                return epochs[epochs.Count - 1];
+                return All[All.Count - 1];
             }
         }
 
@@ -68,7 +68,7 @@ namespace PopulationFitness.Models
         {
             get
             {
-                return epochs[0];
+                return All[0];
             }
         }
 
@@ -81,7 +81,7 @@ namespace PopulationFitness.Models
          */
         public void ReducePopulation(int ratio)
         {
-            foreach (Epoch epoch in epochs)
+            foreach (Epoch epoch in All)
             {
                 epoch.ReducePopulation(ratio);
             }
@@ -96,7 +96,7 @@ namespace PopulationFitness.Models
          */
         public void IncreasePopulation(int ratio)
         {
-            foreach (Epoch epoch in epochs)
+            foreach (Epoch epoch in All)
             {
                 epoch.IncreasePopulation(ratio);
             }
@@ -104,10 +104,10 @@ namespace PopulationFitness.Models
 
         public void PrintFitnessFactors()
         {
-            foreach (Epoch epoch in epochs)
+            foreach (Epoch epoch in All)
             {
                 Console.Write("Epoch ");
-                Console.Write(epoch.start_year);
+                Console.Write(epoch.StartYear);
                 Console.Write(" f=");
                 Console.WriteLine(epoch.Fitness());
             }

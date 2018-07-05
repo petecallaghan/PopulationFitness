@@ -3,7 +3,6 @@ using PopulationFitness.Models;
 using PopulationFitness.Models.Genes;
 using PopulationFitness.Models.Genes.Performance;
 using PopulationFitness.Output;
-using System;
 using System.Diagnostics;
 using TestPopulationFitness.Output;
 using TestPopulationFitness.UnitTests;
@@ -52,8 +51,8 @@ namespace TestPopulationFitness.Tuning
             var generations = new Generations(new Population(config));
 
             epochs.ReducePopulation(PopulationRatio);
-            config.SetInitialPopulation(epochs.First.environment_capacity);
-            config.SetMutationsPerGene(MutationsPerIndividual);
+            config.InitialPopulation = epochs.First.EnvironmentCapacity;
+            config.MutationsPerGene = MutationsPerIndividual;
 
             var result = generations.TuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, tuningPercentage);
             var tuning = CreateTuningFromEpochs(config, epochs);
@@ -74,11 +73,11 @@ namespace TestPopulationFitness.Tuning
         private void ShowTuning(PopulationFitness.Tuning tuning)
         {
             Debug.Write("Tuned Disease fitness:");
-            Debug.WriteLine(tuning.disease_fit);
+            Debug.WriteLine(tuning.DiseaseFit);
             Debug.Write("Tuned Historic fitness:");
-            Debug.WriteLine(tuning.historic_fit);
+            Debug.WriteLine(tuning.HistoricFit);
             Debug.Write("Tuned Modern fitness:");
-            Debug.WriteLine(tuning.modern_fit);
+            Debug.WriteLine(tuning.ModernFit);
         }
 
         private void AssertTuned(PopulationComparison result, PopulationFitness.Tuning tuning)
@@ -87,27 +86,27 @@ namespace TestPopulationFitness.Tuning
             Assert.True(result == PopulationComparison.WithinRange);
 
             // Ensure that the tuning result is what we expect
-            Assert.True(tuning.disease_fit < tuning.modern_fit);
+            Assert.True(tuning.DiseaseFit < tuning.ModernFit);
         }
 
         private void WriteResults(Function function, Config config, Epochs epochs, PopulationFitness.Tuning tuning)
         {
-            EpochsWriter.WriteCsv(EpochsPath, function, config.GetNumberOfGenes(), config.GetSizeOfEachGene(), config.GetMutationsPerGene(), epochs);
+            EpochsWriter.WriteCsv(EpochsPath, function, config.NumberOfGenes, config.SizeOfEachGene, config.MutationsPerGene, epochs);
             TuningWriter.WriteInPath(TuningPath, tuning);
         }
 
         private void SetUpGeneTimers(Config config)
         {
-            config.SetGenesFactory(new GenesTimerFactory(config.GetGenesFactory()));
+            config.GenesFactory = new GenesTimerFactory(config.GenesFactory);
             GenesTimer.ResetAll();
         }
 
         private Config BuildTimedTuningConfig(Function function)
         {
             Config config = new Config();
-            config.GetGenesFactory().UseFitnessFunction(function);
-            config.SetNumberOfGenes(NumberOfGenes);
-            config.SetSizeOfEachGene(SizeOfGenes);
+            config.GenesFactory.FitnessFunction = function;
+            config.NumberOfGenes = NumberOfGenes;
+            config.SizeOfEachGene = SizeOfGenes;
             config.ScaleMutationsPerGeneFromBitCount(Config.MutationScale);
             SetUpGeneTimers(config);
             return config;
@@ -117,22 +116,22 @@ namespace TestPopulationFitness.Tuning
         {
             var tuning = new PopulationFitness.Tuning
             {
-                function = config.GetGenesFactory().GetFitnessFunction(),
-                size_of_genes = config.GetSizeOfEachGene(),
-                number_of_genes = config.GetNumberOfGenes(),
-                parallel_runs = 1,
-                series_runs = 1,
-                mutations_per_gene = config.GetMutationsPerGene()
+                Function = config.GenesFactory.FitnessFunction,
+                SizeOfGenes = config.SizeOfEachGene,
+                NumberOfGenes = config.NumberOfGenes,
+                ParallelRuns = 1,
+                SeriesRuns = 1,
+                MutationsPerGene = config.MutationsPerGene
             };
 
             Epoch diseaseEpoch = FindDiseaseEpoch(epochs);
             Epoch historicalEpoch = FindHistoricalEpoch(epochs);
             Epoch modernEpoch = FindModernEpoch(epochs);
 
-            tuning.historic_fit = historicalEpoch.AverageCapacityFactor() * historicalEpoch.Fitness();
-            tuning.modern_fit = modernEpoch.AverageCapacityFactor() * modernEpoch.Fitness();
-            tuning.modern_breeding = modernEpoch.BreedingProbability();
-            tuning.disease_fit = diseaseEpoch.AverageCapacityFactor() * diseaseEpoch.Fitness();
+            tuning.HistoricFit = historicalEpoch.AverageCapacityFactor() * historicalEpoch.Fitness();
+            tuning.ModernFit = modernEpoch.AverageCapacityFactor() * modernEpoch.Fitness();
+            tuning.ModernBreeding = modernEpoch.BreedingProbability();
+            tuning.DiseaseFit = diseaseEpoch.AverageCapacityFactor() * diseaseEpoch.Fitness();
 
             return tuning;
         }
@@ -143,9 +142,9 @@ namespace TestPopulationFitness.Tuning
             Epoch modern = epochs.Last;
             double max = modern.Fitness() * modern.AverageCapacityFactor();
 
-            for (int i = epochs.epochs.Count - 1; i > epochs.epochs.Count - 6; i--)
+            for (int i = epochs.All.Count - 1; i > epochs.All.Count - 6; i--)
             {
-                Epoch current = epochs.epochs[i];
+                Epoch current = epochs.All[i];
                 double currentFitness = current.Fitness() * current.AverageCapacityFactor();
                 if (max < currentFitness)
                 {
@@ -158,9 +157,9 @@ namespace TestPopulationFitness.Tuning
 
         private Epoch FindHistoricalEpoch(Epochs epochs)
         {
-            foreach (Epoch epoch in epochs.epochs)
+            foreach (Epoch epoch in epochs.All)
             {
-                if (epoch.start_year >= 1451)
+                if (epoch.StartYear >= 1451)
                 {
                     // Use this epoch as the historical epoch
                     return epoch;
@@ -171,7 +170,7 @@ namespace TestPopulationFitness.Tuning
 
         private Epoch FindDiseaseEpoch(Epochs epochs)
         {
-            foreach (Epoch epoch in epochs.epochs)
+            foreach (Epoch epoch in epochs.All)
             {
                 if (epoch.Disease())
                 {

@@ -5,165 +5,158 @@
 
         private static readonly int UNDEFINED_YEAR = -1;
 
-        // Indicates unlimited capacity
-        public static readonly int UNLIMITED_CAPACITY = 0;
-
-        private readonly Config config;
-
-        public readonly int start_year;
-
-        public int end_year = UNDEFINED_YEAR;
-
         // Defines the fitness adjustment for this epoch
-        private double fitness_factor = 1.0;
-
-        // Defines the holding capacity of the environment for this epoch
-        public int environment_capacity = UNLIMITED_CAPACITY;
-
-        public int prev_environment_capacity;
-
-        // Use this to turn off fitness. By default fitness is enabled
-        public bool enable_fitness = true;
-
-        // Max population actually expected for this epoch
-        public int expected_max_population = 0;
+        private double _fitnessFactor = 1.0;
 
         // Probability of a pair breeding in a given year
-        private double probability_of_breeding;
+        private double _probabilityOfBreeding;
 
-        private bool isDisease = false;
+        private bool _isDisease = false;
+        private int _maxAge;
+        private int _maxBreedingAge;
+        private double _totalCapacityFactor = 0;
 
-        private int max_age;
+        // Indicates unlimited capacity
+        public static readonly int UNLIMITED_CAPACITY = 0;
+        public readonly int StartYear;
+        public int EndYear = UNDEFINED_YEAR;
 
-        private int max_breeding_age;
+        // Defines the holding capacity of the environment for this epoch
+        public int EnvironmentCapacity = UNLIMITED_CAPACITY;
 
-        private double total_capacity_factor = 0;
+        public int PrevEnvironmentCapacity;
+
+        // Use this to turn off fitness. By default fitness is enabled
+        public bool EnableFitness = true;
+
+        // Max population actually expected for this epoch
+        public int ExpectedMaxPopulation = 0;
 
         public Epoch(Config config, int start_year)
         {
-            this.start_year = start_year;
-            this.config = config;
-            this.probability_of_breeding = config.GetProbabilityOfBreeding();
-            this.max_breeding_age = config.GetMaxBreedingAge();
-            this.max_age = config.GetMaxAge();
+            StartYear = start_year;
+            Config = config;
+            _probabilityOfBreeding = config.ProbabilityOfBreeding;
+            _maxBreedingAge = config.MaxBreedingAge;
+            _maxAge = config.MaxAge;
         }
 
         public Epoch(Epoch source)
         {
-            this.expected_max_population = source.expected_max_population;
-            this.start_year = source.start_year;
-            this.end_year = source.end_year;
-            this.environment_capacity = source.environment_capacity;
-            this.enable_fitness = source.enable_fitness;
-            this.config = source.config;
-            this.fitness_factor = source.fitness_factor;
-            this.isDisease = source.isDisease;
-            this.probability_of_breeding = source.probability_of_breeding;
-            this.total_capacity_factor = source.total_capacity_factor;
-            this.prev_environment_capacity = source.prev_environment_capacity;
-            this.max_age = source.max_age;
-            this.max_breeding_age = source.max_breeding_age;
+            ExpectedMaxPopulation = source.ExpectedMaxPopulation;
+            StartYear = source.StartYear;
+            EndYear = source.EndYear;
+            EnvironmentCapacity = source.EnvironmentCapacity;
+            EnableFitness = source.EnableFitness;
+            Config = source.Config;
+            _fitnessFactor = source._fitnessFactor;
+            _isDisease = source._isDisease;
+            _probabilityOfBreeding = source._probabilityOfBreeding;
+            _totalCapacityFactor = source._totalCapacityFactor;
+            PrevEnvironmentCapacity = source.PrevEnvironmentCapacity;
+            _maxAge = source._maxAge;
+            _maxBreedingAge = source._maxBreedingAge;
         }
 
         public bool IsCapacityUnlimited
         {
             get
             {
-                return environment_capacity == UNLIMITED_CAPACITY;
+                return EnvironmentCapacity == UNLIMITED_CAPACITY;
             }
         }
 
         public int CapacityForYear(int year)
         {
-            long capacityRange = environment_capacity - prev_environment_capacity;
-            long yearRange = end_year - start_year;
-            return prev_environment_capacity + (int)((capacityRange * (year - start_year)) / yearRange);
+            long capacityRange = EnvironmentCapacity - PrevEnvironmentCapacity;
+            long yearRange = EndYear - StartYear;
+            return PrevEnvironmentCapacity + (int)((capacityRange * (year - StartYear)) / yearRange);
         }
 
         public bool IsFitnessEnabled
         {
             get
             {
-                return enable_fitness;
+                return EnableFitness;
             }
         }
 
         public Epoch BreedingProbability(double probability)
         {
-            probability_of_breeding = probability;
+            _probabilityOfBreeding = probability;
             return this;
         }
 
         public double BreedingProbability()
         {
-            return probability_of_breeding;
+            return _probabilityOfBreeding;
         }
 
         public Epoch Disease(bool isDisease)
         {
-            this.isDisease = isDisease;
+            _isDisease = isDisease;
             return this;
         }
 
         public bool Disease()
         {
-            return isDisease;
+            return _isDisease;
         }
 
         public Epoch Fitness(double fitness_factor)
         {
-            this.fitness_factor = fitness_factor;
+            _fitnessFactor = fitness_factor;
             return this;
         }
 
         public double Fitness()
         {
-            return this.fitness_factor;
+            return _fitnessFactor;
         }
 
         public Epoch Capacity(int environment_capacity)
         {
-            this.environment_capacity = environment_capacity;
-            this.expected_max_population = environment_capacity;
+            EnvironmentCapacity = environment_capacity;
+            ExpectedMaxPopulation = environment_capacity;
             return this;
         }
 
         public Epoch Max(int expected_max_population)
         {
-            this.expected_max_population = expected_max_population;
+            ExpectedMaxPopulation = expected_max_population;
             return this;
         }
 
         public Epoch AddCapacityFactor(double capacity_factor)
         {
-            this.total_capacity_factor += capacity_factor;
+            _totalCapacityFactor += capacity_factor;
             return this;
         }
 
         public double AverageCapacityFactor()
         {
-            return this.total_capacity_factor / (this.end_year - this.start_year + 1);
+            return _totalCapacityFactor / (EndYear - StartYear + 1);
         }
 
         public int MaxAge()
         {
-            return max_age;
+            return _maxAge;
         }
 
         public Epoch MaxAge(int max_age)
         {
-            this.max_age = max_age;
+            _maxAge = max_age;
             return this;
         }
 
         public int MaxBreedingAge()
         {
-            return max_breeding_age;
+            return _maxBreedingAge;
         }
 
         public Epoch MaxBreedingAge(int max_breeding_age)
         {
-            this.max_breeding_age = max_breeding_age;
+            _maxBreedingAge = max_breeding_age;
             return this;
         }
 
@@ -177,9 +170,9 @@
          */
         public Epoch ReducePopulation(int ratio)
         {
-            this.expected_max_population = this.expected_max_population / ratio;
-            this.environment_capacity = this.environment_capacity / ratio;
-            this.prev_environment_capacity = this.prev_environment_capacity / ratio;
+            ExpectedMaxPopulation = ExpectedMaxPopulation / ratio;
+            EnvironmentCapacity = EnvironmentCapacity / ratio;
+            PrevEnvironmentCapacity = PrevEnvironmentCapacity / ratio;
             return this;
         }
 
@@ -192,15 +185,12 @@
          */
         public Epoch IncreasePopulation(int ratio)
         {
-            this.expected_max_population = this.expected_max_population * ratio;
-            this.environment_capacity = this.environment_capacity * ratio;
-            this.prev_environment_capacity = this.prev_environment_capacity * ratio;
+            ExpectedMaxPopulation = ExpectedMaxPopulation * ratio;
+            EnvironmentCapacity = EnvironmentCapacity * ratio;
+            PrevEnvironmentCapacity = PrevEnvironmentCapacity * ratio;
             return this;
         }
 
-        public Config Config()
-        {
-            return this.config;
-        }
+        public Config Config { get; }
     }
 }

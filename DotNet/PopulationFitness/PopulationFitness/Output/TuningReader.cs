@@ -23,16 +23,16 @@ namespace PopulationFitness.Output
 
         private static void ReadFromRow(Tuning tuning, CsvReader row)
         {
-            tuning.function = row.GetField<Function>(0);
-            tuning.historic_fit = row.GetField<double>(1);
-            tuning.disease_fit = row.GetField<double>(2);
-            tuning.modern_fit = row.GetField<double>(3);
-            tuning.modern_breeding = row.GetField<double>(4);
-            tuning.size_of_genes = row.GetField<int>(5);
-            tuning.number_of_genes = row.GetField<int>(6);
-            tuning.mutations_per_gene = row.GetField<double>(7);
-            tuning.series_runs = row.GetField<int>(8);
-            tuning.parallel_runs = row.GetField<int>(9);
+            tuning.Function = row.GetField<Function>(0);
+            tuning.HistoricFit = row.GetField<double>(1);
+            tuning.DiseaseFit = row.GetField<double>(2);
+            tuning.ModernFit = row.GetField<double>(3);
+            tuning.ModernBreeding = row.GetField<double>(4);
+            tuning.SizeOfGenes = row.GetField<int>(5);
+            tuning.NumberOfGenes = row.GetField<int>(6);
+            tuning.MutationsPerGene = row.GetField<double>(7);
+            tuning.SeriesRuns = row.GetField<int>(8);
+            tuning.ParallelRuns = row.GetField<int>(9);
         }
     }
 }

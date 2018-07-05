@@ -30,17 +30,17 @@ namespace PopulationFitness.Output
             var serializer = new Serializer();
             return serializer.Serialize(new
             {
-                Id = config.id,
-                Function = config.function,
-                HistoricFit = config.historic_fit,
-                DiseaseFit = config.disease_fit,
-                ModernFit = config.modern_fit,
-                ModernBreeding = config.modern_breeding.ToString(),
-                NumberOfGenes = config.number_of_genes,
-                SizeOfGenes = config.size_of_genes,
-                MutationsPerGene = config.mutations_per_gene.ToString(),
-                SeriesRuns = config.series_runs,
-                ParallelRuns = config.parallel_runs
+                Id = config.Id,
+                Function = config.Function,
+                HistoricFit = config.HistoricFit,
+                DiseaseFit = config.DiseaseFit,
+                ModernFit = config.ModernFit,
+                ModernBreeding = config.ModernBreeding.ToString(),
+                NumberOfGenes = config.NumberOfGenes,
+                SizeOfGenes = config.SizeOfGenes,
+                MutationsPerGene = config.MutationsPerGene.ToString(),
+                SeriesRuns = config.SeriesRuns,
+                ParallelRuns = config.ParallelRuns
             });
         }
     }

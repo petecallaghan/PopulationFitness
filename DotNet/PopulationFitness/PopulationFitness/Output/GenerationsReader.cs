@@ -43,18 +43,18 @@ namespace PopulationFitness.Output
                     (int)(row.GetField<double>(12) * 1000),
                     row.GetField<double>(16),
                     row.GetField<double>(18));
-            generation.epoch.end_year = row.GetField<int>(1);
-            generation.epoch.environment_capacity = (int)row.GetField<double>(2);
-            generation.epoch.enable_fitness = row.GetField<bool>(3);
-            generation.epoch.BreedingProbability(row.GetField<double>(4));
+            generation.Epoch.EndYear = row.GetField<int>(1);
+            generation.Epoch.EnvironmentCapacity = (int)row.GetField<double>(2);
+            generation.Epoch.EnableFitness = row.GetField<bool>(3);
+            generation.Epoch.BreedingProbability(row.GetField<double>(4));
 
-            generation.epoch.Fitness(row.GetField<double>(6));
-            generation.epoch.expected_max_population = row.GetField<int>(7);
-            generation.average_fitness = row.GetField<double>(13);
-            generation.fitness_deviation = row.GetField<double>(14);
-            generation.average_age = row.GetField<double>(15);
-            generation.average_factored_fitness = row.GetField<double>(17);
-            generation.average_life_expectancy = row.GetField<double>(19);
+            generation.Epoch.Fitness(row.GetField<double>(6));
+            generation.Epoch.ExpectedMaxPopulation = row.GetField<int>(7);
+            generation.AverageFitness = row.GetField<double>(13);
+            generation.FitnessDeviation = row.GetField<double>(14);
+            generation.AverageAge = row.GetField<double>(15);
+            generation.AverageFactoredFitness = row.GetField<double>(17);
+            generation.AverageLifeExpectancy = row.GetField<double>(19);
             return generation;
         }
     }

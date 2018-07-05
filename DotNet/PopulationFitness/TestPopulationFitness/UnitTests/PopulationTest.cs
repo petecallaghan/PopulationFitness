@@ -15,7 +15,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a small population
             Config config = new Config();
-            config.SetInitialPopulation(INITIAL_POPULATION_SIZE);
+            config.InitialPopulation = INITIAL_POPULATION_SIZE;
             Population population = new Population(config);
             Epoch epoch = new Epoch(config, BIRTH_YEAR);
 
@@ -24,11 +24,11 @@ namespace TestPopulationFitness.UnitTests
 
             // Then it has the right number of individuals for the birth year
             // and each individual has a set of genes
-            Assert.Equal(config.GetInitialPopulation(), population.individuals.Count);
-            foreach (Individual i in population.individuals)
+            Assert.Equal(config.InitialPopulation, population.Individuals.Count);
+            foreach (Individual i in population.Individuals)
             {
-                Assert.Equal(BIRTH_YEAR, i.birth_year);
-                Assert.False(i.genes.AreEmpty());
+                Assert.Equal(BIRTH_YEAR, i.BirthYear);
+                Assert.False(i.Genes.AreEmpty);
             }
         }
 
@@ -40,11 +40,11 @@ namespace TestPopulationFitness.UnitTests
             Epochs epochs = new Epochs();
             Epoch epoch = new Epoch(config, -50)
             {
-                environment_capacity = INITIAL_POPULATION_SIZE,
-                expected_max_population = INITIAL_POPULATION_SIZE
+                EnvironmentCapacity = INITIAL_POPULATION_SIZE,
+                ExpectedMaxPopulation = INITIAL_POPULATION_SIZE
             };
             epochs.AddNextEpoch(epoch);
-            config.SetInitialPopulation(INITIAL_POPULATION_SIZE);
+            config.InitialPopulation = INITIAL_POPULATION_SIZE;
             Population population = new Population(config);
             population.AddNewIndividuals(epoch, BIRTH_YEAR);
 
@@ -52,9 +52,9 @@ namespace TestPopulationFitness.UnitTests
             int fatalities = population.KillThoseUnfitOrReadyToDie(BIRTH_YEAR, epochs.First);
 
             // Some remain and some were killed
-            Assert.True(0 < population.individuals.Count);
+            Assert.True(0 < population.Individuals.Count);
             Assert.True(0 < fatalities);
-            Assert.True(INITIAL_POPULATION_SIZE > population.individuals.Count);
+            Assert.True(INITIAL_POPULATION_SIZE > population.Individuals.Count);
             Assert.True(Math.Abs(1.0 - population.CapacityFactor()) < 0.1);
         }
 
@@ -63,10 +63,10 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a population that is a mix of ages...
             Config config = new Config();
-            config.SetInitialPopulation(INITIAL_POPULATION_SIZE);
+            config.InitialPopulation = INITIAL_POPULATION_SIZE;
             Population population = new Population(config);
-            int current_year = BIRTH_YEAR + config.GetMaxBreedingAge();
-            int breeding_birth_year = current_year - config.GetMinBreedingAge();
+            int current_year = BIRTH_YEAR + config.MaxBreedingAge;
+            int breeding_birth_year = current_year - config.MinBreedingAge;
             Epoch epoch = new Epoch(config, BIRTH_YEAR);
             // .. some who will be too old to breed
             population.AddNewIndividuals(epoch, BIRTH_YEAR);
@@ -79,9 +79,9 @@ namespace TestPopulationFitness.UnitTests
             List<Individual> babies = population.AddNewGeneration(new Epoch(config, current_year), current_year);
 
             // The right number of babies are produced and the babies are added
-            Assert.True(babies.Count >= (config.GetInitialPopulation() * config.GetProbabilityOfBreeding() / 2) - config.GetInitialPopulation() / 5);
-            Assert.True(babies.Count <= (config.GetInitialPopulation() * config.GetProbabilityOfBreeding()) + config.GetInitialPopulation() / 5);
-            Assert.Equal((config.GetInitialPopulation() * 3) + babies.Count, population.individuals.Count);
+            Assert.True(babies.Count >= (config.InitialPopulation * config.ProbabilityOfBreeding / 2) - config.InitialPopulation / 5);
+            Assert.True(babies.Count <= (config.InitialPopulation * config.ProbabilityOfBreeding) + config.InitialPopulation / 5);
+            Assert.Equal((config.InitialPopulation * 3) + babies.Count, population.Individuals.Count);
         }
     }
 }

@@ -8,38 +8,38 @@ namespace PopulationFitness.Models
      */
     public class Individual
     {
-        private readonly Epoch epoch;
+        private readonly Epoch _epoch;
 
-        public readonly int birth_year;
+        public readonly int BirthYear;
 
-        public readonly IGenes genes;
+        public readonly IGenes Genes;
 
         public Individual(Epoch epoch, int birth_year)
         {
-            this.epoch = epoch;
-            this.birth_year = birth_year;
-            this.genes = epoch.Config().GetGenesFactory().Build(epoch.Config());
+            _epoch = epoch;
+            BirthYear = birth_year;
+            Genes = epoch.Config.GenesFactory.Build(epoch.Config);
         }
 
         public int Age(int current_year)
         {
-            return Math.Abs(current_year - birth_year);
+            return Math.Abs(current_year - BirthYear);
         }
 
         public bool IsReadyToDie(int current_year)
         {
-            return Age(current_year) >= epoch.MaxAge();
+            return Age(current_year) >= _epoch.MaxAge();
         }
 
         public bool CanBreed(int current_year)
         {
             int age = Age(current_year);
-            return age >= epoch.Config().GetMinBreedingAge() && age <= epoch.MaxBreedingAge();
+            return age >= _epoch.Config.MinBreedingAge && age <= _epoch.MaxBreedingAge();
         }
 
         public int InheritFromParents(Individual mother, Individual father)
         {
-            return genes.InheritFrom(mother.genes, father.genes);
+            return Genes.InheritFrom(mother.Genes, father.Genes);
         }
     }
 }

@@ -14,17 +14,9 @@
             */
         IGenes Build(Config config);
 
-        /**
-            * Defines the fitness function to use when building genes
-            *
-            * @param function
-            */
-        void UseFitnessFunction(Function function);
-
-        /***
-            *
-            * @return the function used when building genes
-            */
-        Function GetFitnessFunction();
+        Function FitnessFunction
+        {
+            get; set;
+        }
     }
 }

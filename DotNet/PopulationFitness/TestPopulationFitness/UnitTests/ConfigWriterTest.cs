@@ -1,5 +1,4 @@
-﻿using PopulationFitness;
-using PopulationFitness.Models;
+﻿using PopulationFitness.Models;
 using PopulationFitness.Output;
 using System.Threading;
 using Xunit;
@@ -27,7 +26,7 @@ namespace TestPopulationFitness.UnitTests
             Config config2 = new Config();
 
             // Then they have unique encodings
-            Assert.NotEqual(config1.id, config2.id);
+            Assert.NotEqual(config1.Id, config2.Id);
         }
     }
 

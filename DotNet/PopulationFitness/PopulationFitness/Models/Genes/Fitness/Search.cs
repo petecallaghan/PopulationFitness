@@ -4,61 +4,67 @@ namespace PopulationFitness.Models.Genes.Fitness
 {
     public class Search : FitnessRange
     {
-        private double increment;
+        private double _increment;
 
-        private bool is_current_set = false;
+        private bool _isCurrentSet = false;
 
-        private double current;
+        private double _current;
 
         public Search Increment(double increment)
         {
-            this.increment = increment;
+            this._increment = increment;
             return this;
         }
 
         protected double Increment()
         {
-            return increment;
+            return _increment;
         }
 
-        private double Centre()
+        private double Centre
         {
-            return ((long)((Min() + Max()) / increment) / 2) * increment;
-        }
-
-        public void Current(double current)
-        {
-            is_current_set = true;
-            this.current = current;
-        }
-
-        public double Current()
-        {
-            if (!is_current_set)
+            get
             {
-                current = Centre();
+                return ((long)((Min() + Max()) / _increment) / 2) * _increment;
             }
-            return this.current;
+        }
+
+        public double Current
+        {
+            get
+            {
+                if (!_isCurrentSet)
+                {
+                    _current = Centre;
+                }
+                return _current;
+            }
+
+            set
+            {
+                _isCurrentSet = true;
+                _current = value;
+            }
         }
 
         public virtual Search FindNext(PopulationComparison comparison)
         {
             Search next = new Search();
-            next.Increment(increment).Max(Max()).Min(Min());
+            next.Increment(_increment).Max(Max()).Min(Min());
             switch (comparison)
             {
                 case PopulationComparison.TooLow:
-                    next.Min(Current());
+                    next.Min(Current);
                     break;
                 case PopulationComparison.TooHigh:
-                    next.Max(Current());
+                    next.Max(Current);
                     break;
                 default:
                     return null;
             }
-            double current = next.Current();
-            if (Math.Abs(next.Max() - current) < increment) return null;
-            if (Math.Abs(next.Min() - current) < increment) return null;
+            double current = next.Current;
+            if (Math.Abs(next.Max() - current) < _increment) return null;
+            if (Math.Abs(next.Min() - current) < _increment) return null;
             return next;
         }
     }

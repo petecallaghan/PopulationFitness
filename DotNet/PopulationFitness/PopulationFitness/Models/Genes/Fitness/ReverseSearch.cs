@@ -12,15 +12,15 @@ namespace PopulationFitness.Models.Genes.Fitness
             switch (comparison)
             {
                 case PopulationComparison.TooLow:
-                    next.Max(Current());
+                    next.Max(Current);
                     break;
                 case PopulationComparison.TooHigh:
-                    next.Min(Current());
+                    next.Min(Current);
                     break;
                 default:
                     return null;
             }
-            double current = next.Current();
+            double current = next.Current;
             if (Math.Abs(next.Max() - current) < Increment()) return null;
             if (Math.Abs(next.Min() - current) < Increment()) return null;
             return next;

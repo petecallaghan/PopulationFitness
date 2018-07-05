@@ -30,13 +30,13 @@ namespace PopulationFitness.Output
         {
             Epoch epoch = new Epoch(config, row.GetField<int>(0))
             {
-                end_year = row.GetField<int>(1),
-                environment_capacity = row.GetField<int>(2)
+                EndYear = row.GetField<int>(1),
+                EnvironmentCapacity = row.GetField<int>(2)
             };
             epoch.BreedingProbability(row.GetField<double>(3));
             epoch.Disease(row.GetField<bool>(4));
             epoch.Fitness(row.GetField<double>(5));
-            epoch.expected_max_population = row.GetField<int>(6);
+            epoch.ExpectedMaxPopulation = row.GetField<int>(6);
             epoch.MaxAge(row.GetField<int>(7));
             epoch.MaxBreedingAge(row.GetField<int>(8));
             return epoch;

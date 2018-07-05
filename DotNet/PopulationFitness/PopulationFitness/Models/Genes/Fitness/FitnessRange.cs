@@ -4,21 +4,21 @@
     {
 
         // Defines the minimum fitness expected from the fitness function
-        private double min_fitness;
+        private double _minFitness;
 
         // Defines the max fitness expected from the fitness function
-        private double max_fitness;
+        private double _maxFitness;
 
-        private double range;
+        private double _range;
 
-        private Statistics statistics;
+        private Statistics _statistics;
 
         private FitnessRange(Statistics statistics)
         {
-            min_fitness = 0;
-            max_fitness = 1;
-            range = 1;
-            this.statistics = statistics;
+            _minFitness = 0;
+            _maxFitness = 1;
+            _range = 1;
+            this._statistics = statistics;
         }
 
         public FitnessRange() : this(null)
@@ -27,47 +27,47 @@
 
         public FitnessRange Max(double max)
         {
-            max_fitness = max;
-            range = max_fitness - min_fitness;
+            _maxFitness = max;
+            _range = _maxFitness - _minFitness;
             return this;
         }
 
         public FitnessRange Min(double min)
         {
-            min_fitness = min;
-            range = max_fitness - min_fitness;
+            _minFitness = min;
+            _range = _maxFitness - _minFitness;
             return this;
         }
 
         public double Max()
         {
-            return max_fitness;
+            return _maxFitness;
         }
 
         public double Min()
         {
-            return min_fitness;
+            return _minFitness;
         }
 
         public FitnessRange Statistics(Statistics stats)
         {
-            statistics = stats;
+            _statistics = stats;
             return this;
         }
 
         public Statistics Statistics()
         {
-            return statistics;
+            return _statistics;
         }
 
         // returns the range as a scale. S(f) = (f - min) / (max - min)
         public double ToScale(double fitness)
         {
-            if (statistics != null)
+            if (_statistics != null)
             {
-                statistics.Add(fitness);
+                _statistics.Add(fitness);
             }
-            return (fitness - min_fitness) / range;
+            return (fitness - _minFitness) / _range;
         }
     }
 }

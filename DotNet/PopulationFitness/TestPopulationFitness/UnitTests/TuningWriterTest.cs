@@ -12,30 +12,30 @@ namespace TestPopulationFitness.UnitTests
         {
             var expected = new PopulationFitness.Tuning();
             var actual = new PopulationFitness.Tuning();
-            expected.function = Function.Ackleys;
-            expected.historic_fit = 0.1;
-            expected.disease_fit = 0.3;
-            expected.modern_breeding = 0.4;
-            expected.modern_fit = 0.5;
-            expected.number_of_genes = 7;
-            expected.size_of_genes = 8;
-            expected.mutations_per_gene = 10;
-            expected.series_runs = 5;
-            expected.parallel_runs = 2;
+            expected.Function = Function.Ackleys;
+            expected.HistoricFit = 0.1;
+            expected.DiseaseFit = 0.3;
+            expected.ModernBreeding = 0.4;
+            expected.ModernFit = 0.5;
+            expected.NumberOfGenes = 7;
+            expected.SizeOfGenes = 8;
+            expected.MutationsPerGene = 10;
+            expected.SeriesRuns = 5;
+            expected.ParallelRuns = 2;
             TuningWriter.Write(expected, Paths.PathOf("test.csv"));
             TuningReader.Read(actual, Paths.PathOf("test.csv"));
             int delta = 10;
 
-            Assert.Equal(expected.function, actual.function);
-            Assert.Equal(expected.historic_fit, actual.historic_fit, delta);
-            Assert.Equal(expected.disease_fit, actual.disease_fit, delta);
-            Assert.Equal(expected.modern_breeding, actual.modern_breeding, delta);
-            Assert.Equal(expected.modern_fit, actual.modern_fit, delta);
-            Assert.Equal(expected.number_of_genes, actual.number_of_genes);
-            Assert.Equal(expected.size_of_genes, actual.size_of_genes);
-            Assert.Equal(expected.mutations_per_gene, actual.mutations_per_gene, delta);
-            Assert.Equal(expected.series_runs, actual.series_runs);
-            Assert.Equal(expected.parallel_runs, actual.parallel_runs);
+            Assert.Equal(expected.Function, actual.Function);
+            Assert.Equal(expected.HistoricFit, actual.HistoricFit, delta);
+            Assert.Equal(expected.DiseaseFit, actual.DiseaseFit, delta);
+            Assert.Equal(expected.ModernBreeding, actual.ModernBreeding, delta);
+            Assert.Equal(expected.ModernFit, actual.ModernFit, delta);
+            Assert.Equal(expected.NumberOfGenes, actual.NumberOfGenes);
+            Assert.Equal(expected.SizeOfGenes, actual.SizeOfGenes);
+            Assert.Equal(expected.MutationsPerGene, actual.MutationsPerGene, delta);
+            Assert.Equal(expected.SeriesRuns, actual.SeriesRuns);
+            Assert.Equal(expected.ParallelRuns, actual.ParallelRuns);
         }
     }
 }

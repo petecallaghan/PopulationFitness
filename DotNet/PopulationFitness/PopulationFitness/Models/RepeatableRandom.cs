@@ -15,20 +15,20 @@ namespace PopulationFitness.Models
 
         private static int _seed = DEFAULT_SEED;
 
-        private static readonly object Lock = new object();
+        private static readonly object _lock = new object();
 
         private static int Seed
         {
             get
             {
-                lock (Lock)
+                lock (_lock)
                 {
                     return _seed;
                 }
             }
             set
             {
-                lock (Lock)
+                lock (_lock)
                 {
                     _seed = value;
                 }

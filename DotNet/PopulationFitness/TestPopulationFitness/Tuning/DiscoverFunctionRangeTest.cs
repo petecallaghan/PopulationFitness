@@ -41,13 +41,17 @@ namespace TestPopulationFitness.Tuning
         [InlineData(Function.Zakharoy)]
         public void Discover(Function function)
         {
-            var factory = new GenesTimerFactory(new BitSetGenesFactory());
-            factory.UseFitnessFunction(function);
+            var factory = new GenesTimerFactory(new BitSetGenesFactory())
+            {
+                FitnessFunction = function
+            };
             // Given a number of randomly generated genes
-            Config config = new Config();
-            config.SetNumberOfGenes(NumberOfGenes);
-            config.SetSizeOfEachGene(SizeOfGenes);
-            config.SetGenesFactory(factory);
+            Config config = new Config
+            {
+                NumberOfGenes = NumberOfGenes,
+                SizeOfEachGene = SizeOfGenes,
+                GenesFactory = factory
+            };
             GenesTimer.ResetAll();
 
             var genes = new List<IGenes>();
@@ -72,7 +76,7 @@ namespace TestPopulationFitness.Tuning
             double max = double.MinValue;
             foreach (var g in genes)
             {
-                double fitness = g.Fitness();
+                double fitness = g.Fitness;
 
                 if (fitness < min) min = fitness;
                 if (fitness > max) max = fitness;

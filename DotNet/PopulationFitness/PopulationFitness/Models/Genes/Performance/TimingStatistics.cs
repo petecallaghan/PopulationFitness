@@ -6,22 +6,22 @@ namespace PopulationFitness.Models.Genes.Performance
     class TimingStatistics
     {
 
-        private readonly String name;
-        private double total;
-        private int count;
+        private readonly String _name;
+        private double _total;
+        private int _count;
         private long _max;
         private long _min;
 
         public TimingStatistics(String name)
         {
-            this.name = name;
+            this._name = name;
             Reset();
         }
 
         public void Add(long value)
         {
-            count++;
-            total += value;
+            _count++;
+            _total += value;
             _min = Math.Min(value, _min);
             _max = Math.Max(value, _max);
         }
@@ -30,7 +30,7 @@ namespace PopulationFitness.Models.Genes.Performance
         {
             get
             {
-                return count == 0 ? 0 : _min;
+                return _count == 0 ? 0 : _min;
             }
         }
 
@@ -38,7 +38,7 @@ namespace PopulationFitness.Models.Genes.Performance
         {
             get
             {
-                return count == 0 ? 0 : _max;
+                return _count == 0 ? 0 : _max;
             }
         }
 
@@ -46,22 +46,22 @@ namespace PopulationFitness.Models.Genes.Performance
         {
             get
             {
-                return count > 0 ? (long)Math.Round(total / count) : 0;
+                return _count > 0 ? (long)Math.Round(_total / _count) : 0;
             }
         }
 
         public void Reset()
         {
-            total = 0;
-            count = 0;
+            _total = 0;
+            _count = 0;
             _min = long.MaxValue;
             _max = long.MinValue;
         }
 
         public void Show()
         {
-            Debug.Write(name);
-            if (count > 0)
+            Debug.Write(_name);
+            if (_count > 0)
             {
                 Debug.Write(" Min=");
                 Debug.Write(Min);
@@ -70,9 +70,9 @@ namespace PopulationFitness.Models.Genes.Performance
                 Debug.Write("(micros) Mean=");
                 Debug.Write(Mean);
                 Debug.Write("(micros) Num=");
-                Debug.Write(count);
+                Debug.Write(_count);
                 Debug.Write(" Tot=");
-                Debug.Write(Math.Round(total) / 1000);
+                Debug.Write(Math.Round(_total) / 1000);
                 Debug.WriteLine(" (millis)");
             }
             else

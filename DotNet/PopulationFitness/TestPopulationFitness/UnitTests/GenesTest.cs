@@ -16,7 +16,7 @@ namespace TestPopulationFitness.UnitTests
             genes.BuildEmpty();
 
             // When tested they are all empty
-            Assert.True(genes.AreEmpty());
+            Assert.True(genes.AreEmpty);
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a set of genes that are empty and a high probability that they will mutate
             Config config = new Config();
-            config.SetMutationsPerGene(100);
+            config.MutationsPerGene = 100;
             BitSetGenes genes = new AckleysGenes(config);
             genes.BuildEmpty();
 
@@ -33,7 +33,7 @@ namespace TestPopulationFitness.UnitTests
 
             // Then the number of bits mutated falls inside the probability range
             int mutated_count = 0;
-            for (int i = 0; i < genes.NumberOfBits(); i++)
+            for (int i = 0; i < genes.NumberOfBits; i++)
             {
                 if (genes.GetCode(i) == 1)
                 {
@@ -42,7 +42,7 @@ namespace TestPopulationFitness.UnitTests
             }
 
             Assert.True(mutated_count > 0);
-            Assert.True(mutated_count <= 2.5 * config.GetMutationsPerGene());
+            Assert.True(mutated_count <= 2.5 * config.MutationsPerGene);
         }
 
         [Fact]
@@ -55,7 +55,7 @@ namespace TestPopulationFitness.UnitTests
 
             // Then the number of bits set falls inside the probability range
             int set_count = 0;
-            for (int i = 0; i < genes.NumberOfBits(); i++)
+            for (int i = 0; i < genes.NumberOfBits; i++)
             {
                 if (genes.GetCode(i) == 1)
                 {
@@ -63,8 +63,8 @@ namespace TestPopulationFitness.UnitTests
                 }
             }
 
-            Assert.True(set_count > 0.25 * genes.NumberOfBits());
-            Assert.True(set_count < 0.75 * genes.NumberOfBits());
+            Assert.True(set_count > 0.25 * genes.NumberOfBits);
+            Assert.True(set_count < 0.75 * genes.NumberOfBits);
         }
 
         [Fact]
@@ -76,7 +76,7 @@ namespace TestPopulationFitness.UnitTests
             genes.BuildFromRandom();
 
             // Then the genes as integers are non zero
-            long[] integers = genes.AsIntegers();
+            long[] integers = genes.AsIntegers;
             Assert.True(integers.Length >= 1);
             foreach (long integer in integers)
             {
@@ -89,7 +89,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a set of genes with zero values that will not mutate
             Config config = new Config();
-            config.SetMutationsPerGene(0);
+            config.MutationsPerGene = 0;
             BitSetGenes genes = new AckleysGenes(config);
             genes.BuildEmpty();
 
@@ -98,7 +98,7 @@ namespace TestPopulationFitness.UnitTests
 
             // Then none have changed
             int mutated_count = 0;
-            for (int i = 0; i < genes.NumberOfBits(); i++)
+            for (int i = 0; i < genes.NumberOfBits; i++)
             {
                 if (genes.GetCode(i) == 1)
                 {
@@ -112,7 +112,7 @@ namespace TestPopulationFitness.UnitTests
         private void ThenTheyFallIntoTheFloatRange(BitSetGenes genes)
         {
             // Then they fall into the float range
-            double fitness = genes.Fitness();
+            double fitness = genes.Fitness;
             Assert.True(0.0 <= fitness);
             Assert.True(1.0 >= fitness);
         }
@@ -133,8 +133,8 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a set of genes with non zero values
             Config config = new Config();
-            config.SetNumberOfGenes(10000);
-            config.SetSizeOfEachGene(2250);
+            config.NumberOfGenes = 10000;
+            config.SizeOfEachGene = 2250;
             BitSetGenes genes = new AckleysGenes(config);
             genes.BuildFromRandom();
 
@@ -158,7 +158,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a mother with some mutated genes, a father with some mutated genes and a baby
             Config config = new Config();
-            config.SetMutationsPerGene(config.GetMutationsPerGene() * 100000);
+            config.MutationsPerGene = (config.MutationsPerGene * 100000);
             BitSetGenes mother = new AckleysGenes(config);
             mother.BuildFromRandom();
             BitSetGenes father = CreateFatherDifferentFromMother(config, mother);
@@ -178,7 +178,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a mother with some mutated genes, a father with some mutated genes and a baby
             Config config = new Config();
-            config.SetMutationsPerGene(config.GetMutationsPerGene() * 10);
+            config.MutationsPerGene = (config.MutationsPerGene * 10);
             BitSetGenes mother = new AckleysGenes(config);
             mother.BuildFromRandom();
             BitSetGenes father = CreateFatherDifferentFromMother(config, mother);
@@ -188,7 +188,7 @@ namespace TestPopulationFitness.UnitTests
             baby.InheritFrom(mother, father);
 
             // Then the baby's genes are non zero
-            Assert.False(baby.AreEmpty());
+            Assert.False(baby.AreEmpty);
         }
 
         [Fact]
@@ -196,7 +196,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a mother with some mutated genes, a father with some mutated genes and a baby
             Config config = new Config();
-            config.SetMutationsPerGene(config.GetMutationsPerGene() * 10);
+            config.MutationsPerGene = config.MutationsPerGene * 10;
             BitSetGenes mother = new AckleysGenes(config);
             mother.BuildFromRandom();
             BitSetGenes father = CreateFatherDifferentFromMother(config, mother);
@@ -208,7 +208,7 @@ namespace TestPopulationFitness.UnitTests
             bool similar_to_father = false;
             bool similar_to_mother = false;
             // Then the baby's genes have some similarity to both
-            for (int i = 0; i < baby.NumberOfBits(); i++)
+            for (int i = 0; i < baby.NumberOfBits; i++)
             {
                 if (baby.GetCode(i) == mother.GetCode(i))
                 {

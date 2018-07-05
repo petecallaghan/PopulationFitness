@@ -13,9 +13,9 @@ namespace PopulationFitness.Models.Genes.BitSet
             }
         }
 
-        private static ExpensiveCalculatedValues<long> BitCounts = new ExpensiveCalculatedValues<long>(new InterpolatingBitSetGenes.BitCountCalculator());
+        private static ExpensiveCalculatedValues<long> _bitCounts = new ExpensiveCalculatedValues<long>(new InterpolatingBitSetGenes.BitCountCalculator());
 
-        protected double interpolation_ratio;
+        protected double _interpolationRatio;
 
         /**
          * Calculates the maximum value given the bit count
@@ -25,26 +25,29 @@ namespace PopulationFitness.Models.Genes.BitSet
          */
         private static long MaxForBits(long bitCount)
         {
-            return BitCounts.FindOrCalculate(bitCount);
+            return _bitCounts.FindOrCalculate(bitCount);
         }
 
         protected InterpolatingBitSetGenes(Config config, double maxInterpolatedValue) : base(config)
         {
-            interpolation_ratio = maxInterpolatedValue / MaxLongForSizeOfGene();
+            _interpolationRatio = maxInterpolatedValue / MaxLongForSizeOfGene;
         }
 
         /**
          *
-         * @return the maximum long value given the size of the genes
+         * The maximum long value given the size of the genes
          */
-        protected long MaxLongForSizeOfGene()
+        protected long MaxLongForSizeOfGene
         {
-            return MaxForBits(NumberOfBits());
+            get
+            {
+                return MaxForBits(NumberOfBits);
+            }
         }
 
         protected double Interpolate(long integer_value)
         {
-            return interpolation_ratio * integer_value;
+            return _interpolationRatio * integer_value;
         }
     }
 }

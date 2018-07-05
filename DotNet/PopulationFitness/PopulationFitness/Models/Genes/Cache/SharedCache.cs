@@ -5,26 +5,15 @@
      */
     public class SharedCache
     {
-        private static IGeneValues GenesCache = new OnHeapGeneValues();
 
-        public static IGeneValues Cache
-        {
-            get
-            {
-                return GenesCache;
-            }
-            set
-            {
-                GenesCache = value;
-            }
-        }
+        public static IGeneValues Cache { get; set; } = new OnHeapGeneValues();
 
         /**
          * Uses a cache that is fast and suitable for small numbers and/or sizes of genes.
          */
         public static void SetDefault()
         {
-            GenesCache = new OnHeapGeneValues();
+            Cache = new OnHeapGeneValues();
         }
     }
 }

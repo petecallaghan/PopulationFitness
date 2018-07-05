@@ -6,18 +6,18 @@
      */
     public class LongIdentifier : IGenesIdentifier
     {
-        private static long globalIdentifier = 0;
+        private static long _globalIdentifier = 0;
 
-        private readonly long value;
+        private readonly long _value;
 
         public LongIdentifier()
         {
-            value = ++globalIdentifier;
+            _value = ++_globalIdentifier;
         }
 
         public long AsUniqueLong()
         {
-            return value;
+            return _value;
         }
     }
 }

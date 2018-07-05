@@ -18,14 +18,17 @@
          */
         protected abstract double CalculateFitnessFromIntegers(long[] integer_values);
 
-        public override double Fitness()
+        public override double Fitness
         {
-            if (IsFitnessStored())
+            get
             {
-                return StoredFitness();
-            }
+                if (IsFitnessStored())
+                {
+                    return StoredFitness();
+                }
 
-            return StoreInvertedFitness(CalculateFitnessFromIntegers(AsIntegers()));
+                return StoreInvertedFitness(CalculateFitnessFromIntegers(AsIntegers));
+            }
         }
     }
 }

@@ -4,19 +4,19 @@ namespace PopulationFitness.Models.Genes.Fitness
 {
     public class Statistics
     {
-        private double min = double.MaxValue;
+        private double _min = double.MaxValue;
 
-        private double max = double.MinValue;
+        private double _max = double.MinValue;
 
         public void Add(double value)
         {
-            min = Math.Min(min, value);
-            max = Math.Max(max, value);
+            _min = Math.Min(_min, value);
+            _max = Math.Max(_max, value);
         }
 
         public void Show()
         {
-            Console.WriteLine("Min=" + min + " Max=" + max);
+            Console.WriteLine("Min=" + _min + " Max=" + _max);
         }
     }
 }

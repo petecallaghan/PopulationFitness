@@ -11,7 +11,7 @@ namespace TestPopulationFitness.UnitTests
             // Given an old individual
             Config config = new Config();
             int birth_year = 1964;
-            int current_year = birth_year + config.GetMaxAge() + 10;
+            int current_year = birth_year + config.MaxAge + 10;
             Epoch epoch = new Epoch(config, current_year);
             Individual individual = new Individual(epoch, birth_year);
 
@@ -25,7 +25,7 @@ namespace TestPopulationFitness.UnitTests
             // Given a young individual
             Config config = new Config();
             int birth_year = 1964;
-            int current_year = birth_year + config.GetMaxAge() - 10;
+            int current_year = birth_year + config.MaxAge - 10;
             Epoch epoch = new Epoch(config, current_year);
             Individual individual = new Individual(epoch, birth_year);
 
@@ -39,7 +39,7 @@ namespace TestPopulationFitness.UnitTests
             // Given a breeding age individual
             Config config = new Config();
             int birth_year = 1964;
-            int current_year = birth_year + config.GetMinBreedingAge() + 1;
+            int current_year = birth_year + config.MinBreedingAge + 1;
             Epoch epoch = new Epoch(config, current_year);
             Individual individual = new Individual(epoch, birth_year);
 
@@ -53,7 +53,7 @@ namespace TestPopulationFitness.UnitTests
             // Given a breeding age individual
             Config config = new Config();
             int birth_year = 1964;
-            int current_year = birth_year + config.GetMinBreedingAge() - 1;
+            int current_year = birth_year + config.MinBreedingAge - 1;
             Epoch epoch = new Epoch(config, current_year);
             Individual individual = new Individual(epoch, birth_year);
 
@@ -67,7 +67,7 @@ namespace TestPopulationFitness.UnitTests
             // Given a breeding age individual
             Config config = new Config();
             int birth_year = 1964;
-            int current_year = birth_year + config.GetMaxBreedingAge() + 1;
+            int current_year = birth_year + config.MaxBreedingAge + 1;
             Epoch epoch = new Epoch(config, current_year);
             Individual individual = new Individual(epoch, birth_year);
 

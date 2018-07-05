@@ -18,17 +18,13 @@ namespace PopulationFitness.Models
     {
         private static readonly int UNDEFINED_YEAR = -1;
 
-        public readonly List<GenerationStatistics> history;
+        public readonly List<GenerationStatistics> History;
+        public readonly Config Config;
 
-        private Population population;
-
-        public readonly Config config;
-
-        private int first_year;
-
-        private readonly int series_run;
-
-        private readonly int parallel_run;
+        private Population _population;
+        private int _firstYear;
+        private readonly int _seriesRun;
+        private readonly int _parallelRun;
 
         public Generations(Population population) : this(population, 1, 1)
         {
@@ -36,21 +32,21 @@ namespace PopulationFitness.Models
 
         public Generations(Population population, int parallel_run, int series_run)
         {
-            this.population = population;
-            this.config = population.config;
-            this.series_run = series_run;
-            this.parallel_run = parallel_run;
-            history = new List<GenerationStatistics>();
-            first_year = UNDEFINED_YEAR;
+            this._population = population;
+            this.Config = population.Config;
+            this._seriesRun = series_run;
+            this._parallelRun = parallel_run;
+            History = new List<GenerationStatistics>();
+            _firstYear = UNDEFINED_YEAR;
         }
 
         public void CreateForAllEpochs(Epochs epochs)
         {
             AddInitialPopulation(epochs);
 
-            foreach (Epoch epoch in epochs.epochs)
+            foreach (Epoch epoch in epochs.All)
             {
-                for (int year = epoch.start_year; year <= epoch.end_year; year++)
+                for (int year = epoch.StartYear; year <= epoch.EndYear; year++)
                 {
                     GenerateForYear(year, epoch);
                 }
@@ -60,8 +56,8 @@ namespace PopulationFitness.Models
         private void AddInitialPopulation(Epochs epochs)
         {
             Epoch epoch = epochs.First;
-            first_year = epoch.start_year;
-            population.AddNewIndividuals(epoch, first_year);
+            _firstYear = epoch.StartYear;
+            _population.AddNewIndividuals(epoch, _firstYear);
         }
 
         public PopulationComparison TuneFitnessFactorsForAllEpochs(Epochs epochs, double minFactor, double maxFactor, double increment, int percentage)
@@ -70,14 +66,14 @@ namespace PopulationFitness.Models
 
             PopulationComparison divergence = PopulationComparison.TooLow;
             Epoch previousEpoch = null;
-            foreach (Epoch epoch in epochs.epochs)
+            foreach (Epoch epoch in epochs.All)
             {
-                Population previousPopulation = new Population(population);
+                Population previousPopulation = new Population(_population);
                 Search search = new Search();
                 search.Increment(increment).Min(minFactor).Max(maxFactor);
                 if (previousEpoch != null)
                 {
-                    search.Current(previousEpoch.Fitness());
+                    search.Current = previousEpoch.Fitness();
                 }
                 previousEpoch = epoch;
                 divergence = GenerateAndCompareEpochPopulation(search, percentage, epoch, previousPopulation);
@@ -95,7 +91,7 @@ namespace PopulationFitness.Models
         {
             if (SharedCache.Cache.IsFlushable)
             {
-                ICollection<IGenesIdentifier> survivors = population.individuals.Select(i => i.genes.Identifier()).ToList<IGenesIdentifier>();
+                ICollection<IGenesIdentifier> survivors = _population.Individuals.Select(i => i.Genes.Identifier).ToList<IGenesIdentifier>();
                 SharedCache.Cache.RetainOnly(survivors);
             }
         }
@@ -106,10 +102,10 @@ namespace PopulationFitness.Models
                 Epoch epoch,
                 Population previousPopulation)
         {
-            population = new Population(previousPopulation);
-            epoch.Fitness(search.Current());
+            _population = new Population(previousPopulation);
+            epoch.Fitness(search.Current);
             PopulationComparison divergence = CompareToExpectedForEpoch(epoch, percentage);
-            Console.WriteLine("Year " + epoch.end_year + " Pop " + population.individuals.Count + " Expected " + epoch.expected_max_population + " F=" + epoch.Fitness() + " F'=" + epoch.AverageCapacityFactor() * epoch.Fitness());
+            Console.WriteLine("Year " + epoch.EndYear + " Pop " + _population.Individuals.Count + " Expected " + epoch.ExpectedMaxPopulation + " F=" + epoch.Fitness() + " F'=" + epoch.AverageCapacityFactor() * epoch.Fitness());
 
             if (divergence != PopulationComparison.WithinRange)
             {
@@ -122,11 +118,11 @@ namespace PopulationFitness.Models
 
         private PopulationComparison CompareToExpectedForEpoch(Epoch epoch, int percentage)
         {
-            for (int year = epoch.start_year; year <= epoch.end_year; year++)
+            for (int year = epoch.StartYear; year <= epoch.EndYear; year++)
             {
-                population.KillThoseUnfitOrReadyToDie(year, epoch);
-                population.AddNewGeneration(epoch, year);
-                PopulationComparison divergence = CompareToExpected(epoch, year, population.individuals.Count, percentage);
+                _population.KillThoseUnfitOrReadyToDie(year, epoch);
+                _population.AddNewGeneration(epoch, year);
+                PopulationComparison divergence = CompareToExpected(epoch, year, _population.Individuals.Count, percentage);
                 if (divergence != PopulationComparison.WithinRange)
                 {
                     return divergence;
@@ -147,7 +143,7 @@ namespace PopulationFitness.Models
 
             int max_divergence = expected * percentage;
 
-            if (year >= epoch.end_year)
+            if (year >= epoch.EndYear)
             {
                 if (divergence >= max_divergence) return PopulationComparison.TooHigh;
 
@@ -160,12 +156,12 @@ namespace PopulationFitness.Models
         private void GenerateForYear(int year, Epoch epoch)
         {
             Stopwatch stopWatch = Stopwatch.StartNew();
-            int fatalities = population.KillThoseUnfitOrReadyToDie(year, epoch);
+            int fatalities = _population.KillThoseUnfitOrReadyToDie(year, epoch);
             FlushBodiesFromTheCache();
             long kill_elapsed = GenesTimer.GetElapsed(stopWatch);
 
             stopWatch = Stopwatch.StartNew();
-            List<Individual> babies = population.AddNewGeneration(epoch, year);
+            List<Individual> babies = _population.AddNewGeneration(epoch, year);
             long born_elapsed = GenesTimer.GetElapsed(stopWatch);
 
             AddHistory(epoch, year, babies.Count, fatalities, born_elapsed, kill_elapsed);
@@ -175,28 +171,28 @@ namespace PopulationFitness.Models
         {
             GenerationStatistics generation = new GenerationStatistics(epoch,
                     year,
-                    population.individuals.Count,
+                    _population.Individuals.Count,
                     number_born,
                     number_killed,
                     born_elapsed,
                     kill_elapsed,
-                    population.CapacityFactor(),
-                    population.average_mutations);
-            generation.average_fitness = population.AverageFitness();
-            generation.average_factored_fitness = population.AverageFactoredFitness();
-            generation.fitness_deviation = population.StandardDeviationFitness();
-            generation.average_age = population.average_age;
-            generation.average_life_expectancy = population.average_life_expectancy;
-            history.Add(generation);
+                    _population.CapacityFactor(),
+                    _population.AverageMutations);
+            generation.AverageFitness = _population.AverageFitness();
+            generation.AverageFactoredFitness = _population.AverageFactoredFitness();
+            generation.FitnessDeviation = _population.StandardDeviationFitness();
+            generation.AverageAge = _population.AverageAge;
+            generation.AverageLifeExpectancy = _population.AverageLifeExpectancy;
+            History.Add(generation);
 
-            Console.WriteLine("Run " + parallel_run + "x" + series_run + " Year " + generation.year + " Pop " + generation.population + " Expected " + epoch.expected_max_population + " Born " + generation.number_born + " in " + generation.BornElapsedInHundredths() + "s Killed " + generation.number_killed + " in " + generation.KillElapsedInHundredths() + "s");
+            Console.WriteLine("Run " + _parallelRun + "x" + _seriesRun + " Year " + generation.Year + " Pop " + generation.Population + " Expected " + epoch.ExpectedMaxPopulation + " Born " + generation.NumberBorn + " in " + generation.BornElapsedInHundredths() + "s Killed " + generation.NumberKilled + " in " + generation.KillElapsedInHundredths() + "s");
         }
 
         public static Generations Add(Generations first, Generations second)
         {
-            Generations result = new Generations(first.population);
-            result.first_year = first.first_year;
-            result.history.AddRange(GenerationStatistics.Add(first.history, second.history));
+            Generations result = new Generations(first._population);
+            result._firstYear = first._firstYear;
+            result.History.AddRange(GenerationStatistics.Add(first.History, second.History));
             return result;
         }
     }

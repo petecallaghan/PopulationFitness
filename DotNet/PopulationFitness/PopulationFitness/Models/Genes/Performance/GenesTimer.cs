@@ -5,9 +5,6 @@ namespace PopulationFitness.Models.Genes.Performance
     public class GenesTimer : IGenes
     {
         private static readonly long MicrosecPerTick = (1000L * 1000L) / Stopwatch.Frequency;
-
-        private readonly IGenes genes;
-
         private static readonly TimingStatistics _buildRandom = new TimingStatistics("Build random genes");
         private static readonly TimingStatistics _inherit = new TimingStatistics("Inherit from parents");
         private static readonly TimingStatistics _fitness = new TimingStatistics("Calculate fitness");
@@ -28,22 +25,22 @@ namespace PopulationFitness.Models.Genes.Performance
 
         public GenesTimer(IGenes genes)
         {
-            this.genes = genes;
+            Implementation = genes;
         }
 
         public void BuildEmpty()
         {
-            genes.BuildEmpty();
+            Implementation.BuildEmpty();
         }
 
         public void BuildFull()
         {
-            genes.BuildFull();
+            Implementation.BuildFull();
         }
 
         public int GetCode(int index)
         {
-            return genes.GetCode(index);
+            return Implementation.GetCode(index);
         }
 
         /**
@@ -58,59 +55,71 @@ namespace PopulationFitness.Models.Genes.Performance
         public void BuildFromRandom()
         {
             Stopwatch stopWatch = Stopwatch.StartNew();
-            genes.BuildFromRandom();
+            Implementation.BuildFromRandom();
             _buildRandom.Add(GetElapsed(stopWatch));
         }
 
-        public int NumberOfBits()
+        public int NumberOfBits
         {
-            return genes.NumberOfBits();
+            get
+            {
+                return Implementation.NumberOfBits;
+            }
         }
 
         public int Mutate()
         {
-            return genes.Mutate();
+            return Implementation.Mutate();
         }
 
         public int InheritFrom(IGenes mother, IGenes father)
         {
             Stopwatch stopWatch = Stopwatch.StartNew();
-            int mutatedCount = genes.InheritFrom(mother, father);
+            int mutatedCount = Implementation.InheritFrom(mother, father);
             _inherit.Add(GetElapsed(stopWatch));
             return mutatedCount;
         }
 
-        public bool AreEmpty()
+        public bool AreEmpty
         {
-            return genes.AreEmpty();
+            get
+            {
+                return Implementation.AreEmpty;
+            }
         }
 
-        public double Fitness()
+        public double Fitness
         {
-            Stopwatch stopWatch = Stopwatch.StartNew();
-            double fitness = genes.Fitness();
-            _fitness.Add(GetElapsed(stopWatch));
-            return fitness;
+            get
+            {
+                Stopwatch stopWatch = Stopwatch.StartNew();
+                double fitness = Implementation.Fitness;
+                _fitness.Add(GetElapsed(stopWatch));
+                return fitness;
+            }
         }
 
         public bool IsEqual(IGenes other)
         {
-            return genes.IsEqual(other);
+            return Implementation.IsEqual(other);
         }
 
-        public IGenes GetImplementation()
+        public IGenes Implementation { get; }
+
+        public long[] AsIntegers
         {
-            return genes;
+            get
+            {
+                return Implementation.AsIntegers;
+            }
         }
 
-        public long[] AsIntegers()
+        public IGenesIdentifier Identifier
         {
-            return genes.AsIntegers();
-        }
-
-        public IGenesIdentifier Identifier()
-        {
-            return genes.Identifier();
+            get
+            {
+                return Implementation.Identifier;
+            }
         }
     }
 }

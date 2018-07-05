@@ -27,16 +27,19 @@ namespace PopulationFitness.Models.Genes.BitSet
             Array.Clear(bits, 0, bits.Length);
         }
 
-        internal bool IsEmpty()
+        internal bool IsEmpty
         {
-            foreach (long i in bits)
+            get
             {
-                if (i != 0)
+                foreach (long i in bits)
                 {
-                    return false;
+                    if (i != 0)
+                    {
+                        return false;
+                    }
                 }
+                return true;
             }
-            return true;
         }
 
         internal bool Get(int index)

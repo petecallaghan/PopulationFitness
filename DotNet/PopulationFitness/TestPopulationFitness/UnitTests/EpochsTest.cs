@@ -2,7 +2,6 @@
 using PopulationFitness.Models;
 using PopulationFitness.Models.Genes;
 using PopulationFitness.Output;
-using System.IO;
 using Xunit;
 
 namespace TestPopulationFitness.UnitTests
@@ -12,7 +11,7 @@ namespace TestPopulationFitness.UnitTests
         private static readonly int UNDEFINED_YEAR = -1;
 
         [Fact]
-        public void testCreateEpochs()
+        public void TestCreateEpochs()
         {
             // Given a set of epochs
             Config config = new Config();
@@ -27,16 +26,16 @@ namespace TestPopulationFitness.UnitTests
             epochs.AddNextEpoch(new Epoch(config, 1400));
             epochs.AddNextEpoch(new Epoch(config, 2016));
             epochs.AddNextEpoch(new Epoch(config, 2068));
-            epochs.SetFinalEpochYear(-50 + config.GetNumberOfYears() - 1);
+            epochs.SetFinalEpochYear(-50 + config.NumberOfYears - 1);
 
             // When we iterate over the epochs
             int first_year = UNDEFINED_YEAR;
             int last_year = UNDEFINED_YEAR;
             int number_of_years = 0;
 
-            foreach (Epoch e in epochs.epochs)
+            foreach (Epoch e in epochs.All)
             {
-                for (int year = e.start_year; year <= e.end_year; year++)
+                for (int year = e.StartYear; year <= e.EndYear; year++)
                 {
                     if (first_year == UNDEFINED_YEAR)
                     {
@@ -49,12 +48,12 @@ namespace TestPopulationFitness.UnitTests
 
             // Then we traverse all the years
             Assert.Equal(-50, first_year);
-            Assert.Equal(-50 + config.GetNumberOfYears() - 1, last_year);
-            Assert.Equal(+config.GetNumberOfYears(), number_of_years);
+            Assert.Equal(-50 + config.NumberOfYears - 1, last_year);
+            Assert.Equal(+config.NumberOfYears, number_of_years);
         }
 
         [Fact]
-        public void testEpochFitnessFactors()
+        public void TestEpochFitnessFactors()
         {
             // Given a set of epochs
             Config config = new Config();
@@ -69,7 +68,7 @@ namespace TestPopulationFitness.UnitTests
         }
 
         [Fact]
-        public void testEpochEnvironmentCapacity()
+        public void TestEpochEnvironmentCapacity()
         {
             // Given a set of epochs
             Config config = new Config();
@@ -78,27 +77,27 @@ namespace TestPopulationFitness.UnitTests
             epochs.AddNextEpoch(new Epoch(config, 400));
 
             // When we iterate over the epochs we find the right environment capacity
-            Assert.Equal(1000, epochs.First.environment_capacity);
-            Assert.Equal(epochs.First.environment_capacity, epochs.First.expected_max_population);
+            Assert.Equal(1000, epochs.First.EnvironmentCapacity);
+            Assert.Equal(epochs.First.EnvironmentCapacity, epochs.First.ExpectedMaxPopulation);
             Assert.False(epochs.First.IsCapacityUnlimited);
-            Assert.Equal(Epoch.UNLIMITED_CAPACITY, epochs.Last.environment_capacity);
+            Assert.Equal(Epoch.UNLIMITED_CAPACITY, epochs.Last.EnvironmentCapacity);
             Assert.True(epochs.Last.IsCapacityUnlimited);
-            Assert.Equal(epochs.First.environment_capacity, epochs.First.prev_environment_capacity);
-            Assert.Equal(epochs.First.environment_capacity, epochs.Last.prev_environment_capacity);
+            Assert.Equal(epochs.First.EnvironmentCapacity, epochs.First.PrevEnvironmentCapacity);
+            Assert.Equal(epochs.First.EnvironmentCapacity, epochs.Last.PrevEnvironmentCapacity);
         }
 
         [Fact]
-        public void testEnvironmentCapacityScales()
+        public void TestEnvironmentCapacityScales()
         {
             Config config = new Config();
             Epoch epoch = new Epoch(config, 1000);
-            epoch.end_year = 1500;
-            epoch.prev_environment_capacity = 1000;
-            epoch.environment_capacity = 2000;
+            epoch.EndYear = 1500;
+            epoch.PrevEnvironmentCapacity = 1000;
+            epoch.EnvironmentCapacity = 2000;
 
-            Assert.Equal(epoch.prev_environment_capacity, epoch.CapacityForYear(epoch.start_year));
-            Assert.Equal(epoch.environment_capacity, epoch.CapacityForYear(epoch.end_year));
-            Assert.Equal((epoch.environment_capacity + epoch.prev_environment_capacity) / 2, epoch.CapacityForYear((epoch.end_year + epoch.start_year) / 2));
+            Assert.Equal(epoch.PrevEnvironmentCapacity, epoch.CapacityForYear(epoch.StartYear));
+            Assert.Equal(epoch.EnvironmentCapacity, epoch.CapacityForYear(epoch.EndYear));
+            Assert.Equal((epoch.EnvironmentCapacity + epoch.PrevEnvironmentCapacity) / 2, epoch.CapacityForYear((epoch.EndYear + epoch.StartYear) / 2));
         }
 
         [Fact]
@@ -110,24 +109,24 @@ namespace TestPopulationFitness.UnitTests
             int delta = 11;
 
             // When we write them and then read them
-            string path = EpochsWriter.WriteCsv(Paths.PathOf("epochs"), Function.Undefined, config.GetNumberOfGenes(), config.GetSizeOfEachGene(), config.GetMutationsPerGene(), epochs);
+            string path = EpochsWriter.WriteCsv(Paths.PathOf("epochs"), Function.Undefined, config.NumberOfGenes, config.SizeOfEachGene, config.MutationsPerGene, epochs);
             Epochs found = new Epochs();
-            found.epochs.AddRange(EpochsReader.ReadEpochs(config, path));
+            found.All.AddRange(EpochsReader.ReadEpochs(config, path));
 
             // Then we get back the original epochs
-            Assert.Equal(epochs.epochs.Count, found.epochs.Count);
-            for (int i = 0; i < epochs.epochs.Count; i++)
+            Assert.Equal(epochs.All.Count, found.All.Count);
+            for (int i = 0; i < epochs.All.Count; i++)
             {
-                Epoch expected = epochs.epochs[i];
-                Epoch actual = found.epochs[i];
+                Epoch expected = epochs.All[i];
+                Epoch actual = found.All[i];
 
-                Assert.Equal(expected.start_year, actual.start_year);
-                Assert.Equal(expected.end_year, actual.end_year);
-                Assert.Equal(expected.environment_capacity, actual.environment_capacity);
+                Assert.Equal(expected.StartYear, actual.StartYear);
+                Assert.Equal(expected.EndYear, actual.EndYear);
+                Assert.Equal(expected.EnvironmentCapacity, actual.EnvironmentCapacity);
                 Assert.Equal(expected.BreedingProbability(), actual.BreedingProbability(), delta);
                 Assert.Equal(expected.Disease(), actual.Disease());
                 Assert.Equal(expected.Fitness(), actual.Fitness(), delta);
-                Assert.Equal(expected.expected_max_population, actual.expected_max_population);
+                Assert.Equal(expected.ExpectedMaxPopulation, actual.ExpectedMaxPopulation);
                 Assert.Equal(expected.MaxAge(), actual.MaxAge());
                 Assert.Equal(expected.MaxBreedingAge(), actual.MaxBreedingAge());
             }

@@ -9,6 +9,8 @@ import uk.edu.populationfitness.simulation.Simulations;
 import java.io.IOException;
 
 public class Main {
+    private static final int DiseaseYears = 3;
+    private static final int PostDiseaseYears = 30;
 
     public static void main(String[] args) throws IOException {
         Config config = new Config();
@@ -18,7 +20,7 @@ public class Main {
 
         Commands.configureTuningAndEpochsFromInputFiles(config, tuning, epochs, args);
         Simulations.setInitialPopulationFromFirstEpochCapacity(config, epochs);
-        Simulations.addSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, 3, 30);
+        Simulations.addSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, DiseaseYears, PostDiseaseYears);
 
         if (commandedToRunAsParallelProcesses(tuning)){
             Simulations.runAllInParallel(new SimulationProcessFactory(tuning,

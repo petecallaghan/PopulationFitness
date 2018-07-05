@@ -9,7 +9,7 @@ namespace PopulationFitness.Output
     {
         public static void WriteInPath(String path, Tuning tuning)
         {
-            Write(tuning, path + "/" + tuning.function.ToString() + "-" + tuning.number_of_genes + "-" + tuning.size_of_genes + ".csv");
+            Write(tuning, path + "/" + tuning.Function.ToString() + "-" + tuning.NumberOfGenes + "-" + tuning.SizeOfGenes + ".csv");
         }
 
         public static void Write(Tuning tuning, String filePath)
@@ -31,16 +31,16 @@ namespace PopulationFitness.Output
         {
             return new
             {
-                Function = tuning.function, 
-                HistoricFit = tuning.historic_fit,
-                DiseaseFit = tuning.disease_fit,
-                ModernFit = tuning.modern_fit,
-                ModernBreeding = tuning.modern_breeding,
-                SizeOfGenes = tuning.size_of_genes,
-                NumberOfGenes = tuning.number_of_genes,
-                Mutations = tuning.mutations_per_gene,
-                SeriesRuns = tuning.series_runs,
-                ParallelRuns =tuning.parallel_runs,
+                Function = tuning.Function, 
+                HistoricFit = tuning.HistoricFit,
+                DiseaseFit = tuning.DiseaseFit,
+                ModernFit = tuning.ModernFit,
+                ModernBreeding = tuning.ModernBreeding,
+                SizeOfGenes = tuning.SizeOfGenes,
+                NumberOfGenes = tuning.NumberOfGenes,
+                Mutations = tuning.MutationsPerGene,
+                SeriesRuns = tuning.SeriesRuns,
+                ParallelRuns =tuning.ParallelRuns,
             };
         }
     }

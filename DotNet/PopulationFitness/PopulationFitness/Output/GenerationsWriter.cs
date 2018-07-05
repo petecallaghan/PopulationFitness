@@ -17,30 +17,30 @@ namespace PopulationFitness.Output
                     "of" +
                     number_of_runs +
                     "-" +
-                    config.GetGenesFactory().GetFitnessFunction() +
+                    config.GenesFactory.FitnessFunction +
                     "-genes" +
-                    config.GetNumberOfGenes() +
+                    config.NumberOfGenes +
                     "x" +
-                    config.GetSizeOfEachGene() +
+                    config.SizeOfEachGene +
                     "-pop" +
-                    config.GetInitialPopulation() +
+                    config.InitialPopulation +
                     "-mut" +
-                    config.GetMutationsPerGene() +
+                    config.MutationsPerGene +
                     "-" +
-                    config.id.Replace(":", "-") +
+                    config.Id.Replace(":", "-") +
                     ".csv";
         }
 
         private static void WriteCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning)
         {
-            WriteCsv(FilePath(parallel_run, series_run, number_of_runs, generations.config), generations, tuning);
+            WriteCsv(FilePath(parallel_run, series_run, number_of_runs, generations.Config), generations, tuning);
         }
 
         public static String WriteCsv(String filePath, Generations generations, Tuning tuning)
         {
             using (var file = CreateCsvWriter(filePath))
             {
-                var records = generations.history.Select(generation => { return CreateRecord(generation); });
+                var records = generations.History.Select(generation => { return CreateRecord(generation); });
                 var writer = new CsvWriter(file);
                 writer.WriteRecords(records);
             }
@@ -51,26 +51,26 @@ namespace PopulationFitness.Output
         {
             return new
             {
-                EpochStartYear = generation.epoch.start_year,
-                EpochEndYear = generation.epoch.end_year,
-                EpochEnvironmentCapacity = generation.epoch.CapacityForYear(generation.year),
-                EpochEnableFitness = generation.epoch.IsFitnessEnabled,
-                EpochBreedingProbability = generation.epoch.BreedingProbability(), 
-                Year = generation.year,
-                EpochFitnessFactor = generation.epoch.Fitness(),
-                EpochExpectedMaxPopulation = generation.epoch.expected_max_population,
-                Population = generation.population,
-                NumberBorn = generation.number_born,
-                NumberKilled = generation.number_killed,
+                EpochStartYear = generation.Epoch.StartYear,
+                EpochEndYear = generation.Epoch.EndYear,
+                EpochEnvironmentCapacity = generation.Epoch.CapacityForYear(generation.Year),
+                EpochEnableFitness = generation.Epoch.IsFitnessEnabled,
+                EpochBreedingProbability = generation.Epoch.BreedingProbability(), 
+                Year = generation.Year,
+                EpochFitnessFactor = generation.Epoch.Fitness(),
+                EpochExpectedMaxPopulation = generation.Epoch.ExpectedMaxPopulation,
+                Population = generation.Population,
+                NumberBorn = generation.NumberBorn,
+                NumberKilled = generation.NumberKilled,
                 BornElapsed = generation.BornElapsedInHundredths(),
                 KillElapsed = generation.KillElapsedInHundredths(),
-                AvgFitness = generation.average_fitness,
-                FitnessDeviation = generation.fitness_deviation,
-                AverageAge = generation.average_age,
-                CapacityFactor = generation.capacity_factor,
-                AvgFactoredFitness = generation.average_factored_fitness,
-                AvgMutations = generation.average_mutations,
-                AvgLifeExpectancy = generation.average_life_expectancy,
+                AvgFitness = generation.AverageFitness,
+                FitnessDeviation = generation.FitnessDeviation,
+                AverageAge = generation.AverageAge,
+                CapacityFactor = generation.CapacityFactor,
+                AvgFactoredFitness = generation.AverageFactoredFitness,
+                AvgMutations = generation.AverageMutations,
+                AvgLifeExpectancy = generation.AverageLifeExpectancy,
             };
         }
 
@@ -110,7 +110,7 @@ namespace PopulationFitness.Output
                                                                    Tuning tuning)
         {
             total = (total == null ? current : Generations.Add(total, current));
-            WriteCsv(parallelRun, seriesRun, tuning.series_runs * tuning.parallel_runs, total, tuning);
+            WriteCsv(parallelRun, seriesRun, tuning.SeriesRuns * tuning.ParallelRuns, total, tuning);
             return total;
         }
 

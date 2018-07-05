@@ -10,15 +10,9 @@ namespace PopulationFitness.Models.Genes.BitSet
      */
     public class BitSetGenesFactory : IGenesFactory
     {
-
-        /**
-         * Defines the fitness function to use
-         */
-        private Function function = Function.Undefined;
-
         public IGenes Build(Config config)
         {
-            switch (function)
+            switch (FitnessFunction)
             {
                 case Function.Rastrigin:
                     return new RastriginGenes(config);
@@ -64,14 +58,6 @@ namespace PopulationFitness.Models.Genes.BitSet
             }
         }
 
-        public void UseFitnessFunction(Function function)
-        {
-            this.function = function;
-        }
-
-        public Function GetFitnessFunction()
-        {
-            return function;
-        }
+        public Function FitnessFunction { get; set; } = Function.Undefined;
     }
 }

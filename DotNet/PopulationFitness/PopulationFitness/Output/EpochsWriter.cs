@@ -29,7 +29,7 @@ namespace PopulationFitness.Output
 
             using (var file = new StreamWriter(filePath))
             {
-                var records = epochs.epochs.Select(epoch => { return CreateRecord(epoch); });
+                var records = epochs.All.Select(epoch => { return CreateRecord(epoch); });
                 var writer = new CsvWriter(file);
                 writer.WriteRecords(records);
             }
@@ -40,18 +40,18 @@ namespace PopulationFitness.Output
         {
             return new
             {
-                StartYear = epoch.start_year,
-                EndYear = epoch.end_year,
-                EnvironmentCapacity = epoch.environment_capacity,
+                StartYear = epoch.StartYear,
+                EndYear = epoch.EndYear,
+                EnvironmentCapacity = epoch.EnvironmentCapacity,
                 BreedingProbability = epoch.BreedingProbability(),
                 Disease = epoch.Disease(),
                 FitnessFactor = epoch.Fitness(),
-                ExpectedMaxPopulation = epoch.expected_max_population,
+                ExpectedMaxPopulation = epoch.ExpectedMaxPopulation,
                 MaxAge = epoch.MaxAge(),
                 MaxBreedingAge = epoch.MaxBreedingAge(),
                 AvgCapacityFactor = epoch.AverageCapacityFactor(),
                 AvgCapacityFitness = epoch.AverageCapacityFactor() * epoch.Fitness(),
-                Mutations = epoch.Config().GetMutationsPerGene()
+                Mutations = epoch.Config.MutationsPerGene
             };
         }
 

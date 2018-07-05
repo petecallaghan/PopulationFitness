@@ -60,7 +60,7 @@ namespace PopulationFitness.Models.Genes.Valley
             /*
               {- {n} ^ {2} ≤x} rsub {i} ≤+ {n} ^ {2}
              */
-            interpolation_ratio = (1.0 * n * n) / MaxLongForSizeOfGene();
+            _interpolationRatio = (1.0 * n * n) / MaxLongForSizeOfGene;
         }
 
         protected override double CalculateFitnessFromIntegers(long[] integer_values)

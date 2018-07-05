@@ -11,30 +11,30 @@ namespace PopulationFitness.Models.Genes.BitSet
      */
     public abstract class BitSetGenes : IGenes
     {
-        protected readonly Config config;
+        protected readonly Config Config;
 
-        private IGenesIdentifier genesIdentifier;
+        private IGenesIdentifier _genesIdentifier;
 
-        private double stored_fitness = 0;
+        private double _storedFitness = 0;
 
-        private bool fitness_stored = false;
+        private bool _fitnessStored = false;
 
-        private readonly int size_of_genes;
+        private readonly int _sizeOfGenes;
 
         protected BitSetGenes(Config config)
         {
-            this.config = config;
-            size_of_genes = config.GetGeneBitCount();
+            Config = config;
+            _sizeOfGenes = config.GeneBitCount;
         }
 
         private long[] GetGenesFromCache()
         {
-            return SharedCache.Cache.Get(genesIdentifier);
+            return SharedCache.Cache.Get(_genesIdentifier);
         }
 
         private BitSet GetBitSetGenesFromCache()
         {
-            return BitSet.ValueOf(SharedCache.Cache.Get(genesIdentifier));
+            return BitSet.ValueOf(SharedCache.Cache.Get(_genesIdentifier));
         }
 
         private void StoreGenesInCache(BitSet genes)
@@ -44,13 +44,13 @@ namespace PopulationFitness.Models.Genes.BitSet
 
         private void StoreGenesInCache(long[] genes)
         {
-            genesIdentifier = SharedCache.Cache.Add(genes);
-            fitness_stored = false;
+            _genesIdentifier = SharedCache.Cache.Add(genes);
+            _fitnessStored = false;
         }
 
         public void BuildEmpty()
         {
-            int numberOfInts = (int)((size_of_genes / Long.Size) + (Long.Size % size_of_genes == 0 ? 0 : 1));
+            int numberOfInts = (int)((_sizeOfGenes / Long.Size) + (Long.Size % _sizeOfGenes == 0 ? 0 : 1));
             long[] genes = new long[numberOfInts];
             Array.Clear(genes, 0, genes.Length);
             StoreGenesInCache(genes);
@@ -58,22 +58,25 @@ namespace PopulationFitness.Models.Genes.BitSet
 
         public void BuildFull()
         {
-            BitSet genes = new BitSet(size_of_genes);
-            genes.Set(0, size_of_genes - 1);
+            BitSet genes = new BitSet(_sizeOfGenes);
+            genes.Set(0, _sizeOfGenes - 1);
             StoreGenesInCache(genes);
         }
 
         public void BuildFromRandom()
         {
             BuildEmpty();
-            long[] genes = AsIntegers();
+            long[] genes = AsIntegers;
             MutateGenesWithMutationInterval(genes, 0);
             StoreGenesInCache(genes);
         }
 
-        public long[] AsIntegers()
+        public long[] AsIntegers
         {
-            return SharedCache.Cache.Get(genesIdentifier);
+            get
+            {
+                return SharedCache.Cache.Get(_genesIdentifier);
+            }
         }
 
         public int GetCode(int index)
@@ -81,14 +84,17 @@ namespace PopulationFitness.Models.Genes.BitSet
             return GetBitSetGenesFromCache().Get(index) ? 1 : 0;
         }
 
-        public int NumberOfBits()
+        public int NumberOfBits
         {
-            return size_of_genes;
+            get
+            {
+                return _sizeOfGenes;
+            }
         }
 
         public int Mutate()
         {
-            return MutateAndStore(AsIntegers());
+            return MutateAndStore(AsIntegers);
         }
 
         private int MutateAndStore(long[] genes)
@@ -100,18 +106,18 @@ namespace PopulationFitness.Models.Genes.BitSet
 
         private int MutateGenes(long[] genes)
         {
-            if (config.GetMutationsPerGene() <= 0)
+            if (Config.MutationsPerGene <= 0)
             {
                 return 0;
             }
-            long mutation_genes_interval = 1 + (long)(genes.Length * 2.0 / config.GetMutationsPerGene());
+            long mutation_genes_interval = 1 + (long)(genes.Length * 2.0 / Config.MutationsPerGene);
             return MutateGenesWithMutationInterval(genes, mutation_genes_interval);
         }
 
         private int MutateGenesWithMutationInterval(long[] genes, long mutation_genes_interval)
         {
-            long max = config.GetMaxGeneValue();
-            long lastMax = config.GetLastMaxGeneValue();
+            long max = Config.MaxGeneValue;
+            long lastMax = Config.LastMaxGeneValue;
             int last = genes.Length - 1;
             int mutatedCount = 0;
             for (int i = RepeatableRandom.GenerateNextInt(mutation_genes_interval);
@@ -137,9 +143,9 @@ namespace PopulationFitness.Models.Genes.BitSet
          */
         protected double StoreFitness(double fitness)
         {
-            stored_fitness = fitness;
-            fitness_stored = true;
-            return stored_fitness;
+            _storedFitness = fitness;
+            _fitnessStored = true;
+            return _storedFitness;
         }
 
         /**
@@ -147,18 +153,18 @@ namespace PopulationFitness.Models.Genes.BitSet
          */
         protected double StoredFitness()
         {
-            return stored_fitness;
+            return _storedFitness;
         }
 
         protected bool IsFitnessStored()
         {
-            return fitness_stored;
+            return _fitnessStored;
         }
 
         public int InheritFrom(IGenes mother, IGenes father)
         {
-            long[] motherEncoding = ((BitSetGenes)mother.GetImplementation()).GetGenesFromCache();
-            long[] fatherEncoding = ((BitSetGenes)father.GetImplementation()).GetGenesFromCache();
+            long[] motherEncoding = ((BitSetGenes)mother.Implementation).GetGenesFromCache();
+            long[] fatherEncoding = ((BitSetGenes)father.Implementation).GetGenesFromCache();
             long[] babyEncoding = new long[Math.Max(motherEncoding.Length, fatherEncoding.Length)];
 
             // Randomly picks the code index that crosses over from mother to father
@@ -175,9 +181,12 @@ namespace PopulationFitness.Models.Genes.BitSet
             return MutateAndStore(babyEncoding);
         }
 
-        public bool AreEmpty()
+        public bool AreEmpty
         {
-            return GetBitSetGenesFromCache().IsEmpty();
+            get
+            {
+                return GetBitSetGenesFromCache().IsEmpty;
+            }
         }
 
         public bool IsEqual(IGenes other)
@@ -185,16 +194,22 @@ namespace PopulationFitness.Models.Genes.BitSet
             return GetBitSetGenesFromCache().Equals(((BitSetGenes)other).GetBitSetGenesFromCache());
         }
 
-        public IGenes GetImplementation()
+        public IGenes Implementation
         {
-            return this;
+            get
+            {
+                return this;
+            }
         }
 
-        public IGenesIdentifier Identifier()
+        public IGenesIdentifier Identifier
         {
-            return genesIdentifier;
+            get
+            {
+                return _genesIdentifier;
+            }
         }
 
-        public abstract double Fitness();
+        public abstract double Fitness { get; }
     }
 }

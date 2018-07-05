@@ -7,12 +7,12 @@ namespace PopulationFitness.Models.FastMaths
      */
     public class ExpensiveCalculatedValues<T>
     {
-        private Dictionary<long, T> values = new Dictionary< long, T>();
-        private IValueCalculator<T> calculator;
+        private Dictionary<long, T> _values = new Dictionary< long, T>();
+        private IValueCalculator<T> _calculator;
 
         public ExpensiveCalculatedValues(IValueCalculator<T> calculator)
         {
-            this.calculator = calculator;
+            _calculator = calculator;
         }
 
         /**
@@ -23,14 +23,14 @@ namespace PopulationFitness.Models.FastMaths
          */
         public T FindOrCalculate(long index)
         {
-            lock (values)
+            lock (_values)
             {
-                if (values.ContainsKey(index))
+                if (_values.ContainsKey(index))
                 {
-                    return values.GetValueOrDefault(index);
+                    return _values.GetValueOrDefault(index);
                 }
-                T value = calculator.CalculateValue(index);
-                values.Add(index, value);
+                T value = _calculator.CalculateValue(index);
+                _values.Add(index, value);
                 return value;
             }
         }

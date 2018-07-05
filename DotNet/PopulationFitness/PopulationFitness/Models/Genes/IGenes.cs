@@ -36,7 +36,7 @@
          *
          * @return
          */
-        int NumberOfBits();
+        int NumberOfBits { get; }
 
         /**
          * Randomly mutate
@@ -59,14 +59,14 @@
          *
          * @return true if none of the codes are set
          */
-        bool AreEmpty();
+        bool AreEmpty { get; }
 
         /**
          * Calculate the fitness in a range of 0..1
 
          * @return
          */
-        double Fitness();
+        double Fitness { get; }
 
         /**
          *
@@ -78,19 +78,19 @@
         /**
          * @return the class implementing the interface
          */
-        IGenes GetImplementation();
+        IGenes Implementation { get; }
 
         /**
          *
          * @return the genes as an array of integers
          */
-        long[] AsIntegers();
+        long[] AsIntegers { get; }
 
         /**
          *
          * @return the unique identifier the genes
          */
-        IGenesIdentifier Identifier();
+        IGenesIdentifier Identifier { get; }
     }
 
 }

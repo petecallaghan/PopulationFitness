@@ -2,14 +2,12 @@
 {
     public class GenesTimerFactory : IGenesFactory
     {
-        private readonly IGenesFactory factory;
+        private readonly IGenesFactory _factory;
 
-        public GenesTimerFactory(IGenesFactory factory) => this.factory = factory;
+        public GenesTimerFactory(IGenesFactory factory) => this._factory = factory;
 
-        public IGenes Build(Config config) => new GenesTimer(factory.Build(config));
+        public IGenes Build(Config config) => new GenesTimer(_factory.Build(config));
 
-        public void UseFitnessFunction(Function function) => factory.UseFitnessFunction(function);
-
-        public Function GetFitnessFunction() => factory.GetFitnessFunction();
+        public Function FitnessFunction { get { return _factory.FitnessFunction; } set { _factory.FitnessFunction = value; } }
     }
 }

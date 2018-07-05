@@ -13,7 +13,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a standard configuration ...
             Config config = new Config();
-            config.SetMinBreedingAge(1); // so we get some babies
+            config.MinBreedingAge = 1; // so we get some babies
             Population population = new Population(config);
             Generations generations = new Generations(population);
             // ... with some epochs
@@ -25,7 +25,7 @@ namespace TestPopulationFitness.UnitTests
             generations.CreateForAllEpochs(epochs);
 
             // Then we get a history of the simulation
-            Assert.Equal(11, generations.history.Count);
+            Assert.Equal(11, generations.History.Count);
         }
 
         [Fact]
@@ -34,8 +34,8 @@ namespace TestPopulationFitness.UnitTests
             // Given two sets of generation statistics
             Config config = new Config();
             Epoch epoch = new Epoch(config, -50);
-            var first = new GenerationStatistics(epoch, epoch.start_year, 100, 10, 20, 12, 13, 1.0, 2.0);
-            var second = new GenerationStatistics(epoch, epoch.start_year, 23, 1, 5, 120, 78, 1.0, 2.0);
+            var first = new GenerationStatistics(epoch, epoch.StartYear, 100, 10, 20, 12, 13, 1.0, 2.0);
+            var second = new GenerationStatistics(epoch, epoch.StartYear, 23, 1, 5, 120, 78, 1.0, 2.0);
 
             // When they are added
             GenerationStatistics result = GenerationStatistics.Add(first, second);
@@ -46,24 +46,24 @@ namespace TestPopulationFitness.UnitTests
 
         private static void AssertAreAdded(GenerationStatistics first, GenerationStatistics second, GenerationStatistics result)
         {
-            Assert.Equal(result.year, first.year);
-            Assert.Equal(result.year, second.year);
-            Assert.Equal(result.epoch.start_year, first.epoch.start_year);
-            Assert.Equal(result.epoch.end_year, first.epoch.end_year);
-            Assert.Equal(result.epoch.expected_max_population, first.epoch.expected_max_population + second.epoch.expected_max_population);
-            Assert.Equal(result.epoch.environment_capacity, first.epoch.environment_capacity + second.epoch.environment_capacity);
-            Assert.Equal(result.population, first.population + second.population);
-            Assert.Equal(result.number_born, first.number_born + second.number_born);
-            Assert.Equal(result.number_killed, first.number_killed + second.number_killed);
-            Assert.Equal(result.capacity_factor,
-                    (first.capacity_factor * first.population +
-                            second.capacity_factor * second.population) / result.population, 6);
-            Assert.Equal(result.average_age,
-                    (first.average_age * first.population +
-                            second.average_age * second.population) / result.population, 6);
-            Assert.Equal(result.average_life_expectancy,
-                    (first.average_life_expectancy * first.number_killed +
-                            second.average_life_expectancy * second.number_killed) / result.number_killed, 6);
+            Assert.Equal(result.Year, first.Year);
+            Assert.Equal(result.Year, second.Year);
+            Assert.Equal(result.Epoch.StartYear, first.Epoch.StartYear);
+            Assert.Equal(result.Epoch.EndYear, first.Epoch.EndYear);
+            Assert.Equal(result.Epoch.ExpectedMaxPopulation, first.Epoch.ExpectedMaxPopulation + second.Epoch.ExpectedMaxPopulation);
+            Assert.Equal(result.Epoch.EnvironmentCapacity, first.Epoch.EnvironmentCapacity + second.Epoch.EnvironmentCapacity);
+            Assert.Equal(result.Population, first.Population + second.Population);
+            Assert.Equal(result.NumberBorn, first.NumberBorn + second.NumberBorn);
+            Assert.Equal(result.NumberKilled, first.NumberKilled + second.NumberKilled);
+            Assert.Equal(result.CapacityFactor,
+                    (first.CapacityFactor * first.Population +
+                            second.CapacityFactor * second.Population) / result.Population, 6);
+            Assert.Equal(result.AverageAge,
+                    (first.AverageAge * first.Population +
+                            second.AverageAge * second.Population) / result.Population, 6);
+            Assert.Equal(result.AverageLifeExpectancy,
+                    (first.AverageLifeExpectancy * first.NumberKilled +
+                            second.AverageLifeExpectancy * second.NumberKilled) / result.NumberKilled, 6);
         }
 
         [Fact]
@@ -72,8 +72,8 @@ namespace TestPopulationFitness.UnitTests
             // Given two collections of statistics
             Config config = new Config();
             Epoch epoch = new Epoch(config, -50);
-            GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year, 100, 10, 20, 12, 13, 1.0, 2.0);
-            GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year, 23, 1, 5, 120, 78, 1.0, 2.0);
+            GenerationStatistics first = new GenerationStatistics(epoch, epoch.StartYear, 100, 10, 20, 12, 13, 1.0, 2.0);
+            GenerationStatistics second = new GenerationStatistics(epoch, epoch.StartYear, 23, 1, 5, 120, 78, 1.0, 2.0);
             var firstSet = new List<GenerationStatistics>
             {
                 first
@@ -83,10 +83,10 @@ namespace TestPopulationFitness.UnitTests
                 second
             };
 
-            first.average_age = 10.5;
-            second.average_age = 20.3;
-            first.average_life_expectancy = 50.5;
-            second.average_life_expectancy = 60.76;
+            first.AverageAge = 10.5;
+            second.AverageAge = 20.3;
+            first.AverageLifeExpectancy = 50.5;
+            second.AverageLifeExpectancy = 60.76;
 
             // When they are added
             var result = GenerationStatistics.Add(firstSet, secondSet);
@@ -100,7 +100,7 @@ namespace TestPopulationFitness.UnitTests
         {
             // Given a standard configuration ...
             Config config = new Config();
-            config.SetMinBreedingAge(1); // so we get some babies
+            config.MinBreedingAge = 1; // so we get some babies
             Population population = new Population(config);
             Generations generations = new Generations(population);
             // ... with some epochs ...
@@ -117,7 +117,7 @@ namespace TestPopulationFitness.UnitTests
             var readResult = GenerationsReader.ReadGenerations(config, path);
 
             // Then they are the same as those written
-            AssertAreEqual(generations.history, readResult);
+            AssertAreEqual(generations.History, readResult);
         }
 
         private void AssertAreEqual(List<GenerationStatistics> expected, List<GenerationStatistics> actual)
@@ -131,26 +131,26 @@ namespace TestPopulationFitness.UnitTests
 
         private void AssertAreEqual(GenerationStatistics e, GenerationStatistics a)
         {
-            Assert.Equal(e.epoch.start_year, a.epoch.start_year);
-            Assert.Equal(e.epoch.end_year, a.epoch.end_year);
-            Assert.Equal(e.epoch.environment_capacity, a.epoch.environment_capacity);
-            Assert.Equal(e.epoch.IsFitnessEnabled, a.epoch.IsFitnessEnabled);
-            Assert.Equal(e.epoch.BreedingProbability(), a.epoch.BreedingProbability(), 2);
-            Assert.Equal(e.year, a.year);
-            Assert.Equal(e.epoch.Fitness(), a.epoch.Fitness(), 7);
-            Assert.Equal(e.epoch.expected_max_population, a.epoch.expected_max_population);
-            Assert.Equal(e.population, a.population);
-            Assert.Equal(e.number_born, a.number_born);
-            Assert.Equal(e.number_killed, a.number_killed);
+            Assert.Equal(e.Epoch.StartYear, a.Epoch.StartYear);
+            Assert.Equal(e.Epoch.EndYear, a.Epoch.EndYear);
+            Assert.Equal(e.Epoch.EnvironmentCapacity, a.Epoch.EnvironmentCapacity);
+            Assert.Equal(e.Epoch.IsFitnessEnabled, a.Epoch.IsFitnessEnabled);
+            Assert.Equal(e.Epoch.BreedingProbability(), a.Epoch.BreedingProbability(), 2);
+            Assert.Equal(e.Year, a.Year);
+            Assert.Equal(e.Epoch.Fitness(), a.Epoch.Fitness(), 7);
+            Assert.Equal(e.Epoch.ExpectedMaxPopulation, a.Epoch.ExpectedMaxPopulation);
+            Assert.Equal(e.Population, a.Population);
+            Assert.Equal(e.NumberBorn, a.NumberBorn);
+            Assert.Equal(e.NumberKilled, a.NumberKilled);
             Assert.Equal(e.BornElapsedInHundredths(), a.BornElapsedInHundredths(), 3);
             Assert.Equal(e.KillElapsedInHundredths(), a.KillElapsedInHundredths(), 3);
-            Assert.Equal(e.average_fitness, a.average_fitness, 3);
-            Assert.Equal(e.average_factored_fitness, a.average_factored_fitness, 3);
-            Assert.Equal(e.fitness_deviation, a.fitness_deviation, 3);
-            Assert.Equal(e.average_age, a.average_age, 3);
-            Assert.Equal(e.capacity_factor, a.capacity_factor, 3);
-            Assert.Equal(e.average_mutations, a.average_mutations, 3);
-            Assert.Equal(e.average_life_expectancy, a.average_life_expectancy, 3);
+            Assert.Equal(e.AverageFitness, a.AverageFitness, 3);
+            Assert.Equal(e.AverageFactoredFitness, a.AverageFactoredFitness, 3);
+            Assert.Equal(e.FitnessDeviation, a.FitnessDeviation, 3);
+            Assert.Equal(e.AverageAge, a.AverageAge, 3);
+            Assert.Equal(e.CapacityFactor, a.CapacityFactor, 3);
+            Assert.Equal(e.AverageMutations, a.AverageMutations, 3);
+            Assert.Equal(e.AverageLifeExpectancy, a.AverageLifeExpectancy, 3);
         }
     }
 }

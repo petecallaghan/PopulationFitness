@@ -6,14 +6,12 @@
      */
     public abstract class NormalizingBitSetGenes : CachingInterpolatingBitSetGenes
     {
-
-        private double normalizationRatio;
-
-        private bool isNormalisationRatioSet;
+        private double _normalizationRatio;
+        private bool _isNormalisationRatioSet;
 
         protected NormalizingBitSetGenes(Config config, double maxInterpolatedValue) : base(config, maxInterpolatedValue)
         {
-            isNormalisationRatioSet = false;
+            _isNormalisationRatioSet = false;
         }
 
         /***
@@ -23,22 +21,25 @@
          */
         protected abstract double CalculateNormalizationRatio(int n);
 
-        public override double Fitness()
+        public override double Fitness
         {
-            if (IsFitnessStored())
+            get
             {
-                return StoredFitness();
+                if (IsFitnessStored())
+                {
+                    return StoredFitness();
+                }
+
+                long[] integers = AsIntegers;
+
+                if (!_isNormalisationRatioSet)
+                {
+                    _normalizationRatio = CalculateNormalizationRatio(integers.Length);
+                    _isNormalisationRatioSet = true;
+                }
+
+                return StoreFitness(CalculateFitnessFromIntegers(integers) / _normalizationRatio);
             }
-
-            long[] integers = AsIntegers();
-
-            if (!isNormalisationRatioSet)
-            {
-                normalizationRatio = CalculateNormalizationRatio(integers.Length);
-                isNormalisationRatioSet = true;
-            }
-
-            return StoreFitness(CalculateFitnessFromIntegers(integers) / normalizationRatio);
         }
     }
 }

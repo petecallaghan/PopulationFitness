@@ -40,11 +40,14 @@ namespace TestPopulationFitness.UnitTests
             BitSetGenesFactory factory = new BitSetGenesFactory();
             RepeatableRandom.ResetSeed();
 
-            factory.UseFitnessFunction(function);
+            factory.FitnessFunction = function;
             // Given a number of randomly generated genes
-            Config config = new Config();
-            config.SetNumberOfGenes(NumberOfGenes);
-            config.SetSizeOfEachGene(SizeOfGenes);
+            Config config = new Config
+            {
+                NumberOfGenes = NumberOfGenes,
+                SizeOfEachGene = SizeOfGenes
+            };
+
             var genes = new List<IGenes>();
             for (int i = 0; i < Population; i++)
             {
@@ -62,7 +65,7 @@ namespace TestPopulationFitness.UnitTests
 
             foreach (IGenes g in genes)
             {
-                double fitness = g.Fitness() * fitness_factor;
+                double fitness = g.Fitness * fitness_factor;
                 int i = Math.Abs(Math.Min(99, (int)(fitness * 100)));
                 fitnesses[i]++;
             }
