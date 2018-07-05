@@ -220,14 +220,14 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSchwefel220() throws IOException {
-        tune(Function.Schwefel220, 4, 25);
+        tune(Function.Schwefel220, 4, 15);
     }
 
     @Test public void testTuneTrid() throws IOException {
-        tune(Function.Trid, 5.0, 25);
+        tune(Function.Trid, 10.0, 25);
     }
 
     @Test public void testTuneZakharoy() throws IOException {
-        tune(Function.Zakharoy, 1.8, 10);
+        tune(Function.Zakharoy, 100.0, 25);
     }
 }

@@ -67,14 +67,9 @@ public abstract class BitSetGenes implements Genes {
 
     @Override
     public void buildFromRandom() {
-        final BitSet genes = new BitSet(size_of_genes);
-        genes.clear();
-
-        for (int i = 0; i < size_of_genes; i++) {
-            if (RepeatableRandom.generateNext() < HALF_PROBABILITY) {
-                genes.flip(i);
-            }
-        }
+        buildEmpty();
+        long[] genes = asIntegers();
+        mutateGenesWithMutationInterval(genes, 1);
         storeGenesInCache(genes);
     }
 
@@ -109,6 +104,10 @@ public abstract class BitSetGenes implements Genes {
             return 0;
         }
         final long mutation_genes_interval = 1 + (long)(genes.length * 2.0 / config.getMutationsPerGene());
+        return mutateGenesWithMutationInterval(genes, mutation_genes_interval);
+    }
+
+    private int mutateGenesWithMutationInterval(long[] genes, long mutation_genes_interval) {
         final long max = config.getMaxGeneValue();
         final long lastMax = config.getLastMaxGeneValue();
         final int last = genes.length - 1;

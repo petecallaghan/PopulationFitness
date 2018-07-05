@@ -12,10 +12,7 @@ namespace PopulationFitness
         public const string TuningFile = "-t";
         public const string EpochsFile = "-e";
         public const string Id = "-i";
-        private const string CommandLine = "-c";
-        private const string ProcessCount = "-p";
         public const string RandomSeed = "random";
-        private const string GenesCache = "-g";
 
         /**
          * Defines the path of the tuning file read from arguments.
@@ -94,21 +91,6 @@ namespace PopulationFitness
                         config.Id = tuning.Id = value;
                         continue;
                     }
-                    if (argument.StartsWith(CommandLine))
-                    {
-                        ChildCommandLine = value;
-                        continue;
-                    }
-                    if (argument.StartsWith(ProcessCount))
-                    {
-                        parallelCount = Int32.Parse(value);
-                        continue;
-                    }
-                    if (argument.StartsWith(GenesCache))
-                    {
-                        CacheType = (CacheType)Enum.Parse(typeof(CacheType), value);
-                        continue;
-                    }
                 }
                 catch (Exception e)
                 {
@@ -136,9 +118,6 @@ namespace PopulationFitness
             Console.WriteLine("    -t [csv file containing tuning]");
             Console.WriteLine("    -e [csv file containing epochs]");
             Console.WriteLine("    -i [simulation id - used to generate the name of the output files");
-            Console.WriteLine("    -c [command line for child processes - eg '-Xms10g -Xmx10g -jar target/populationfitness.jar']");
-            Console.WriteLine("    -p [process count of child processes, defaults to value in tuning file]");
-            Console.WriteLine("    -g [DiskBacked or Heap - default is Heap. Use DiskBacked to use a file store for genes]");
             Environment.Exit(0);
         }
     }

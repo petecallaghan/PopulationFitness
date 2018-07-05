@@ -1,2 +1,2 @@
 Function,HistoricFit,DiseaseFit,ModernFit,ModernBreeding,SizeOfGenes,NumberOfGenes,Mutations,SeriesRuns,ParallelRuns
-Exponential,0.960377439877486,0.797548621074446,1.0484417435794,0.09,1000,20000,150,1,1
+Exponential,0.979763600127731,0.755073649754501,1.00476190222067,0.09,1000,20000,150,1,1

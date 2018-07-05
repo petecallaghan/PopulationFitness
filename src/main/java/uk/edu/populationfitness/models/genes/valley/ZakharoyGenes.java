@@ -11,7 +11,7 @@ public class ZakharoyGenes extends NormalizingBitSetGenes {
         @Override
         public Double calculateValue(long n) {
             double value = (n * (n + 1.0) ) / 2.0;
-            return 100 * n + 25 * (value * value + 35.0 * FastMaths.pow(value, 3));
+            return 100 * n + 25 * (value * value + 35.0 * FastMaths.pow(value, 4));
         }
     }
 

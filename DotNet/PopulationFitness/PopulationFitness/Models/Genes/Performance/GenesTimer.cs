@@ -4,7 +4,7 @@ namespace PopulationFitness.Models.Genes.Performance
 {
     public class GenesTimer : IGenes
     {
-        private static readonly long MicrosecPerTick = (1000L * 1000L) / Stopwatch.Frequency;
+        private static readonly double MicrosecPerTick = (1000.0 * 1000.0) / Stopwatch.Frequency;
         private static readonly TimingStatistics _buildRandom = new TimingStatistics("Build random genes");
         private static readonly TimingStatistics _inherit = new TimingStatistics("Inherit from parents");
         private static readonly TimingStatistics _fitness = new TimingStatistics("Calculate fitness");
@@ -49,7 +49,7 @@ namespace PopulationFitness.Models.Genes.Performance
         public static long GetElapsed(Stopwatch stopWatch)
         {
             stopWatch.Stop();
-            return stopWatch.ElapsedTicks * MicrosecPerTick;
+            return (long)(stopWatch.ElapsedTicks * MicrosecPerTick);
         }
 
         public void BuildFromRandom()

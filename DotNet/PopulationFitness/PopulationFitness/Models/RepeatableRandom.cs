@@ -77,7 +77,7 @@ namespace PopulationFitness.Models
 
         public static long GenerateNextLong(long min, long max)
         {
-            return min + (long)(random.Value.NextDouble() * (max - min + 1));
+            return min + (long)(random.Value.NextDouble() * (max - min));
         }
 
         public static Random GetRandom()

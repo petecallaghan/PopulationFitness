@@ -10,7 +10,7 @@ namespace PopulationFitness.Models.Genes.Valley
             public double CalculateValue(long n)
             {
                 double value = (n * (n + 1.0)) / 2.0;
-                return 100 * n + 25 * (value * value + 35.0 * FastMaths.FastMaths.Pow(value, 3));
+                return 100 * n + 25 * (value * value + 35.0 * FastMaths.FastMaths.Pow(value, 4));
             }
         }
 

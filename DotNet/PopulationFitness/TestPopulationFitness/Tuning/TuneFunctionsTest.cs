@@ -24,7 +24,7 @@ namespace TestPopulationFitness.Tuning
         [InlineData(Function.Rastrigin, 10.0, TuningPercentage)]
         [InlineData(Function.Sphere, 5, 25)]
         [InlineData(Function.StyblinksiTang, 10, 30)]
-        //[InlineData(Function.Schwefel226, 20000, 30)] //
+        [InlineData(Function.Schwefel226, 1.0, TuningPercentage)]
         [InlineData(Function.Rosenbrock, 10, TuningPercentage)]
         [InlineData(Function.SumOfPowers, 10, 30)]
         [InlineData(Function.SumSquares, 20, 25)]
@@ -40,7 +40,7 @@ namespace TestPopulationFitness.Tuning
         [InlineData(Function.SchumerSteiglitz, 8, 25)]
         [InlineData(Function.Schwefel220, 4, 25)]
         [InlineData(Function.Trid, 10.0, 25)]
-        //[InlineData(Function.Zakharoy, 1.0, 100)] //
+        [InlineData(Function.Zakharoy, 100.0, 25)]
         public void Tune(Function function, double maxFactor, int tuningPercentage)
         {
             RepeatableRandom.ResetSeed();
