@@ -33,9 +33,9 @@ namespace PopulationFitness.Output
                 EndYear = row.GetField<int>(1),
                 EnvironmentCapacity = row.GetField<int>(2)
             };
-            epoch.BreedingProbability(row.GetField<double>(3));
+            epoch.BreedingProbability(row.GetDoubleFieldWithoutRounding(3));
             epoch.Disease(row.GetField<bool>(4));
-            epoch.Fitness(row.GetField<double>(5));
+            epoch.Fitness(row.GetDoubleFieldWithoutRounding(5));
             epoch.ExpectedMaxPopulation = row.GetField<int>(6);
             epoch.MaxAge(row.GetField<int>(7));
             epoch.MaxBreedingAge(row.GetField<int>(8));

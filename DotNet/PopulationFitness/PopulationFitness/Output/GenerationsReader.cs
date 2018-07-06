@@ -39,22 +39,22 @@ namespace PopulationFitness.Output
                     row.GetField<int>(8),
                     row.GetField<int>(9),
                     row.GetField<int>(10),
-                    (int)(row.GetField<double>(11) * 1000),
-                    (int)(row.GetField<double>(12) * 1000),
-                    row.GetField<double>(16),
-                    row.GetField<double>(18));
+                    (int)(row.GetDoubleFieldWithoutRounding(11) * 1000.0),
+                    (int)(row.GetDoubleFieldWithoutRounding(12) * 1000.0),
+                    row.GetDoubleFieldWithoutRounding(16),
+                    row.GetDoubleFieldWithoutRounding(18));
             generation.Epoch.EndYear = row.GetField<int>(1);
-            generation.Epoch.EnvironmentCapacity = (int)row.GetField<double>(2);
+            generation.Epoch.EnvironmentCapacity = (int)row.GetDoubleFieldWithoutRounding(2);
             generation.Epoch.EnableFitness = row.GetField<bool>(3);
-            generation.Epoch.BreedingProbability(row.GetField<double>(4));
+            generation.Epoch.BreedingProbability(row.GetDoubleFieldWithoutRounding(4));
 
-            generation.Epoch.Fitness(row.GetField<double>(6));
+            generation.Epoch.Fitness(row.GetDoubleFieldWithoutRounding(6));
             generation.Epoch.ExpectedMaxPopulation = row.GetField<int>(7);
-            generation.AverageFitness = row.GetField<double>(13);
-            generation.FitnessDeviation = row.GetField<double>(14);
-            generation.AverageAge = row.GetField<double>(15);
-            generation.AverageFactoredFitness = row.GetField<double>(17);
-            generation.AverageLifeExpectancy = row.GetField<double>(19);
+            generation.AverageFitness = row.GetDoubleFieldWithoutRounding(13);
+            generation.FitnessDeviation = row.GetDoubleFieldWithoutRounding(14);
+            generation.AverageAge = row.GetDoubleFieldWithoutRounding(15);
+            generation.AverageFactoredFitness = row.GetDoubleFieldWithoutRounding(17);
+            generation.AverageLifeExpectancy = row.GetDoubleFieldWithoutRounding(19);
             return generation;
         }
     }

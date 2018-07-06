@@ -26,7 +26,7 @@ namespace TestPopulationFitness.UnitTests
         [InlineData(Function.DixonPrice, 1.0)]
         [InlineData(Function.ChungReynolds, 1.0)]
         [InlineData(Function.Brown, 1.0)]
-        [InlineData(Function.Alpine, 10)]
+        [InlineData(Function.Alpine, 1.0)]
         [InlineData(Function.Ackleys, 1.0)]
         [InlineData(Function.SumOfPowers, 0.05)]
         [InlineData(Function.Rastrigin, 1.0)]

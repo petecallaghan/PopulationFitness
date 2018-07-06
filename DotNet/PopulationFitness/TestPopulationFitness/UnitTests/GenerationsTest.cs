@@ -129,28 +129,30 @@ namespace TestPopulationFitness.UnitTests
             }
         }
 
-        private void AssertAreEqual(GenerationStatistics e, GenerationStatistics a)
+        private void AssertAreEqual(GenerationStatistics expected, GenerationStatistics actual)
         {
-            Assert.Equal(e.Epoch.StartYear, a.Epoch.StartYear);
-            Assert.Equal(e.Epoch.EndYear, a.Epoch.EndYear);
-            Assert.Equal(e.Epoch.EnvironmentCapacity, a.Epoch.EnvironmentCapacity);
-            Assert.Equal(e.Epoch.IsFitnessEnabled, a.Epoch.IsFitnessEnabled);
-            Assert.Equal(e.Epoch.BreedingProbability(), a.Epoch.BreedingProbability(), 2);
-            Assert.Equal(e.Year, a.Year);
-            Assert.Equal(e.Epoch.Fitness(), a.Epoch.Fitness(), 7);
-            Assert.Equal(e.Epoch.ExpectedMaxPopulation, a.Epoch.ExpectedMaxPopulation);
-            Assert.Equal(e.Population, a.Population);
-            Assert.Equal(e.NumberBorn, a.NumberBorn);
-            Assert.Equal(e.NumberKilled, a.NumberKilled);
-            Assert.Equal(e.BornElapsedInHundredths(), a.BornElapsedInHundredths(), 3);
-            Assert.Equal(e.KillElapsedInHundredths(), a.KillElapsedInHundredths(), 3);
-            Assert.Equal(e.AverageFitness, a.AverageFitness, 3);
-            Assert.Equal(e.AverageFactoredFitness, a.AverageFactoredFitness, 3);
-            Assert.Equal(e.FitnessDeviation, a.FitnessDeviation, 3);
-            Assert.Equal(e.AverageAge, a.AverageAge, 3);
-            Assert.Equal(e.CapacityFactor, a.CapacityFactor, 3);
-            Assert.Equal(e.AverageMutations, a.AverageMutations, 3);
-            Assert.Equal(e.AverageLifeExpectancy, a.AverageLifeExpectancy, 3);
+            Assert.Equal(expected.Epoch.StartYear, actual.Epoch.StartYear);
+            Assert.Equal(expected.Epoch.EndYear, actual.Epoch.EndYear);
+            Assert.Equal(expected.Epoch.EnvironmentCapacity, actual.Epoch.EnvironmentCapacity);
+            Assert.Equal(expected.Epoch.IsFitnessEnabled, actual.Epoch.IsFitnessEnabled);
+            Assert.Equal(expected.Epoch.BreedingProbability(), actual.Epoch.BreedingProbability(), 2);
+            Assert.Equal(expected.Year, actual.Year);
+            Assert.Equal(expected.Epoch.Fitness(), actual.Epoch.Fitness(), 7);
+            Assert.Equal(expected.Epoch.ExpectedMaxPopulation, actual.Epoch.ExpectedMaxPopulation);
+            Assert.Equal(expected.Population, actual.Population);
+            Assert.Equal(expected.NumberBorn, actual.NumberBorn);
+            Assert.Equal(expected.NumberKilled, actual.NumberKilled);
+            Assert.Equal(expected.BornTime / 100, actual.BornTime / 100);
+            Assert.Equal(expected.KillTime / 100, actual.KillTime / 100);
+            Assert.Equal(expected.BornElapsedInHundredths(), actual.BornElapsedInHundredths(), 0);
+            Assert.Equal(expected.KillElapsedInHundredths(), actual.KillElapsedInHundredths(), 0);
+            Assert.Equal(expected.AverageFitness, actual.AverageFitness, 3);
+            Assert.Equal(expected.AverageFactoredFitness, actual.AverageFactoredFitness, 3);
+            Assert.Equal(expected.FitnessDeviation, actual.FitnessDeviation, 3);
+            Assert.Equal(expected.AverageAge, actual.AverageAge, 3);
+            Assert.Equal(expected.CapacityFactor, actual.CapacityFactor, 3);
+            Assert.Equal(expected.AverageMutations, actual.AverageMutations, 3);
+            Assert.Equal(expected.AverageLifeExpectancy, actual.AverageLifeExpectancy, 3);
         }
     }
 }

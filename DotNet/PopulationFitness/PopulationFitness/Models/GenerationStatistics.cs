@@ -13,8 +13,8 @@ namespace PopulationFitness.Models
         public readonly int Population;
         public readonly int Year;
         public readonly Epoch Epoch;
-        private readonly long BornTime;
-        private readonly long KillTime;
+        public readonly long BornTime;
+        public readonly long KillTime;
         public double AverageFitness;
         public double AverageFactoredFitness;
         public double FitnessDeviation;
@@ -46,6 +46,7 @@ namespace PopulationFitness.Models
             AverageAge = 0;
             CapacityFactor = capacity_factor;
             AverageMutations = average_mutations;
+            AverageLifeExpectancy = 0;
         }
 
         public double BornElapsedInHundredths()
