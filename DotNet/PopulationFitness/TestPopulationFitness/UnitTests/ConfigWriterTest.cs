@@ -1,13 +1,14 @@
 ﻿using PopulationFitness.Models;
 using PopulationFitness.Output;
 using System.Threading;
-using Xunit;
+using NUnit.Framework;
 
 namespace TestPopulationFitness.UnitTests
 {
+    [TestFixture]
     public class ConfigWriterTest
     {
-        [Fact]
+        [Test]
         public void TestWriter()
         {
             // Given a config
@@ -17,7 +18,7 @@ namespace TestPopulationFitness.UnitTests
             ConfigWriter.Write(tuning, Paths.PathOf("test.yaml"));
         }
 
-        [Fact]
+        [Test]
         public void TestUniqueConfigIdentifiers()
         {
             // Given two configs created at different times
@@ -26,7 +27,7 @@ namespace TestPopulationFitness.UnitTests
             Config config2 = new Config();
 
             // Then they have unique encodings
-            Assert.NotEqual(config1.Id, config2.Id);
+            Assert.AreNotEqual(config1.Id, config2.Id);
         }
     }
 

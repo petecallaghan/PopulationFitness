@@ -1,13 +1,14 @@
 using PopulationFitness.Models;
 using PopulationFitness.Models.Genes.BitSet;
 using PopulationFitness.Models.Genes.LocalMinima;
-using Xunit;
+using NUnit.Framework;
 
 namespace TestPopulationFitness.UnitTests
 {
+    [TestFixture]
     public class GenesTest
     {
-        [Fact]
+        [TestCase]
         public void TestGenesAreEmpty()
         {
             // Given a set of genes with zero value
@@ -19,7 +20,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.True(genes.AreEmpty);
         }
 
-        [Fact]
+        [TestCase]
         public void TestMutatedGenesAreNotAllZero()
         {
             // Given a set of genes that are empty and a high probability that they will mutate
@@ -45,7 +46,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.True(mutated_count <= 2.5 * config.MutationsPerGene);
         }
 
-        [Fact]
+        [TestCase]
         public void TestRandomGenesAreNotAllZero()
         {
             // Given a set of genes that are random
@@ -67,7 +68,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.True(set_count < 0.75 * genes.NumberOfBits);
         }
 
-        [Fact]
+        [TestCase]
         public void TestGenesAsIntegers()
         {
             // Given a set of genes that are random
@@ -84,7 +85,7 @@ namespace TestPopulationFitness.UnitTests
             }
         }
 
-        [Fact]
+        [TestCase]
         public void TestMutationCanBeDisabled()
         {
             // Given a set of genes with zero values that will not mutate
@@ -106,7 +107,7 @@ namespace TestPopulationFitness.UnitTests
                 }
             }
 
-            Assert.Equal(0, mutated_count);
+            Assert.AreEqual(0, mutated_count);
         }
 
         private void ThenTheyFallIntoTheFloatRange(BitSetGenes genes)
@@ -117,7 +118,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.True(1.0 >= fitness);
         }
 
-        [Fact]
+        [TestCase]
         public void TestGenesAsFloatUseDefaultRange()
         {
             // Given a set of genes with non zero values
@@ -128,7 +129,7 @@ namespace TestPopulationFitness.UnitTests
             ThenTheyFallIntoTheFloatRange(genes);
         }
 
-        [Fact]
+        [TestCase]
         public void TestGenesWithLargeBitCoding()
         {
             // Given a set of genes with non zero values
@@ -153,7 +154,7 @@ namespace TestPopulationFitness.UnitTests
             return father;
         }
 
-        [Fact]
+        [TestCase]
         public void TestBabyIsNotIdenticalToMotherOrFather()
         {
             // Given a mother with some mutated genes, a father with some mutated genes and a baby
@@ -170,10 +171,10 @@ namespace TestPopulationFitness.UnitTests
             // Then the baby's genes are different to both
             Assert.False(baby.IsEqual(mother));
             Assert.False(baby.IsEqual(father));
-            Assert.NotEqual(0, mutated);
+            Assert.AreNotEqual(0, mutated);
         }
 
-        [Fact]
+        [TestCase]
         public void TestBabyIsNotZero()
         {
             // Given a mother with some mutated genes, a father with some mutated genes and a baby
@@ -191,7 +192,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.False(baby.AreEmpty);
         }
 
-        [Fact]
+        [TestCase]
         public void TestBabyIsSimilarToMotherAndFather()
         {
             // Given a mother with some mutated genes, a father with some mutated genes and a baby

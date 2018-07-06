@@ -4,41 +4,37 @@ using PopulationFitness.Models.Genes.BitSet;
 using PopulationFitness.Models.Genes.Performance;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Xunit;
+using NUnit.Framework;
 
 namespace TestPopulationFitness.Tuning
 {
+    [TestFixture]
     public class DiscoverFunctionRangeTest
     {
-
         private const int NumberOfGenes = 20000;
-
         private const int SizeOfGenes = 1000;
-
         private const int PopulationSize = 10;
 
-        [Theory]
-        [InlineData(Function.Ackleys)]
-        [InlineData(Function.Alpine)]
-        [InlineData(Function.Brown)]
-        [InlineData(Function.ChungReynolds)]
-        [InlineData(Function.DixonPrice)]
-        [InlineData(Function.Exponential)]
-        [InlineData(Function.Griewank)]
-        [InlineData(Function.Qing)]
-        [InlineData(Function.Rastrigin)]
-        [InlineData(Function.Rosenbrock)]
-        [InlineData(Function.Salomon)]
-        [InlineData(Function.SchumerSteiglitz)]
-        [InlineData(Function.Schwefel220)]
-        [InlineData(Function.Schwefel226)]
-        [InlineData(Function.Sphere)]
-        [InlineData(Function.StyblinksiTang)]
-        [InlineData(Function.SumOfPowers)]
-        [InlineData(Function.SumSquares)]
-        [InlineData(Function.Trid)]
-        [InlineData(Function.Zakharoy)]
+        [TestCase(Function.Ackleys)]
+        [TestCase(Function.Alpine)]
+        [TestCase(Function.Brown)]
+        [TestCase(Function.ChungReynolds)]
+        [TestCase(Function.DixonPrice)]
+        [TestCase(Function.Exponential)]
+        [TestCase(Function.Griewank)]
+        [TestCase(Function.Qing)]
+        [TestCase(Function.Rastrigin)]
+        [TestCase(Function.Rosenbrock)]
+        [TestCase(Function.Salomon)]
+        [TestCase(Function.SchumerSteiglitz)]
+        [TestCase(Function.Schwefel220)]
+        [TestCase(Function.Schwefel226)]
+        [TestCase(Function.Sphere)]
+        [TestCase(Function.StyblinksiTang)]
+        [TestCase(Function.SumOfPowers)]
+        [TestCase(Function.SumSquares)]
+        [TestCase(Function.Trid)]
+        [TestCase(Function.Zakharoy)]
         public void Discover(Function function)
         {
             var factory = new GenesTimerFactory(new BitSetGenesFactory())
@@ -82,13 +78,13 @@ namespace TestPopulationFitness.Tuning
                 if (fitness > max) max = fitness;
             }
 
-            Debug.WriteLine(function.ToString());
-            Debug.Write("(");
-            Debug.Write(NumberOfGenes);
-            Debug.Write(") min=");
-            Debug.Write(min);
-            Debug.Write(" max=");
-            Debug.WriteLine(max);
+            Console.WriteLine(function.ToString());
+            Console.Write("(");
+            Console.Write(NumberOfGenes);
+            Console.Write(") min=");
+            Console.Write(min);
+            Console.Write(" max=");
+            Console.WriteLine(max);
 
             GenesTimer.ShowAll();
 

@@ -1,21 +1,24 @@
 ﻿using PopulationFitness.Models;
 using System;
 using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 
 namespace TestPopulationFitness.UnitTests
 {
+    [TestFixture]
     public class PopulationTest
     {
         private static readonly int INITIAL_POPULATION_SIZE = 30;
         private static readonly int BIRTH_YEAR = 1964;
 
-        [Fact]
+        [TestCase]
         public void TestCreateNewNonEmptyPopulation()
         {
             // Given a small population
-            Config config = new Config();
-            config.InitialPopulation = INITIAL_POPULATION_SIZE;
+            Config config = new Config
+            {
+                InitialPopulation = INITIAL_POPULATION_SIZE
+            };
             Population population = new Population(config);
             Epoch epoch = new Epoch(config, BIRTH_YEAR);
 
@@ -24,15 +27,15 @@ namespace TestPopulationFitness.UnitTests
 
             // Then it has the right number of individuals for the birth year
             // and each individual has a set of genes
-            Assert.Equal(config.InitialPopulation, population.Individuals.Count);
+            Assert.AreEqual(config.InitialPopulation, population.Individuals.Count);
             foreach (Individual i in population.Individuals)
             {
-                Assert.Equal(BIRTH_YEAR, i.BirthYear);
+                Assert.AreEqual(BIRTH_YEAR, i.BirthYear);
                 Assert.False(i.Genes.AreEmpty);
             }
         }
 
-        [Fact]
+        [TestCase]
         public void TestKillOffUnfit()
         {
             // Given a population that contains just babies
@@ -58,12 +61,14 @@ namespace TestPopulationFitness.UnitTests
             Assert.True(Math.Abs(1.0 - population.CapacityFactor()) < 0.1);
         }
 
-        [Fact]
+        [TestCase]
         public void TestCreateANewGenerationFromTheCurrentOne()
         {
             // Given a population that is a mix of ages...
-            Config config = new Config();
-            config.InitialPopulation = INITIAL_POPULATION_SIZE;
+            Config config = new Config
+            {
+                InitialPopulation = INITIAL_POPULATION_SIZE
+            };
             Population population = new Population(config);
             int current_year = BIRTH_YEAR + config.MaxBreedingAge;
             int breeding_birth_year = current_year - config.MinBreedingAge;
@@ -81,7 +86,7 @@ namespace TestPopulationFitness.UnitTests
             // The right number of babies are produced and the babies are added
             Assert.True(babies.Count >= (config.InitialPopulation * config.ProbabilityOfBreeding / 2) - config.InitialPopulation / 5);
             Assert.True(babies.Count <= (config.InitialPopulation * config.ProbabilityOfBreeding) + config.InitialPopulation / 5);
-            Assert.Equal((config.InitialPopulation * 3) + babies.Count, population.Individuals.Count);
+            Assert.AreEqual((config.InitialPopulation * 3) + babies.Count, population.Individuals.Count);
         }
     }
 }

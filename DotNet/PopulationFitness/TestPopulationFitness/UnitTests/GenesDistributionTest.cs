@@ -4,10 +4,11 @@ using PopulationFitness.Models.Genes.BitSet;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using Xunit;
+using NUnit.Framework;
 
 namespace TestPopulationFitness.UnitTests
 {
+    [TestFixture]
     public class GenesDistributionTest
     {
 
@@ -17,24 +18,23 @@ namespace TestPopulationFitness.UnitTests
 
         private const int SizeOfGenes = 10;
 
-        [Theory]
-        [InlineData(Function.Schwefel220, 1.0)]
-        [InlineData(Function.SchumerSteiglitz, 1.0)]
-        [InlineData(Function.Qing, 1.0)]
-        [InlineData(Function.Griewank, 1.0)]
-        [InlineData(Function.Exponential, 1.0)]
-        [InlineData(Function.DixonPrice, 1.0)]
-        [InlineData(Function.ChungReynolds, 1.0)]
-        [InlineData(Function.Brown, 1.0)]
-        [InlineData(Function.Alpine, 1.0)]
-        [InlineData(Function.Ackleys, 1.0)]
-        [InlineData(Function.SumOfPowers, 0.05)]
-        [InlineData(Function.Rastrigin, 1.0)]
-        [InlineData(Function.StyblinksiTang, 1.0)]
-        [InlineData(Function.Rosenbrock, 1.0)]
-        [InlineData(Function.Schwefel226, 0.01)]
-        [InlineData(Function.Sphere, 1.0)]
-        [InlineData(Function.SumSquares, 1.0)]
+        [TestCase(Function.Schwefel220, 1.0)]
+        [TestCase(Function.SchumerSteiglitz, 1.0)]
+        [TestCase(Function.Qing, 1.0)]
+        [TestCase(Function.Griewank, 1.0)]
+        [TestCase(Function.Exponential, 1.0)]
+        [TestCase(Function.DixonPrice, 1.0)]
+        [TestCase(Function.ChungReynolds, 1.0)]
+        [TestCase(Function.Brown, 1.0)]
+        [TestCase(Function.Alpine, 1.0)]
+        [TestCase(Function.Ackleys, 1.0)]
+        [TestCase(Function.SumOfPowers, 0.05)]
+        [TestCase(Function.Rastrigin, 1.0)]
+        [TestCase(Function.StyblinksiTang, 1.0)]
+        [TestCase(Function.Rosenbrock, 1.0)]
+        [TestCase(Function.Schwefel226, 0.01)]
+        [TestCase(Function.Sphere, 1.0)]
+        [TestCase(Function.SumSquares, 1.0)]
         public void GenesAreDistributedWithoutExcessiveSpikes(Function function, double fitness_factor)
         {
             BitSetGenesFactory factory = new BitSetGenesFactory();

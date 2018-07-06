@@ -3,13 +3,13 @@ using PopulationFitness.Models;
 using PopulationFitness.Models.Genes;
 using PopulationFitness.Models.Genes.Performance;
 using PopulationFitness.Output;
-using System.Diagnostics;
-using TestPopulationFitness.Output;
 using TestPopulationFitness.UnitTests;
-using Xunit;
+using NUnit.Framework;
+using System;
 
 namespace TestPopulationFitness.Tuning
 {
+    [TestFixture]
     public class TuneFunctionsTest
     {
         private const int NumberOfGenes = 20000;
@@ -20,31 +20,29 @@ namespace TestPopulationFitness.Tuning
         private const int TuningPercentage = 15;
         private const double MutationsPerIndividual = 150;
 
-        [Theory]
-        [InlineData(Function.Rastrigin, 10.0, TuningPercentage)]
-        [InlineData(Function.Sphere, 5, 25)]
-        [InlineData(Function.StyblinksiTang, 10, 30)]
-        [InlineData(Function.Schwefel226, 1.0, TuningPercentage)]
-        [InlineData(Function.Rosenbrock, 10, TuningPercentage)]
-        [InlineData(Function.SumOfPowers, 10, 30)]
-        [InlineData(Function.SumSquares, 20, 25)]
-        [InlineData(Function.Ackleys, 4, TuningPercentage)]
-        [InlineData(Function.Alpine, 30, 40)]
-        [InlineData(Function.Brown, 10, 25)]
-        [InlineData(Function.ChungReynolds, 8, 40)]
-        [InlineData(Function.DixonPrice, 8, 30)]
-        [InlineData(Function.Exponential, 4, 20)]
-        [InlineData(Function.Griewank, 400, TuningPercentage)]
-        [InlineData(Function.Qing, 8, 25)]
-        [InlineData(Function.Salomon, 4, TuningPercentage)]
-        [InlineData(Function.SchumerSteiglitz, 8, 25)]
-        [InlineData(Function.Schwefel220, 4, 25)]
-        [InlineData(Function.Trid, 10.0, 25)]
-        [InlineData(Function.Zakharoy, 100.0, 25)]
+        [TestCase(Function.Rastrigin, 10.0, TuningPercentage)]
+        [TestCase(Function.Sphere, 5, 25)]
+        [TestCase(Function.StyblinksiTang, 10, 30)]
+        [TestCase(Function.Schwefel226, 1.0, TuningPercentage)]
+        [TestCase(Function.Rosenbrock, 10, TuningPercentage)]
+        [TestCase(Function.SumOfPowers, 10, 30)]
+        [TestCase(Function.SumSquares, 20, 25)]
+        [TestCase(Function.Ackleys, 4, TuningPercentage)]
+        [TestCase(Function.Alpine, 30, 40)]
+        [TestCase(Function.Brown, 10, 25)]
+        [TestCase(Function.ChungReynolds, 8, 40)]
+        [TestCase(Function.DixonPrice, 8, 30)]
+        [TestCase(Function.Exponential, 4, 20)]
+        [TestCase(Function.Griewank, 400, TuningPercentage)]
+        [TestCase(Function.Qing, 8, 25)]
+        [TestCase(Function.Salomon, 4, TuningPercentage)]
+        [TestCase(Function.SchumerSteiglitz, 8, 25)]
+        [TestCase(Function.Schwefel220, 4, 25)]
+        [TestCase(Function.Trid, 10.0, 25)]
+        [TestCase(Function.Zakharoy, 100.0, 25)]
         public void Tune(Function function, double maxFactor, int tuningPercentage)
         {
             RepeatableRandom.ResetSeed();
-            ConsoleRedirector.Redirect();
 
             var config = BuildTimedTuningConfig(function);
             var epochs = UkPopulationEpochs.Define(config);
@@ -72,12 +70,12 @@ namespace TestPopulationFitness.Tuning
 
         private void ShowTuning(PopulationFitness.Tuning tuning)
         {
-            Debug.Write("Tuned Disease fitness:");
-            Debug.WriteLine(tuning.DiseaseFit);
-            Debug.Write("Tuned Historic fitness:");
-            Debug.WriteLine(tuning.HistoricFit);
-            Debug.Write("Tuned Modern fitness:");
-            Debug.WriteLine(tuning.ModernFit);
+            Console.Write("Tuned Disease fitness:");
+            Console.WriteLine(tuning.DiseaseFit);
+            Console.Write("Tuned Historic fitness:");
+            Console.WriteLine(tuning.HistoricFit);
+            Console.Write("Tuned Modern fitness:");
+            Console.WriteLine(tuning.ModernFit);
         }
 
         private void AssertTuned(PopulationComparison result, PopulationFitness.Tuning tuning)
@@ -103,10 +101,12 @@ namespace TestPopulationFitness.Tuning
 
         private Config BuildTimedTuningConfig(Function function)
         {
-            Config config = new Config();
+            Config config = new Config
+            {
+                NumberOfGenes = NumberOfGenes,
+                SizeOfEachGene = SizeOfGenes
+            };
             config.GenesFactory.FitnessFunction = function;
-            config.NumberOfGenes = NumberOfGenes;
-            config.SizeOfEachGene = SizeOfGenes;
             config.ScaleMutationsPerGeneFromBitCount(Config.MutationScale);
             SetUpGeneTimers(config);
             return config;

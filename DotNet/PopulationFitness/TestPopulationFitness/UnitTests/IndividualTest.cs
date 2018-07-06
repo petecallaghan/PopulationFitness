@@ -1,11 +1,12 @@
 ﻿using PopulationFitness.Models;
-using Xunit;
+using NUnit.Framework;
 
 namespace TestPopulationFitness.UnitTests
 {
+    [TestFixture]
     public class IndividualTest
     {
-        [Fact]
+        [TestCase]
         public void TSestOldGuyReadyToDie()
         {
             // Given an old individual
@@ -19,7 +20,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.True(individual.IsReadyToDie(current_year));
         }
 
-        [Fact]
+        [TestCase]
         public void TestYoungGuyNotReadyToDie()
         {
             // Given a young individual
@@ -33,7 +34,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.False(individual.IsReadyToDie(current_year));
         }
 
-        [Fact]
+        [TestCase]
         public void TestCanBreed()
         {
             // Given a breeding age individual
@@ -47,7 +48,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.True(individual.CanBreed(current_year));
         }
 
-        [Fact]
+        [TestCase]
         public void TestYoungsterCannotBreed()
         {
             // Given a breeding age individual
@@ -61,7 +62,7 @@ namespace TestPopulationFitness.UnitTests
             Assert.False(individual.CanBreed(current_year));
         }
 
-        [Fact]
+        [TestCase]
         public void TestOldsterCannotBreed()
         {
             // Given a breeding age individual

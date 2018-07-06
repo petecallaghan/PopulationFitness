@@ -1,13 +1,14 @@
 ﻿using PopulationFitness;
 using PopulationFitness.Models.Genes;
 using PopulationFitness.Output;
-using Xunit;
+using NUnit.Framework;
 
 namespace TestPopulationFitness.UnitTests
 {
+    [TestFixture]
     public class TuningWriterTest
     {
-        [Fact]
+        [TestCase]
         public void TestWrite()
         {
             var expected = new PopulationFitness.Tuning();
@@ -24,18 +25,18 @@ namespace TestPopulationFitness.UnitTests
             expected.ParallelRuns = 2;
             TuningWriter.Write(expected, Paths.PathOf("test.csv"));
             TuningReader.Read(actual, Paths.PathOf("test.csv"));
-            int delta = 10;
+            double delta = 1.0E-10;
 
-            Assert.Equal(expected.Function, actual.Function);
-            Assert.Equal(expected.HistoricFit, actual.HistoricFit, delta);
-            Assert.Equal(expected.DiseaseFit, actual.DiseaseFit, delta);
-            Assert.Equal(expected.ModernBreeding, actual.ModernBreeding, delta);
-            Assert.Equal(expected.ModernFit, actual.ModernFit, delta);
-            Assert.Equal(expected.NumberOfGenes, actual.NumberOfGenes);
-            Assert.Equal(expected.SizeOfGenes, actual.SizeOfGenes);
-            Assert.Equal(expected.MutationsPerGene, actual.MutationsPerGene, delta);
-            Assert.Equal(expected.SeriesRuns, actual.SeriesRuns);
-            Assert.Equal(expected.ParallelRuns, actual.ParallelRuns);
+            Assert.AreEqual(expected.Function, actual.Function);
+            Assert.AreEqual(expected.HistoricFit, actual.HistoricFit, delta);
+            Assert.AreEqual(expected.DiseaseFit, actual.DiseaseFit, delta);
+            Assert.AreEqual(expected.ModernBreeding, actual.ModernBreeding, delta);
+            Assert.AreEqual(expected.ModernFit, actual.ModernFit, delta);
+            Assert.AreEqual(expected.NumberOfGenes, actual.NumberOfGenes);
+            Assert.AreEqual(expected.SizeOfGenes, actual.SizeOfGenes);
+            Assert.AreEqual(expected.MutationsPerGene, actual.MutationsPerGene, delta);
+            Assert.AreEqual(expected.SeriesRuns, actual.SeriesRuns);
+            Assert.AreEqual(expected.ParallelRuns, actual.ParallelRuns);
         }
     }
 }
