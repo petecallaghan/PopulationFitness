@@ -9,6 +9,19 @@ import java.io.IOException;
 import static uk.edu.populationfitness.output.EpochsWriter.deleteExisting;
 
 public class TuningWriter {
+    public static String[] Headers = new String[]{
+            "Function",
+            "Historic Fit",
+            "Disease Fit",
+            "Modern Fit",
+            "Modern Breeding",
+            "Size of Genes",
+            "Number of Genes",
+            "Mutations",
+            "SeriesRuns",
+            "ParallelRuns",
+    };
+
     public static void writeInPath(String path, Tuning tuning) throws  IOException{
         final String filename = path + "/" + tuning.function.toString() + "-" + tuning.number_of_genes + "-" + tuning.size_of_genes + ".csv";
         write(tuning, filename);
@@ -22,8 +35,8 @@ public class TuningWriter {
         writer.close();
     }
 
-    private static void addRow(CSVWriter writer, Tuning tuning) {
-        writer.writeNext(new String[]{
+    public static String[] toRow(Tuning tuning){
+        return new String[]{
                 tuning.function.toString(),
                 Double.toString(tuning.historic_fit),
                 Double.toString(tuning.disease_fit),
@@ -34,21 +47,14 @@ public class TuningWriter {
                 Double.toString(tuning.mutations_per_gene),
                 Integer.toString(tuning.series_runs),
                 Integer.toString(tuning.parallel_runs),
-        });
+        };
+    }
+
+    private static void addRow(CSVWriter writer, Tuning tuning) {
+        writer.writeNext(toRow(tuning));
     }
 
     private static void addHeaderRow(CSVWriter writer) {
-        writer.writeNext(new String[]{
-                "Function",
-                "Historic Fit",
-                "Disease Fit",
-                "Modern Fit",
-                "Modern Breeding",
-                "Size of Genes",
-                "Number of Genes",
-                "Mutations",
-                "SeriesRuns",
-                "ParallelRuns",
-        });
+        writer.writeNext(Headers);
     }
 }

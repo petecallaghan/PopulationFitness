@@ -1,5 +1,6 @@
 package uk.edu.populationfitness.simulation;
 
+import uk.edu.populationfitness.Commands;
 import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epoch;
@@ -8,6 +9,7 @@ import uk.edu.populationfitness.models.Generations;
 import uk.edu.populationfitness.models.genes.cache.CacheType;
 import uk.edu.populationfitness.models.genes.cache.SharedCache;
 import uk.edu.populationfitness.models.genes.cache.ThreadLocalGenesCache;
+import uk.edu.populationfitness.output.AnalysisWriter;
 import uk.edu.populationfitness.output.GenerationsWriter;
 
 import java.io.IOException;
@@ -71,7 +73,9 @@ public class Simulations {
     }
 
     private static void writeFinalResults(Tuning tuning, Generations total) throws IOException {
-        GenerationsWriter.writeCsv(GenerationsWriter.createResultFileName(total.config.id), total, tuning);
+        String resultsFileName = GenerationsWriter.createResultFileName(total.config.id);
+        GenerationsWriter.writeCsv(resultsFileName, total, tuning);
+        AnalysisWriter.append(Commands.experimentFile, Commands.tuningFile, Commands.epochsFile, resultsFileName, tuning, total);
     }
 
     /**
@@ -93,7 +97,7 @@ public class Simulations {
         int finalYear = recoveryStartYear + postDiseaseYears;
         int maxExpected = epochs.last().expected_max_population;
 
-        epochs.addNextEpoch(new Epoch(config, diseaseStartYear).fitness(tuning.disease_fit).max(maxExpected).breedingProbability(tuning.modern_breeding));
+        epochs.addNextEpoch(new Epoch(config, diseaseStartYear).fitness(tuning.disease_fit).max(maxExpected).breedingProbability(tuning.modern_breeding).disease(true));
         epochs.addNextEpoch(new Epoch(config, recoveryStartYear).fitness(tuning.historic_fit).max(maxExpected));
         epochs.setFinalEpochYear(finalYear);
     }

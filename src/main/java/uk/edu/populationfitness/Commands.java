@@ -46,6 +46,11 @@ public class Commands {
     public static CacheType genesCache = CacheType.Default;
 
     /**
+     * The path and name of the experiments file
+     */
+    public static String experimentFile = "experiments.csv";
+
+    /**
      * Reads tuning and epochs from the process arguments
      *
      * @param config
