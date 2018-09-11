@@ -7,6 +7,7 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.GenerationStatistics;
 import uk.edu.populationfitness.models.Generations;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -14,6 +15,8 @@ import java.io.IOException;
  * Created by pete.callaghan on 11/07/2017.
  */
 public class GenerationsWriter {
+    private static ThreadLocal<String> previousFileName = new ThreadLocal<>();
+
     private static String filePath(int parallel_run, int series_run, int number_of_runs, Config config){
         return "generations" + "-" +
                 parallel_run +
@@ -36,8 +39,8 @@ public class GenerationsWriter {
                 ".csv";
     }
 
-    private static void writeCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
-        writeCsv(filePath(parallel_run, series_run, number_of_runs, generations.config), generations, tuning);
+    private static String writeCsv(int parallel_run, int series_run, int number_of_runs, Generations generations, Tuning tuning) throws IOException {
+        return writeCsv(filePath(parallel_run, series_run, number_of_runs, generations.config), generations, tuning);
     }
 
     public static String writeCsv(String filePath, Generations generations, Tuning tuning) throws IOException {
@@ -138,8 +141,19 @@ public class GenerationsWriter {
                                                                Generations total,
                                                                Tuning tuning) throws IOException {
         total = (total == null ? current : Generations.add(total, current));
-        writeCsv(parallel_run, series_run, tuning.series_runs * tuning.parallel_runs, total, tuning);
+        final String resultsFile = writeCsv(parallel_run, series_run, tuning.series_runs * tuning.parallel_runs, total, tuning);
+        deletePreviousFile(resultsFile);
         return total;
+    }
+
+    private static void deletePreviousFile(String resultsFile) {
+        final String previousFile = previousFileName.get();
+        if (previousFile != null){
+            final File file = new File(previousFile);
+            file.delete();
+        }
+
+        previousFileName.set(resultsFile);
     }
 
     /**
