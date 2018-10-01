@@ -69,7 +69,7 @@ class Epoch(val config: Config, val startYear:Int) {
 
   def disease: Boolean = _isDisease
 
-  def fitness(fitness_factor: Double): Epoch = {
+  def fitnessFactor(fitness_factor: Double): Epoch = {
     _fitnessFactor = fitness_factor
     this
   }

@@ -34,6 +34,9 @@ class FastMathsSpec extends FunSpec{
       it("should raise by max"){
         assert(math.pow(5.0, java.lang.Long.MAX_VALUE) == FastMaths.pow(5.0, java.lang.Long.MAX_VALUE))
       }
+      it("should raise by big"){
+        assert(math.pow(2.0, 32500000L) == FastMaths.pow(2.0, 32500000L))
+      }
     }
   }
 }

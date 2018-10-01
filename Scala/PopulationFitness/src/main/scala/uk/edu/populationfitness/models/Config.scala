@@ -6,10 +6,12 @@ import uk.edu.populationfitness.models.fastmaths.FastMaths
 import uk.edu.populationfitness.models.genes.FitnessFunction
 import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
 
-class Config {
-  val mutationScale = 1.0 / 30.0
-  private val _sizeOfLong = java.lang.Long.SIZE
+object Config {
+  val MutationScale = 1.0 / 30.0
+  private val SizeOfLong = java.lang.Long.SIZE
+}
 
+class Config {
   var id: String = Instant.now.toString.replaceAll(":", "-")
 
   private var _numberOfGenes = 4
@@ -49,9 +51,9 @@ class Config {
 
   private def geneSizeUpdated = {
     _geneBitCount = _numberOfGenes * _sizeOfEachGene
-    var excessBits = _geneBitCount % _sizeOfLong;
+    var excessBits = _geneBitCount % Config.SizeOfLong;
     _lastMaxGeneValue = if (excessBits == 0) java.lang.Long.MAX_VALUE else math.min(java.lang.Long.MAX_VALUE, FastMaths.pow(2, excessBits).toLong - 1);
-    _maxGeneValue = if (_geneBitCount < _sizeOfLong) _lastMaxGeneValue else java.lang.Long.MAX_VALUE;
+    _maxGeneValue = if (_geneBitCount < Config.SizeOfLong) _lastMaxGeneValue else java.lang.Long.MAX_VALUE;
   }
 
   var maxAge: Int = 90
@@ -59,12 +61,13 @@ class Config {
   var minBreedingAge: Int = 16
   var probabilityOfBreeding: Double = 0.35 // Derived from Max Crude Birth Rate W&S 1981 1730-2009
   var numberOfYears: Int = 2150
+  var initialPopulation : Int = 4000
 
   {
     numberOfGenes = 4
     sizeOfEachGene = 10
     mutationsPerGene = 1
-    scaleMutationsPerGeneFromBitCount(mutationScale)
+    scaleMutationsPerGeneFromBitCount(Config.MutationScale)
   }
 
   var fitnessFunction: FitnessFunction = FitnessFunction.Undefined

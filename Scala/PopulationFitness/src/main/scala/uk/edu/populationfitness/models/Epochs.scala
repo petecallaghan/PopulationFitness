@@ -5,6 +5,10 @@ class Epochs() {
 
   def epochs: Array[Epoch] = _epochs
 
+  def config : Config = first.config
+
+  def firstYear: Int = first.startYear
+
   /** *
     * Adds an epoch with the specified start year.
     * Sets the end year of the preceding epoch to the year
@@ -78,7 +82,7 @@ class Epochs() {
       System.out.print("Epoch ")
       System.out.print(epoch.startYear)
       System.out.print(" f=")
-      System.out.println(epoch.fitness)
+      System.out.println(epoch.fitnessFactor)
     }
   }
 }

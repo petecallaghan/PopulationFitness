@@ -6,23 +6,24 @@ import uk.edu.populationfitness.models.genes.{Encoding, Mutatable}
 import scala.collection.mutable
 
 object BitSetGenes {
-  private def build(config: Config, fill: Long) : BitSetGenes = {
+  private def build(config: Config, filler: (Long)=> Long) : BitSetGenes = {
     val numberOfInts = (config.geneBitCount / java.lang.Long.SIZE) + (if (java.lang.Long.SIZE% config.geneBitCount == 0) 0 else 1)
-    new BitSetGenes(config, new Array[Long](numberOfInts).map(x => fill))
+    new BitSetGenes(config, new Array[Long](numberOfInts).map(filler))
   }
 
   def buildEmpty(config: Config): BitSetGenes = {
-    build(config, 0L)
+    build(config, (_) => {0L})
   }
 
   def buildFull(config: Config): BitSetGenes = {
-    build(config, 1L)
+    build(config, (_) => {1L})
   }
 
   def buildRandom(config: Config): BitSetGenes = {
-    val genes = buildEmpty(config)
-    genes.mutateGenesWithMutationInterval(config, 1)
-    genes
+    val max = config.maxGeneValue
+    val lastMax = config.lastMaxGeneValue
+    val last = config.geneBitCount - 1
+    build(config, (i) => { RepeatableRandom.generateNextLong(0, if (i == last) lastMax else max) })
   }
 
   def inheritFrom(mother: BitSetGenes, father: BitSetGenes): BitSetGenes = {
@@ -38,6 +39,8 @@ object BitSetGenes {
     baby.mutate
     baby
   }
+
+  private def getMutatedValue(gene: Long, max: Long) = gene + RepeatableRandom.generateNextLong(0 - gene, max)
 }
 
 class BitSetGenes private[bitset](val config: Config, private val _genes: Array[Long]) extends Encoding with Mutatable{
@@ -66,14 +69,12 @@ class BitSetGenes private[bitset](val config: Config, private val _genes: Array[
     _mutationCount = 0
     var i = RepeatableRandom.generateNextInt(mutation_genes_interval)
     while ( i < _genes.length ) {
-      _genes(i) = getMutatedValue(_genes(i), if (i == last) lastMax else max)
+      _genes(i) = BitSetGenes.getMutatedValue(_genes(i), if (i == last) lastMax else max)
       _mutationCount += 1
       i += Math.max(1, RepeatableRandom.generateNextLong(0, mutation_genes_interval).asInstanceOf[Int])
     }
     _mutationCount
   }
-
-  private def getMutatedValue(gene: Long, max: Long) = gene + RepeatableRandom.generateNextLong(0 - gene, max)
 
   def areEmpty: Boolean = {
     _genes.find(x => x != 0 ) match {
