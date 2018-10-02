@@ -7,7 +7,7 @@ object CosSineCache {
   private val _sin = Array.tabulate(_entries) {x => math.sin(math.toRadians(x))}
 
   private def lookup(angle: Double, values: Array[Double]) : Double = {
-    val angleCircle = (angle % _degrees).intValue()
+    val angleCircle = angle.intValue() % _degrees
     if (angle < 0) 0 - values( 0 - angleCircle) else values(angleCircle)
   }
 

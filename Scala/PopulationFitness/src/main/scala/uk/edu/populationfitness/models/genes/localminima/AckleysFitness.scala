@@ -27,8 +27,8 @@ class AckleysFitness(override val config: Config) extends NormalizingFitness(con
     var firstSum = 0.0
     var secondSum = 0.0
 
-    for (integerValue <- values) {
-      val x = interpolate(integerValue)
+    for (i <- 0 to values.size - 1) {
+      val x = interpolate(values(i))
       firstSum += x * x
       secondSum += CosSineCache.cos(AckleysFitness._twoPi * x)
     }

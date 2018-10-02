@@ -22,13 +22,7 @@ object InterpolatingFitness {
 
 abstract class InterpolatingFitness protected(override val config: Config, val maxInterpolatedValue: Double) extends Fitness(config) {
 
-  protected var _interpolationRatio = maxInterpolatedValue / maxLongForSizeOfGene
-
-  /**
-    *
-    * @return the maximum long value given the size of the genes
-    */
-  protected def maxLongForSizeOfGene: Double = InterpolatingFitness.maxForBits(config.geneBitCount)
+  protected val _interpolationRatio = maxInterpolatedValue / InterpolatingFitness.maxForBits(config.geneBitCount)
 
   protected def interpolate(integer_value: Long): Double = _interpolationRatio * integer_value
 }

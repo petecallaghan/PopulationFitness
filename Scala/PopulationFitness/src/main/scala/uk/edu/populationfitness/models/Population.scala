@@ -55,27 +55,27 @@ class Population private[models](val config: Config,
 
   def addNewGeneration(epoch: Epoch, year: Int) : Change with Born = {
     val start = System.nanoTime
-    val babies = _individuals.grouped(2).
-      filter((p) => RepeatableRandom.generateNext < epoch.breedingProbability && p(0).canBreed(year) && p(1).canBreed(year)).
-      map((parents) => {
-        val father = parents(0)
-        val mother = parents(1)
-        Individual.inheritFromParents(epoch, year, mother, father)
-      }).toArray
+
+    val babies = for (i <- 0 to _individuals.size - 2 by 2 if
+      RepeatableRandom.generateNext < epoch.breedingProbability && _individuals(i).canBreed(year) && _individuals(i+1).canBreed(year)) yield {
+      Individual.inheritFromParents(epoch, year, _individuals(i+1), _individuals(i))
+    }
 
     val newGeneration = _individuals ++ babies
 
     new Change with Born {
-      override val result = new Population(config, newGeneration)
-      override val born = new Population(config, babies)
+      override val result = new Population(config, newGeneration, _fitnessFactor, _environmentCapacity)
+      override val born = new Population(config, babies, _fitnessFactor, _environmentCapacity)
       override val bornElapsed = System.nanoTime - start
     }
   }
 
   def killThoseUnfitOrReadyToDie(epoch: Epoch, currentYear: Int) : Change with Killed = {
     val start = System.nanoTime
-    val environmentCapacity = if (epoch.isCapacityUnlimited) 1.0 else epoch.capacityForYear(currentYear).toDouble / _individuals.length
+    val environmentCapacity = if (epoch.isCapacityUnlimited) 1.0 else epoch.capacityForYear(currentYear).toDouble / _individuals.size
     val fitnessFactor = epoch.fitnessFactor * environmentCapacity
+
+    epoch.addCapacityFactor(environmentCapacity)
 
     val (victims, survivors) = _individuals partition((i) => {
       if (i.isReadyToDie(currentYear)) true else i.fitness * fitnessFactor < RepeatableRandom.generateNext

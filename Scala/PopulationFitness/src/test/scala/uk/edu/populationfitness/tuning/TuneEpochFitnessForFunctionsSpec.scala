@@ -5,9 +5,9 @@ import uk.edu.populationfitness.UkPopulationEpochs
 import uk.edu.populationfitness.models._
 import uk.edu.populationfitness.models.genes.FitnessFunction
 import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
-import uk.edu.populationfitness.models.tuning.{Comparison, PopulationTuning}
+import uk.edu.populationfitness.models.tuning.{Comparison, EpochFitnessTuning}
 
-object TuneFunctionsTest {
+object TuneEpochFitnessForFunctionsSpec {
   private val NumberOfGenes = 20000
   private val SizeOfGenes = 1000
   private val PopulationRatio = 100 //25
@@ -17,9 +17,9 @@ object TuneFunctionsTest {
   private val MutationsPerIndividual = 150
 }
 
-class TuneFunctionsTest extends  FunSpec {
+class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   private def tune(function: FitnessFunction, maxFactor: Double): Unit = {
-    tune(function, maxFactor, TuneFunctionsTest.TuningPercentage)
+    tune(function, maxFactor, TuneEpochFitnessForFunctionsSpec.TuningPercentage)
   }
 
   private def tune(function: FitnessFunction, maxFactor: Double, tuningPercentage: Int): Unit = {
@@ -27,12 +27,12 @@ class TuneFunctionsTest extends  FunSpec {
       RepeatableRandom.resetSeed()
       val config = buildConfig(function)
       val epochs = UkPopulationEpochs.define(config)
-      epochs.reducePopulation(TuneFunctionsTest.PopulationRatio)
+      epochs.reducePopulation(TuneEpochFitnessForFunctionsSpec.PopulationRatio)
       config.initialPopulation = epochs.first.environmentCapacity
-      config.mutationsPerGene = TuneFunctionsTest.MutationsPerIndividual
+      config.mutationsPerGene = TuneEpochFitnessForFunctionsSpec.MutationsPerIndividual
 
       describe ("when the fitness factors are tuned"){
-        val result = PopulationTuning.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, tuningPercentage)
+        val result = EpochFitnessTuning.tuneAll(epochs, 0.0, maxFactor, 0.000001, tuningPercentage)
 
         it ("produces sensible results"){
           val tuning = createTuningFromEpochs(config, epochs)
@@ -79,8 +79,8 @@ class TuneFunctionsTest extends  FunSpec {
   private def buildConfig(function: FitnessFunction) = {
     val config = new Config {
       fitnessFunction = function
-      numberOfGenes = TuneFunctionsTest.NumberOfGenes
-      sizeOfEachGene = TuneFunctionsTest.SizeOfGenes
+      numberOfGenes = TuneEpochFitnessForFunctionsSpec.NumberOfGenes
+      sizeOfEachGene = TuneEpochFitnessForFunctionsSpec.SizeOfGenes
     }
     config.scaleMutationsPerGeneFromBitCount(Config.MutationScale)
     setUpGeneTimers(config)

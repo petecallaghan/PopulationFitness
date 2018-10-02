@@ -18,7 +18,7 @@ public class TuneFunctionsTest {
 
     private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationRatio = 25;
+    private static final int PopulationRatio = 100; //25;
 
     private static final String EpochsPath = "epochs";
 

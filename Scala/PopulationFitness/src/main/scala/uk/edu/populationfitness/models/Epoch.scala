@@ -30,21 +30,6 @@ class Epoch(val config: Config, val startYear:Int) {
   private var _maxBreedingAge = config.maxBreedingAge
   private var _totalCapacityFactor:Double = 0.0
 
-  def this(source: Epoch) {
-    this(source.config, source.startYear)
-    expectedMaxPopulation = source.expectedMaxPopulation
-    endYear = source.endYear
-    environmentCapacity = source.environmentCapacity
-    enableFitness = source.enableFitness
-    _fitnessFactor = source._fitnessFactor
-    _isDisease = source._isDisease
-    _probabilityOfBreeding = source._probabilityOfBreeding
-    _totalCapacityFactor = source._totalCapacityFactor
-    prevEnvironmentCapacity = source.prevEnvironmentCapacity
-    _maxAge = source._maxAge
-    _maxBreedingAge = source._maxBreedingAge
-  }
-
   def isCapacityUnlimited: Boolean = environmentCapacity == Epoch.UNLIMITED_CAPACITY
 
   def capacityForYear(year: Int): Int = {
@@ -71,6 +56,7 @@ class Epoch(val config: Config, val startYear:Int) {
 
   def fitnessFactor(fitness_factor: Double): Epoch = {
     _fitnessFactor = fitness_factor
+    _totalCapacityFactor = 0
     this
   }
 

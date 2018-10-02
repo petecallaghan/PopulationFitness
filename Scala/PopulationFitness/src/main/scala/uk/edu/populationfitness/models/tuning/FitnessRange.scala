@@ -23,9 +23,4 @@ class FitnessRange private[tuning]() {
   def max: Double = _max
 
   def min: Double = _min
-
-  // returns the range as a scale. S(f) = (f - min) / (max - min)
-  def toScale(fitness: Double): Double = {
-    (fitness - _min) / _range
-  }
 }
