@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models
+package uk.edu.populationfitness.models.maths
 
 import java.util.SplittableRandom
 

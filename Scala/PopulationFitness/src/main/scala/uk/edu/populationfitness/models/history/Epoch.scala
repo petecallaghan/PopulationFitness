@@ -1,4 +1,6 @@
-package uk.edu.populationfitness.models
+package uk.edu.populationfitness.models.history
+
+import uk.edu.populationfitness.models.Config
 
 object Epoch {
   private val UNDEFINED_YEAR = -1
@@ -29,6 +31,20 @@ class Epoch(val config: Config, val startYear:Int) {
   private var _maxAge = config.maxAge
   private var _maxBreedingAge = config.maxBreedingAge
   private var _totalCapacityFactor:Double = 0.0
+
+  def this(source: Epoch) {
+    this(source.config, source.startYear)
+    _fitnessFactor = source._fitnessFactor
+    environmentCapacity = source.environmentCapacity
+    prevEnvironmentCapacity = source.prevEnvironmentCapacity
+    enableFitness = source.enableFitness
+    expectedMaxPopulation = source.expectedMaxPopulation
+    _probabilityOfBreeding = source._probabilityOfBreeding
+    _isDisease = source._isDisease
+    _maxAge = source._maxAge
+    _maxBreedingAge = source._maxBreedingAge
+    _totalCapacityFactor = source._totalCapacityFactor
+  }
 
   def isCapacityUnlimited: Boolean = environmentCapacity == Epoch.UNLIMITED_CAPACITY
 

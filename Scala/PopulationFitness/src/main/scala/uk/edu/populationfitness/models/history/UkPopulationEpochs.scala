@@ -1,6 +1,6 @@
-package uk.edu.populationfitness
+package uk.edu.populationfitness.models.history
 
-import uk.edu.populationfitness.models.{Config, Epoch, Epochs}
+import uk.edu.populationfitness.models.Config
 
 object UkPopulationEpochs {
   def define(config: Config): Epochs = {

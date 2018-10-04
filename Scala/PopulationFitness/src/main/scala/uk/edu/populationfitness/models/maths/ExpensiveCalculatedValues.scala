@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models.fastmaths
+package uk.edu.populationfitness.models.maths
 
 /**
   * Maintains a cache of values identified by longs. Appropriate for values that are expensive to calculate.

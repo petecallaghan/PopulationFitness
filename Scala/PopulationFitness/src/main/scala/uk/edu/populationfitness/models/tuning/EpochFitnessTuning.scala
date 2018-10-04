@@ -1,6 +1,7 @@
 package uk.edu.populationfitness.models.tuning
 
-import uk.edu.populationfitness.models.{Epoch, Epochs, Population}
+import uk.edu.populationfitness.models.history.{Epoch, Epochs}
+import uk.edu.populationfitness.models.Population
 
 import scala.annotation.tailrec
 
@@ -14,7 +15,7 @@ object EpochFitnessTuning {
   }
 
   def tuneAll(epochs: Epochs, minFactor: Double, maxFactor: Double, increment: Double, percentage: Int): Comparison.Comparison = {
-    var population = Population(epochs.first, epochs.firstYear, epochs.config.initialPopulation)
+    var population = Population(epochs)
     val search = new Search().increment(increment)
     search.min(minFactor).max(maxFactor)
 
@@ -58,7 +59,7 @@ object EpochFitnessTuning {
     var next = start
 
     for(year <- epoch.startYear to epoch.endYear) {
-      next = next.generateForYear(epoch, year).result
+      next = next.generateForYear(epoch, year).population
       val divergence = compareToExpected(epoch, year, next.size, percentage)
       if (divergence ne Comparison.WithinRange){
         return new TuningResult with TunedPopulation {

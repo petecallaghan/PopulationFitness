@@ -1,7 +1,7 @@
 package uk.edu.populationfitness.models.genes.fitness
 
 import uk.edu.populationfitness.models.Config
-import uk.edu.populationfitness.models.fastmaths.{ExpensiveCalculatedValues, FastMaths}
+import uk.edu.populationfitness.models.maths.{ExpensiveCalculatedValues, FastMaths}
 
 object InterpolatingFitness {
 

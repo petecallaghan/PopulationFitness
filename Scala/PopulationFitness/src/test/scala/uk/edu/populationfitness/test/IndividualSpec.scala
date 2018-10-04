@@ -2,7 +2,8 @@ package uk.edu.populationfitness.test
 
 import org.scalatest.FunSpec
 import uk.edu.populationfitness.models.genes.FitnessFunction
-import uk.edu.populationfitness.models.{Config, Epoch, Individual}
+import uk.edu.populationfitness.models.history.Epoch
+import uk.edu.populationfitness.models.{Config, Individual}
 
 class IndividualSpec extends FunSpec{
   describe("Given an old individual"){

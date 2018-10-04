@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models.fastmaths
+package uk.edu.populationfitness.models.maths
 
 object FastMaths {
   def pow(base: Double, power: Long): Double = {

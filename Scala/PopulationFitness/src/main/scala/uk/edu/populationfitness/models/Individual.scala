@@ -2,6 +2,7 @@ package uk.edu.populationfitness.models
 
 import uk.edu.populationfitness.models.genes.Fitness
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenes
+import uk.edu.populationfitness.models.history.Epoch
 
 object Individual{
   def inheritFromParents(epoch: Epoch, birthYear: Int, mother: Individual, father: Individual): Individual = {

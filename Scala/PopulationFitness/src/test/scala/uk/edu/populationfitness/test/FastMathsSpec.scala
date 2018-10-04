@@ -1,7 +1,7 @@
 package uk.edu.populationfitness.test
 
 import org.scalatest.FunSpec
-import uk.edu.populationfitness.models.fastmaths.FastMaths
+import uk.edu.populationfitness.models.maths.FastMaths
 
 class FastMathsSpec extends FunSpec{
   describe("given fast maths power functions"){

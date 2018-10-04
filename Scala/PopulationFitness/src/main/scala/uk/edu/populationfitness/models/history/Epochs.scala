@@ -1,9 +1,11 @@
-package uk.edu.populationfitness.models
+package uk.edu.populationfitness.models.history
+
+import uk.edu.populationfitness.models.Config
 
 class Epochs() {
-  private var _epochs: Array[Epoch] = new Array[Epoch](0)
+  private var _epochs = new Array[Epoch](0)
 
-  def epochs: Array[Epoch] = _epochs
+  def epochs: Seq[Epoch] = _epochs
 
   def config : Config = first.config
 

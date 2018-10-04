@@ -1,10 +1,11 @@
 package uk.edu.populationfitness.tuning
 
 import org.scalatest.FunSpec
-import uk.edu.populationfitness.UkPopulationEpochs
 import uk.edu.populationfitness.models._
 import uk.edu.populationfitness.models.genes.FitnessFunction
 import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
+import uk.edu.populationfitness.models.history.{Epoch, Epochs, UkPopulationEpochs}
+import uk.edu.populationfitness.models.maths.RepeatableRandom
 import uk.edu.populationfitness.models.tuning.{Comparison, EpochFitnessTuning}
 
 object TuneEpochFitnessForFunctionsSpec {

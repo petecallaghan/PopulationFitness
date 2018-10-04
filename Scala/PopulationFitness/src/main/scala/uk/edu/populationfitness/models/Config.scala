@@ -2,7 +2,7 @@ package uk.edu.populationfitness.models
 
 import java.time.Instant
 
-import uk.edu.populationfitness.models.fastmaths.FastMaths
+import uk.edu.populationfitness.models.maths.FastMaths
 import uk.edu.populationfitness.models.genes.FitnessFunction
 import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
 
