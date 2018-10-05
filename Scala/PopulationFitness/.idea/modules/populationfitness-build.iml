@@ -187,6 +187,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="library" name="com.opencsv:opencsv:4.2" level="project" />
   </component>
   <component name="SbtModule">
     <option name="buildForId" value="populationfitness" />

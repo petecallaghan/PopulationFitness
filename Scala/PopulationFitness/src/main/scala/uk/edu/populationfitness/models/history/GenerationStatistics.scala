@@ -8,7 +8,7 @@ object GenerationStatistics {
     if (count < 1) value else value / count
   }
 
-  def add(first: Array[GenerationStatistics], second: Array[GenerationStatistics]): Seq[GenerationStatistics] = {
+  def add(first: Seq[GenerationStatistics], second: Seq[GenerationStatistics]): Seq[GenerationStatistics] = {
     (first, second).zipped.map(_ + _)
   }
 

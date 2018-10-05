@@ -1,24 +1,33 @@
 package uk.edu.populationfitness.models.history
 
-import uk.edu.populationfitness.models.Population
+import uk.edu.populationfitness.models.{Config, Population}
 
 import scala.collection.mutable.ArrayBuffer
 
-class Generations(private val _seriesRun: Int = 1, private val _parallelRun: Int = 1) {
+class Generations(val config: Config, private val _seriesRun: Int = 1, private val _parallelRun: Int = 1) {
+  private var _history = new ArrayBuffer[GenerationStatistics]
+
+  def history: Seq[GenerationStatistics] = _history
 
   def createForAllEpochs(epochs: Epochs): Seq[GenerationStatistics] ={
-    val history = new ArrayBuffer[GenerationStatistics]
+    _history = new ArrayBuffer[GenerationStatistics]
 
     var previousPopulation = Population(epochs)
 
     epochs.epochs.foreach(epoch => {
       for(year <- epoch.startYear to epoch.endYear){
         val generated = previousPopulation generateForYear(epoch, year)
-        history += show(epoch, GenerationStatistics(epoch, year, generated))
+        _history += show(epoch, GenerationStatistics(epoch, year, generated))
         previousPopulation = generated.population
       }
     })
-    history
+    _history
+  }
+
+  def add(other: Generations) : Generations = {
+    val added = new Generations(config)
+    added._history ++= GenerationStatistics.add(history, other.history)
+    added
   }
 
   private def show(epoch: Epoch, statistics: GenerationStatistics): GenerationStatistics = {
