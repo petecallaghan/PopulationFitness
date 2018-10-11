@@ -26,18 +26,21 @@ abstract class NormalizingFitness protected(override val config: Config, overrid
     * @param values
     * @return
     */
-  protected def calculateFitnessFromIntegers(values: Array[Long]): Double
+  protected def calculate(values: Seq[Double]): Double
 
   override def apply(encoding: Encoding): Double = {
     if (isFitnessStored) return storedFitness
 
-    var values = encoding.asIntegers
+    implicit val values = encoding.asIntegers
 
     if (!_isNormalisationRatioSet) {
       _normalizationRatio = calculateNormalizationRatio(values.length)
       _isNormalisationRatioSet = true
     }
 
-    storeFitness(calculateFitnessFromIntegers(values) / _normalizationRatio)
+    val fitness = calculate(interpolatedView)
+    val normalisedFitness = fitness / _normalizationRatio
+
+    store(normalisedFitness)
   }
 }

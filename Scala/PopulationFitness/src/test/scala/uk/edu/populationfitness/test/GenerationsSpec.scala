@@ -66,18 +66,17 @@ class GenerationsSpec extends FunSpec {
       epochs setFinalEpochYear -40
 
       describe("When the simulation runs through the epochs"){
-        val history = generations createForAllEpochs epochs
+        val generated = generations createForAllEpochs epochs
 
         it("Then we get a history of the simulation"){
-          assert(11 == history.size)
+          assert(11 == generated.history.size)
         }
       }
     }
   }
 
   describe("Given two sets of generation statistics") {
-    val config = new Config
-    val epoch = new Epoch(config, -50)
+    val epoch = Epoch(new Config, -50)
     val first = new GenerationStatistics(epoch, epoch.startYear, 100, 10, 20, 12, 13, 1.0, 2.0)
     val second = new GenerationStatistics(epoch, epoch.startYear, 23, 1, 5, 120, 78, 1.0, 2.0)
 
@@ -91,8 +90,7 @@ class GenerationsSpec extends FunSpec {
   }
 
   describe("Given two collections of statistics"){
-    val config = new Config
-    val epoch = new Epoch(config, -50)
+    val epoch = Epoch(new Config, -50)
 
     val first = List(new GenerationStatistics(epoch, epoch.startYear, 100, 10, 20, 12, 13, 1.0, 2.0))
     val second = List(new GenerationStatistics(epoch, epoch.startYear, 23, 1, 5, 120, 78, 1.0, 2.0))
@@ -126,14 +124,14 @@ class GenerationsSpec extends FunSpec {
       epochs.setFinalEpochYear(50)
 
       describe("... and some results written to a file"){
-        val history = generations createForAllEpochs epochs
-        val path = GenerationsWriter writeCsv("test-results.csv", generations, new Tuning)
+        val generated = generations createForAllEpochs epochs
+        val path = GenerationsWriter writeCsv("test-results.csv", generated, new Tuning)
         
         describe("When the results are read back"){
           val readResult = GenerationsReader readGenerations(config, path)
           
           it("then they are the same as those written"){
-            assertAreEqual(generations.history, readResult)
+            assertAreEqual(generated.history, readResult)
           }
         }
       }

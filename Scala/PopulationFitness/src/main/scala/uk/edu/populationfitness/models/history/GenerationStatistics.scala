@@ -54,8 +54,7 @@ class GenerationStatistics(val epoch: Epoch,
 
   def +(g: GenerationStatistics): GenerationStatistics = {
     if (year != g.year) throw new Error("Cannot add different years")
-    val result = new GenerationStatistics(new Epoch(epoch),
-      year,
+    val result = new GenerationStatistics(epoch, year,
       population + g.population,
       numberBorn + g.numberBorn,
       numberKilled + g.numberKilled,

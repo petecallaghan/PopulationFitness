@@ -27,9 +27,7 @@ object GenerationsWriter {
   def writeCsv(filePath: String, generations: Generations, tuning: Tuning): String = {
     val writer = createCsvWriter(filePath)
     addHeaderRow(writer)
-    for (generation <- generations.history) {
-      addGenerationRow(writer, generation)
-    }
+    generations.history.foreach(addGenerationRow(writer, _))
     writer.close
     filePath
   }
@@ -44,28 +42,28 @@ object GenerationsWriter {
 
   private def tryTemporaryVersionOf(filePath: String) = "~tmp." + filePath
 
-  private def addGenerationRow(writer: CSVWriter, generation: GenerationStatistics): Unit = {
+  private def addGenerationRow(writer: CSVWriter, stats: GenerationStatistics): Unit = {
     writer.writeNext(Array[String](
-      generation.epoch.startYear.toString,
-      generation.epoch.endYear.toString,
-      generation.epoch.capacityForYear(generation.year).toString,
-      generation.epoch.isFitnessEnabled.toString,
-      generation.epoch.breedingProbability.toString,
-      generation.year.toString,
-      generation.epoch.fitnessFactor.toString,
-      generation.epoch.expectedMaxPopulation.toString,
-      generation.population.toString,
-      generation.numberBorn.toString,
-      generation.numberKilled.toString,
-      generation.bornElapsedInHundredths.toString,
-      generation.killElapsedInHundredths.toString,
-      generation.averageFitness.toString,
-      generation.fitnessDeviation.toString,
-      generation.averageAge.toString,
-      generation.capacityFactor.toString,
-      generation.averageFactoredFitness.toString,
-      generation.averageMutations.toString,
-      generation.averageLifeExpectancy.toString))
+      stats.epoch.startYear.toString,
+      stats.epoch.endYear.toString,
+      stats.epoch.capacityForYear(stats.year).toString,
+      stats.epoch.isFitnessEnabled.toString,
+      stats.epoch.breedingProbability.toString,
+      stats.year.toString,
+      stats.epoch.fitnessFactor.toString,
+      stats.epoch.expectedMaxPopulation.toString,
+      stats.population.toString,
+      stats.numberBorn.toString,
+      stats.numberKilled.toString,
+      stats.bornElapsedInHundredths.toString,
+      stats.killElapsedInHundredths.toString,
+      stats.averageFitness.toString,
+      stats.fitnessDeviation.toString,
+      stats.averageAge.toString,
+      stats.capacityFactor.toString,
+      stats.averageFactoredFitness.toString,
+      stats.averageMutations.toString,
+      stats.averageLifeExpectancy.toString))
   }
 
   private def addHeaderRow(writer: CSVWriter): Unit = {

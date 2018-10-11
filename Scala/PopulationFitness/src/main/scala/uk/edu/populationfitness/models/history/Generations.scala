@@ -2,36 +2,49 @@ package uk.edu.populationfitness.models.history
 
 import uk.edu.populationfitness.models.{Config, Population}
 
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.ListBuffer
 
-class Generations(val config: Config, private val _seriesRun: Int = 1, private val _parallelRun: Int = 1) {
-  private var _history = new ArrayBuffer[GenerationStatistics]
+class Generations private[history](val config: Config,
+                          private val _history: Seq[GenerationStatistics],
+                          private val _seriesRun: Int,
+                          private val _parallelRun: Int) {
+  def this(config: Config, seriesRun: Int = 1, parallelRun: Int = 1) {
+    this(config, List[GenerationStatistics](), seriesRun, parallelRun)
+  }
+
+  private trait PopulationHistory {
+    val history: ListBuffer[GenerationStatistics]
+    var population: Population
+  }
 
   def history: Seq[GenerationStatistics] = _history
 
-  def createForAllEpochs(epochs: Epochs): Seq[GenerationStatistics] ={
-    _history = new ArrayBuffer[GenerationStatistics]
-
-    var previousPopulation = Population(epochs)
-
-    epochs.epochs.foreach(epoch => {
-      for(year <- epoch.startYear to epoch.endYear){
-        val generated = previousPopulation generateForYear(epoch, year)
-        _history += show(epoch, GenerationStatistics(epoch, year, generated))
-        previousPopulation = generated.population
-      }
-    })
-    _history
+  private def addThisYearsGeneration(h: PopulationHistory, e: EpochYear) : PopulationHistory = {
+    val changes = h.population.generateForYear(e.epoch, e.year)
+    val statistics = GenerationStatistics(e.epoch, e.year, changes)
+    show(e.epoch, statistics)
+    h.population = changes.population
+    h.history += statistics
+    h
   }
 
-  def add(other: Generations) : Generations = {
-    val added = new Generations(config)
-    added._history ++= GenerationStatistics.add(history, other.history)
-    added
+  def createForAllEpochs(epochs: Epochs): Generations ={
+    val all = new PopulationHistory {
+      override val history = new ListBuffer[GenerationStatistics]
+      override var population = Population(epochs)
+    }
+
+    epochs.years.foldLeft(all)(addThisYearsGeneration)
+
+    new Generations(config, all.history, _seriesRun, _parallelRun)
   }
 
-  private def show(epoch: Epoch, statistics: GenerationStatistics): GenerationStatistics = {
-    System.out.println("Run " + _parallelRun +
+  def add(other: Generations) : Generations =
+    new Generations(config, GenerationStatistics.add(_history, other.history), _seriesRun, _parallelRun)
+
+  private def show(epoch: Epoch, statistics: GenerationStatistics): Unit = {
+    System.out.println(
+      "Run " + _parallelRun +
       "x" + _seriesRun +
       " Year " + statistics.year +
       " Pop " + statistics.population +
@@ -40,6 +53,5 @@ class Generations(val config: Config, private val _seriesRun: Int = 1, private v
       " in " + statistics.bornElapsedInHundredths +
       "s Killed " + statistics.numberKilled +
       " in " + statistics.killElapsedInHundredths + "s")
-    statistics
   }
 }

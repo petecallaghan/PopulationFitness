@@ -2,14 +2,20 @@ package uk.edu.populationfitness.models.history
 
 import uk.edu.populationfitness.models.Config
 
+import scala.collection.mutable.ListBuffer
+
 class Epochs() {
-  private var _epochs = new Array[Epoch](0)
+  private var _epochs = new ListBuffer[Epoch]()
 
   def epochs: Seq[Epoch] = _epochs
+
+  def years: Seq[EpochYear] = _epochs.flatMap(_.years)
 
   def config : Config = first.config
 
   def firstYear: Int = first.startYear
+
+  def lastYear: Int = last.endYear
 
   /** *
     * Adds an epoch with the specified start year.
@@ -20,14 +26,14 @@ class Epochs() {
     */
   def addNextEpoch(epoch: Epoch): Unit = {
     if (!_epochs.isEmpty) {
-      val previous = epochs(_epochs.size - 1)
+      val previous = _epochs(_epochs.size - 1)
       previous.endYear = epoch.startYear - 1
       epoch.prevEnvironmentCapacity = previous.environmentCapacity
     }
     else{
       epoch.prevEnvironmentCapacity = epoch.environmentCapacity
     }
-    _epochs = _epochs :+ epoch
+    _epochs += epoch
   }
 
   def addAll(epochs: Array[Epoch]): Unit = {

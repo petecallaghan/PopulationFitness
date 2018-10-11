@@ -16,13 +16,13 @@ abstract class Fitness private[fitness](val config: Config) extends uk.edu.popul
   private var _storedFitness: Double = 0.0
   private var _fitnessStored = false
 
-  protected def storeFitness(fitness: Double) = {
-    _storedFitness = fitness
+  protected def store(fitness: Double): Double = {
     _fitnessStored = true
+    _storedFitness = fitness
     _storedFitness
   }
 
-  protected def storeInvertedFitness(fitness: Double): Double = storeFitness(1 - fitness)
+  protected def storeInverted(fitness: Double): Double = store(1 - fitness)
 
   protected def storedFitness: Double = _storedFitness
 

@@ -20,19 +20,20 @@ object AckleysFitness {
 class AckleysFitness(override val config: Config) extends NormalizingFitness(config, 5.0) {
   override protected def calculateNormalizationRatio(n: Int): Double = AckleysFitness._normalizationRatios.findOrCalculate(n)
 
-  override protected def calculateFitnessFromIntegers(values: Array[Long]): Double = {
+  override protected def calculate(values: Seq[Double]): Double = {
     /* http://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/ackley.html
      f left (x right ) =-20 exp {left (-0.2 sqrt {{1} over {n} sum from {i=1} to {n} {{x} rsub {i} rsup {2}}} right )} - exp {left ({1} over {n} sum from {i=1} to {n} {cos {left ({2πx} rsub {i} right )}} right ) +20+ exp⁡ (1)}
     */
-    var firstSum = 0.0
-    var secondSum = 0.0
+    trait Sums { var first: Double; var second: Double }
+    val sums = new Sums { override var first: Double = 0.0; override var second: Double = 0.0}
 
-    for (i <- 0 to values.size - 1) {
-      val x = interpolate(values(i))
-      firstSum += x * x
-      secondSum += CosSineCache.cos(AckleysFitness._twoPi * x)
-    }
+    values.foldLeft(sums) ((s: Sums, x: Double) => {
+      s.first += x * x
+      s.second += CosSineCache.cos(AckleysFitness._twoPi * x)
+      s
+    })
+
     val n = values.length
-    -20.0 * math.exp(-0.2 * math.sqrt(firstSum / n)) - math.exp(secondSum / n) + AckleysFitness._twentyPlusE
+    -20.0 * math.exp(-0.2 * math.sqrt(sums.first / n)) - math.exp(sums.second / n) + AckleysFitness._twentyPlusE
   }
 }

@@ -5,12 +5,12 @@ trait Encoding {
     * The number of bits in the encoding
     * @return
     */
-  def numberOfBits: Int
+  val numberOfBits: Int
 
   /**
     * @return as an array of integers
     */
-  def asIntegers: Array[Long]
+  val asIntegers: Seq[Long]
 
   /**
     *

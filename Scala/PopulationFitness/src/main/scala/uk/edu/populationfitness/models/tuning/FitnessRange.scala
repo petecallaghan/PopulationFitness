@@ -8,16 +8,14 @@ class FitnessRange private[tuning]() {
   private var _max = 1.0
   private var _range = 1.0
 
-  def max(max: Double): FitnessRange = {
+  protected def max_= (max: Double): Unit = {
     _max = max
     _range = _max - _min
-    this
   }
 
-  def min(min: Double): FitnessRange = {
+  protected def min_= (min: Double): Unit = {
     _min = min
     _range = _max - _min
-    this
   }
 
   def max: Double = _max

@@ -28,8 +28,8 @@ object BitSetGenes {
   }
 
   def inheritFrom(mother: BitSetGenes, father: BitSetGenes): BitSetGenes = {
-    val motherEncoding = mother.asIntegers
-    val fatherEncoding = father.asIntegers
+    val motherEncoding = mother._genes
+    val fatherEncoding = father._genes
     var baby = new BitSetGenes(mother config, _genes = new Array[Long](Math.max(motherEncoding.size, fatherEncoding.size)))
     // Randomly picks the code index that crosses over from mother to father
     val crossOverWord = math.min(1 + RepeatableRandom.generateNextInt(baby._genes.length - 1), baby._genes.length - 1)
@@ -50,7 +50,7 @@ class BitSetGenes private[bitset](val config: Config, private val _genes: Array[
 
   def mutations : Int = _mutationCount
 
-  override def asIntegers: Array[Long] = _genes
+  override lazy val asIntegers: Seq[Long] = _genes
 
   def getCode(index: Int): Int = {
     val set = new mutable.BitSet(_genes)
@@ -89,7 +89,7 @@ class BitSetGenes private[bitset](val config: Config, private val _genes: Array[
     *
     * @return
     */
-  override def numberOfBits: Int = config.geneBitCount
+  override lazy val numberOfBits: Int = config.geneBitCount
 
   /**
     *

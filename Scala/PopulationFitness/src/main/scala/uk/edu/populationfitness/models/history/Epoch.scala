@@ -2,11 +2,22 @@ package uk.edu.populationfitness.models.history
 
 import uk.edu.populationfitness.models.Config
 
+trait EpochYear {
+  val epoch: Epoch
+  val year: Int
+}
+
 object Epoch {
   private val UNDEFINED_YEAR = -1
 
   // Indicates unlimited capacity
   val UNLIMITED_CAPACITY = 0
+
+  def apply(e: Epoch, y: Int) : EpochYear =
+    new EpochYear { override val epoch = e; override val year = y }
+
+  def apply(config: Config, startYear:Int) : Epoch =
+    new Epoch(config, startYear)
 }
 
 class Epoch(val config: Config, val startYear:Int) {
@@ -44,6 +55,7 @@ class Epoch(val config: Config, val startYear:Int) {
     _maxAge = source._maxAge
     _maxBreedingAge = source._maxBreedingAge
     _totalCapacityFactor = source._totalCapacityFactor
+    endYear = source.endYear
   }
 
   def isCapacityUnlimited: Boolean = environmentCapacity == Epoch.UNLIMITED_CAPACITY
@@ -70,10 +82,14 @@ class Epoch(val config: Config, val startYear:Int) {
 
   def disease: Boolean = _isDisease
 
-  def fitnessFactor(fitness_factor: Double): Epoch = {
-    _fitnessFactor = fitness_factor
-    _totalCapacityFactor = 0
+  def fitnessFactor(factor: Double): Epoch = {
+    fitnessFactor = factor
     this
+  }
+
+  def fitnessFactor_=(factor: Double): Unit = {
+    _fitnessFactor = factor
+    _totalCapacityFactor = 0
   }
 
   def fitnessFactor: Double = this._fitnessFactor
@@ -137,4 +153,6 @@ class Epoch(val config: Config, val startYear:Int) {
     prevEnvironmentCapacity = prevEnvironmentCapacity * ratio
     this
   }
+
+  def years : Seq[EpochYear] = for(y <- startYear to endYear) yield Epoch(this, y)
 }

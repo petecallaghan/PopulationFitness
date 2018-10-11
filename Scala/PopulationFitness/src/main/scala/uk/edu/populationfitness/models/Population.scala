@@ -65,13 +65,20 @@ class Population private[models](val config: Config,
     math.sqrt(variance / _individuals.size)
   }
 
-  def addNewGeneration(epoch: Epoch, year: Int) : Change with Born = {
+  private def canBreed(parents: Seq[Individual], epoch: Epoch, year: Int) =
+    parents.size > 1 &&
+      parents(0).canBreed(year) &&
+      parents(1).canBreed(year) &&
+      RepeatableRandom.generateNext < epoch.breedingProbability
+
+  private def makeBaby(parents: Seq[Individual], epoch: Epoch, year: Int) : Individual =
+    Individual.inheritFromParents(epoch, year, parents(1), parents(0))
+
+  private def addNewGeneration(epoch: Epoch, year: Int) : Change with Born = {
     val start = System.nanoTime
 
-    val babies = for (i <- 0 to _individuals.size - 2 by 2 if
-      RepeatableRandom.generateNext < epoch.breedingProbability && _individuals(i).canBreed(year) && _individuals(i+1).canBreed(year)) yield {
-      Individual.inheritFromParents(epoch, year, _individuals(i+1), _individuals(i))
-    }
+    val parents = _individuals.view.grouped(2).filter(canBreed(_, epoch, year))
+    val babies = parents.map(makeBaby(_, epoch, year)).toArray
 
     val newGeneration = _individuals ++ babies
 
@@ -82,16 +89,18 @@ class Population private[models](val config: Config,
     }
   }
 
-  def killThoseUnfitOrReadyToDie(epoch: Epoch, currentYear: Int) : Change with Killed = {
+  private def shouldDie(i: Individual, year: Int, fitnessFactor: Double) : Boolean =
+    if (i.isReadyToDie(year)) true else i.fitness * fitnessFactor < RepeatableRandom.generateNext
+
+  private def killThoseUnfitOrReadyToDie(epoch: Epoch, year: Int) : Change with Killed = {
     val start = System.nanoTime
-    val environmentCapacity = if (epoch.isCapacityUnlimited) 1.0 else epoch.capacityForYear(currentYear).toDouble / _individuals.size
+    val environmentCapacity = if (epoch.isCapacityUnlimited) 1.0 else epoch.capacityForYear(year).toDouble / _individuals.size
     val fitnessFactor = epoch.fitnessFactor * environmentCapacity
 
+    // SIDE EFFECT!!
     epoch.addCapacityFactor(environmentCapacity)
 
-    val (victims, survivors) = _individuals partition(i => {
-      if (i.isReadyToDie(currentYear)) true else i.fitness * fitnessFactor < RepeatableRandom.generateNext
-    })
+    val (victims, survivors) = _individuals partition(shouldDie(_, year, fitnessFactor))
 
     new Change with Killed {
       override val population = new Population(config, survivors, fitnessFactor, environmentCapacity)

@@ -25,8 +25,8 @@ object GenerationsReader {
   }
 
   private def readFromRow(config: Config, row: Seq[String]): GenerationStatistics = {
-    val generation: GenerationStatistics = new GenerationStatistics(new Epoch(config,
-      row(0).toInt),
+    val generation: GenerationStatistics = new GenerationStatistics(
+      Epoch(config, row(0).toInt),
       row(5).toInt,
       row(8).toInt,
       row(9).toInt,

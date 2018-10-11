@@ -9,7 +9,7 @@ object InterpolatingFitness {
     Math.min(java.lang.Long.MAX_VALUE, FastMaths.pow(2, bitCount) - 1)
   }
 
-  private val _bitCounts = new ExpensiveCalculatedValues[Double](calculateMaxValue)
+  private lazy val _bitCounts = new ExpensiveCalculatedValues[Double](calculateMaxValue)
 
   /**
     * Calculates the maximum value given the bit count
@@ -22,9 +22,11 @@ object InterpolatingFitness {
 
 abstract class InterpolatingFitness protected(override val config: Config, val maxInterpolatedValue: Double) extends Fitness(config) {
 
-  protected val _interpolationRatio = maxInterpolatedValue / InterpolatingFitness.maxForBits(config.geneBitCount)
+  private lazy val _interpolationRatio = maxInterpolatedValue / InterpolatingFitness.maxForBits(config.geneBitCount)
 
-  protected def interpolate(integer_value: Long): Double = _interpolationRatio * integer_value
+  private def interpolate(x: Long): Double = _interpolationRatio * x
+
+  protected def interpolatedView(implicit longValues: Seq[Long]) : Seq[Double] =  longValues.view map interpolate
 }
 
 
