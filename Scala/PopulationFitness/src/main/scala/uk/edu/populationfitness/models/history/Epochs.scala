@@ -5,7 +5,7 @@ import uk.edu.populationfitness.models.Config
 import scala.collection.mutable.ListBuffer
 
 class Epochs() {
-  private var _epochs = new ListBuffer[Epoch]()
+  private val _epochs = new ListBuffer[Epoch]()
 
   def epochs: Seq[Epoch] = _epochs
 
@@ -17,6 +17,11 @@ class Epochs() {
 
   def lastYear: Int = last.endYear
 
+  def this(e: Seq[Epoch]){
+    this
+    _epochs ++= e
+  }
+
   /** *
     * Adds an epoch with the specified start year.
     * Sets the end year of the preceding epoch to the year
@@ -24,7 +29,7 @@ class Epochs() {
     *
     * @param epoch
     */
-  def addNextEpoch(epoch: Epoch): Unit = {
+  def add(epoch: Epoch): Unit = {
     if (!_epochs.isEmpty) {
       val previous = _epochs(_epochs.size - 1)
       previous.endYear = epoch.startYear - 1
@@ -38,7 +43,7 @@ class Epochs() {
 
   def addAll(epochs: Array[Epoch]): Unit = {
     for (e <- epochs) {
-      addNextEpoch(e)
+      add(e)
     }
   }
 

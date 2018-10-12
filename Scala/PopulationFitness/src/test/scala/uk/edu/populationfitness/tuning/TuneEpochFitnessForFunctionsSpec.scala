@@ -6,7 +6,8 @@ import uk.edu.populationfitness.models.genes.FitnessFunction
 import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
 import uk.edu.populationfitness.models.history.{Epoch, Epochs, UkPopulationEpochs}
 import uk.edu.populationfitness.models.maths.RepeatableRandom
-import uk.edu.populationfitness.models.tuning.{Comparison, EpochFitnessTuning}
+import uk.edu.populationfitness.models.output.{EpochsWriter, TuningWriter}
+import uk.edu.populationfitness.models.tuning.{Comparison, EpochFitnessTuning, Tuning}
 
 object TuneEpochFitnessForFunctionsSpec {
   private val NumberOfGenes = 20000
@@ -37,44 +38,36 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
 
         it ("produces sensible results"){
           val tuning = createTuningFromEpochs(config, epochs)
-          //showResults(tuning)
-          //writeResults(function, config, epochs, tuning)
-          //assertTuned(result, tuning)
+          showResults(tuning)
+          writeResults(function, config, epochs, tuning)
+          assertTuned(result, tuning)
         }
       }
     }
   }
 
-  private def showResults(tuning: Nothing): Unit = {
+  private def showResults(tuning: Tuning): Unit = {
     showTuning(tuning)
-    //GenesTimer.showAll
   }
 
-  private def showTuning(tuning: Nothing): Unit = {
+  private def showTuning(tuning: Tuning): Unit = {
     System.out.print("Tuned Disease fitness:")
-    //System.out.println(tuning.disease_fit)
+    System.out.println(tuning.disease_fit)
     System.out.print("Tuned Historic fitness:")
-    //System.out.println(tuning.historic_fit)
+    System.out.println(tuning.historic_fit)
     System.out.print("Tuned Modern fitness:")
-    //System.out.println(tuning.modern_fit)
+    System.out.println(tuning.modern_fit)
   }
 
-  private def assertTuned(result: Comparison.Comparison, tuning: Nothing): Unit = { // Ensure that we successfully tuned
+  private def assertTuned(result: Comparison.Comparison, tuning: Tuning): Unit = { // Ensure that we successfully tuned
     assert(result eq Comparison.WithinRange)
     // Ensure that the tuning result is what we expect
-    //Assert.assertTrue(tuning.disease_fit < tuning.modern_fit)
+    assert(tuning.disease_fit < tuning.modern_fit)
   }
 
-  private def writeResults(function: FitnessFunction, config: Config, epochs: Epochs, tuning: Nothing): Unit = {
-    /*
-    EpochsWriter.writeCsv(TuneFunctionsTest.EpochsPath, function, config.getNumberOfGenes, config.getSizeOfEachGene, config.getMutationsPerGene, epochs)
-    TuningWriter.writeInPath(TuneFunctionsTest.TuningPath, tuning)
-    */
-  }
-
-  private def setUpGeneTimers(config: Config): Unit = {
-    //config.setGenesFactory(new Nothing(config.getGenesFactory))
-    //GenesTimer.resetAll
+  private def writeResults(function: FitnessFunction, config: Config, epochs: Epochs, tuning: Tuning): Unit = {
+    EpochsWriter.writeCsv(Paths.EpochsPath, function, config.numberOfGenes, config.sizeOfEachGene, config.mutationsPerGene, epochs)
+    TuningWriter.writeInPath(Paths.TuningPath, tuning)
   }
 
   private def buildConfig(function: FitnessFunction) = {
@@ -84,31 +77,33 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
       sizeOfEachGene = TuneEpochFitnessForFunctionsSpec.SizeOfGenes
     }
     config.scaleMutationsPerGeneFromBitCount(Config.MutationScale)
-    setUpGeneTimers(config)
     config
   }
 
+  private def possibleFitnessFactor(epoch: Option[Epoch]): Double = {
+    if (epoch.isEmpty) 0.0 else epoch.get.averageCapacityFactor * epoch.get.fitnessFactor
+  }
+
   private def createTuningFromEpochs(config: Config, epochs: Epochs) = {
-    val tuning = null //new Nothing
-    /*
-    tuning.function = config.getGenesFactory.getFitnessFunction
-    tuning.size_of_genes = config.getSizeOfEachGene
-    tuning.number_of_genes = config.getNumberOfGenes
-    tuning.parallel_runs = 1
-    tuning.series_runs = 1
-    tuning.mutations_per_gene = config.getMutationsPerGene
+    val tuning = new Tuning {
+      function = config.fitnessFunction
+      size_of_genes = config.sizeOfEachGene
+      number_of_genes = config.numberOfGenes
+      parallel_runs = 1
+      series_runs = 1
+      mutations_per_gene = config.mutationsPerGene
+    }
     val diseaseEpoch = findDiseaseEpoch(epochs)
     val historicalEpoch = findHistoricalEpoch(epochs)
     val modernEpoch = findModernEpoch(epochs)
-    tuning.historic_fit = historicalEpoch.averageCapacityFactor * historicalEpoch.fitness
-    tuning.modern_fit = modernEpoch.averageCapacityFactor * modernEpoch.fitness
+    tuning.historic_fit = possibleFitnessFactor(historicalEpoch)
+    tuning.modern_fit = modernEpoch.averageCapacityFactor * modernEpoch.fitnessFactor
     tuning.modern_breeding = modernEpoch.breedingProbability
-    tuning.disease_fit = diseaseEpoch.averageCapacityFactor * diseaseEpoch.fitness
-     */
+    tuning.disease_fit = possibleFitnessFactor(diseaseEpoch)
     tuning
   }
 
-  private def findModernEpoch(epochs: Epochs) = { // Find the modern epoch with the max fitness factor
+  private def findModernEpoch(epochs: Epochs): Epoch = { // Find the modern epoch with the max fitness factor
     var modern = epochs.last
     var max = modern.fitnessFactor * modern.averageCapacityFactor
     for ( i <- epochs.epochs.size - 1 to epochs.epochs.size - 6 by -1) {
@@ -139,7 +134,83 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
 
+  describe("Tune " + FitnessFunction.Rastrigin) {
+    //tune(FitnessFunction.Rastrigin, 10.0)
+  }
+
+  describe("Tune " + FitnessFunction.Sphere) {
+    //tune(FitnessFunction.Sphere, 5, 25)
+  }
+
+  describe("Tune " + FitnessFunction.StyblinksiTang) {
+    //tune(FitnessFunction.StyblinksiTang, 10, 30)
+  }
+
+  describe("Tune " + FitnessFunction.Schwefel226) {
+    //tune(FitnessFunction.Schwefel226, 20, 40)
+  }
+
+  describe("Tune " + FitnessFunction.Rosenbrock) {
+   //tune(FitnessFunction.Rosenbrock, 10)
+  }
+
+  describe("Tune " + FitnessFunction.SumOfPowers) {
+    //tune(FitnessFunction.SumOfPowers, 10, 30)
+  }
+
+  describe("Tune " + FitnessFunction.SumSquares) {
+    //tune(FitnessFunction.SumSquares, 20, 25)
+  }
+
   describe("Tune " + FitnessFunction.Ackleys) {
-    tune(FitnessFunction.Ackleys, 4)
+    tune(FitnessFunction.Ackleys, 3)
+  }
+
+  describe("Tune " + FitnessFunction.Alpine) {
+    //tune(FitnessFunction.Alpine, 20, 40)
+  }
+
+  describe("Tune " + FitnessFunction.Brown) {
+    //tune(FitnessFunction.Brown, 10, 25)
+  }
+
+  describe("Tune " + FitnessFunction.ChungReynolds) {
+    //tune(FitnessFunction.ChungReynolds, 8, 40)
+  }
+
+  describe("Tune " + FitnessFunction.DixonPrice) {
+    //tune(FitnessFunction.DixonPrice, 8, 30)
+  }
+
+  describe("Tune " + FitnessFunction.Exponential) {
+    //tune(FitnessFunction.Exponential, 4, 20)
+  }
+
+  describe("Tune " + FitnessFunction.Griewank) {
+    //tune(FitnessFunction.Griewank, 400)
+  }
+
+  describe("Tune " + FitnessFunction.Qing) {
+    //tune(FitnessFunction.Qing, 8, 25)
+  }
+
+  describe("Tune " + FitnessFunction.Salomon) {
+    //tune(FitnessFunction.Salomon, 4)
+  }
+
+  describe("Tune " + FitnessFunction.SchumerSteiglitz) {
+    //tune(FitnessFunction.SchumerSteiglitz, 8, 25)
+  }
+
+  describe("Tune " + FitnessFunction.Schwefel220) {
+    //tune(FitnessFunction.Schwefel220, 4, 15)
+  }
+
+  describe("Tune " + FitnessFunction.Trid) {
+    //tune(FitnessFunction.Trid, 10.0, 25)
+  }
+
+  describe("Tune " + FitnessFunction.Zakharoy) {
+    //tune(FitnessFunction.Zakharoy, 100.0, 25)
   }
 }

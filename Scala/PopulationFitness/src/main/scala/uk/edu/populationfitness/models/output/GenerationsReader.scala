@@ -6,11 +6,11 @@ import com.opencsv.CSVReader
 import uk.edu.populationfitness.models.Config
 import uk.edu.populationfitness.models.history.{Epoch, GenerationStatistics}
 
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{ListBuffer}
 
 object GenerationsReader {
   def readGenerations(config: Config, path: String): Seq[GenerationStatistics] = {
-    val generations = new ArrayBuffer[GenerationStatistics]
+    val generations = new ListBuffer[GenerationStatistics]
     val reader: CSVReader = new CSVReader(new FileReader(path))
     // Read header
     reader.readNext

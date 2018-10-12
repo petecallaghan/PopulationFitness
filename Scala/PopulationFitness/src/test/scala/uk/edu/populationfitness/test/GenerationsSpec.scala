@@ -62,7 +62,7 @@ class GenerationsSpec extends FunSpec {
     val generations = new Generations(config)
     describe("With some epochs"){
       val epochs = new Epochs
-      epochs addNextEpoch new Epoch(config, -50).fitnessFactor(1.0).capacity(4000)
+      epochs add new Epoch(config, -50).fitnessFactor(1.0).capacity(4000)
       epochs setFinalEpochYear -40
 
       describe("When the simulation runs through the epochs"){
@@ -118,9 +118,9 @@ class GenerationsSpec extends FunSpec {
     
     describe("... with some epochs ..."){
       val epochs = new Epochs
-      epochs.addNextEpoch(new Epoch(config, -25).fitnessFactor(1.0).capacity(4000))
-      epochs.addNextEpoch(new Epoch(config, 0).fitnessFactor(1.0).capacity(4000))
-      epochs.addNextEpoch(new Epoch(config, 25).fitnessFactor(1.0).capacity(4000))
+      epochs.add(new Epoch(config, -25).fitnessFactor(1.0).capacity(4000))
+      epochs.add(new Epoch(config, 0).fitnessFactor(1.0).capacity(4000))
+      epochs.add(new Epoch(config, 25).fitnessFactor(1.0).capacity(4000))
       epochs.setFinalEpochYear(50)
 
       describe("... and some results written to a file"){
