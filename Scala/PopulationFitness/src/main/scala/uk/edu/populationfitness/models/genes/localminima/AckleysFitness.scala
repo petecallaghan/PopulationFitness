@@ -17,8 +17,8 @@ object AckleysFitness {
   private val _twoPi = 2.0 * math.Pi
 }
 
-class AckleysFitness(override val config: Config) extends NormalizingFitness(config, 5.0) {
-  override protected def calculateNormalizationRatio(n: Int): Double = AckleysFitness._normalizationRatios.findOrCalculate(n)
+class AckleysFitness(config: Config) extends NormalizingFitness(config, 5.0) {
+  override protected def calculateNormalizationRatio(n: Int): Double = AckleysFitness._normalizationRatios findOrCalculate(n)
 
   override protected def calculate(values: Seq[Double]): Double = {
     /* http://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/ackley.html
@@ -27,9 +27,9 @@ class AckleysFitness(override val config: Config) extends NormalizingFitness(con
     trait Sums { var first: Double; var second: Double }
     val sums = new Sums { override var first: Double = 0.0; override var second: Double = 0.0}
 
-    values.foldLeft(sums) ((s: Sums, x: Double) => {
+    values.foldLeft (sums) ((s, x) => {
       s.first += x * x
-      s.second += CosSineCache.cos(AckleysFitness._twoPi * x)
+      s.second += CosSineCache cos(AckleysFitness._twoPi * x)
       s
     })
 

@@ -2,12 +2,17 @@ package uk.edu.populationfitness.models.genes.fitness
 
 import uk.edu.populationfitness.models.Config
 import uk.edu.populationfitness.models.genes.FitnessFunction
-import uk.edu.populationfitness.models.genes.localminima.AckleysFitness
+import uk.edu.populationfitness.models.genes.localminima._
 
 object Fitness {
   def apply(config: Config) : uk.edu.populationfitness.models.genes.Fitness = {
     config.fitnessFunction match {
       case FitnessFunction.Ackleys => new AckleysFitness(config)
+      case FitnessFunction.Rastrigin => new RastriginFitness(config)
+      case FitnessFunction.Alpine => new AlpineFitness(config)
+      case FitnessFunction.Schwefel226 => new Schwefel226Fitness(config)
+      case FitnessFunction.Salomon => new SalomonFitness(config)
+      case FitnessFunction.StyblinksiTang => new StyblinksiTangFitness(config)
     }
   }
 }

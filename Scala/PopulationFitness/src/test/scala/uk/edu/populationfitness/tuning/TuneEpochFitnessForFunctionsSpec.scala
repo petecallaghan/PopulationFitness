@@ -10,13 +10,13 @@ import uk.edu.populationfitness.models.output.{EpochsWriter, TuningWriter}
 import uk.edu.populationfitness.models.tuning.{Comparison, EpochFitnessTuning, Tuning}
 
 object TuneEpochFitnessForFunctionsSpec {
-  private val NumberOfGenes = 20000
-  private val SizeOfGenes = 1000
+  private val NumberOfGenes = 2000 // 20000
+  private val SizeOfGenes = 1 // 1000
   private val PopulationRatio = 100 //25
   private val EpochsPath = "epochs"
   private val TuningPath = "tuning"
   private val TuningPercentage = 15
-  private val MutationsPerIndividual = 150
+  private val MutationsPerIndividual = 1.5 // 150
 }
 
 class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
@@ -135,7 +135,7 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
 
 
   describe("Tune " + FitnessFunction.Rastrigin) {
-    //tune(FitnessFunction.Rastrigin, 10.0)
+    tune(FitnessFunction.Rastrigin, 10.0)
   }
 
   describe("Tune " + FitnessFunction.Sphere) {
@@ -143,11 +143,11 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.StyblinksiTang) {
-    //tune(FitnessFunction.StyblinksiTang, 10, 30)
+    tune(FitnessFunction.StyblinksiTang, 10, 30)
   }
 
   describe("Tune " + FitnessFunction.Schwefel226) {
-    //tune(FitnessFunction.Schwefel226, 20, 40)
+    tune(FitnessFunction.Schwefel226, 20, 40)
   }
 
   describe("Tune " + FitnessFunction.Rosenbrock) {
@@ -167,7 +167,7 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.Alpine) {
-    //tune(FitnessFunction.Alpine, 20, 40)
+    tune(FitnessFunction.Alpine, 20, 40)
   }
 
   describe("Tune " + FitnessFunction.Brown) {
@@ -195,7 +195,7 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.Salomon) {
-    //tune(FitnessFunction.Salomon, 4)
+    tune(FitnessFunction.Salomon, 4)
   }
 
   describe("Tune " + FitnessFunction.SchumerSteiglitz) {
