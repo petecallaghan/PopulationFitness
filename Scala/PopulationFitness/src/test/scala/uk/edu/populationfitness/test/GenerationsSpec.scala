@@ -92,6 +92,7 @@ class GenerationsSpec extends FunSpec {
   describe("Given two collections of statistics"){
     val epoch = Epoch(new Config, -50)
 
+    val zero = List[GenerationStatistics]()
     val first = List(new GenerationStatistics(epoch, epoch.startYear, 100, 10, 20, 12, 13, 1.0, 2.0))
     val second = List(new GenerationStatistics(epoch, epoch.startYear, 23, 1, 5, 120, 78, 1.0, 2.0))
 
@@ -101,7 +102,7 @@ class GenerationsSpec extends FunSpec {
     second(0).averageLifeExpectancy = 60.76
 
     describe("When they are added"){
-      val result = GenerationStatistics.add(first, second)
+      val result = GenerationStatistics add(GenerationStatistics add(zero, first), second)
 
       it ("Then we have a collection of additions"){
         assertAreAdded(first(0), second(0), result(0))

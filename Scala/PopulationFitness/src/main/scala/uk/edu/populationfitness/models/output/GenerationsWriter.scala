@@ -10,19 +10,19 @@ import uk.edu.populationfitness.models.tuning.Tuning
 object GenerationsWriter {
   private val previousFileName = new ThreadLocal[String]
 
-  private def filePath(parallel_run: Int, series_run: Int, number_of_runs: Int, config: Config) = "generations" +
+  private def filePath(parallel_run: Int, series_run: Int, config: Config, tuning: Tuning) = "generations" +
     "-" + parallel_run +
     "-" + series_run +
-    "of" + number_of_runs +
+    "of" + parallel_run * series_run +
     "-" + config.fitnessFunction +
     "-genes" + config.numberOfGenes +
     "x" + config.sizeOfEachGene +
     "-pop" + config.initialPopulation +
     "-mut" + config.mutationsPerGene +
-    "-" + config.id.replaceAll(":", "-") + ".csv"
+    "-" + tuning.id.replaceAll(":", "-") + ".csv"
 
-  private def writeCsv(parallel_run: Int, series_run: Int, number_of_runs: Int, generations: Generations, tuning: Tuning): String =
-    writeCsv(filePath(parallel_run, series_run, number_of_runs, generations.config), generations, tuning)
+  private def writeCsv(parallel_run: Int, series_run: Int, generations: Generations, tuning: Tuning): String =
+    writeCsv(filePath(parallel_run, series_run, generations.config, tuning), generations, tuning)
 
   def writeCsv(filePath: String, generations: Generations, tuning: Tuning): String = {
     val writer = createCsvWriter(filePath)
@@ -90,13 +90,6 @@ object GenerationsWriter {
       "Avg Life Expectancy"))
   }
 
-  def combineGenerationsAndWriteResult(parallel_run: Int, series_run: Int, current: Generations, total: Generations, tuning: Tuning): Generations = {
-    val newTotal = if (total == null) current else total.add(current)
-    val resultsFile = writeCsv(parallel_run, series_run, tuning.series_runs * tuning.parallel_runs, total, tuning)
-    deletePreviousFile(resultsFile)
-    newTotal
-  }
-
   private def deletePreviousFile(resultsFile: String): Unit = {
     val previousFile = previousFileName.get
     if (previousFile != null) {
@@ -104,6 +97,12 @@ object GenerationsWriter {
       file.delete
     }
     previousFileName.set(resultsFile)
+  }
+
+  def writeCsv(generations: Generations, tuning: Tuning): Generations = {
+    val resultsFile = writeCsv(generations.parallelRun, generations.seriesRun, generations, tuning)
+    deletePreviousFile(resultsFile)
+    generations
   }
 
   def createResultFileName(id: String): String = "allgenerations" + "-" + id + ".csv"

@@ -1,7 +1,5 @@
 package uk.edu.populationfitness.models
 
-import java.time.Instant
-
 import uk.edu.populationfitness.models.maths.FastMaths
 import uk.edu.populationfitness.models.genes.FitnessFunction
 import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
@@ -9,11 +7,10 @@ import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
 object Config {
   val MutationScale = 1.0 / 30.0
   private val SizeOfLong = java.lang.Long.SIZE
+
 }
 
 class Config {
-  var id: String = Instant.now.toString.replaceAll(":", "-")
-
   private var _numberOfGenes = 4
   private var _geneBitCount = 0
   private var _sizeOfEachGene = 10

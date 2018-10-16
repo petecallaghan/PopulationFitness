@@ -40,7 +40,7 @@ class GenerationsAnalysis private {
   }
 
   private def ensureModernDefined(epoch: Epoch): Unit = {
-    historicalDisease match {
+    modernDisease match {
       case None => {
         modernDisease = Some(epoch)
         modernPop = previousPopulation

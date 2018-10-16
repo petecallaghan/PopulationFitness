@@ -9,7 +9,7 @@ object GenerationStatistics {
   }
 
   def add(first: Seq[GenerationStatistics], second: Seq[GenerationStatistics]): Seq[GenerationStatistics] = {
-    (first, second).zipped.map(_ + _)
+    if (first.size < 1) second else if (second.size < 1) first else (first, second).zipped.map(_ + _)
   }
 
   def apply(epoch: Epoch, year: Int, latest: Change with Born with Killed): GenerationStatistics = {

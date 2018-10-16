@@ -41,7 +41,7 @@ class Epochs() {
     _epochs += epoch
   }
 
-  def addAll(epochs: Array[Epoch]): Unit = {
+  def addAll(epochs: Seq[Epoch]): Unit = {
     for (e <- epochs) {
       add(e)
     }

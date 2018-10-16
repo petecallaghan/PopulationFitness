@@ -1,10 +1,16 @@
 package uk.edu.populationfitness.models.tuning
 
+import java.time.Instant
+
 import uk.edu.populationfitness.models.genes.FitnessFunction
 import uk.edu.populationfitness.models.genes.FitnessFunction.FitnessFunction
 
+object Tuning {
+  def next : String = Instant.now.toString.replaceAll(":", "-")
+}
+
 class Tuning {
-  var id: String = null
+  var id: String = Tuning.next
   var function: FitnessFunction = FitnessFunction.Undefined
   var historic_fit: Double = 1.0
   var disease_fit: Double = 50.0
