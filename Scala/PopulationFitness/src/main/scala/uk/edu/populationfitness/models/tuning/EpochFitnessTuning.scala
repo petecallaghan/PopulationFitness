@@ -41,9 +41,9 @@ object EpochFitnessTuning {
     epoch.fitnessFactor = search.current
 
     val results = generateRemainingYears(population, population, epoch.years.iterator, percentage)
-    showResults(population, epoch.startYear, epoch)
 
     if (!results.hasDiverged) {
+      showResults(results.population, epoch.endYear, epoch)
       // Tuned
       return results
     }
@@ -58,7 +58,7 @@ object EpochFitnessTuning {
   private def showResults(population: Population, year: Int, epoch: Epoch) = {
     System.out.println("Year " + year +
       " Pop " + population.size +
-      " Expected " + epoch.expectedMaxPopulation +
+      " Expected " + epoch.capacityForYear(year) +
       " F=" + epoch.fitnessFactor +
       " F'=" + epoch.averageCapacityFactor * epoch.fitnessFactor)
   }
@@ -76,11 +76,15 @@ object EpochFitnessTuning {
     val next = years.next
     val newPop = current.generateForYear(next.epoch, next.year).population
     val divergence = compareToExpected(next.epoch, next.year, newPop.size, percentage)
-    if (divergence ne Comparison.WithinRange) // we have diverged so stop trying
+    if (divergence ne Comparison.WithinRange) {
+      // we have diverged so stop trying
+      System.out.print("Diverged: ")
+      showResults(newPop, next.year, next.epoch)
       return new TuningResult with TunedPopulation {
         override def population = start // discard all the results so far for this epoch
         override def comparison = divergence
       }
+    }
 
     generateRemainingYears(start, newPop, years, percentage)
   }
@@ -91,11 +95,12 @@ object EpochFitnessTuning {
     val expected = epoch.capacityForYear(year)
     if (population >= expected * 2) return Comparison.TooHigh
 
-    val divergence = (population - expected) * 100
+    val divergence = Math.abs(population - expected) * 100
     val maxDivergence = expected * percentage
     if (year >= epoch.endYear) {
-      if (divergence >= maxDivergence) return Comparison.TooHigh
-      if (divergence < 0 - maxDivergence) return Comparison.TooLow
+      if (divergence >= maxDivergence) {
+        return if (population > expected) Comparison.TooHigh else Comparison.TooLow
+      }
     }
     Comparison.WithinRange
   }

@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models.genes.localminima
+package uk.edu.populationfitness.models.genes.fitness.localminima
 
 import uk.edu.populationfitness.models.Config
 import uk.edu.populationfitness.models.maths.{CosSineCache, ExpensiveCalculatedValues}

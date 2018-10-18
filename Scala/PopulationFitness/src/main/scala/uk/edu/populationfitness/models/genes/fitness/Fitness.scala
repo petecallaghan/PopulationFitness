@@ -1,8 +1,11 @@
 package uk.edu.populationfitness.models.genes.fitness
 
 import uk.edu.populationfitness.models.Config
-import uk.edu.populationfitness.models.genes.FitnessFunction
-import uk.edu.populationfitness.models.genes.localminima._
+import uk.edu.populationfitness.models.genes.{Encoding, FitnessFunction}
+import uk.edu.populationfitness.models.genes.fitness.localminima._
+import uk.edu.populationfitness.models.genes.fitness.ridge._
+import uk.edu.populationfitness.models.genes.fitness.sphere._
+import uk.edu.populationfitness.models.genes.fitness.valley._
 
 object Fitness {
   def apply(config: Config) : uk.edu.populationfitness.models.genes.Fitness = {
@@ -13,6 +16,18 @@ object Fitness {
       case FitnessFunction.Schwefel226 => new Schwefel226Fitness(config)
       case FitnessFunction.Salomon => new SalomonFitness(config)
       case FitnessFunction.StyblinksiTang => new StyblinksiTangFitness(config)
+      case FitnessFunction.Schwefel220 => new Schwefel220Fitness(config)
+      case FitnessFunction.Brown => new BrownFitness(config)
+      case FitnessFunction.SchumerSteiglitz => new SchumerSteiglitzFitness(config)
+      case FitnessFunction.Qing => new QingFitness(config)
+      case FitnessFunction.SumSquares => new SumSquaresFitness(config)
+      case FitnessFunction.Griewank => new GriewankFitness(config)
+      case FitnessFunction.Exponential => new ExponentialFitness(config)
+      case FitnessFunction.Sphere => new SphereFitness(config)
+      case FitnessFunction.ChungReynolds => new ChungReynoldsFitness(config)
+      case FitnessFunction.SumOfPowers => new SumOfPowersFitness(config)
+      case FitnessFunction.Zakharoy => new ZakharoyFitness(config)
+      case FitnessFunction.Trid => new TridFitness(config)
     }
   }
 }
@@ -32,4 +47,6 @@ abstract class Fitness private[fitness](val config: Config) extends uk.edu.popul
   protected def storedFitness: Double = _storedFitness
 
   protected def isFitnessStored: Boolean = _fitnessStored
+
+  def apply(encoding: Encoding): Double
 }

@@ -11,7 +11,7 @@ import uk.edu.populationfitness.models.tuning.{Comparison, EpochFitnessTuning, T
 
 object TuneEpochFitnessForFunctionsSpec {
   private val NumberOfGenes = 2000 // 20000
-  private val SizeOfGenes = 1 // 1000
+  private val SizeOfGenes = 100 // 1000
   private val PopulationRatio = 100 //25
   private val EpochsPath = "epochs"
   private val TuningPath = "tuning"
@@ -133,13 +133,12 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
     None
   }
 
-
   describe("Tune " + FitnessFunction.Rastrigin) {
     tune(FitnessFunction.Rastrigin, 10.0)
   }
 
   describe("Tune " + FitnessFunction.Sphere) {
-    //tune(FitnessFunction.Sphere, 5, 25)
+    tune(FitnessFunction.Sphere, 5, 25)
   }
 
   describe("Tune " + FitnessFunction.StyblinksiTang) {
@@ -155,11 +154,11 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.SumOfPowers) {
-    //tune(FitnessFunction.SumOfPowers, 10, 30)
+    tune(FitnessFunction.SumOfPowers, 10, 30)
   }
 
   describe("Tune " + FitnessFunction.SumSquares) {
-    //tune(FitnessFunction.SumSquares, 20, 25)
+    tune(FitnessFunction.SumSquares, 20, 25)
   }
 
   describe("Tune " + FitnessFunction.Ackleys) {
@@ -171,11 +170,11 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.Brown) {
-    //tune(FitnessFunction.Brown, 10, 25)
+    tune(FitnessFunction.Brown, 10, 25)
   }
 
   describe("Tune " + FitnessFunction.ChungReynolds) {
-    //tune(FitnessFunction.ChungReynolds, 8, 40)
+    tune(FitnessFunction.ChungReynolds, 8, 40)
   }
 
   describe("Tune " + FitnessFunction.DixonPrice) {
@@ -183,15 +182,15 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.Exponential) {
-    //tune(FitnessFunction.Exponential, 4, 20)
+    tune(FitnessFunction.Exponential, 4, 20)
   }
 
   describe("Tune " + FitnessFunction.Griewank) {
-    //tune(FitnessFunction.Griewank, 400)
+    tune(FitnessFunction.Griewank, 400)
   }
 
   describe("Tune " + FitnessFunction.Qing) {
-    //tune(FitnessFunction.Qing, 8, 25)
+    tune(FitnessFunction.Qing, 8, 25)
   }
 
   describe("Tune " + FitnessFunction.Salomon) {
@@ -199,18 +198,18 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.SchumerSteiglitz) {
-    //tune(FitnessFunction.SchumerSteiglitz, 8, 25)
+    tune(FitnessFunction.SchumerSteiglitz, 8, 25)
   }
 
   describe("Tune " + FitnessFunction.Schwefel220) {
-    //tune(FitnessFunction.Schwefel220, 4, 15)
+    tune(FitnessFunction.Schwefel220, 4, 15)
   }
 
   describe("Tune " + FitnessFunction.Trid) {
-    //tune(FitnessFunction.Trid, 10.0, 25)
+    tune(FitnessFunction.Trid, 10.0, 25)
   }
 
   describe("Tune " + FitnessFunction.Zakharoy) {
-    //tune(FitnessFunction.Zakharoy, 100.0, 25)
+    tune(FitnessFunction.Zakharoy, 100.0, 25)
   }
 }

@@ -17,12 +17,12 @@ object InterpolatingFitness {
     * @param bitCount
     * @return
     */
-  private def maxForBits(bitCount: Long) = _bitCounts.findOrCalculate(bitCount)
+  def maxForBits(bitCount: Long) = _bitCounts.findOrCalculate(bitCount)
 }
 
 abstract class InterpolatingFitness protected(override val config: Config, val maxInterpolatedValue: Double) extends Fitness(config) {
 
-  private lazy val _interpolationRatio = maxInterpolatedValue / InterpolatingFitness.maxForBits(config.geneBitCount)
+  protected var _interpolationRatio = maxInterpolatedValue / InterpolatingFitness.maxForBits(config.geneBitCount)
 
   private def interpolate(x: Long): Double = _interpolationRatio * x
 
