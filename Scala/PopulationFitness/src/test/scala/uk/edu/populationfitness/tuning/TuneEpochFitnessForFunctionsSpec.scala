@@ -150,7 +150,7 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.Rosenbrock) {
-   //tune(FitnessFunction.Rosenbrock, 10)
+   tune(FitnessFunction.Rosenbrock, 10)
   }
 
   describe("Tune " + FitnessFunction.SumOfPowers) {
@@ -178,7 +178,7 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.DixonPrice) {
-    //tune(FitnessFunction.DixonPrice, 8, 30)
+    tune(FitnessFunction.DixonPrice, 8, 30)
   }
 
   describe("Tune " + FitnessFunction.Exponential) {
@@ -206,7 +206,7 @@ class TuneEpochFitnessForFunctionsSpec extends  FunSpec {
   }
 
   describe("Tune " + FitnessFunction.Trid) {
-    tune(FitnessFunction.Trid, 10.0, 25)
+    tune(FitnessFunction.Trid, 100.0, 25)
   }
 
   describe("Tune " + FitnessFunction.Zakharoy) {

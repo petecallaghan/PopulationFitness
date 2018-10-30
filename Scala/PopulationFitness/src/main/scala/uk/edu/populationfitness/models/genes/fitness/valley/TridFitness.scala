@@ -16,7 +16,7 @@ object TridFitness {
                  M= left [{n} over {2} right ] {( {n} ^ {2} +1)} ^ {2} + left (n- left [{n} over {2} right ] right ) {( {n} ^ {2} -1)} ^ {2} + left (n-1 right ) {n} ^ {4}
 
                 */
-    val nOver2 = index.toDouble / 2.0.round
+    val nOver2 = (index.toDouble / 2.0).round
     val nSquared = index * index
     nOver2 * FastMaths.pow(nSquared + 1, 2) + (index - nOver2) * FastMaths.pow(nSquared - 1, 2) + (index - 1) * nSquared * nSquared
   }

@@ -28,6 +28,8 @@ object Fitness {
       case FitnessFunction.SumOfPowers => new SumOfPowersFitness(config)
       case FitnessFunction.Zakharoy => new ZakharoyFitness(config)
       case FitnessFunction.Trid => new TridFitness(config)
+      case FitnessFunction.DixonPrice => new DixonPriceFitness(config)
+      case FitnessFunction.Rosenbrock => new RosenbrockFitness(config)
     }
   }
 }
