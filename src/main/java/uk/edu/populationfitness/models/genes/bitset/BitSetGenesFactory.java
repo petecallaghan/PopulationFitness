@@ -4,6 +4,10 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
 import uk.edu.populationfitness.models.genes.Ridge.Schwefel220Genes;
 import uk.edu.populationfitness.models.genes.localmimina.*;
+import uk.edu.populationfitness.models.genes.reference.FixedHalfGenes;
+import uk.edu.populationfitness.models.genes.reference.FixedOneGenes;
+import uk.edu.populationfitness.models.genes.reference.FixedZeroGenes;
+import uk.edu.populationfitness.models.genes.reference.RandomGenes;
 import uk.edu.populationfitness.models.genes.sphere.*;
 import uk.edu.populationfitness.models.genes.valley.DixonPriceGenes;
 import uk.edu.populationfitness.models.genes.valley.RosenbrockGenes;
@@ -63,9 +67,17 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new SchumerSteiglitzGenes(config);
             case Trid:
                 return new TridGenes(config);
-            default:
             case Zakharoy:
                 return new ZakharoyGenes(config);
+            case FixedZero:
+                return new FixedZeroGenes(config);
+            case FixedHalf:
+                return new FixedHalfGenes(config);
+            case Random:
+                return new RandomGenes(config);
+            default:
+            case FixedOne:
+                return new FixedOneGenes(config);
         }
     }
 

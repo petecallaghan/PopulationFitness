@@ -54,18 +54,8 @@ public class GenerationStatistics {
         return (double) (kill_time / 10) / 100;
     }
 
-    private static long average(long value, long count){
-        if (count < 1){
-            return value;
-        }
-        return value / count;
-    }
-
-    private static double average(double value, long count){
-        if (count < 1){
-            return value;
-        }
-        return value / count;
+    private static double average(double total, long count){
+        return count < 1 ? total : total / count;
     }
 
     public static GenerationStatistics add(GenerationStatistics first, GenerationStatistics second){
@@ -83,8 +73,10 @@ public class GenerationStatistics {
         result.average_age = average(first.average_age * first.population + second.average_age * second.population, result.population);
         result.average_fitness = average(first.average_fitness * first.population + second.average_fitness * second.population, result.population);
         result.average_factored_fitness = average(first.average_factored_fitness * first.population + second.average_factored_fitness * second.population, result.population);
+        result.fitness_deviation = average(first.fitness_deviation * first.population + second.fitness_deviation * second.population, result.population);
         result.epoch.expected_max_population += second.epoch.expected_max_population;
         result.epoch.environment_capacity += second.epoch.environment_capacity;
+        result.epoch.prev_environment_capacity += second.epoch.prev_environment_capacity;
         result.capacity_factor = average(first.capacity_factor * first.population + second.capacity_factor * second.population, result.population);
         result.average_mutations = average((first.average_mutations * first.number_born + second.average_mutations * second.number_born), result.number_born);
         result.average_life_expectancy = average(first.average_life_expectancy * first.number_killed + second.average_life_expectancy * second.number_killed, result.number_killed);

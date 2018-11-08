@@ -29,7 +29,7 @@ public abstract class BitSetGenes implements Genes {
 
     private final int size_of_genes;
 
-    BitSetGenes(Config config) {
+    public BitSetGenes(Config config) {
         this.config = config;
         size_of_genes = config.getGeneBitCount();
     }

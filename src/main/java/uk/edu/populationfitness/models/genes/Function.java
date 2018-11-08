@@ -24,5 +24,9 @@ public enum Function {
     Salomon,
     SchumerSteiglitz,
     Trid,
-    Zakharoy
+    Zakharoy,
+    FixedOne,
+    FixedHalf,
+    FixedZero,
+    Random
 }

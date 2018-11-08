@@ -122,13 +122,13 @@ public class Generations {
     private static PopulationComparison compareToExpected(Epoch epoch, int year, int population, int percentage){
         if (population == 0) return PopulationComparison.TooLow;
 
-        final int expected = epoch.capacityForYear(year);
+        final long expected = epoch.capacityForYear(year);
 
         if (population >= expected * 2) return PopulationComparison.TooHigh;
 
-        int divergence = (population - expected)*100;
+        long divergence = (population - expected)*100;
 
-        int max_divergence = expected * percentage;
+        long max_divergence = expected * percentage;
 
         if (year >= epoch.end_year)
         {

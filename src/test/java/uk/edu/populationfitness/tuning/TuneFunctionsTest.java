@@ -12,13 +12,14 @@ import uk.edu.populationfitness.output.EpochsWriter;
 import uk.edu.populationfitness.output.TuningWriter;
 
 import java.io.IOException;
+import java.util.List;
 
 public class TuneFunctionsTest {
     private static final int NumberOfGenes = 20000;
 
     private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationRatio = 25;
+    private static final int PopulationRatio = 100; //25;
 
     private static final String EpochsPath = "epochs";
 
@@ -29,10 +30,14 @@ public class TuneFunctionsTest {
     private static final double MutationsPerIndividual = 150;
 
     private void tune(Function function, double maxFactor) throws IOException {
-        tune(function, maxFactor, TuningPercentage);
+        tune(function, maxFactor, TuningPercentage, true);
     }
 
     private void tune(Function function, double maxFactor, int tuningPercentage) throws IOException {
+        tune(function, maxFactor, tuningPercentage, true);
+    }
+
+    private void tune(Function function, double maxFactor, int tuningPercentage, boolean willPass) throws IOException {
         RepeatableRandom.resetSeed();
 
         final Config config = buildTimedTuningConfig(function);
@@ -50,7 +55,12 @@ public class TuneFunctionsTest {
 
         writeResults(function, config, epochs, tuning);
 
-        assertTuned(result, tuning);
+        assertTuned(result, tuning, willPass);
+        
+        assertProofOfInheritance(generations.history);
+    }
+
+    private void assertProofOfInheritance(List<GenerationStatistics> history) {
     }
 
     private void showResults(Tuning tuning) {
@@ -67,12 +77,18 @@ public class TuneFunctionsTest {
         System.out.println(tuning.modern_fit);
     }
 
-    private void assertTuned(PopulationComparison result, Tuning tuning) {
-        // Ensure that we successfully tuned
-        Assert.assertTrue(result == PopulationComparison.WithinRange);
+    private void assertTuned(PopulationComparison result, Tuning tuning, boolean willPass) {
+        if (willPass){
+            // Ensure that we successfully tuned
+            Assert.assertTrue(result == PopulationComparison.WithinRange);
 
-        // Ensure that the tuning result is what we expect
-        Assert.assertTrue(tuning.disease_fit < tuning.modern_fit);
+            // Ensure that the tuning result is what we expect
+            Assert.assertTrue(tuning.disease_fit < tuning.modern_fit);
+            Assert.assertTrue(tuning.historic_fit < tuning.modern_fit);
+            Assert.assertTrue(tuning.disease_fit < tuning.historic_fit);
+        } else {
+            Assert.assertFalse(result == PopulationComparison.WithinRange);
+        }
     }
 
     private void writeResults(Function function, Config config, Epochs epochs, Tuning tuning) throws IOException {
@@ -229,5 +245,21 @@ public class TuneFunctionsTest {
 
     @Test public void testTuneZakharoy() throws IOException {
         tune(Function.Zakharoy, 100.0, 25);
+    }
+
+    @Test public void testTuneFixedOne() throws IOException {
+        tune(Function.FixedOne, 1.0, 20);
+    }
+
+    @Test public void testTuneFixedHalf() throws IOException {
+        tune(Function.FixedHalf, 2.0, 20);
+    }
+
+    @Test public void testTuneFixedZero() throws IOException {
+        tune(Function.FixedZero, 2.0, 20, false);
+    }
+
+    @Test public void testTuneRandom() throws IOException {
+        tune(Function.Random, 2.0, 40);
     }
 }

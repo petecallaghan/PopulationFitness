@@ -19,9 +19,9 @@ public class DiscoverFunctionRangeTest {
 
     private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationSize = 10;
+    private static final int PopulationSize = 100;
 
-    private void DiscoverFunctionRange(Function function){
+    private void DiscoverFunctionRange(Function function, boolean mustPass){
         GenesFactory factory = new GenesTimerFactory(new BitSetGenesFactory());
         factory.useFitnessFunction(function);
         // Given a number of randomly generated genes
@@ -32,14 +32,6 @@ public class DiscoverFunctionRangeTest {
         GenesTimer.resetAll();
 
         ArrayList<Genes> genes = new ArrayList<>();
-
-        Genes empty = factory.build(config);
-        empty.buildEmpty();
-        genes.add(empty);
-
-        Genes full = factory.build(config);
-        full.buildFull();
-        genes.add(full);
 
         for(int i = 0; i < PopulationSize; i++){
             Genes next = factory.build(config);
@@ -52,10 +44,13 @@ public class DiscoverFunctionRangeTest {
         double max = Double.MIN_VALUE;
         for (Genes g: genes) {
             double fitness = g.fitness();
+            System.out.print(fitness);
+            System.out.print(" ");
 
             if (fitness < min) min = fitness;
             if (fitness > max) max = fitness;
         }
+        System.out.println(" ");
 
         System.out.print(function.toString());
         System.out.print("(");
@@ -68,86 +63,102 @@ public class DiscoverFunctionRangeTest {
         GenesTimer.showAll();
 
         Assert.assertTrue("Min above zero", min >= -0.1);
-        Assert.assertTrue("Usable range", max - min >= 0.01);
+        Assert.assertEquals("Usable range", mustPass, max - min >= 0.0001);
     }
 
     @Test public void testDiscoverRastrigin() {
-        DiscoverFunctionRange(Function.Rastrigin);
+        DiscoverFunctionRange(Function.Rastrigin, true);
     }
 
     @Test public void testDiscoverSphere() {
-        DiscoverFunctionRange(Function.Sphere);
+        DiscoverFunctionRange(Function.Sphere, true);
     }
 
     @Test public void testDiscoverStyblinksiTang() {
-        DiscoverFunctionRange(Function.StyblinksiTang);
+        DiscoverFunctionRange(Function.StyblinksiTang, true);
     }
 
     @Test public void testDiscoverSchwefel226() {
-        DiscoverFunctionRange(Function.Schwefel226);
+        DiscoverFunctionRange(Function.Schwefel226, true);
     }
 
     @Test public void testDiscoverRosenbrock() {
-        DiscoverFunctionRange(Function.Rosenbrock);
+        DiscoverFunctionRange(Function.Rosenbrock, true);
     }
 
     @Test public void testDiscoverSumOfPowers() {
-        DiscoverFunctionRange(Function.SumOfPowers);
+        DiscoverFunctionRange(Function.SumOfPowers, true);
     }
 
     @Test public void testDiscoverSumSquares() {
-        DiscoverFunctionRange(Function.SumSquares);
+        DiscoverFunctionRange(Function.SumSquares, true);
     }
 
     @Test public void testDiscoverAckleys() {
-        DiscoverFunctionRange(Function.Ackleys);
+        DiscoverFunctionRange(Function.Ackleys, true);
     }
 
     @Test public void testDiscoverAlpine() {
-        DiscoverFunctionRange(Function.Alpine);
+        DiscoverFunctionRange(Function.Alpine, true);
     }
 
     @Test public void testDiscoverBrown() {
-        DiscoverFunctionRange(Function.Brown);
+        DiscoverFunctionRange(Function.Brown, true);
     }
 
     @Test public void testDiscoverChungReynolds() {
-        DiscoverFunctionRange(Function.ChungReynolds);
+        DiscoverFunctionRange(Function.ChungReynolds, true);
     }
 
     @Test public void testDiscoverDixonPrice() {
-        DiscoverFunctionRange(Function.DixonPrice);
+        DiscoverFunctionRange(Function.DixonPrice, true);
     }
 
     @Test public void testDiscoverExponential() {
-        DiscoverFunctionRange(Function.Exponential);
+        DiscoverFunctionRange(Function.Exponential, true);
     }
 
     @Test public void testDiscoverGriewank() {
-        DiscoverFunctionRange(Function.Griewank);
+        DiscoverFunctionRange(Function.Griewank, true);
     }
 
     @Test public void testDiscoverQing() {
-        DiscoverFunctionRange(Function.Qing);
+        DiscoverFunctionRange(Function.Qing, true);
     }
 
     @Test public void testDiscoverSalomon() {
-        DiscoverFunctionRange(Function.Salomon);
+        DiscoverFunctionRange(Function.Salomon, true);
     }
 
     @Test public void testDiscoverSchumerSteiglitz() {
-        DiscoverFunctionRange(Function.SchumerSteiglitz);
+        DiscoverFunctionRange(Function.SchumerSteiglitz, true);
     }
 
     @Test public void testDiscoverSchwefel220() {
-        DiscoverFunctionRange(Function.Schwefel220);
+        DiscoverFunctionRange(Function.Schwefel220, true);
     }
 
     @Test public void testDiscoverTrid() {
-        DiscoverFunctionRange(Function.Trid);
+        DiscoverFunctionRange(Function.Trid, true);
     }
 
     @Test public void testDiscoverZakharoy() {
-        DiscoverFunctionRange(Function.Zakharoy);
+        DiscoverFunctionRange(Function.Zakharoy, true);
+    }
+
+    @Test public void testDiscoverFixedOne() {
+        DiscoverFunctionRange(Function.FixedOne, false);
+    }
+
+    @Test public void testDiscoverFixedHalf() {
+        DiscoverFunctionRange(Function.FixedHalf, false);
+    }
+
+    @Test public void testDiscoverFixedZero() {
+        DiscoverFunctionRange(Function.FixedZero, false);
+    }
+
+    @Test public void testDiscoverRandom() {
+        DiscoverFunctionRange(Function.Random, true);
     }
 }

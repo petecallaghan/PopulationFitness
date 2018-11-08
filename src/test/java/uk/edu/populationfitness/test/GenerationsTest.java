@@ -67,6 +67,15 @@ public class GenerationsTest {
         assertEquals(result.average_life_expectancy,
                 (first.average_life_expectancy * first.number_killed +
                         second.average_life_expectancy * second.number_killed) / result.number_killed, 0.00001);
+        assertEquals(result.average_fitness,
+                (first.average_fitness * first.population +
+                        second.average_fitness * second.population) / result.population, 0.00001);
+        assertEquals(result.average_factored_fitness,
+                (first.average_factored_fitness * first.population +
+                        second.average_factored_fitness * second.population) / result.population, 0.00001);
+        assertEquals(result.fitness_deviation,
+                (first.fitness_deviation * first.population +
+                        second.fitness_deviation * second.population) / result.population, 0.00001);
     }
 
     @Test public void addCollectionsOfGenerationStatistics(){
@@ -82,8 +91,18 @@ public class GenerationsTest {
 
         first.average_age = 10.5;
         second.average_age = 20.3;
+
         first.average_life_expectancy = 50.5;
         second.average_life_expectancy = 60.76;
+
+        first.average_factored_fitness = 0.95;
+        second.average_factored_fitness = 0.45;
+
+        first.average_fitness = 0.65;
+        second.average_fitness = 0.55;
+
+        first.fitness_deviation = 0.065;
+        second.fitness_deviation = 0.055;
 
         // When they are added
         List<GenerationStatistics> result = GenerationStatistics.add(firstSet, secondSet);

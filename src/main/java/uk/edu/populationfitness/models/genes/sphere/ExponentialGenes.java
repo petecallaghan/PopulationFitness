@@ -9,7 +9,7 @@ public class ExponentialGenes extends NormalizingBitSetGenes {
     private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
         public Double calculateValue(long n) {
-            return 1.0 - Math.exp(-0.5 * n);
+            return 1.0 - Math.exp((long)(-0.5 * n));
         }
     }
 
@@ -31,9 +31,10 @@ public class ExponentialGenes extends NormalizingBitSetGenes {
          */
 
         double fitness = 0.0;
+        final long scale = integer_values.length > 1000 ? integer_values.length / 1000 : 1;
 
         for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+            double x = interpolate(integer_value) / scale;
 
             fitness += x * x;
         }

@@ -69,10 +69,10 @@ public class Epoch {
         return environment_capacity == UNLIMITED_CAPACITY;
     }
 
-    public int capacityForYear(int year){
+    public long capacityForYear(int year){
         final long capacityRange = environment_capacity - prev_environment_capacity;
         final long yearRange = end_year - start_year;
-        return prev_environment_capacity + (int)((capacityRange * (year - start_year)) / yearRange);
+        return prev_environment_capacity + (long)((capacityRange * (year - start_year)) / yearRange);
     }
 
     public boolean isFitnessEnabled(){

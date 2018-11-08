@@ -20,7 +20,7 @@ public class Population {
     private double total_fitness = 0.0;
     private double total_age_at_death = 0.0;
     private double total_factored_fitness = 0.0;
-    private int checked_fitness = 0;
+    private long checked_fitness = 0;
     private ArrayList<Double> fitnesses;
     private double environment_capacity = 0.0;
 
