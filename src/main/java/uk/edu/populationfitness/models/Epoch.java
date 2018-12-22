@@ -41,6 +41,8 @@ public class Epoch {
 
     private double total_capacity_factor = 0;
 
+    private boolean isModern = false;
+
     public Epoch(Config config, int start_year){
         this.start_year = start_year;
         this.config = config;
@@ -63,16 +65,22 @@ public class Epoch {
         this.prev_environment_capacity = source.prev_environment_capacity;
         this.max_age = source.max_age;
         this.max_breeding_age = source.max_breeding_age;
+        this.isModern = source.isModern;
     }
 
     public boolean isCapacityUnlimited(){
         return environment_capacity == UNLIMITED_CAPACITY;
     }
 
-    public long capacityForYear(int year){
-        final long capacityRange = environment_capacity - prev_environment_capacity;
-        final long yearRange = end_year - start_year;
-        return prev_environment_capacity + (long)((capacityRange * (year - start_year)) / yearRange);
+    public int capacity()
+    {
+        return isCapacityUnlimited() ? expected_max_population : environment_capacity;
+    }
+
+    public int capacityForYear(int year){
+        final int capacityRange = capacity() - prev_environment_capacity;
+        final int yearRange = end_year - start_year;
+        return prev_environment_capacity + ((capacityRange * (year - start_year)) / yearRange);
     }
 
     public boolean isFitnessEnabled(){
@@ -95,6 +103,15 @@ public class Epoch {
 
     public boolean disease(){
         return isDisease;
+    }
+
+    public Epoch modern(boolean isModern){
+        this.isModern = isModern;
+        return this;
+    }
+
+    public boolean modern(){
+        return isModern;
     }
 
     public Epoch fitness(double fitness_factor){
@@ -123,6 +140,9 @@ public class Epoch {
     }
 
     public double averageCapacityFactor(){
+        if (total_capacity_factor == 0){
+            return 1;
+        }
         return this.total_capacity_factor / (this.end_year - this.start_year + 1);
     }
 

@@ -85,7 +85,7 @@ public class GenesDistributionTest {
     }
 
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesAlpine(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.Alpine, 10);
+        GenesAreDistributedWithoutExcessiveSpikes(Function.Alpine, 5);
     }
 
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesAckleys(){

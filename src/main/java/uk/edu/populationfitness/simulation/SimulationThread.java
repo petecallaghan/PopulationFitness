@@ -10,7 +10,7 @@ import uk.edu.populationfitness.output.GenerationsWriter;
 
 import java.io.IOException;
 
-class SimulationThread extends Simulation{
+public class SimulationThread extends Simulation{
 
     private final Config config;
 

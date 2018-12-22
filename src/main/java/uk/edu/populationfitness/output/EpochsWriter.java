@@ -63,6 +63,7 @@ public class EpochsWriter {
                 Double.toString(epoch.averageCapacityFactor()),
                 Double.toString(epoch.averageCapacityFactor() * epoch.fitness()),
                 Double.toString(epoch.config().getMutationsPerGene()),
+                Boolean.toString(epoch.modern()),
         });
     }
 
@@ -80,6 +81,7 @@ public class EpochsWriter {
                 "Avg Capacity Factor",
                 "Avg Capacity Fitness",
                 "Mutations",
+                "Modern",
         });
     }
 }

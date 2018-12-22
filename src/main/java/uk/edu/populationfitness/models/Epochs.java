@@ -24,11 +24,11 @@ public class Epochs {
         if (!epochs.isEmpty()){
             Epoch previous = epochs.get(epochs.size() - 1);
             previous.end_year = epoch.start_year - 1;
-            epoch.prev_environment_capacity = previous.environment_capacity;
+            epoch.prev_environment_capacity = previous.capacity();
         }
         else
         {
-            epoch.prev_environment_capacity = epoch.environment_capacity;
+            epoch.prev_environment_capacity = epoch.capacity();
         }
 
         epochs.add(epoch);

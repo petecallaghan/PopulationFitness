@@ -1,18 +1,21 @@
 package uk.edu.populationfitness.tuning;
 
 import org.junit.Assert;
+import org.junit.Test;
 import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.UkPopulationEpochs;
 import uk.edu.populationfitness.models.*;
-import org.junit.Test;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.Function;
 import uk.edu.populationfitness.models.genes.performance.GenesTimer;
 import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
 import uk.edu.populationfitness.output.EpochsWriter;
 import uk.edu.populationfitness.output.TuningWriter;
+import uk.edu.populationfitness.simulation.SimulationThread;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TuneFunctionsTest {
     private static final int NumberOfGenes = 20000;
@@ -38,29 +41,47 @@ public class TuneFunctionsTest {
     }
 
     private void tune(Function function, double maxFactor, int tuningPercentage, boolean willPass) throws IOException {
-        RepeatableRandom.resetSeed();
+        RepeatableRandom.resetSeedFromTime();
 
         final Config config = buildTimedTuningConfig(function);
         final Epochs epochs = UkPopulationEpochs.define(config);
+        final PopulationComparison result = tuneEpochFitnessFactors(maxFactor, tuningPercentage, config, epochs);
+
+        final Tuning tuning = createTuningFromEpochs(config, epochs);
+
+        checkTuningMeetsHypothesis(epochs, config, tuning, willPass);
+
+        showResults(tuning);
+
+        writeResults(function, config, epochs, tuning);
+
+        assertTuned(result, tuning, epochs, willPass);
+    }
+
+    private PopulationComparison tuneEpochFitnessFactors(double maxFactor, int tuningPercentage, Config config, Epochs epochs) {
         final Generations generations = new Generations(new Population(config));
 
         epochs.reducePopulation(PopulationRatio);
         config.setInitialPopulation(epochs.first().environment_capacity);
         config.setMutationsPerGene(MutationsPerIndividual);
 
-        final PopulationComparison result = generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, tuningPercentage);
-        final Tuning tuning = createTuningFromEpochs(config, epochs);
-
-        showResults(tuning);
-
-        writeResults(function, config, epochs, tuning);
-
-        assertTuned(result, tuning, willPass);
-        
-        assertProofOfInheritance(generations.history);
+        return generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, tuningPercentage);
     }
 
-    private void assertProofOfInheritance(List<GenerationStatistics> history) {
+    private void checkTuningMeetsHypothesis(Epochs epochs, Config config, Tuning tuning, Boolean willPass){
+        SimulationThread simulation = new SimulationThread(config, epochs, tuning, 1);
+        simulation.run();
+
+        final FitnessStatistics historical = new FitnessStatistics(simulation.generations.history.stream()
+                .filter(s -> !s.epoch.modern()).collect(Collectors.toList()));
+        final FitnessStatistics modern = new FitnessStatistics(simulation.generations.history.stream()
+                .filter(s -> s.epoch.modern()).collect(Collectors.toList()));
+
+        historical.print("Historical");
+        modern.print("Modern");
+
+        //Assert.assertEquals(willPass, deviationsTrend > 0.009);
+        //Assert.assertEquals(willPass, fitnessesTrend < 0.0);
     }
 
     private void showResults(Tuning tuning) {
@@ -77,7 +98,7 @@ public class TuneFunctionsTest {
         System.out.println(tuning.modern_fit);
     }
 
-    private void assertTuned(PopulationComparison result, Tuning tuning, boolean willPass) {
+    private void assertTuned(PopulationComparison result, Tuning tuning, Epochs epochs, boolean willPass) {
         if (willPass){
             // Ensure that we successfully tuned
             Assert.assertTrue(result == PopulationComparison.WithinRange);
@@ -86,8 +107,7 @@ public class TuneFunctionsTest {
             Assert.assertTrue(tuning.disease_fit < tuning.modern_fit);
             Assert.assertTrue(tuning.historic_fit < tuning.modern_fit);
             Assert.assertTrue(tuning.disease_fit < tuning.historic_fit);
-        } else {
-            Assert.assertFalse(result == PopulationComparison.WithinRange);
+            //Assert.assertTrue(tuning.historic_fit < findMinModernFitness(epochs));
         }
     }
 
@@ -120,51 +140,28 @@ public class TuneFunctionsTest {
         tuning.series_runs = 1;
         tuning.mutations_per_gene = config.getMutationsPerGene();
 
-        Epoch diseaseEpoch = findDiseaseEpoch(epochs);
-        Epoch historicalEpoch = findHistoricalEpoch(epochs);
-        Epoch modernEpoch = findModernEpoch(epochs);
-
-        tuning.historic_fit = historicalEpoch.averageCapacityFactor() * historicalEpoch.fitness();
-        tuning.modern_fit = modernEpoch.averageCapacityFactor() * modernEpoch.fitness();
-        tuning.modern_breeding = modernEpoch.breedingProbability();
-        tuning.disease_fit = diseaseEpoch.averageCapacityFactor() * diseaseEpoch.fitness();
+        tuning.historic_fit = findHistoricalFitness(epochs);
+        tuning.modern_fit = findAvgModernFitness(epochs);
+        tuning.modern_breeding = epochs.last().breedingProbability();
+        tuning.disease_fit = findDiseaseFitness(epochs);
 
         return tuning;
     }
 
-    private Epoch findModernEpoch(Epochs epochs) {
-        // Find the modern epoch with the max fitness factor
-        Epoch modern = epochs.epochs.get(epochs.epochs.size() - 1);
-        double max = modern.fitness() * modern.averageCapacityFactor();
-
-        for(int i = epochs.epochs.size() - 1; i > epochs.epochs.size() - 6; i --){
-            Epoch current = epochs.epochs.get(i);
-            double currentFitness = current.fitness() * current.averageCapacityFactor();
-            if (max < currentFitness){
-                max = currentFitness;
-                modern = current;
-            }
-        }
-        return modern;
+    private double findAvgModernFitness(Epochs epochs) {
+        return epochs.epochs.stream().filter(e -> e.modern()).mapToDouble(e -> e.fitness()).average().getAsDouble();
     }
 
-    private Epoch findHistoricalEpoch(Epochs epochs) {
-        for (Epoch epoch: epochs.epochs) {
-            if (epoch.start_year >= 1451) {
-                // Use this epoch as the historical epoch
-                return epoch;
-            }
-        }
-        return null;
+    private double findMinModernFitness(Epochs epochs) {
+        return epochs.epochs.stream().filter(e -> e.modern()).mapToDouble(e -> e.fitness()).min().getAsDouble();
     }
 
-    private Epoch findDiseaseEpoch(Epochs epochs) {
-        for (Epoch epoch: epochs.epochs) {
-            if (epoch.disease()){
-                return epoch;
-            }
-        }
-        return null;
+    private double findHistoricalFitness(Epochs epochs) {
+        return epochs.epochs.stream().filter(e -> !e.modern() && !e.disease()).mapToDouble(e -> e.fitness()).average().getAsDouble();
+    }
+
+    private double findDiseaseFitness(Epochs epochs) {
+        return epochs.epochs.stream().filter(e -> e.disease()).mapToDouble(e -> e.fitness()).min().getAsDouble();
     }
 
     @Test public void testTuneRastrigin() throws IOException {
@@ -192,23 +189,23 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, 20, 25);
+        tune(Function.SumSquares, 4, 30);
     }
 
     @Test public void testTuneAckleys() throws IOException {
-        tune(Function.Ackleys, 4);
+        tune(Function.Ackleys, 3, 25);
     }
 
     @Test public void testTuneAlpine() throws IOException {
-        tune(Function.Alpine, 20, 40);
+        tune(Function.Alpine, 20, 30);
     }
 
     @Test public void testTuneBrown() throws IOException {
-        tune(Function.Brown, 10, 25);
+        tune(Function.Brown, 5, 30);
     }
 
     @Test public void testTuneChungReynolds() throws IOException {
-        tune(Function.ChungReynolds, 8, 40);
+        tune(Function.ChungReynolds, 10, 15);
     }
 
     @Test public void testTuneDixonPrice() throws IOException {
@@ -220,7 +217,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneGriewank() throws IOException {
-        tune(Function.Griewank, 400);
+        tune(Function.Griewank, 7);
     }
 
     @Test public void testTuneQing() throws IOException {
@@ -228,7 +225,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSalomon() throws IOException {
-        tune(Function.Salomon, 4);
+        tune(Function.Salomon, 1, 35);
     }
 
     @Test public void testTuneSchumerSteiglitz() throws IOException {
@@ -240,7 +237,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneTrid() throws IOException {
-        tune(Function.Trid, 10.0, 25);
+        tune(Function.Trid, 11.0, 10);
     }
 
     @Test public void testTuneZakharoy() throws IOException {
@@ -248,11 +245,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneFixedOne() throws IOException {
-        tune(Function.FixedOne, 1.0, 20);
+        tune(Function.FixedOne, 1.0, 20, false);
     }
 
     @Test public void testTuneFixedHalf() throws IOException {
-        tune(Function.FixedHalf, 2.0, 20);
+        tune(Function.FixedHalf, 2.0, 20, false);
     }
 
     @Test public void testTuneFixedZero() throws IOException {
@@ -260,6 +257,6 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRandom() throws IOException {
-        tune(Function.Random, 2.0, 40);
+        tune(Function.Random, 10.0, 20, false);
     }
 }

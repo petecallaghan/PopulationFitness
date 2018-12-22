@@ -73,11 +73,11 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new FixedZeroGenes(config);
             case FixedHalf:
                 return new FixedHalfGenes(config);
-            case Random:
-                return new RandomGenes(config);
-            default:
             case FixedOne:
                 return new FixedOneGenes(config);
+            default:
+            case Random:
+                return new RandomGenes(config);
         }
     }
 

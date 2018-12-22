@@ -36,6 +36,7 @@ public class EpochsReader {
         epoch.expected_max_population = Integer.parseInt(row[6]);
         epoch.maxAge(Integer.parseInt(row[7]));
         epoch.maxBreedingAge(Integer.parseInt(row[8]));
+        epoch.modern(Boolean.parseBoolean(row[12]));
         return epoch;
     }
 }

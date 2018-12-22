@@ -28,6 +28,10 @@ public class RepeatableRandom {
         random = new SplittableRandom(DEFAULT_SEED);
     }
 
+    public static void resetSeedFromTime(){
+        random = new SplittableRandom();
+    }
+
     /**
      *
      * @return the next random number between 0 (inclusive) and 1 (exclusive).
