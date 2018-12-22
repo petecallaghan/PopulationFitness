@@ -5,7 +5,6 @@ import org.junit.Test;
 import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.UkPopulationEpochs;
 import uk.edu.populationfitness.models.*;
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.Function;
 import uk.edu.populationfitness.models.genes.performance.GenesTimer;
 import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
@@ -14,15 +13,14 @@ import uk.edu.populationfitness.output.TuningWriter;
 import uk.edu.populationfitness.simulation.SimulationThread;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class TuneFunctionsTest {
-    private static final int NumberOfGenes = 20000;
+    private static final int NumberOfGenes = 20000; // 20000;
 
     private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationRatio = 100; //25;
+    private static final int PopulationRatio = 100; //100; //25;
 
     private static final String EpochsPath = "epochs";
 
@@ -30,7 +28,7 @@ public class TuneFunctionsTest {
 
     private static final int TuningPercentage = 15;
 
-    private static final double MutationsPerIndividual = 150;
+    private static final double MutationsPerIndividual = 150; // 150;
 
     private void tune(Function function, double maxFactor) throws IOException {
         tune(function, maxFactor, TuningPercentage, true);
@@ -258,5 +256,9 @@ public class TuneFunctionsTest {
 
     @Test public void testTuneRandom() throws IOException {
         tune(Function.Random, 10.0, 20, false);
+    }
+
+    @Test public void testTuneSinX() throws IOException {
+        tune(Function.SinX, 2.0, 25);
     }
 }

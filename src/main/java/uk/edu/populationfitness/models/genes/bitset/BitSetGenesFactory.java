@@ -2,17 +2,11 @@ package uk.edu.populationfitness.models.genes.bitset;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.genes.*;
-import uk.edu.populationfitness.models.genes.Ridge.Schwefel220Genes;
+import uk.edu.populationfitness.models.genes.Ridge.*;
 import uk.edu.populationfitness.models.genes.localmimina.*;
-import uk.edu.populationfitness.models.genes.reference.FixedHalfGenes;
-import uk.edu.populationfitness.models.genes.reference.FixedOneGenes;
-import uk.edu.populationfitness.models.genes.reference.FixedZeroGenes;
-import uk.edu.populationfitness.models.genes.reference.RandomGenes;
+import uk.edu.populationfitness.models.genes.reference.*;
 import uk.edu.populationfitness.models.genes.sphere.*;
-import uk.edu.populationfitness.models.genes.valley.DixonPriceGenes;
-import uk.edu.populationfitness.models.genes.valley.RosenbrockGenes;
-import uk.edu.populationfitness.models.genes.valley.TridGenes;
-import uk.edu.populationfitness.models.genes.valley.ZakharoyGenes;
+import uk.edu.populationfitness.models.genes.valley.*;
 
 import static uk.edu.populationfitness.models.genes.Function.Undefined;
 
@@ -75,6 +69,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new FixedHalfGenes(config);
             case FixedOne:
                 return new FixedOneGenes(config);
+            case SinX:
+                return new SinXGenes(config);
             default:
             case Random:
                 return new RandomGenes(config);

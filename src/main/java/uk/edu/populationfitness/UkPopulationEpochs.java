@@ -11,6 +11,8 @@ public class UkPopulationEpochs {
         // Birth rates derived from from Crude Birth Rates of W&S 1981
 
         // Src: silvia.carpitella@unipa.it
+        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -5000).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, -50).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, 1).capacity(2000));
         epochs.addNextEpoch(new Epoch(config, 44).capacity(4500));

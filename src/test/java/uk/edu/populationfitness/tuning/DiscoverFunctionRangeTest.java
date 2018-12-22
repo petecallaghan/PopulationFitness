@@ -161,4 +161,8 @@ public class DiscoverFunctionRangeTest {
     @Test public void testDiscoverRandom() {
         DiscoverFunctionRange(Function.Random, true);
     }
+
+    @Test public void testDiscoverSinX() {
+        DiscoverFunctionRange(Function.SinX, true);
+    }
 }

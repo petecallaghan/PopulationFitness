@@ -119,4 +119,8 @@ public class GenesDistributionTest {
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesSumSquares(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.SumSquares, 1.0);
     }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSinX(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SinX, 1.0);
+    }
 }
