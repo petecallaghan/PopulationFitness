@@ -11,8 +11,7 @@ public class UkPopulationEpochs {
         // Birth rates derived from from Crude Birth Rates of W&S 1981
 
         // Src: silvia.carpitella@unipa.it
-        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -5000).capacity(1500));
+        //epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, -50).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, 1).capacity(2000));
         epochs.addNextEpoch(new Epoch(config, 44).capacity(4500));
@@ -44,28 +43,28 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1601).capacity(6300).breedingProbability(0.29));
         epochs.addNextEpoch(new Epoch(config, 1651).capacity(6200).breedingProbability(0.26));
 
-        epochs.addNextEpoch(new Epoch(config, 1701).max(11300).breedingProbability(0.25));
-        epochs.addNextEpoch(new Epoch(config, 1802).max(12500).breedingProbability(0.28));
-        epochs.addNextEpoch(new Epoch(config, 1812).max(13400).breedingProbability(0.28));
-        epochs.addNextEpoch(new Epoch(config, 1822).max(15800).breedingProbability(0.26));
-        epochs.addNextEpoch(new Epoch(config, 1832).max(20200).breedingProbability(0.25));
-        epochs.addNextEpoch(new Epoch(config, 1842).max(27400).breedingProbability(0.22));
-        epochs.addNextEpoch(new Epoch(config, 1852).max(29000).breedingProbability(0.25));
-        epochs.addNextEpoch(new Epoch(config, 1862).max(31500).breedingProbability(0.22));
-        epochs.addNextEpoch(new Epoch(config, 1872).max(35000).breedingProbability(0.21));
-        epochs.addNextEpoch(new Epoch(config, 1882).max(37800).breedingProbability(0.19));
-        epochs.addNextEpoch(new Epoch(config, 1892).max(38200).breedingProbability(0.18));
-        epochs.addNextEpoch(new Epoch(config, 1902).max(42100).breedingProbability(0.13));
-        epochs.addNextEpoch(new Epoch(config, 1912).max(44000).breedingProbability(0.14));
-        epochs.addNextEpoch(new Epoch(config, 1922).max(45000).breedingProbability(0.12));
-        epochs.addNextEpoch(new Epoch(config, 1932).max(50200).breedingProbability(0.07));
-        epochs.addNextEpoch(new Epoch(config, 1952).max(55900).breedingProbability(0.09).modern(true));
-        epochs.addNextEpoch(new Epoch(config, 1962).max(56300).breedingProbability(0.10).modern(true));
-        epochs.addNextEpoch(new Epoch(config, 1972).max(57400).breedingProbability(0.07).modern(true));
-        epochs.addNextEpoch(new Epoch(config, 1982).max(59300).breedingProbability(0.10).modern(true));
-        epochs.addNextEpoch(new Epoch(config, 1992).max(63200).breedingProbability(0.09).modern(true));
-        epochs.addNextEpoch(new Epoch(config, 2002).max(65600).breedingProbability(0.09).modern(true));
-        epochs.addNextEpoch(new Epoch(config, 2012).max(66270).breedingProbability(0.09).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1701).capacity(11300).breedingProbability(0.25));
+        epochs.addNextEpoch(new Epoch(config, 1802).capacity(12500).breedingProbability(0.28));
+        epochs.addNextEpoch(new Epoch(config, 1812).capacity(13400).breedingProbability(0.28));
+        epochs.addNextEpoch(new Epoch(config, 1822).capacity(15800).breedingProbability(0.26));
+        epochs.addNextEpoch(new Epoch(config, 1832).capacity(20200).breedingProbability(0.25));
+        epochs.addNextEpoch(new Epoch(config, 1842).capacity(27400).breedingProbability(0.22));
+        epochs.addNextEpoch(new Epoch(config, 1852).capacity(29000).breedingProbability(0.25));
+        epochs.addNextEpoch(new Epoch(config, 1862).capacity(31500).breedingProbability(0.22));
+        epochs.addNextEpoch(new Epoch(config, 1872).capacity(35000).breedingProbability(0.21));
+        epochs.addNextEpoch(new Epoch(config, 1882).capacity(37800).breedingProbability(0.19));
+        epochs.addNextEpoch(new Epoch(config, 1892).capacity(38200).breedingProbability(0.18));
+        epochs.addNextEpoch(new Epoch(config, 1902).capacity(42100).breedingProbability(0.13));
+        epochs.addNextEpoch(new Epoch(config, 1912).capacity(44000).breedingProbability(0.14));
+        epochs.addNextEpoch(new Epoch(config, 1922).capacity(45000).breedingProbability(0.12));
+        epochs.addNextEpoch(new Epoch(config, 1932).capacity(50200).breedingProbability(0.07));
+        epochs.addNextEpoch(new Epoch(config, 1952).capacity(55900).breedingProbability(0.09).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1962).capacity(56300).breedingProbability(0.10).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1972).capacity(57400).breedingProbability(0.07).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1982).capacity(59300).breedingProbability(0.10).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1992).capacity(63200).breedingProbability(0.09).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 2002).capacity(65600).breedingProbability(0.09).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 2012).capacity(66270).breedingProbability(0.09).modern(true));
         epochs.setFinalEpochYear(2015);
 
         return epochs;
