@@ -24,6 +24,8 @@ public class Population {
     private ArrayList<Double> fitnesses;
     private double environment_capacity = 0.0;
 
+    private double max_fitness = 0.0;
+
     public Population(Config config){
         this.config = config;
         individuals = new ArrayList<>();
@@ -78,9 +80,20 @@ public class Population {
         return babies;
     }
 
+    private double applyOrUpdateMaxFitness(Individual individual, double fitness){
+        if (individual.isUpdatingMaxFitness()){
+            // update the mean if this is the last year of the epoch that is updating the max
+            // The individual needs to report a) is it being limited b) is it the last year of the epoch
+            // The mean should only be updated if the epoch is set to update the mean and it is the last year of the epoch
+            this.max_fitness = Math.max(this.max_fitness, fitness);
+            return fitness;
+        }
+        return Math.min(this.max_fitness, fitness);
+    }
+
     private boolean kill(Individual individual, int current_year, double fitness_factor){
         final double fitness = individual.genes.fitness();
-        final double factored_fitness = fitness * fitness_factor;
+        final double factored_fitness = applyOrUpdateMaxFitness(individual, fitness * fitness_factor);
         total_fitness += fitness;
         total_factored_fitness += factored_fitness;
         checked_fitness++;

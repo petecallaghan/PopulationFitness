@@ -51,6 +51,8 @@ public class Config {
 
     private int initial_population = 4000;
 
+    private double max_fitness = 1.0;
+
     public Config(){
         setNumberOfGenes(4);
         setSizeOfEachGene(10);
@@ -151,5 +153,13 @@ public class Config {
 
     public long getMaxGeneValue(){
         return max_gene_value;
+    }
+
+    public void setMaxFitness(double max) {
+        this.max_fitness = max;
+    }
+
+    public double getMaxFitness() {
+        return this.max_fitness;
     }
 }

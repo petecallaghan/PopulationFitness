@@ -1,5 +1,6 @@
 package uk.edu.populationfitness.test;
 
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -126,6 +127,7 @@ public class EpochsTest {
             assertEquals(expected.expected_max_population, actual.expected_max_population);
             assertEquals(expected.maxAge(), actual.maxAge());
             assertEquals(expected.maxBreedingAge(), actual.maxBreedingAge());
+            assertEquals(expected.isUpdatingMaxFitness(), actual.isUpdatingMaxFitness());
         }
     }
 }

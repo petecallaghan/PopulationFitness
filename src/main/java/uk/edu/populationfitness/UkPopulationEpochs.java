@@ -11,9 +11,9 @@ public class UkPopulationEpochs {
         // Birth rates derived from from Crude Birth Rates of W&S 1981
 
         // Src: silvia.carpitella@unipa.it
-        //epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -50).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, 1).capacity(2000));
+        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500).updateMaxFitness(true));
+        epochs.addNextEpoch(new Epoch(config, -50).capacity(1500).updateMaxFitness(true));
+        epochs.addNextEpoch(new Epoch(config, 1).capacity(2000).updateMaxFitness(true));
         epochs.addNextEpoch(new Epoch(config, 44).capacity(4500));
         epochs.addNextEpoch(new Epoch(config, 201).capacity(3000));
         epochs.addNextEpoch(new Epoch(config, 411).capacity(1250));
@@ -58,8 +58,8 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1912).capacity(44000).breedingProbability(0.14));
         epochs.addNextEpoch(new Epoch(config, 1922).capacity(45000).breedingProbability(0.12));
         epochs.addNextEpoch(new Epoch(config, 1932).capacity(50200).breedingProbability(0.07));
-        epochs.addNextEpoch(new Epoch(config, 1952).capacity(55900).breedingProbability(0.09).modern(true));
-        epochs.addNextEpoch(new Epoch(config, 1962).capacity(56300).breedingProbability(0.10).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1952).capacity(55900).breedingProbability(0.09));
+        epochs.addNextEpoch(new Epoch(config, 1962).capacity(56300).breedingProbability(0.10));
         epochs.addNextEpoch(new Epoch(config, 1972).capacity(57400).breedingProbability(0.07).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1982).capacity(59300).breedingProbability(0.10).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1992).capacity(63200).breedingProbability(0.09).modern(true));

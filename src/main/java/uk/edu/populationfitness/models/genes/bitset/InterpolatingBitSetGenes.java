@@ -5,7 +5,7 @@ import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 
-public abstract class InterpolatingBitSetGenes extends InvertedBitSetGenes {
+public abstract class InterpolatingBitSetGenes extends BitSetGenes {
     private static class BitCountCalculator implements ValueCalculator<Long> {
         @Override
         public Long calculateValue(long bitCount) {

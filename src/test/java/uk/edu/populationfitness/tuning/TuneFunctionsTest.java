@@ -22,11 +22,11 @@ public class TuneFunctionsTest {
 
     private static final double RealMutationsPerIndividual = 150.0;
 
-    private static final int NumberOfGenes = 10;
+    private static final int NumberOfGenes = 5;
 
     private static final int SizeOfGenes = 100;
 
-    private static final int PopulationRatio = 1; 
+    private static final int PopulationRatio = 1;
 
     private static final String EpochsPath = "epochs";
 
@@ -88,6 +88,7 @@ public class TuneFunctionsTest {
         modern.print("Modern");
 
         Assert.assertTrue(historical.fitnessesTrend > modern.fitnessesTrend);
+        Assert.assertTrue(modern.fitnessesTrend < 0);
     }
 
     private void showResults(Tuning tuning) {

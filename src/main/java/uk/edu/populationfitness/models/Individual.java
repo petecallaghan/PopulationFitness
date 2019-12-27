@@ -36,4 +36,8 @@ public class Individual {
     public int inheritFromParents(Individual mother, Individual father){
         return genes.inheritFrom(mother.genes, father.genes);
     }
+
+    public boolean isUpdatingMaxFitness(){
+        return this.epoch.isUpdatingMaxFitness();
+    }
 }

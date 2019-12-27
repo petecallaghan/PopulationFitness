@@ -126,6 +126,16 @@ public abstract class BitSetGenes implements Genes {
     }
 
     /**
+     * Call this to store the fitness, inverted to 1- fitness
+     *
+     * @param fitness
+     * @return the scaled stored fitness
+     */
+    double storeInvertedFitness(double fitness){
+        return storeFitness(1 - fitness);
+    }
+
+    /**
      * Call this to store a fitness
      *
      * @param fitness
