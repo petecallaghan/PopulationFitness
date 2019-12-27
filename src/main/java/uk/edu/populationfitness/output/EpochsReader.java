@@ -37,7 +37,6 @@ public class EpochsReader {
         epoch.maxAge(Integer.parseInt(row[7]));
         epoch.maxBreedingAge(Integer.parseInt(row[8]));
         epoch.modern(Boolean.parseBoolean(row[12]));
-        epoch.updateMaxFitness(Boolean.parseBoolean(row[13]));
         return epoch;
     }
 }

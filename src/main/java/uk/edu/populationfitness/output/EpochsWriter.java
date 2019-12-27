@@ -64,7 +64,6 @@ public class EpochsWriter {
                 Double.toString(epoch.averageCapacityFactor() * epoch.fitness()),
                 Double.toString(epoch.config().getMutationsPerGene()),
                 Boolean.toString(epoch.modern()),
-                Boolean.toString(epoch.isUpdatingMaxFitness()),
         });
     }
 
@@ -83,7 +82,6 @@ public class EpochsWriter {
                 "Avg Capacity Fitness",
                 "Mutations",
                 "Modern",
-                "Update Max Fitness",
         });
     }
 }

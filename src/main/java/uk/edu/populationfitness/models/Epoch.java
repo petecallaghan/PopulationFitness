@@ -30,9 +30,6 @@ public class Epoch {
     // Max population actually expected for this epoch
     public int expected_max_population = 0;
 
-    // Controls updating of max fitness
-    private boolean isUpdatingMaxFitness = true;
-
     // Probability of a pair breeding in a given year
     private double probability_of_breeding;
 
@@ -69,7 +66,6 @@ public class Epoch {
         this.max_age = source.max_age;
         this.max_breeding_age = source.max_breeding_age;
         this.isModern = source.isModern;
-        this.isUpdatingMaxFitness = source.isUpdatingMaxFitness;
     }
 
     public boolean isCapacityUnlimited(){
@@ -98,15 +94,6 @@ public class Epoch {
 
     public double breedingProbability(){
         return probability_of_breeding;
-    }
-
-    public Epoch updateMaxFitness(boolean update) {
-        this.isUpdatingMaxFitness = update;
-        return this;
-    }
-
-    public boolean isUpdatingMaxFitness(){
-        return this.isUpdatingMaxFitness;
     }
 
     public Epoch disease(boolean isDisease){

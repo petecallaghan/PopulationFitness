@@ -1,5 +1,7 @@
 package uk.edu.populationfitness.models;
 
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -24,6 +26,7 @@ public class Population {
     private ArrayList<Double> fitnesses;
     private double environment_capacity = 0.0;
 
+    private boolean max_set = false;
     private double max_fitness = 0.0;
 
     public Population(Config config){
@@ -36,6 +39,8 @@ public class Population {
         this(source.config);
         individuals.addAll(source.individuals);
         fitnesses.addAll(source.fitnesses);
+        max_fitness = source.max_fitness;
+        max_set = source.max_set;
     }
 
     /**
@@ -80,20 +85,9 @@ public class Population {
         return babies;
     }
 
-    private double applyOrUpdateMaxFitness(Individual individual, double fitness){
-        if (individual.isUpdatingMaxFitness()){
-            // update the mean if this is the last year of the epoch that is updating the max
-            // The individual needs to report a) is it being limited b) is it the last year of the epoch
-            // The mean should only be updated if the epoch is set to update the mean and it is the last year of the epoch
-            this.max_fitness = Math.max(this.max_fitness, fitness);
-            return fitness;
-        }
-        return Math.min(this.max_fitness, fitness);
-    }
-
     private boolean kill(Individual individual, int current_year, double fitness_factor){
         final double fitness = individual.genes.fitness();
-        final double factored_fitness = applyOrUpdateMaxFitness(individual, fitness * fitness_factor);
+        final double factored_fitness = getLimitedFitness(fitness) * fitness_factor;
         total_fitness += fitness;
         total_factored_fitness += factored_fitness;
         checked_fitness++;
@@ -104,6 +98,13 @@ public class Population {
             return true;
         }
         return false;
+    }
+
+    private double getLimitedFitness(double fitness) {
+        if (max_set){
+            return Math.min(max_fitness, fitness);
+        }
+        return fitness;
     }
 
     private int addSurvivors(Predicate<Individual> survivor){
@@ -140,6 +141,13 @@ public class Population {
         epoch.addCapacityFactor(environment_capacity);
         return addSurvivors(i -> !kill(i, current_year, epoch.fitness() * environment_capacity));
     }
+
+    public void setMaxFitnessFromAverage()
+    {
+        max_set = true;
+        max_fitness = averageFitness();
+    }
+
 
     public double averageFitness(){
         return checked_fitness > 0 ? total_fitness / checked_fitness : 0;

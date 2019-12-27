@@ -24,7 +24,7 @@ public class TuneFunctionsTest {
 
     private static final int NumberOfGenes = 5;
 
-    private static final int SizeOfGenes = 100;
+    private static final int SizeOfGenes = 1000;
 
     private static final int PopulationRatio = 1;
 
@@ -216,7 +216,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneDixonPrice() throws IOException {
-        tune(Function.DixonPrice, 8, 15);
+        tune(Function.DixonPrice, 2, 10);
     }
 
     @Test public void testTuneExponential() throws IOException {

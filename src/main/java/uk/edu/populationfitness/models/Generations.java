@@ -18,6 +18,9 @@ public class Generations {
     private static final int UNDEFINED_YEAR = -1;
     private static final long NANOS_PER_MILLIS = 1000000;
 
+    // The year at which the max fitness is calculated for subsequent yeras
+    private static final int MAX_FITNESS_YEAR = 0;
+
     public final List<GenerationStatistics> history;
 
     private Population population;
@@ -111,6 +114,8 @@ public class Generations {
         for(int year = epoch.start_year; year <= epoch.end_year; year++){
             population.killThoseUnfitOrReadyToDie(year, epoch);
             population.addNewGeneration(epoch, year);
+            setMaxFitnessIfThisIsTheBenchMarkYear(year);
+
             PopulationComparison divergence = compareToExpected(epoch, year, population.individuals.size(), percentage);
             if (divergence != PopulationComparison.WithinRange) {
                 return divergence;
@@ -151,7 +156,15 @@ public class Generations {
         List<Individual> babies = population.addNewGeneration(epoch, year);
         long born_elapsed = (System.nanoTime() - start_time) / NANOS_PER_MILLIS;
 
+        setMaxFitnessIfThisIsTheBenchMarkYear(year);
+
         addHistory(epoch, year, babies.size(), fatalities, born_elapsed, kill_elapsed);
+    }
+
+    private void setMaxFitnessIfThisIsTheBenchMarkYear(int year) {
+        if (year == MAX_FITNESS_YEAR){
+            population.setMaxFitnessFromAverage();
+        }
     }
 
     private void addHistory(Epoch epoch, int year, int number_born, int number_killed, long born_elapsed, long kill_elapsed) {

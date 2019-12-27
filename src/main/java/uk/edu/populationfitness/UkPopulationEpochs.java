@@ -11,9 +11,8 @@ public class UkPopulationEpochs {
         // Birth rates derived from from Crude Birth Rates of W&S 1981
 
         // Src: silvia.carpitella@unipa.it
-        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500).updateMaxFitness(true));
-        epochs.addNextEpoch(new Epoch(config, -50).capacity(1500).updateMaxFitness(true));
-        epochs.addNextEpoch(new Epoch(config, 1).capacity(2000).updateMaxFitness(true));
+        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, 1).capacity(2000));
         epochs.addNextEpoch(new Epoch(config, 44).capacity(4500));
         epochs.addNextEpoch(new Epoch(config, 201).capacity(3000));
         epochs.addNextEpoch(new Epoch(config, 411).capacity(1250));
@@ -65,7 +64,8 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1992).capacity(63200).breedingProbability(0.09).modern(true));
         epochs.addNextEpoch(new Epoch(config, 2002).capacity(65600).breedingProbability(0.09).modern(true));
         epochs.addNextEpoch(new Epoch(config, 2012).capacity(66270).breedingProbability(0.09).modern(true));
-        epochs.setFinalEpochYear(2015);
+        epochs.addNextEpoch(new Epoch(config, 2015).capacity(66440).breedingProbability(0.09).modern(true));
+        epochs.setFinalEpochYear(2018);
 
         return epochs;
     }
