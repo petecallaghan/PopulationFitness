@@ -19,7 +19,7 @@ public class Generations {
     private static final long NANOS_PER_MILLIS = 1000000;
 
     // The year at which the max fitness is calculated for subsequent yeras
-    private static final int MAX_FITNESS_YEAR = 0;
+    public static final int MAX_FITNESS_YEAR = 0;
 
     public final List<GenerationStatistics> history;
 

@@ -97,8 +97,8 @@ public class Simulations {
         int finalYear = recoveryStartYear + postDiseaseYears;
         int maxExpected = epochs.last().expected_max_population;
 
-        epochs.addNextEpoch(new Epoch(config, diseaseStartYear).fitness(tuning.disease_fit).max(maxExpected).breedingProbability(tuning.modern_breeding).disease(true));
-        epochs.addNextEpoch(new Epoch(config, recoveryStartYear).fitness(tuning.historic_fit).max(maxExpected));
+        epochs.addNextEpoch(new Epoch(config, diseaseStartYear).fitness(tuning.disease_fit).max(maxExpected).breedingProbability(tuning.modern_breeding).disease(true).modern(true));
+        epochs.addNextEpoch(new Epoch(config, recoveryStartYear).fitness(tuning.historic_fit).max(maxExpected).modern(true));
         epochs.setFinalEpochYear(finalYear);
     }
 
