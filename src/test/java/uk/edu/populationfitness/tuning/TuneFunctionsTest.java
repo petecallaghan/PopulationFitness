@@ -25,11 +25,11 @@ public class TuneFunctionsTest {
 
     private static final double RealMutationsPerIndividual = 150.0;
 
-    private static final int NumberOfGenes = 50;
+    private static final int NumberOfGenes = 500;
 
     private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationRatio = 5;
+    private static final int PopulationRatio = 15;
 
     private static final String EpochsPath = "epochs";
 
@@ -179,31 +179,31 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, 10.0, 20);
+        tune(Function.Rastrigin, 6, 13);
     }
 
     @Test public void testTuneSphere() throws IOException {
-        tune(Function.Sphere, 5, 15);
+        tune(Function.Sphere, 6, 15);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
-        tune(Function.StyblinksiTang, 10, 15);
+        tune(Function.StyblinksiTang, 7, 15);
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {
-        tune(Function.Schwefel226, 0.08, 10);
+        tune(Function.Schwefel226, 1, 15);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, 4, 15);
+        tune(Function.Rosenbrock, 8, 15);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        tune(Function.SumOfPowers, 0.03, 10);
+        tune(Function.SumOfPowers, 1, 15);
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, 2.5, 15);
+        tune(Function.SumSquares, 4.6, 15);
     }
 
     @Test public void testTuneAckleys() throws IOException {
@@ -219,11 +219,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneChungReynolds() throws IOException {
-        tune(Function.ChungReynolds, 4, 15);
+        tune(Function.ChungReynolds, 17, 15);
     }
 
     @Test public void testTuneDixonPrice() throws IOException {
-        tune(Function.DixonPrice, 4, 10);
+        tune(Function.DixonPrice, 9, 15);
     }
 
     @Test public void testTuneExponential() throws IOException {
@@ -231,19 +231,19 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneGriewank() throws IOException {
-        tune(Function.Griewank, 2, 15);
+        tune(Function.Griewank, 3.2, 15);
     }
 
     @Test public void testTuneQing() throws IOException {
-        tune(Function.Qing, 3, 15);
+        tune(Function.Qing, 8, 10);
     }
 
     @Test public void testTuneSalomon() throws IOException {
-        tune(Function.Salomon, 1, 15);
+        tune(Function.Salomon, 0.005, 15);
     }
 
     @Test public void testTuneSchumerSteiglitz() throws IOException {
-        tune(Function.SchumerSteiglitz, 3, 15);
+        tune(Function.SchumerSteiglitz, 7, 15);
     }
 
     @Test public void testTuneSchwefel220() throws IOException {
