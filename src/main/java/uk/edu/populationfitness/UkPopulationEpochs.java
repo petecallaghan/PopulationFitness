@@ -54,12 +54,12 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1872).capacity(35000).breedingProbability(0.21));
         epochs.addNextEpoch(new Epoch(config, 1882).capacity(37800).breedingProbability(0.19));
         epochs.addNextEpoch(new Epoch(config, 1892).capacity(38200).breedingProbability(0.18));
-        epochs.addNextEpoch(new Epoch(config, 1902).capacity(42100).breedingProbability(0.13));
-        epochs.addNextEpoch(new Epoch(config, 1912).capacity(44000).breedingProbability(0.14));
-        epochs.addNextEpoch(new Epoch(config, 1922).capacity(45000).breedingProbability(0.12));
-        epochs.addNextEpoch(new Epoch(config, 1932).capacity(50200).breedingProbability(0.07));
-        epochs.addNextEpoch(new Epoch(config, 1952).capacity(55900).breedingProbability(0.09));
-        epochs.addNextEpoch(new Epoch(config, 1962).capacity(56300).breedingProbability(0.10));
+        epochs.addNextEpoch(new Epoch(config, 1902).capacity(42100).breedingProbability(0.13).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1912).capacity(44000).breedingProbability(0.14).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1922).capacity(45000).breedingProbability(0.12).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1932).capacity(50200).breedingProbability(0.07).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1952).capacity(55900).breedingProbability(0.09).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1962).capacity(56300).breedingProbability(0.10).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1972).capacity(57400).breedingProbability(0.07).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1982).capacity(59300).breedingProbability(0.10).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1992).capacity(63200).breedingProbability(0.09).modern(true));
@@ -72,26 +72,6 @@ public class UkPopulationEpochs {
     }
 
     private static void addPrehistoricEpochs(Config config, Epochs epochs) {
-        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -5040).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -5030).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -5020).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -5010).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -5000).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4900).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4800).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4700).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4600).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4500).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4400).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4300).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4200).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -4100).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -3550).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -3050).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -2550).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -2050).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -1550).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, -1050).capacity(1500));
     }
 }

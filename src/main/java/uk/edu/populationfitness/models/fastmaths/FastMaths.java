@@ -42,10 +42,20 @@ public class FastMaths {
         return slope * 100.0 / average;
     }
 
+    /**
+     * https://brilliant.org/wiki/sum-of-n-n2-or-n3/
+     * @param n
+     * @return
+     */
     public static long sumOfNaturalNumbersToN(long n){
         return (n * n + n) / 2;
     }
 
+    /**
+     * https://brilliant.org/wiki/sum-of-n-n2-or-n3/
+     * @param n
+     * @return
+     */
     public static long sumOfNaturalNumbersToNSquared(long n){
         return (n * (n + 1) * (2 * n + 1)) / 6;
     }

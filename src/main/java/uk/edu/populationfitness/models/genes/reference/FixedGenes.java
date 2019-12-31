@@ -14,4 +14,8 @@ public class FixedGenes extends BitSetGenes {
     public double fitness() {
         return fixedValue;
     }
+
+    public long[] asIntegers() {
+        return new long[0];
+    }
 }

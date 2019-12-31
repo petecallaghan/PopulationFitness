@@ -33,7 +33,6 @@ public class PopulationTest {
         assertEquals(config.getInitialPopulation(), population.individuals.size());
         for(Individual i : population.individuals){
             assertEquals(BIRTH_YEAR, i.birth_year);
-            assertFalse(i.genes.areEmpty());
         }
     }
 
