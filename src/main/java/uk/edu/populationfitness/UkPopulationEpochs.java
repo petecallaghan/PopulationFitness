@@ -11,7 +11,8 @@ public class UkPopulationEpochs {
         // Birth rates derived from from Crude Birth Rates of W&S 1981
 
         // Src: silvia.carpitella@unipa.it
-        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
+        addPrehistoricEpochs(config, epochs);
+
         epochs.addNextEpoch(new Epoch(config, 1).capacity(2000));
         epochs.addNextEpoch(new Epoch(config, 44).capacity(4500));
         epochs.addNextEpoch(new Epoch(config, 201).capacity(3000));
@@ -68,5 +69,29 @@ public class UkPopulationEpochs {
         epochs.setFinalEpochYear(2018);
 
         return epochs;
+    }
+
+    private static void addPrehistoricEpochs(Config config, Epochs epochs) {
+        epochs.addNextEpoch(new Epoch(config, -5050).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -5040).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -5030).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -5020).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -5010).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -5000).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4900).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4800).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4700).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4600).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4500).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4400).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4300).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4200).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -4100).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -3550).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -3050).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -2550).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -2050).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -1550).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -1050).capacity(1500));
     }
 }
