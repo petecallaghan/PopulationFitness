@@ -27,11 +27,11 @@ public class TuneFunctionsTest {
 
     private static final double RealMutationsPerIndividual = 150.0;
 
-    private static final int NumberOfGenes = 500;
+    private static final int NumberOfGenes = 5;
 
-    private static final int SizeOfGenes = 1000;
+    private static final int SizeOfGenes = 10;
 
-    private static final int PopulationRatio = 10;
+    private static final int PopulationRatio = 100;
 
     private static final String EpochsPath = "epochs";
 
@@ -73,11 +73,11 @@ public class TuneFunctionsTest {
     private PopulationComparison tuneEpochFitnessFactors(double maxFactor, int tuningPercentage, Config config, Epochs epochs) {
         final Generations generations = new Generations(new Population(config));
 
-        epochs.reducePopulation(PopulationRatio);
+        epochs.increasePopulation(PopulationRatio);
         config.setInitialPopulation(epochs.first().environment_capacity);
         config.setMutationsPerGene(MutationsPerIndividual);
 
-        return generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.000001, tuningPercentage);
+        return generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.0000001, tuningPercentage);
     }
 
     private void checkTuningMeetsHypothesis(Epochs epochs, Config config, Tuning tuning, int tuningPercentage, boolean willPass){
@@ -288,5 +288,9 @@ public class TuneFunctionsTest {
 
     @Test public void testTuneSinX() throws IOException {
         tune(Function.SinX, 5, 20);
+    }
+
+    @Test public void testTuneSimpleSinX() throws IOException {
+        tune(Function.SimpleSinX, 4, 30);
     }
 }

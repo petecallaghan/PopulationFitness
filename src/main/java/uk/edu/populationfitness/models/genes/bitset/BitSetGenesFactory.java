@@ -71,6 +71,8 @@ public class BitSetGenesFactory implements GenesFactory {
                 return new FixedOneGenes(config);
             case SinX:
                 return new SinXGenes(config);
+            case SimpleSinX:
+                return new SimpleSinXGenes(config);
             default:
             case Random:
                 return new RandomGenes(config);
