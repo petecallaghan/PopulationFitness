@@ -109,13 +109,11 @@ public abstract class BitSetGenes implements Genes {
 
     private int mutateGenesWithMutationInterval(long[] genes, long mutation_genes_interval) {
         final long max = config.getMaxGeneValue();
-        final long lastMax = config.getLastMaxGeneValue();
-        final int last = genes.length - 1;
         int mutatedCount = 0;
         for (int i = RepeatableRandom.generateNextInt(mutation_genes_interval);
              i < genes.length;
              i += Math.max(1, (int)RepeatableRandom.generateNextLong(0, mutation_genes_interval))) {
-            genes[i] = getMutatedValue(genes[i], i == last ? lastMax : max);
+            genes[i] = getMutatedValue(genes[i], max);
             mutatedCount++;
         }
         return mutatedCount;
@@ -150,11 +148,11 @@ public abstract class BitSetGenes implements Genes {
     /**
      * @return the stored fitness
      */
-    protected double storedFitness() {
+    double storedFitness() {
         return stored_fitness;
     }
 
-    protected boolean isFitnessStored(){
+    boolean isFitnessStored(){
         return fitness_stored;
     }
 

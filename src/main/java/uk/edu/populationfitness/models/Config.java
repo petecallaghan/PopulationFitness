@@ -57,10 +57,10 @@ public class Config {
         setNumberOfGenes(4);
         setSizeOfEachGene(10);
         setMutationsPerGene(1);
-        max_age = 90;
-        max_breeding_age = 41;
+        max_age = 85;
+        max_breeding_age = 400; //41;
         setMinBreedingAge(16);
-        probability_of_breeding = 0.35; // Derived from Max Crude Birth Rate W&S 1981 1730-2009
+        probability_of_breeding = 2 * 0.035; // Derived from Max Crude Birth Rate W&S 1981 1730-2009
         number_of_years = 2150;
         scaleMutationsPerGeneFromBitCount(MutationScale);
     }

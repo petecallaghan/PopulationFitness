@@ -1,6 +1,9 @@
-package uk.edu.populationfitness.models;
+package uk.edu.populationfitness.models.population;
 
-import uk.edu.populationfitness.models.fastmaths.FastMaths;
+import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.Epoch;
+import uk.edu.populationfitness.models.Individual;
+import uk.edu.populationfitness.models.RepeatableRandom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,34 +16,24 @@ import java.util.stream.Collectors;
 public class Population {
     public final Config config;
 
+    private final Killed killed = new Killed();
+    private final Fitnesses fitnesses = new Fitnesses();
+
     public ArrayList<Individual> individuals;
 
     public double average_age = 0.0;
     public double average_mutations = 0.0;
     public double average_life_expectancy = 0.0;
 
-    private double total_fitness = 0.0;
-    private double total_age_at_death = 0.0;
-    private double total_factored_fitness = 0.0;
-    private long checked_fitness = 0;
-    private ArrayList<Double> fitnesses;
-    private double environment_capacity = 0.0;
-
-    private boolean max_set = false;
-    private double max_fitness = 0.0;
-
     public Population(Config config){
         this.config = config;
         individuals = new ArrayList<>();
-        fitnesses = new ArrayList<>();
     }
 
     public Population(Population source){
         this(source.config);
         individuals.addAll(source.individuals);
-        fitnesses.addAll(source.fitnesses);
-        max_fitness = source.max_fitness;
-        max_set = source.max_set;
+        fitnesses.copy(source.fitnesses);
     }
 
     /**
@@ -49,10 +42,12 @@ public class Population {
      * @param birth_year
      */
     public void addNewIndividuals(Epoch epoch, int birth_year){
+        fitnesses.resetCounts();
         for(int i = 0; i < config.getInitialPopulation(); i++){
             Individual individual = new Individual(epoch, birth_year);
             individual.genes.buildFromRandom();
             individuals.add(individual);
+            fitnesses.add(individual.genes.fitness());
         }
     }
 
@@ -62,6 +57,7 @@ public class Population {
      * @param current_year
      * @return The newly created set of babies
      */
+    @SuppressWarnings("IntegerDivisionInFloatingPointContext")
     public List<Individual> addNewGeneration(Epoch epoch, int current_year){
         long totalAge = 0;
         ArrayList<Individual> babies = new ArrayList<>();
@@ -85,36 +81,36 @@ public class Population {
         return babies;
     }
 
-    private boolean kill(Individual individual, int current_year, double fitness_factor){
+    private boolean killWeakerThanMinWithinCapacity(Individual individual, int current_year, double minFitness) {
         final double fitness = individual.genes.fitness();
-        final double factored_fitness = getLimitedFitness(fitness) * fitness_factor;
-        total_fitness += fitness;
-        total_factored_fitness += factored_fitness;
-        checked_fitness++;
         fitnesses.add(fitness);
 
-        if (individual.isReadyToDie(current_year) ? true : factored_fitness < (RepeatableRandom.generateNext())){
-            total_age_at_death += individual.age(current_year);
+        if (killed.count() > 0 && killed.remaining() < 1){
+            return false;
+        }
+        if (individual.isReadyToDie(current_year) || fitness < minFitness){
+            killed.add(individual.age(current_year));
             return true;
         }
         return false;
     }
 
-    private double getLimitedFitness(double fitness) {
-        if (max_set){
-            return Math.min(max_fitness, fitness);
+
+    private boolean killWeakerThanRandom(Individual individual, int current_year){
+        final double fitness = individual.genes.fitness();
+        fitnesses.add(fitness);
+
+        if (individual.isReadyToDie(current_year) || fitness < (RepeatableRandom.generateNext())){
+            killed.add(individual.age(current_year));
+            return true;
         }
-        return fitness;
+        return false;
     }
 
-    private int addSurvivors(Predicate<Individual> survivor){
-        int population_size = individuals.size();
-        total_age_at_death = 0.0;
+    private void addSurvivors(Predicate<Individual> survivor){
         individuals = individuals.stream().filter(survivor).collect(Collectors.toCollection(ArrayList::new));
-        int killed = population_size - individuals.size();
-        average_life_expectancy = killed < 1 ? 0.0 : Math.round(total_age_at_death / killed);
-        return killed;
     }
+
 
     /**
      * Kills those in the population who are ready to die and returns the number of fatalities
@@ -124,52 +120,32 @@ public class Population {
      * @return
      */
     public int killThoseUnfitOrReadyToDie(int current_year, Epoch epoch){
-        total_fitness = 0.0;
-        total_factored_fitness = 0.0;
-        checked_fitness = 0;
-        environment_capacity = 0.0;
-        fitnesses = new ArrayList<>();
+        final double meanFitness = averageFitness();
+        final int capacity =  epoch.capacityForYear(current_year);
+        killed.setLimit(individuals.size() - capacity);
+        fitnesses.resetCounts();
 
         if (individuals.size() < 1)
             return 0;
 
         if (epoch.isCapacityUnlimited()){
-            return addSurvivors(i -> !kill(i, current_year, epoch.fitness()));
+            addSurvivors(i -> !killWeakerThanRandom(i, current_year));
+        }
+        else {
+            addSurvivors(i -> !killWeakerThanMinWithinCapacity(i, current_year, meanFitness));
         }
 
-        environment_capacity = (double)(epoch.capacityForYear(current_year)) / individuals.size();
-        epoch.addCapacityFactor(environment_capacity);
-        return addSurvivors(i -> !kill(i, current_year, epoch.fitness() * environment_capacity));
-    }
+        average_life_expectancy = killed.averageAgeKilled();
+        return killed.count();
 
-    public void setMaxFitnessFromAverage()
-    {
-        max_set = true;
-        max_fitness = averageFitness();
     }
-
 
     public double averageFitness(){
-        return checked_fitness > 0 ? total_fitness / checked_fitness : 0;
-    }
-
-    public double averageFactoredFitness(){
-        return checked_fitness > 0 ? total_factored_fitness / checked_fitness : 0;
-    }
-
-    public double capacityFactor() {
-        return environment_capacity;
+        return fitnesses.averageFitness();
     }
 
     public double standardDeviationFitness(){
-        if (checked_fitness < 1) return 0.0;
-        double mean = averageFitness();
-        double variance = 0.0;
-        for(double f: fitnesses){
-            double difference = f-mean;
-            variance += difference*difference;
-        }
-        return Math.sqrt(variance/checked_fitness);
+        return fitnesses.standardDeviationFitness();
     }
 }
 

@@ -16,16 +16,13 @@ public class Epoch {
 
     public int end_year = UNDEFINED_YEAR;
 
-    // Defines the fitness adjustment for this epoch
-    private double fitness_factor = 1.0;
+    // Defines the minimum fitness for this epoch
+    private double min_fitness = 1.0;
 
     // Defines the holding capacity of the environment for this epoch
     public int environment_capacity = UNLIMITED_CAPACITY;
 
     public int prev_environment_capacity;
-
-    // Use this to turn off fitness. By default fitness is enabled
-    public boolean enable_fitness = true;
 
     // Max population actually expected for this epoch
     public int expected_max_population = 0;
@@ -56,9 +53,8 @@ public class Epoch {
         this.start_year = source.start_year;
         this.end_year = source.end_year;
         this.environment_capacity = source.environment_capacity;
-        this.enable_fitness = source.enable_fitness;
         this.config = source.config;
-        this.fitness_factor = source.fitness_factor;
+        this.min_fitness = source.min_fitness;
         this.isDisease = source.isDisease;
         this.probability_of_breeding = source.probability_of_breeding;
         this.total_capacity_factor = source.total_capacity_factor;
@@ -80,11 +76,10 @@ public class Epoch {
     public int capacityForYear(int year){
         final int capacityRange = capacity() - prev_environment_capacity;
         final int yearRange = end_year - start_year;
+        if (yearRange < 1) {
+            return capacity();
+        }
         return prev_environment_capacity + ((capacityRange * (year - start_year)) / yearRange);
-    }
-
-    public boolean isFitnessEnabled(){
-        return enable_fitness;
     }
 
     public Epoch breedingProbability(double probability){
@@ -115,12 +110,12 @@ public class Epoch {
     }
 
     public Epoch fitness(double fitness_factor){
-        this.fitness_factor = fitness_factor;
+        this.min_fitness = fitness_factor;
         return this;
     }
 
     public double fitness(){
-        return this.fitness_factor;
+        return this.min_fitness;
     }
 
     public Epoch capacity(int environment_capacity){
@@ -172,7 +167,7 @@ public class Epoch {
      *
      * @param ratio
      */
-    public Epoch reducePopulation(int ratio){
+    Epoch reducePopulation(int ratio){
         this.expected_max_population = this.expected_max_population / ratio;
         this.environment_capacity = this.environment_capacity / ratio;
         this.prev_environment_capacity = this.prev_environment_capacity / ratio;
@@ -186,7 +181,7 @@ public class Epoch {
      *
      * @param ratio
      */
-    public Epoch increasePopulation(int ratio){
+    Epoch increasePopulation(int ratio){
         this.expected_max_population = this.expected_max_population * ratio;
         this.environment_capacity = this.environment_capacity * ratio;
         this.prev_environment_capacity = this.prev_environment_capacity * ratio;

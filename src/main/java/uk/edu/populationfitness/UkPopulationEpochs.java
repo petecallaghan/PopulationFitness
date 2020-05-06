@@ -15,7 +15,7 @@ public class UkPopulationEpochs {
 
         epochs.addNextEpoch(new Epoch(config, 1).capacity(2000));
         epochs.addNextEpoch(new Epoch(config, 44).capacity(4500));
-        epochs.addNextEpoch(new Epoch(config, 201).capacity(3000));
+        epochs.addNextEpoch(new Epoch(config, 201).capacity(4500));
         epochs.addNextEpoch(new Epoch(config, 411).capacity(1250));
         epochs.addNextEpoch(new Epoch(config, 431).capacity(1300));
         epochs.addNextEpoch(new Epoch(config, 501).capacity(1300));
@@ -31,7 +31,7 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1316).capacity(5000)); // Great Famine of 1315–1317
         epochs.addNextEpoch(new Epoch(config, 1326).capacity(5700));
         epochs.addNextEpoch(new Epoch(config, 1349).capacity(3000).disease(true)); // Black death
-        epochs.addNextEpoch(new Epoch(config, 1352).capacity(3000));
+        epochs.addNextEpoch(new Epoch(config, 1350).capacity(3000));
         epochs.addNextEpoch(new Epoch(config, 1378).capacity(2500));
         epochs.addNextEpoch(new Epoch(config, 1401).capacity(2400));
         epochs.addNextEpoch(new Epoch(config, 1431).capacity(2300));
@@ -43,17 +43,17 @@ public class UkPopulationEpochs {
         epochs.addNextEpoch(new Epoch(config, 1601).capacity(6300).breedingProbability(0.29));
         epochs.addNextEpoch(new Epoch(config, 1651).capacity(6200).breedingProbability(0.26));
 
-        epochs.addNextEpoch(new Epoch(config, 1701).capacity(11300).breedingProbability(0.25));
-        epochs.addNextEpoch(new Epoch(config, 1802).capacity(12500).breedingProbability(0.28));
-        epochs.addNextEpoch(new Epoch(config, 1812).capacity(13400).breedingProbability(0.28));
-        epochs.addNextEpoch(new Epoch(config, 1822).capacity(15800).breedingProbability(0.26));
-        epochs.addNextEpoch(new Epoch(config, 1832).capacity(20200).breedingProbability(0.25));
-        epochs.addNextEpoch(new Epoch(config, 1842).capacity(27400).breedingProbability(0.22));
-        epochs.addNextEpoch(new Epoch(config, 1852).capacity(29000).breedingProbability(0.25));
-        epochs.addNextEpoch(new Epoch(config, 1862).capacity(31500).breedingProbability(0.22));
-        epochs.addNextEpoch(new Epoch(config, 1872).capacity(35000).breedingProbability(0.21));
-        epochs.addNextEpoch(new Epoch(config, 1882).capacity(37800).breedingProbability(0.19));
-        epochs.addNextEpoch(new Epoch(config, 1892).capacity(38200).breedingProbability(0.18));
+        epochs.addNextEpoch(new Epoch(config, 1700).capacity(11300).breedingProbability(0.25).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1802).capacity(12500).breedingProbability(0.28).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1812).capacity(13400).breedingProbability(0.28).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1822).capacity(15800).breedingProbability(0.26).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1832).capacity(20200).breedingProbability(0.25).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1842).capacity(27400).breedingProbability(0.22).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1852).capacity(29000).breedingProbability(0.25).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1862).capacity(31500).breedingProbability(0.22).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1872).capacity(35000).breedingProbability(0.21).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1882).capacity(37800).breedingProbability(0.19).modern(true));
+        epochs.addNextEpoch(new Epoch(config, 1892).capacity(38200).breedingProbability(0.18).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1902).capacity(42100).breedingProbability(0.13).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1912).capacity(44000).breedingProbability(0.14).modern(true));
         epochs.addNextEpoch(new Epoch(config, 1922).capacity(45000).breedingProbability(0.12).modern(true));
@@ -72,11 +72,12 @@ public class UkPopulationEpochs {
     }
 
     private static void addPrehistoricEpochs(Config config, Epochs epochs) {
-        epochs.addNextEpoch(new Epoch(config, -10000).capacity(1500));
+        /*epochs.addNextEpoch(new Epoch(config, -10000).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, -9998).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, -9000).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, -8000).capacity(1500));
         epochs.addNextEpoch(new Epoch(config, -1050).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -1048).capacity(1500));
+        epochs.addNextEpoch(new Epoch(config, -1048).capacity(1500));*/
+        epochs.addNextEpoch(new Epoch(config, -50).capacity(1500));
     }
 }

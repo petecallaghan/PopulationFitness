@@ -3,7 +3,7 @@ package uk.edu.populationfitness.simulation;
 import uk.edu.populationfitness.Commands;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Generations;
-import uk.edu.populationfitness.models.Population;
+import uk.edu.populationfitness.models.population.Population;
 import uk.edu.populationfitness.output.GenerationsReader;
 import uk.edu.populationfitness.output.GenerationsWriter;
 
@@ -20,7 +20,12 @@ class SimulationProcess extends Simulation {
 
     private final String processId;
 
-    public SimulationProcess(int parallel_run, List<String> arguments, Config config) {
+    /**
+     * @param parallel_run
+     * @param arguments
+     * @param config
+     */
+    SimulationProcess(int parallel_run, List<String> arguments, Config config) {
         super(parallel_run);
         processId = config.id+"-process-"+parallel_run;
         this.arguments = new ArrayList<>();

@@ -6,7 +6,7 @@ import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epoch;
 import uk.edu.populationfitness.models.Epochs;
 import uk.edu.populationfitness.models.Individual;
-import uk.edu.populationfitness.models.Population;
+import uk.edu.populationfitness.models.population.Population;
 
 import java.util.List;
 
@@ -55,7 +55,6 @@ public class PopulationTest {
         assertTrue(0 < population.individuals.size());
         assertTrue(0 < fatalities);
         assertTrue(INITIAL_POPULATION_SIZE > population.individuals.size());
-        assertEquals(population.capacityFactor(), 1.0, 0.1);
     }
 
     @Test public void testCreateANewGenerationFromTheCurrentOne(){

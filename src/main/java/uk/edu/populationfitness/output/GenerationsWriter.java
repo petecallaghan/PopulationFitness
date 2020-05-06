@@ -79,7 +79,6 @@ public class GenerationsWriter {
                 Integer.toString(generation.epoch.start_year),
                 Integer.toString(generation.epoch.end_year),
                 Double.toString(generation.epoch.capacityForYear(generation.year)),
-                Boolean.toString(generation.epoch.isFitnessEnabled()),
                 Double.toString(generation.epoch.breedingProbability()),
                 Integer.toString(generation.year),
                 Double.toString(generation.epoch.fitness()),
@@ -92,8 +91,6 @@ public class GenerationsWriter {
                 Double.toString(generation.average_fitness),
                 Double.toString(generation.fitness_deviation),
                 Double.toString(generation.average_age),
-                Double.toString(generation.capacity_factor),
-                Double.toString(generation.average_factored_fitness),
                 Double.toString(generation.average_mutations),
                 Double.toString(generation.average_life_expectancy),
         });
@@ -104,7 +101,6 @@ public class GenerationsWriter {
                 "Epoch Start Year",
                 "Epoch End Year",
                 "Epoch Environment Capacity",
-                "Epoch Enable Fitness",
                 "Epoch Breeding Probability",
                 "Year",
                 "Epoch Fitness Factor",
@@ -117,8 +113,6 @@ public class GenerationsWriter {
                 "Avg Fitness",
                 "Fitness Deviation",
                 "Average Age",
-                "Capacity Factor",
-                "Avg Factored Fitness",
                 "Avg Mutations",
                 "Avg Life Expectancy",
         });
@@ -146,6 +140,7 @@ public class GenerationsWriter {
         return total;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void deletePreviousFile(String resultsFile) {
         final String previousFile = previousFileName.get();
         if (previousFile != null){

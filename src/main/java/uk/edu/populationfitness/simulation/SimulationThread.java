@@ -4,7 +4,7 @@ import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.Epochs;
 import uk.edu.populationfitness.models.Generations;
-import uk.edu.populationfitness.models.Population;
+import uk.edu.populationfitness.models.population.Population;
 import uk.edu.populationfitness.models.genes.cache.SharedCache;
 import uk.edu.populationfitness.output.GenerationsWriter;
 

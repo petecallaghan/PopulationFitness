@@ -8,6 +8,8 @@ import uk.edu.populationfitness.models.*;
 import uk.edu.populationfitness.models.genes.Function;
 import uk.edu.populationfitness.models.genes.performance.GenesTimer;
 import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
+import uk.edu.populationfitness.models.population.Population;
+import uk.edu.populationfitness.models.population.PopulationComparison;
 import uk.edu.populationfitness.output.EpochsWriter;
 import uk.edu.populationfitness.output.TuningWriter;
 import uk.edu.populationfitness.simulation.SimulationThread;
@@ -16,6 +18,10 @@ import uk.edu.populationfitness.simulation.Simulations;
 import java.io.IOException;
 import java.util.stream.Collectors;
 
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class TuneFunctionsTest {
     private static final int DiseaseYears = 3;
     private static final int PostDiseaseYears = 30;
@@ -27,11 +33,11 @@ public class TuneFunctionsTest {
 
     private static final double RealMutationsPerIndividual = 150.0;
 
-    private static final int NumberOfGenes = 5;
+    private static final int NumberOfGenes = 8;
 
-    private static final int SizeOfGenes = 10;
+    private static final int SizeOfGenes = 64;
 
-    private static final int PopulationRatio = 100;
+    private static final int PopulationRatio = 10; //100;
 
     private static final String EpochsPath = "epochs";
 
@@ -39,8 +45,8 @@ public class TuneFunctionsTest {
 
     private static final int TuningPercentage = 15;
 
-    private static final double MutationsPerIndividual = (NumberOfGenes * SizeOfGenes * RealMutationsPerIndividual)
-            / (RepresentativeRealNumberOfGenes * RepresentativeRealSizeOfGenes);
+    private static final double MutationsPerIndividual = 1.0 / NumberOfGenes * SizeOfGenes; //(NumberOfGenes * SizeOfGenes * RealMutationsPerIndividual)
+            /// (RepresentativeRealNumberOfGenes * RepresentativeRealSizeOfGenes);
 
     private void tune(Function function, double maxFactor) throws IOException {
         tune(function, maxFactor, TuningPercentage, true, true);
@@ -77,7 +83,7 @@ public class TuneFunctionsTest {
         config.setInitialPopulation(epochs.first().environment_capacity);
         config.setMutationsPerGene(MutationsPerIndividual);
 
-        return generations.tuneFitnessFactorsForAllEpochs(epochs, 0.0, maxFactor, 0.0000001, tuningPercentage);
+        return generations.tuneFitnessForAllEpochs(epochs, 0.0, maxFactor, 0.0000001, tuningPercentage);
     }
 
     private void checkTuningMeetsHypothesis(Epochs epochs, Config config, Tuning tuning, int tuningPercentage, boolean willPass){
@@ -129,7 +135,7 @@ public class TuneFunctionsTest {
     private void assertTuned(PopulationComparison result, Tuning tuning, boolean willTune) {
         if (willTune){
             // Ensure that we successfully tuned
-            Assert.assertTrue("Tuned", result == PopulationComparison.WithinRange);
+            assertSame("Tuned", result, PopulationComparison.WithinRange);
 
             // Ensure that the tuning result is what we expect
             Assert.assertTrue("Modern looser than disease", tuning.disease_fit < tuning.modern_fit);
@@ -137,7 +143,7 @@ public class TuneFunctionsTest {
             Assert.assertTrue("Historical looser than disease", tuning.disease_fit < tuning.historic_fit);
         }
         else {
-            Assert.assertFalse(result == PopulationComparison.WithinRange);
+            assertNotSame(result, PopulationComparison.WithinRange);
         }
     }
 
@@ -178,8 +184,11 @@ public class TuneFunctionsTest {
         return tuning;
     }
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     private double findModernFitness(Epochs epochs) {
-        return epochs.epochs.stream().filter(e -> e.modern()).mapToDouble(e -> e.fitness() * e.averageCapacityFactor()).max().getAsDouble();
+        return epochs.epochs.stream().filter(epoch -> {
+            return epoch.modern();
+        }).mapToDouble(e -> e.fitness() * e.averageCapacityFactor()).max().getAsDouble();
     }
 
     private double findHistoricalFitness(Epochs epochs) {
@@ -291,6 +300,6 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSimpleSinX() throws IOException {
-        tune(Function.SimpleSinX, 4, 30);
+        tune(Function.SimpleSinX, 1, 30);
     }
 }

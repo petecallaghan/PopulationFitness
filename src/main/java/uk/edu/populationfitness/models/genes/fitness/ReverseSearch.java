@@ -1,6 +1,6 @@
 package uk.edu.populationfitness.models.genes.fitness;
 
-import uk.edu.populationfitness.models.PopulationComparison;
+import uk.edu.populationfitness.models.population.PopulationComparison;
 
 public class ReverseSearch extends Search {
     public Search findNext(PopulationComparison comparison){

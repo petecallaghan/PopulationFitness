@@ -1,4 +1,4 @@
-package uk.edu.populationfitness.models;
+package uk.edu.populationfitness.models.population;
 
 public enum PopulationComparison {
     TooLow,

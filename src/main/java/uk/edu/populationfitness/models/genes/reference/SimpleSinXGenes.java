@@ -1,12 +1,11 @@
 package uk.edu.populationfitness.models.genes.reference;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.fastmaths.CosSineCache;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SimpleSinXGenes extends NormalizingBitSetGenes {
     public SimpleSinXGenes(Config config) {
-        super(config, 180.0);
+        super(config, Math.PI);
     }
 
     @Override
@@ -21,7 +20,7 @@ public class SimpleSinXGenes extends NormalizingBitSetGenes {
 
         for (long integer_value : integer_values) {
             double x = interpolate(integer_value);
-            double y = CosSineCache.sin(x);
+            double y = Math.sin(x);
             fitness += y;
         }
 

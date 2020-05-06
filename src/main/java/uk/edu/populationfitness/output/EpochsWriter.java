@@ -74,7 +74,7 @@ public class EpochsWriter {
                 "Environment Capacity",
                 "Breeding Probability",
                 "Disease",
-                "Fitness Factor",
+                "Min Fitness",
                 "Expected Max Population",
                 "Max Age",
                 "Max Breeding Age",

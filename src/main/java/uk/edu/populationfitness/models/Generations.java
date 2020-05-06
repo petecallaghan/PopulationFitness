@@ -3,6 +3,8 @@ package uk.edu.populationfitness.models;
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 import uk.edu.populationfitness.models.genes.cache.SharedCache;
 import uk.edu.populationfitness.models.genes.fitness.Search;
+import uk.edu.populationfitness.models.population.Population;
+import uk.edu.populationfitness.models.population.PopulationComparison;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,9 +19,6 @@ import java.util.stream.Collectors;
 public class Generations {
     private static final int UNDEFINED_YEAR = -1;
     private static final long NANOS_PER_MILLIS = 1000000;
-
-    // The year at which the max fitness is calculated for subsequent yeras
-    public static final int MAX_FITNESS_YEAR = 0;
 
     public final List<GenerationStatistics> history;
 
@@ -59,10 +58,10 @@ public class Generations {
     private void addInitialPopulation(Epochs epochs) {
         final Epoch epoch = epochs.epochs.get(0);
         first_year = epoch.start_year;
-        population.addNewIndividuals(epoch, first_year);
+        population.addNewIndividuals(epoch, first_year - config.getMinBreedingAge());
     }
 
-    public PopulationComparison tuneFitnessFactorsForAllEpochs(Epochs epochs, double minFactor, double maxFactor, double increment, int percentage){
+    public PopulationComparison tuneFitnessForAllEpochs(Epochs epochs, double minFactor, double maxFactor, double increment, int percentage){
         addInitialPopulation(epochs);
 
         PopulationComparison divergence = PopulationComparison.TooLow;
@@ -114,9 +113,9 @@ public class Generations {
         for(int year = epoch.start_year; year <= epoch.end_year; year++){
             population.killThoseUnfitOrReadyToDie(year, epoch);
             population.addNewGeneration(epoch, year);
-            setMaxFitnessIfThisIsTheBenchMarkYear(year);
 
             PopulationComparison divergence = compareToExpected(epoch, year, population.individuals.size(), percentage);
+            System.out.println(divergence.toString()+": Year "+year+" Pop "+population.individuals.size()+" Expected "+epoch.capacityForYear(year));
             if (divergence != PopulationComparison.WithinRange) {
                 return divergence;
             }
@@ -156,15 +155,7 @@ public class Generations {
         List<Individual> babies = population.addNewGeneration(epoch, year);
         long born_elapsed = (System.nanoTime() - start_time) / NANOS_PER_MILLIS;
 
-        setMaxFitnessIfThisIsTheBenchMarkYear(year);
-
         addHistory(epoch, year, babies.size(), fatalities, born_elapsed, kill_elapsed);
-    }
-
-    private void setMaxFitnessIfThisIsTheBenchMarkYear(int year) {
-        if (year == MAX_FITNESS_YEAR){
-            population.setMaxFitnessFromAverage();
-        }
     }
 
     private void addHistory(Epoch epoch, int year, int number_born, int number_killed, long born_elapsed, long kill_elapsed) {
@@ -175,10 +166,8 @@ public class Generations {
                 number_killed,
                 born_elapsed,
                 kill_elapsed,
-                population.capacityFactor(),
                 population.average_mutations);
         generation.average_fitness = population.averageFitness();
-        generation.average_factored_fitness = population.averageFactoredFitness();
         generation.fitness_deviation = population.standardDeviationFitness();
         generation.average_age = population.average_age;
         generation.average_life_expectancy = population.average_life_expectancy;

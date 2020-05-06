@@ -3,6 +3,7 @@ package uk.edu.populationfitness.test;
 import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.models.*;
 import org.junit.Test;
+import uk.edu.populationfitness.models.population.Population;
 import uk.edu.populationfitness.output.GenerationsReader;
 import uk.edu.populationfitness.output.GenerationsWriter;
 
@@ -38,8 +39,8 @@ public class GenerationsTest {
         // Given two sets of generation statistics
         Config config = new Config();
         Epoch epoch = new Epoch(config, -50);
-        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0, 2.0);
-        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0, 2.0);
+        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 2.0);
+        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 2.0);
 
         // When they are added
         GenerationStatistics result = GenerationStatistics.add(first, second);
@@ -58,9 +59,6 @@ public class GenerationsTest {
         assertEquals(result.population, first.population + second.population);
         assertEquals(result.number_born, first.number_born + second.number_born);
         assertEquals(result.number_killed, first.number_killed + second.number_killed);
-        assertEquals(result.capacity_factor,
-                (first.capacity_factor * first.population +
-                        second.capacity_factor * second.population) / result.population, 0.00001);
         assertEquals(result.average_age,
                 (first.average_age * first.population +
                         second.average_age * second.population) / result.population, 0.00001);
@@ -70,9 +68,6 @@ public class GenerationsTest {
         assertEquals(result.average_fitness,
                 (first.average_fitness * first.population +
                         second.average_fitness * second.population) / result.population, 0.00001);
-        assertEquals(result.average_factored_fitness,
-                (first.average_factored_fitness * first.population +
-                        second.average_factored_fitness * second.population) / result.population, 0.00001);
         assertEquals(result.fitness_deviation,
                 (first.fitness_deviation * first.population +
                         second.fitness_deviation * second.population) / result.population, 0.00001);
@@ -82,8 +77,8 @@ public class GenerationsTest {
         // Given two collections of statistics
         Config config = new Config();
         Epoch epoch = new Epoch(config, -50);
-        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 1.0, 2.0);
-        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 1.0, 2.0);
+        GenerationStatistics first = new GenerationStatistics(epoch, epoch.start_year,  100, 10, 20, 12, 13, 2.0);
+        GenerationStatistics second = new GenerationStatistics(epoch, epoch.start_year,  23, 1, 5, 120, 78, 2.0);
         List<GenerationStatistics> firstSet = new ArrayList<>();
         firstSet.add(first);
         List<GenerationStatistics> secondSet = new ArrayList<>();
@@ -94,9 +89,6 @@ public class GenerationsTest {
 
         first.average_life_expectancy = 50.5;
         second.average_life_expectancy = 60.76;
-
-        first.average_factored_fitness = 0.95;
-        second.average_factored_fitness = 0.45;
 
         first.average_fitness = 0.65;
         second.average_fitness = 0.55;
@@ -150,7 +142,6 @@ public class GenerationsTest {
         assertEquals(e.epoch.start_year, a.epoch.start_year);
         assertEquals(e.epoch.end_year, a.epoch.end_year);
         assertEquals(e.epoch.environment_capacity, a.epoch.environment_capacity);
-        assertEquals(e.epoch.isFitnessEnabled(), a.epoch.isFitnessEnabled());
         assertEquals(e.epoch.breedingProbability(), a.epoch.breedingProbability(), 0.01);
         assertEquals(e.year, a.year);
         assertEquals(e.epoch.fitness(), a.epoch.fitness(), 0.000001);
@@ -161,10 +152,8 @@ public class GenerationsTest {
         assertEquals(e.bornElapsedInHundredths(), a.bornElapsedInHundredths(), 0.001);
         assertEquals(e.killElapsedInHundredths(), a.killElapsedInHundredths(), 0.001);
         assertEquals(e.average_fitness, a.average_fitness, 0.001);
-        assertEquals(e.average_factored_fitness, a.average_factored_fitness, 0.001);
         assertEquals(e.fitness_deviation, a.fitness_deviation, 0.001);
         assertEquals(e.average_age, a.average_age, 0.001);
-        assertEquals(e.capacity_factor, a.capacity_factor, 0.001);
         assertEquals(e.average_mutations, a.average_mutations, 0.001);
         assertEquals(e.average_life_expectancy, a.average_life_expectancy, 0.001);
     }
