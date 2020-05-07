@@ -26,16 +26,14 @@ public class SchumerSteiglitzGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           f left (x right ) = sum from {i=1} to {n} {{x} rsub {i} rsup {4}}
          */
 
         double fitness = 0.0;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
-
+        for (double x : unknowns) {
             fitness += FastMaths.pow(x, 4);
         }
 

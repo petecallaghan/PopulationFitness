@@ -15,7 +15,7 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           http://www.sfu.ca/~ssurjano/rosen.html
 
@@ -38,20 +38,20 @@ public class RosenbrockGenes extends NormalizingBitSetGenes {
          f(x) = 0, at x = (1,...,1)
 
          */
-        if (integer_values.length < 1){
+        if (unknowns.length < 1){
             return 0.0;
         }
 
-        if (integer_values.length < 2){
-            double x = interpolate(integer_values[0]);
+        if (unknowns.length < 2){
+            double x = unknowns[0];
             return 100.0 * (x - 1) * (x - 1);
         }
 
         double fitness = 0;
 
-        for(int i = 0; i < integer_values.length - 1; i++){
-            double x = interpolate(integer_values[i]);
-            double xplus1 = interpolate(integer_values[i+1]);
+        for(int i = 0; i < unknowns.length - 1; i++){
+            double x = unknowns[i];
+            double xplus1 = unknowns[i+1];
             double xSquared = x * x;
             double diff = xplus1 - xSquared;
             fitness += 100.0 * ( diff * diff + (x - 1) * (x - 1));

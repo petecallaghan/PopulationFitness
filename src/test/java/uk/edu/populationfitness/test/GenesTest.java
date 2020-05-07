@@ -21,10 +21,12 @@ public class GenesTest {
         assertTrue(genes.areEmpty());
     }
 
-    @Test public void testMutatedGenesAreNotAllZero(){
+    private void testTheRightNumberOfMutatedGenes(int numGenes, int geneSize, int mutations){
         // Given a set of genes that are empty and a high probability that they will mutate
         Config config = new Config();
-        config.setMutationsPerGene(100);
+        config.setNumberOfGenes(numGenes);
+        config.setSizeOfEachGene(geneSize);
+        config.setMutationsPerIndividual(mutations);
         BitSetGenes genes = new AckleysGenes(config);
         genes.buildEmpty();
 
@@ -40,7 +42,18 @@ public class GenesTest {
         }
 
         assertTrue(mutated_count > 0);
-        assertTrue(mutated_count <= 2.5 * config.getMutationsPerGene());
+        assertTrue(mutated_count >= 0.3 * config.getMutationsPerIndividual());
+        assertTrue(mutated_count <= 2 * config.getMutationsPerIndividual());
+    }
+
+
+    @Test public void testMutatedGenesAreNotAllZero(){
+        testTheRightNumberOfMutatedGenes(1000, 20, 1);
+        testTheRightNumberOfMutatedGenes(20, 1000, 1);
+        testTheRightNumberOfMutatedGenes(1000, 20, 20);
+        testTheRightNumberOfMutatedGenes(20, 1000, 20);
+        testTheRightNumberOfMutatedGenes(1000, 20, 20000);
+        testTheRightNumberOfMutatedGenes(20, 1000, 20000);
     }
 
     @Test public void testRandomGenesAreNotAllZero(){
@@ -61,24 +74,24 @@ public class GenesTest {
         assertTrue(set_count < 0.75 * genes.numberOfBits());
     }
 
-    @Test public void testGenesAsIntegers(){
+    @Test public void testGenesAsDoubles(){
         // Given a set of genes that are random
         Config config = new Config();
         BitSetGenes genes = new AckleysGenes(config);
         genes.buildFromRandom();
 
         // Then the genes as integers are non zero
-        long[] integers = genes.asIntegers();
-        assertTrue(integers.length >= 1);
-        for (long integer : integers) {
-            assertTrue(integer > 0);
+        double[] unknowns = genes.asDoubles();
+        assertTrue(unknowns.length >= 1);
+        for (double x : unknowns) {
+            assertTrue(x > 0);
         }
     }
 
     @Test public void testMutationCanBeDisabled(){
         // Given a set of genes with zero values that will not mutate
         Config config = new Config();
-        config.setMutationsPerGene(0);
+        config.setMutationsPerIndividual(0);
         BitSetGenes genes = new AckleysGenes(config);
         genes.buildEmpty();
 
@@ -136,7 +149,7 @@ public class GenesTest {
     @Test public void testBabyIsNotIdenticalToMotherOrFather() {
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.setMutationsPerGene(config.getMutationsPerGene() * 100000);
+        config.setMutationsPerIndividual(1);
         BitSetGenes mother = new AckleysGenes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
@@ -154,7 +167,7 @@ public class GenesTest {
     @Test public void testBabyIsNotZero(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
+        config.setMutationsPerIndividual(config.getMutationsPerIndividual() * 10);
         BitSetGenes mother = new AckleysGenes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);
@@ -170,7 +183,7 @@ public class GenesTest {
     @Test public void testBabyIsSimilarToMotherAndFather(){
         // Given a mother with some mutated genes, a father with some mutated genes and a baby
         Config config = new Config();
-        config.setMutationsPerGene(config.getMutationsPerGene() * 10);
+        config.setMutationsPerIndividual(config.getMutationsPerIndividual() * 10);
         BitSetGenes mother = new AckleysGenes(config);
         mother.buildFromRandom();
         BitSetGenes father = createFatherDifferentFromMother(config, mother);

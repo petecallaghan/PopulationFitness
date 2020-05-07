@@ -25,7 +25,7 @@ public class TridGenes extends NormalizingBitSetGenes{
 
              */
             double nOver2 = Math.round(((double)index) / 2.0);
-            long nSquared = index * index;
+            double nSquared = index * index;
 
             return nOver2 * FastMaths.pow(nSquared + 1, 2) +
                     (index - nOver2) * FastMaths.pow(nSquared - 1, 2) +
@@ -59,11 +59,11 @@ public class TridGenes extends NormalizingBitSetGenes{
         /*
           {- {n} ^ {2} ≤x} rsub {i} ≤+ {n} ^ {2}
          */
-        interpolation_ratio = (1.0 * n * n) / maxLongForSizeOfGene();
+        interpolation_ratio = (1.0 * n * n) / maxInteger();
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           https://www.sfu.ca/~ssurjano/trid.html
 
@@ -71,12 +71,12 @@ public class TridGenes extends NormalizingBitSetGenes{
          */
         double fitness = 0.0 - min;
 
-        if (integer_values.length > 0){
-            double previousX = interpolate(integer_values[0]);
+        if (unknowns.length > 0){
+            double previousX = unknowns[0];
             double firstSum = FastMaths.pow(previousX - 1, 2);
             double secondSum = 0;
-            for(int i = 1; i < integer_values.length; i++){
-                double x = interpolate(integer_values[i]);
+            for(int i = 1; i < unknowns.length; i++){
+                double x = unknowns[i];
                 firstSum += (x - 1) * (x - 1);
                 secondSum += x * previousX;
                 previousX = x;

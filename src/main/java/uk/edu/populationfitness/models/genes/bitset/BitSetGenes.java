@@ -2,6 +2,9 @@ package uk.edu.populationfitness.models.genes.bitset;
 
 import uk.edu.populationfitness.models.Config;
 import uk.edu.populationfitness.models.RepeatableRandom;
+import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
+import uk.edu.populationfitness.models.fastmaths.FastMaths;
+import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.Genes;
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 import uk.edu.populationfitness.models.genes.cache.*;
@@ -17,6 +20,18 @@ import static java.lang.Math.abs;
  * Created by pete.callaghan on 03/07/2017.
  */
 public abstract class BitSetGenes implements Genes {
+    private static class BitCountCalculator implements ValueCalculator<Long> {
+        @Override
+        public Long calculateValue(long bitCount) {
+            if (bitCount == Long.SIZE){
+                return Long.MAX_VALUE;
+            }
+            return FastMaths.pow(2, bitCount)-1;
+        }
+    }
+
+    private static final ExpensiveCalculatedValues<Long> BitCounts = new ExpensiveCalculatedValues(new BitSetGenes.BitCountCalculator());
+
     protected final Config config;
 
     private GenesIdentifier genesIdentifier;
@@ -29,21 +44,49 @@ public abstract class BitSetGenes implements Genes {
 
     private final int size_of_genes;
 
+    private final int number_of_integers;
+
+    private final int bits_per_integer;
+
+    private final long max_integer;
+
     public BitSetGenes(Config config) {
         this.config = config;
         size_of_genes = config.getGeneBitCount();
+        number_of_integers = numberOfIntegers();
+        bits_per_integer = bitsPerInteger();
+        max_integer = BitCounts.findOrCalculate(bits_per_integer);
+    }
+
+    private int bitsPerInteger(){
+        // The smaller of the max bits per long, or the size of each gene
+        return Math.min(Long.SIZE, config.getSizeOfEachGene());
+    }
+
+    /**
+     * The number of integers needed to hold the genes
+     * @return
+     */
+    protected int numberOfIntegers(){
+        // If the number of genes is bigger than the number of longs needed to fit the total bit count, go for the larger number
+        // otherwise use the number of longs needed to hold the entire bit count
+        return Math.max((int)((size_of_genes / Long.SIZE) + (size_of_genes % Long.SIZE == 0 ? 0 : 1)), config.getNumberOfGenes());
+    }
+
+    /**
+     * The max value of any integer
+     * @return
+     */
+    protected long maxInteger(){
+        return max_integer;
     }
 
     private long[] getGenesFromCache() {
         return SharedCache.cache().get(genesIdentifier);
     }
 
-    private BitSet getBitSetGenesFromCache() {
+    protected BitSet getBitSetGenesFromCache() {
         return BitSet.valueOf(SharedCache.cache().get(genesIdentifier));
-    }
-
-    private void storeGenesInCache(BitSet genes) {
-        storeGenesInCache(genes.toLongArray());
     }
 
     private void storeGenesInCache(long[] genes) {
@@ -53,28 +96,31 @@ public abstract class BitSetGenes implements Genes {
 
     @Override
     public void buildEmpty() {
-        final int numberOfInts = (int)((size_of_genes / Long.SIZE) + (Long.SIZE % size_of_genes == 0 ? 0 : 1));
-        final long[] genes = new long[numberOfInts];
+        final long[] genes = new long[number_of_integers];
         Arrays.fill(genes, 0);
         storeGenesInCache(genes);
     }
 
     public void buildFull() {
-        final BitSet genes = new BitSet(size_of_genes);
-        genes.set(0, size_of_genes - 1);
+        final long[] genes = new long[number_of_integers];
+        Arrays.fill(genes, -1L);
         storeGenesInCache(genes);
     }
 
     @Override
     public void buildFromRandom() {
-        buildEmpty();
-        long[] genes = asIntegers();
-        mutateGenesWithMutationInterval(genes, 1);
+        final long[] genes = new long[number_of_integers];
+        for (int i = 0; i < genes.length; i++) {
+            genes[i] = RepeatableRandom.generateNextLong(0, max_integer);
+        }
         storeGenesInCache(genes);
     }
 
-    @Override
-    public long[] asIntegers() {
+    /**
+     *
+     * @return the bit array as a compact array of integers
+     */
+    protected long[] asIntegers() {
         return SharedCache.cache().get(genesIdentifier);
     }
 
@@ -85,7 +131,7 @@ public abstract class BitSetGenes implements Genes {
 
     @Override
     public int numberOfBits() {
-        return size_of_genes;
+        return number_of_integers * Long.SIZE;
     }
 
     @Override
@@ -100,27 +146,50 @@ public abstract class BitSetGenes implements Genes {
     }
 
     private int mutateGenes(long[] genes) {
-        if (config.getMutationsPerGene() <= 0){
+        if (config.getMutationsPerIndividual() < 1){
             return 0;
         }
-        final long mutation_genes_interval = 1 + (long)(genes.length * 2.0 / config.getMutationsPerGene());
-        return mutateGenesWithMutationInterval(genes, mutation_genes_interval);
-    }
 
-    private int mutateGenesWithMutationInterval(long[] genes, long mutation_genes_interval) {
-        final long max = config.getMaxGeneValue();
+        final long mutations_per_gene = Math.max((long)(config.getMutationsPerIndividual() / genes.length), 1);
+
+        final long mutation_genes_interval = (long)(genes.length / config.getMutationsPerIndividual());
+
         int mutatedCount = 0;
-        for (int i = RepeatableRandom.generateNextInt(mutation_genes_interval);
-             i < genes.length;
-             i += Math.max(1, (int)RepeatableRandom.generateNextLong(0, mutation_genes_interval))) {
-            genes[i] = getMutatedValue(genes[i], max);
-            mutatedCount++;
+
+        // A simple loop for when we are mutating every gene
+        if (mutation_genes_interval < 2){
+            for (int i = 0; i < genes.length && mutatedCount <= config.getMutationsPerIndividual(); i++) {
+                genes[i] = getMutatedValue(genes[i], mutations_per_gene);
+                mutatedCount += mutations_per_gene;
+            }
+            return mutatedCount;
         }
+
+        // Otherwise we are mutating just some genes
+        for (int i = RepeatableRandom.generateNextInt(mutation_genes_interval);
+             i < genes.length && mutatedCount <= config.getMutationsPerIndividual();
+             i += Math.max(1, (int)RepeatableRandom.generateNextLong(1, mutation_genes_interval+1))) {
+            genes[i] = getMutatedValue(genes[i], mutations_per_gene);
+            mutatedCount += mutations_per_gene;
+        }
+
         return mutatedCount;
     }
 
-    private long getMutatedValue(long gene, long max) {
-        return gene + RepeatableRandom.generateNextLong(0 - gene, max);
+    private long getMutatedValue(long gene, long mutations_per_gene) {
+        int mutatedCount = 0;
+        long interval = (bits_per_integer - 1) / mutations_per_gene;
+        if (interval < 1){
+            // Mutate every bit
+            return RepeatableRandom.generateNextLong(0, max_integer);
+        }
+        for (int bit = RepeatableRandom.generateNextInt(interval);
+             bit < bits_per_integer - 1 && mutatedCount < mutations_per_gene;
+             bit += Math.max(1, (int)RepeatableRandom.generateNextLong(1, interval+1))) {
+            gene ^= (1L << bit);
+            mutatedCount ++;
+        }
+        return gene;
     }
 
     /**

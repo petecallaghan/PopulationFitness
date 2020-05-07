@@ -84,7 +84,7 @@ public class Commands {
                     config.setSizeOfEachGene(tuning.size_of_genes);
                     config.setNumberOfGenes(tuning.number_of_genes);
                     config.getGenesFactory().useFitnessFunction(tuning.function);
-                    config.setMutationsPerGene(tuning.mutations_per_gene);
+                    config.setMutationsPerIndividual(tuning.mutations_per_gene);
                     parallelCount = tuning.parallel_runs;
                     continue;
                 }

@@ -31,7 +31,7 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           http://www.sfu.ca/~ssurjano/schwef.html
 
@@ -50,10 +50,9 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
          f(x) = 0, at x = (420.9687,...,420.9687)
 
          */
-        double fitness = SchwefelConstant * integer_values.length;
+        double fitness = SchwefelConstant * unknowns.length;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+        for (double x :unknowns) {
             fitness -= (x * CosSineCache.sin(Math.sqrt(Math.abs(x))));
         }
         return fitness;

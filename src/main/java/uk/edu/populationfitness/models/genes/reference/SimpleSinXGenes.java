@@ -14,14 +14,11 @@ public class SimpleSinXGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
-
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         double fitness = 0;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
-            double y = Math.sin(x);
-            fitness += y;
+        for (double x : unknowns) {
+            fitness += Math.sin(x);
         }
 
         return fitness;

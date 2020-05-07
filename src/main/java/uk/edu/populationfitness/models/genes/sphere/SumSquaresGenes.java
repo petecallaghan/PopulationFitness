@@ -31,7 +31,7 @@ public class SumSquaresGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           http://www.sfu.ca/~ssurjano/sumsqu.html
 
@@ -54,8 +54,8 @@ public class SumSquaresGenes extends NormalizingBitSetGenes {
          */
         double fitness = 0;
 
-        for(int i = 0; i < integer_values.length; i++){
-            double x = interpolate(integer_values[i]);
+        for(int i = 0; i < unknowns.length; i++){
+            double x = unknowns[i];
             fitness += (i + 1) * x * x;
         }
         return fitness;

@@ -1,6 +1,5 @@
 package uk.edu.populationfitness.test;
 
-import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -107,7 +106,7 @@ public class EpochsTest {
         double delta = 0.0000000001;
 
         // When we write them and then read them
-        String path = EpochsWriter.writeCsv("epochs", Function.Undefined, config.getNumberOfGenes(), config.getSizeOfEachGene(), config.getMutationsPerGene(), epochs);
+        String path = EpochsWriter.writeCsv("epochs", Function.Undefined, config.getNumberOfGenes(), config.getSizeOfEachGene(), config.getMutationsPerIndividual(), epochs);
         Epochs found = new Epochs();
         found.epochs.addAll(EpochsReader.readEpochs(config, path));
 

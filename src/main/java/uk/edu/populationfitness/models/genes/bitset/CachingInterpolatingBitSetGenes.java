@@ -12,12 +12,12 @@ public abstract class CachingInterpolatingBitSetGenes extends InterpolatingBitSe
     }
 
     /**
-     * Implement this to calculate the fitness from an array of integers.
+     * Implement this to calculate the fitness from an array of double unknowns.
      *
-     * @param integer_values
+     * @param unknowns
      * @return
      */
-    protected abstract double calculateFitnessFromIntegers(long[] integer_values);
+    protected abstract double calculateFitnessFromGenes(double[] unknowns);
 
     @Override
     public double fitness() {
@@ -25,7 +25,7 @@ public abstract class CachingInterpolatingBitSetGenes extends InterpolatingBitSe
             return storedFitness();
         }
 
-        return storeInvertedFitness(calculateFitnessFromIntegers(asIntegers()));
+        return storeInvertedFitness(calculateFitnessFromGenes(asDoubles()));
     }
 }
 

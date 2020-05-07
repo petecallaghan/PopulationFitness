@@ -29,16 +29,16 @@ public class DixonPriceGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           f left (x right ) = {left ({x} rsub {1} -1 right )} ^ {2} +  sum from {i=2} to {n} {i {left ({2x} rsub {i} rsup {2} - {x} rsub {i-1} right )} ^ {2}}
          */
 
-        double fitness = integer_values.length > 0 ? FastMaths.pow(interpolate(integer_values[0]) - 1.0, 2) : 0.0;
+        double fitness = unknowns.length > 0 ? FastMaths.pow(unknowns[0] - 1.0, 2) : 0.0;
 
-        for(int i = 1; i < integer_values.length; i++) {
-            double xIMinus1 = interpolate(integer_values[i - 1]);
-            double x = interpolate(integer_values[i]);
+        for(int i = 1; i < unknowns.length; i++) {
+            double xIMinus1 = unknowns[i - 1];
+            double x = unknowns[i];
             double value = (2.0 * x * x - xIMinus1);
             fitness += (i + 1) * value * value;
         }

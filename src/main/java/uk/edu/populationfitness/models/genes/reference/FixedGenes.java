@@ -15,7 +15,7 @@ public class FixedGenes extends BitSetGenes {
         return fixedValue;
     }
 
-    public long[] asIntegers() {
-        return new long[0];
+    public double[] asDoubles() {
+        return new double[0];
     }
 }

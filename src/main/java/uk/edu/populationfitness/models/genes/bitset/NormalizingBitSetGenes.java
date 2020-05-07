@@ -29,13 +29,11 @@ public abstract class NormalizingBitSetGenes extends CachingInterpolatingBitSetG
             return storedFitness();
         }
 
-        final long[] integers = asIntegers();
-
         if (!isNormalisationRatioSet){
-            normalizationRatio = calculateNormalizationRatio(integers.length);
+            normalizationRatio = calculateNormalizationRatio(numberOfIntegers());
             isNormalisationRatioSet = true;
         }
 
-        return storeFitness(calculateFitnessFromIntegers(integers) / normalizationRatio);
+        return storeFitness(calculateFitnessFromGenes(asDoubles()) / normalizationRatio);
     }
 }

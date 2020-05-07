@@ -14,7 +14,7 @@ public class GenesDistributionTest {
 
     private static final int Population = 40000;
 
-    private static final int NumberOfGenes = 100;
+    private static final int NumberOfGenes = 10;
 
     private static final int SizeOfGenes = 10;
 
@@ -25,6 +25,7 @@ public class GenesDistributionTest {
         Config config = new Config();
         config.setNumberOfGenes(NumberOfGenes);
         config.setSizeOfEachGene(SizeOfGenes);
+        config.setMutationsPerIndividual(1.0);
         ArrayList<Genes> genes = new ArrayList<>();
         for(int i = 0; i < Population; i++){
             Genes next = factory.build(config);
@@ -122,5 +123,9 @@ public class GenesDistributionTest {
 
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesSinX(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinX, 1.0);
+    }
+
+    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSimpleSinX(){
+        GenesAreDistributedWithoutExcessiveSpikes(Function.SimpleSinX, 1.0);
     }
 }

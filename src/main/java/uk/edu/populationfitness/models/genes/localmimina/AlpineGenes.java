@@ -16,7 +16,7 @@ public class AlpineGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
 
         /*
           f left (x right ) = sum from {i=1} to {n} {left lline {x} rsub {i} sin {left ({x} rsub {i} right ) +0.1 {x} rsub {i}} right rline}
@@ -24,8 +24,7 @@ public class AlpineGenes extends NormalizingBitSetGenes {
 
         double fitness = 0.0;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+        for (double x : unknowns) {
             fitness += Math.abs(x * CosSineCache.sin(x) + 0.1 * x);
         }
 

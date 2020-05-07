@@ -33,7 +33,7 @@ public class GenerationsWriter {
                 "-pop" +
                 config.getInitialPopulation() +
                 "-mut" +
-                config.getMutationsPerGene() +
+                config.getMutationsPerIndividual() +
                 "-" +
                 config.id.replaceAll(":", "-") +
                 ".csv";

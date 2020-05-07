@@ -14,15 +14,14 @@ public class Schwefel220Genes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
 
         /*
           f left (x right ) =- sum from {i=1} to {n} {left lline {x} rsub {i} right rline}
          */
-        double fitness = 10.0 * integer_values.length;
+        double fitness = 10.0 * unknowns.length;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+        for (double x : unknowns) {
             fitness -= Math.abs(x);
         }
 

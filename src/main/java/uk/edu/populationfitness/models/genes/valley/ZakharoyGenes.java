@@ -27,7 +27,7 @@ public class ZakharoyGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           f left (x right ) = sum from {i=1} to {n} {{x} rsub {i} rsup {2}} + {left (sum from {i=1} to {n} {0.5 i  {x} rsub {i}} right )} ^ {2} + {left (sum from {i=1} to {n} {0.5 i  {x} rsub {i}} right )} ^ {4}
          */
@@ -35,8 +35,8 @@ public class ZakharoyGenes extends NormalizingBitSetGenes {
 
         double sum = 0;
 
-        for(int i = 1; i <= integer_values.length; i++){
-            double x = interpolate(integer_values[i - 1]);
+        for(int i = 1; i <= unknowns.length; i++){
+            double x = unknowns[i - 1];
             fitness += x * x;
             sum += 0.5 * i * x;
         }

@@ -20,7 +20,7 @@ public class RastriginGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           This is a tunable Rastrigin function: https://en.wikipedia.org/wiki/Rastrigin_function
 
@@ -28,12 +28,11 @@ public class RastriginGenes extends NormalizingBitSetGenes {
 
           The '2pi' term is replaced by 'fitness_factor * pi' to make the function tunable
          */
-        return getRastriginFitnessUsingCos(RastriginTermA * integer_values.length, integer_values);
+        return getRastriginFitnessUsingCos(RastriginTermA * unknowns.length, unknowns);
     }
 
-    private double getRastriginFitnessUsingCos(double fitness, long[] integer_values) {
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+    private double getRastriginFitnessUsingCos(double fitness, double[] unknowns) {
+        for (double x : unknowns) {
             fitness += x * x - RastriginTermA * CosSineCache.cos(TwoPi * x);
         }
         return fitness;

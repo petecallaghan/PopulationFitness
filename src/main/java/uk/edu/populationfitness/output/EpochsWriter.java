@@ -62,7 +62,7 @@ public class EpochsWriter {
                 Integer.toString(epoch.maxBreedingAge()),
                 Double.toString(epoch.averageCapacityFactor()),
                 Double.toString(epoch.averageCapacityFactor() * epoch.fitness()),
-                Double.toString(epoch.config().getMutationsPerGene()),
+                Double.toString(epoch.config().getMutationsPerIndividual()),
                 Boolean.toString(epoch.modern()),
         });
     }

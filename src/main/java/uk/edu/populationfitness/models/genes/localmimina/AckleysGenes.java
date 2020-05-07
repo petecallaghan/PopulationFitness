@@ -35,7 +35,7 @@ public class AckleysGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           http://www.cs.unm.edu/~neal.holts/dga/benchmarkFunction/ackley.html
 
@@ -44,13 +44,12 @@ public class AckleysGenes extends NormalizingBitSetGenes {
         double firstSum = 0.0;
         double secondSum = 0.0;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+        for (double x : unknowns) {
             firstSum += x * x;
             secondSum += CosSineCache.cos(TwoPi * x);
         }
 
-        double n = integer_values.length;
+        double n = unknowns.length;
 
         return -20.0 * Math.exp(-0.2 * Math.sqrt(firstSum / n)) - Math.exp(secondSum / n) + TwentyPlusE;
     }

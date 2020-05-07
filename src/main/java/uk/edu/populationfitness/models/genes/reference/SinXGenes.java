@@ -6,22 +6,20 @@ import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SinXGenes extends NormalizingBitSetGenes {
     public SinXGenes(Config config) {
-        super(config, 360.0);
+        super(config, Math.PI);
     }
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 2.0 * n;
+        return 1.0 * n;
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
+        double fitness = 0;
 
-        double fitness = integer_values.length;
-
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
-            fitness += CosSineCache.sin(x);
+        for (double x : unknowns) {
+            fitness += Math.sin(x);
         }
 
         return fitness;

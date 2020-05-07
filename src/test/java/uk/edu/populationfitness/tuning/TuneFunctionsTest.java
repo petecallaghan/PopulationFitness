@@ -81,7 +81,7 @@ public class TuneFunctionsTest {
 
         epochs.increasePopulation(PopulationRatio);
         config.setInitialPopulation(epochs.first().environment_capacity);
-        config.setMutationsPerGene(MutationsPerIndividual);
+        config.setMutationsPerIndividual(MutationsPerIndividual);
 
         return generations.tuneFitnessForAllEpochs(epochs, 0.0, maxFactor, 0.0000001, tuningPercentage);
     }
@@ -148,7 +148,7 @@ public class TuneFunctionsTest {
     }
 
     private void writeResults(Function function, Config config, Epochs epochs, Tuning tuning) throws IOException {
-        EpochsWriter.writeCsv(EpochsPath, function, config.getNumberOfGenes(), config.getSizeOfEachGene(), config.getMutationsPerGene(), epochs);
+        EpochsWriter.writeCsv(EpochsPath, function, config.getNumberOfGenes(), config.getSizeOfEachGene(), config.getMutationsPerIndividual(), epochs);
         TuningWriter.writeInPath(TuningPath, tuning);
     }
 
@@ -174,7 +174,7 @@ public class TuneFunctionsTest {
         tuning.number_of_genes = config.getNumberOfGenes();
         tuning.parallel_runs = 1;
         tuning.series_runs = 1;
-        tuning.mutations_per_gene = config.getMutationsPerGene();
+        tuning.mutations_per_gene = config.getMutationsPerIndividual();
 
         tuning.historic_fit = findHistoricalFitness(epochs);
         tuning.modern_fit = findModernFitness(epochs);

@@ -9,6 +9,24 @@ public class FastMaths {
      * @param power
      * @return base raised to the power
      */
+    public static long pow(long base, long power) {
+        long result = 1;
+        while (power > 0) {
+            if ((power & 1) == 1) {
+                result *= base;
+            }
+            power >>= 1;
+            base *= base;
+        }
+        return result;
+    }
+
+    /**
+     * Optimised version of power
+     * @param base
+     * @param power
+     * @return base raised to the power
+     */
     public static double pow(double base, long power) {
         double result = 1;
         while (power > 0) {
@@ -32,8 +50,7 @@ public class FastMaths {
             sumOfXY += x * values.get(x - 1);
         }
 
-        final double alpha = (n * sumOfXY - sumOfX * sumOfY) / (n * sumOfXSquared - (sumOfX * sumOfX));
-        return alpha;
+        return (n * sumOfXY - sumOfX * sumOfY) / (n * sumOfXSquared - (sumOfX * sumOfX));
     }
 
     public static double linearTrendLineSlopeAsPercentOfAverage(List<Double> values){

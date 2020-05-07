@@ -81,9 +81,9 @@ public interface Genes {
 
     /**
      *
-     * @return the genes as an array of integers
+     * @return the genes unknowns as an array of doubles
      */
-    long[] asIntegers();
+    double[] asDoubles();
 
     /**
      *

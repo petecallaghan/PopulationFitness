@@ -15,7 +15,7 @@ public class StyblinksiTangGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           http://www.sfu.ca/~ssurjano/stybtang.html
 
@@ -29,10 +29,9 @@ public class StyblinksiTangGenes extends NormalizingBitSetGenes {
 
          f(x) = -39.16599d at x = (-2.903534,...-2.903534)
          */
-        double fitness = 39.166 * integer_values.length;
+        double fitness = 39.166 * unknowns.length;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+        for (double x : unknowns) {
             double xSquared = x * x;
             fitness += (xSquared * xSquared - 16 * xSquared + 5 * x);
         }

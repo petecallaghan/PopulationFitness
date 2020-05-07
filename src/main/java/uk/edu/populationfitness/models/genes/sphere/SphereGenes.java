@@ -14,7 +14,7 @@ public class SphereGenes extends NormalizingBitSetGenes {
     }
 
     @Override
-    protected double calculateFitnessFromIntegers(long[] integer_values) {
+    protected double calculateFitnessFromGenes(double[] unknowns) {
         /*
           http://www.sfu.ca/~ssurjano/spheref.html
 
@@ -35,8 +35,7 @@ public class SphereGenes extends NormalizingBitSetGenes {
          */
         double fitness = 0;
 
-        for (long integer_value : integer_values) {
-            double x = interpolate(integer_value);
+        for (double  x : unknowns) {
             fitness += x * x;
         }
         return fitness;

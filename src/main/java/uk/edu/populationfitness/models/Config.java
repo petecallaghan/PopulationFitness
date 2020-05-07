@@ -3,7 +3,6 @@ package uk.edu.populationfitness.models;
 import uk.edu.populationfitness.models.fastmaths.FastMaths;
 import uk.edu.populationfitness.models.genes.GenesFactory;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
-import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
 
 import java.time.Instant;
 
@@ -32,7 +31,7 @@ public class Config {
     private long last_max_gene_value;
 
     // The likely number of mutations per gene
-    private double mutations_per_gene;
+    private double mutations_per_individual;
 
     private final int max_age;
 
@@ -55,8 +54,8 @@ public class Config {
 
     public Config(){
         setNumberOfGenes(4);
-        setSizeOfEachGene(10);
-        setMutationsPerGene(1);
+        setSizeOfEachGene(64);
+        setMutationsPerIndividual(1);
         max_age = 85;
         max_breeding_age = 400; //41;
         setMinBreedingAge(16);
@@ -87,23 +86,23 @@ public class Config {
         return gene_bit_count;
     }
 
-    public double getMutationsPerGene() {
-        return mutations_per_gene;
+    public double getMutationsPerIndividual() {
+        return mutations_per_individual;
     }
 
-    public void setMutationsPerGene(double mutations_per_gene) {
-        this.mutations_per_gene = mutations_per_gene;
+    public void setMutationsPerIndividual(double mutations_per_individual) {
+        this.mutations_per_individual = mutations_per_individual;
         geneSizeUpdated();
     }
 
     public void scaleMutationsPerGeneFromBitCount(double scale){
-        setMutationsPerGene(scale * gene_bit_count);
+        setMutationsPerIndividual(scale * gene_bit_count);
     }
 
     private void geneSizeUpdated(){
         gene_bit_count = number_of_genes * size_of_each_gene;
         final long excess_bits = gene_bit_count % Long.SIZE;
-        last_max_gene_value = excess_bits == 0 ? Long.MAX_VALUE : Math.min(Long.MAX_VALUE, (long)FastMaths.pow(2, excess_bits)-1);
+        last_max_gene_value = excess_bits == 0 ? Long.MAX_VALUE : Math.min(Long.MAX_VALUE, FastMaths.pow(2, excess_bits)-1);
         max_gene_value = gene_bit_count < Long.SIZE ? last_max_gene_value : Long.MAX_VALUE;
     }
 
