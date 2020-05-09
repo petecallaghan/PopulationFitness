@@ -36,9 +36,10 @@ class Fitnesses {
         fitnesses.addAll(source.fitnesses);
     }
 
-    public void add(double fitness){
+    public double add(double fitness){
         total_fitness += fitness;
         checked_fitness++;
         fitnesses.add(fitness);
+        return fitness;
     }
 }

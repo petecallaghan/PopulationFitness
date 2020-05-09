@@ -2,6 +2,7 @@ package uk.edu.populationfitness.models;
 
 import uk.edu.populationfitness.models.genes.GenesIdentifier;
 import uk.edu.populationfitness.models.genes.cache.SharedCache;
+import uk.edu.populationfitness.models.genes.fitness.ReverseSearch;
 import uk.edu.populationfitness.models.genes.fitness.Search;
 import uk.edu.populationfitness.models.population.Population;
 import uk.edu.populationfitness.models.population.PopulationComparison;
@@ -68,7 +69,7 @@ public class Generations {
         Epoch previousEpoch = null;
         for (Epoch epoch: epochs.epochs){
             Population previousPopulation = new Population(population);
-            Search search = new Search();
+            Search search = new ReverseSearch();
             search.increment(increment).min(minFactor).max(maxFactor);
             if (previousEpoch != null){
                 search.current(previousEpoch.fitness());
@@ -99,7 +100,7 @@ public class Generations {
         population = new Population(previousPopulation);
         epoch.fitness(search.current());
         PopulationComparison divergence = compareToExpectedForEpoch(epoch, percentage);
-        System.out.println("Year "+epoch.end_year+" Pop "+population.individuals.size()+" Expected "+epoch.expected_max_population+" F="+epoch.fitness()+" F'="+epoch.averageCapacityFactor()*epoch.fitness());
+        System.out.println("Year "+epoch.end_year+" Pop "+population.individuals.size()+" Expected "+epoch.expected_max_population+" F="+epoch.fitness());
 
         if (divergence != PopulationComparison.WithinRange){
             Search nextSearch = search.findNext(divergence);

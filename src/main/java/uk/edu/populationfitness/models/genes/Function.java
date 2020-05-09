@@ -29,6 +29,5 @@ public enum Function {
     FixedHalf,
     FixedZero,
     Random,
-    SinX,
-    SimpleSinX
+    SinX
 }

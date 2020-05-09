@@ -81,10 +81,31 @@ public class Population {
         return babies;
     }
 
-    private boolean killWeakerThanMinWithinCapacity(Individual individual, int current_year, double minFitness) {
+    private boolean KillWithinCapacity(Individual individual, int current_year, boolean isUnfit){
         final double fitness = individual.genes.fitness();
         fitnesses.add(fitness);
 
+        if (killed.count() > 0 && killed.remaining() < 1){
+            return false;
+        }
+        if (individual.isReadyToDie(current_year) || isUnfit){
+            killed.add(individual.age(current_year));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean killWeakerThanMin(Individual individual, int current_year, double minFitness) {
+        double fitness = fitnesses.add(individual.genes.fitness());
+        if (individual.isReadyToDie(current_year) || fitness < minFitness){
+            killed.add(individual.age(current_year));
+            return true;
+        }
+        return false;
+    }
+
+    private boolean killWeakerThanMinWithinCapacity(Individual individual, int current_year, double minFitness) {
+        double fitness = fitnesses.add(individual.genes.fitness());
         if (killed.count() > 0 && killed.remaining() < 1){
             return false;
         }
@@ -95,22 +116,9 @@ public class Population {
         return false;
     }
 
-
-    private boolean killWeakerThanRandom(Individual individual, int current_year){
-        final double fitness = individual.genes.fitness();
-        fitnesses.add(fitness);
-
-        if (individual.isReadyToDie(current_year) || fitness < (RepeatableRandom.generateNext())){
-            killed.add(individual.age(current_year));
-            return true;
-        }
-        return false;
-    }
-
     private void addSurvivors(Predicate<Individual> survivor){
         individuals = individuals.stream().filter(survivor).collect(Collectors.toCollection(ArrayList::new));
     }
-
 
     /**
      * Kills those in the population who are ready to die and returns the number of fatalities
@@ -120,19 +128,26 @@ public class Population {
      * @return
      */
     public int killThoseUnfitOrReadyToDie(int current_year, Epoch epoch){
-        final double meanFitness = averageFitness();
         final int capacity =  epoch.capacityForYear(current_year);
         killed.setLimit(individuals.size() - capacity);
         fitnesses.resetCounts();
 
         if (individuals.size() < 1)
             return 0;
+/*
+3. Add the use of the different fitness factors in the different epochs:
+    a. Pre-black death - kill less than mean fitness: Historic
+    b. Black death - kill less than disease fitness: Disease
+    c. post black death - kill less than mean fitness: Historic
+    d. modern - kill less than random  * min fitness: Modern
+    e. Modern ebola - kill less than disease fitness: Disease
 
+ */
         if (epoch.isCapacityUnlimited()){
-            addSurvivors(i -> !killWeakerThanRandom(i, current_year));
+            addSurvivors(i -> !killWeakerThanMin(i, current_year, epoch.fitness()));
         }
         else {
-            addSurvivors(i -> !killWeakerThanMinWithinCapacity(i, current_year, meanFitness));
+            addSurvivors(i -> !killWeakerThanMin(i, current_year, epoch.fitness()));
         }
 
         average_life_expectancy = killed.averageAgeKilled();

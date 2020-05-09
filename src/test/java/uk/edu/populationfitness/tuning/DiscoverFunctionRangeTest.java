@@ -7,7 +7,6 @@ import uk.edu.populationfitness.models.genes.Function;
 import uk.edu.populationfitness.models.genes.Genes;
 import uk.edu.populationfitness.models.genes.GenesFactory;
 import uk.edu.populationfitness.models.genes.bitset.BitSetGenesFactory;
-import uk.edu.populationfitness.models.genes.fitness.FitnessRange;
 import uk.edu.populationfitness.models.genes.performance.GenesTimer;
 import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
 
@@ -28,6 +27,7 @@ public class DiscoverFunctionRangeTest {
         Config config = new Config();
         config.setNumberOfGenes(NumberOfGenes);
         config.setSizeOfEachGene(SizeOfGenes);
+        config.setMutationsPerIndividual(150.0);
         config.setGenesFactory(factory);
         GenesTimer.resetAll();
 
@@ -44,8 +44,6 @@ public class DiscoverFunctionRangeTest {
         double max = Double.MIN_VALUE;
         for (Genes g: genes) {
             double fitness = g.fitness();
-            System.out.print(fitness);
-            System.out.print(" ");
 
             if (fitness < min) min = fitness;
             if (fitness > max) max = fitness;
@@ -62,7 +60,8 @@ public class DiscoverFunctionRangeTest {
 
         GenesTimer.showAll();
 
-        Assert.assertTrue("Min above zero", min >= -0.1);
+        Assert.assertTrue("Min above zero", min > -0.1);
+        Assert.assertTrue("Min below 1", max < 1.1);
         Assert.assertEquals("Usable range", mustPass, max - min >= 0.0001);
     }
 

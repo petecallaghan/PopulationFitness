@@ -1,21 +1,39 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.fastmaths.CosSineCache;
+import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
+import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class SalomonGenes extends NormalizingBitSetGenes {
-    private static final double NormalizationConstant = 200.0 * Math.PI + 10.0;
+    private static final double MAX = 100.0;
 
     private static final double TwoPi = 2.0 * Math.PI;
 
+    private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
+        @Override
+        public Double calculateValue(long n) {
+            double sum = 0.0;
+
+            for (int i = 0; i < n; i++) {
+                sum += MAX * MAX;
+            }
+
+            final double sqrtSum = Math.sqrt(sum);
+
+            return 1.0 - Math.cos(TwoPi * sqrtSum) + 0.1 * sqrtSum;
+        }
+    }
+
+    private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new SalomonGenes.NormalizationRatioCalculator());
+
     public SalomonGenes(Config config) {
-        super(config, 100.0);
+        super(config, MAX);
     }
 
     @Override
     protected double calculateNormalizationRatio(int n) {
-        return 1.0 - CosSineCache.cos(NormalizationConstant * Math.sqrt(n));
+        return NormalizationRatios.findOrCalculate(n);
     }
 
     @Override
@@ -30,8 +48,8 @@ public class SalomonGenes extends NormalizingBitSetGenes {
             sum += x * x;
         }
 
-        double sqrtSum = Math.sqrt(sum);
+        final double sqrtSum = Math.sqrt(sum);
 
-        return 1.0 - CosSineCache.cos(TwoPi * sqrtSum) + 0.1 * sqrtSum;
+        return 1.0 - Math.cos(TwoPi * sqrtSum) + 0.1 * sqrtSum;
     }
 }

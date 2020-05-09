@@ -5,7 +5,6 @@ import uk.edu.populationfitness.models.fastmaths.CosSineCache;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class AlpineGenes extends NormalizingBitSetGenes {
-
     public AlpineGenes(Config config) {
         super(config, 10.0);
     }

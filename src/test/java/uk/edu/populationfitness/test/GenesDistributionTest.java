@@ -124,8 +124,4 @@ public class GenesDistributionTest {
     @Test public void testGenesAreDistributedWithoutExcessiveSpikesSinX(){
         GenesAreDistributedWithoutExcessiveSpikes(Function.SinX, 1.0);
     }
-
-    @Test public void testGenesAreDistributedWithoutExcessiveSpikesSimpleSinX(){
-        GenesAreDistributedWithoutExcessiveSpikes(Function.SimpleSinX, 1.0);
-    }
 }

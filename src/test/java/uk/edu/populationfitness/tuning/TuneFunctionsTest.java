@@ -4,7 +4,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import uk.edu.populationfitness.Tuning;
 import uk.edu.populationfitness.UkPopulationEpochs;
-import uk.edu.populationfitness.models.*;
+import uk.edu.populationfitness.models.Config;
+import uk.edu.populationfitness.models.Epochs;
+import uk.edu.populationfitness.models.Generations;
+import uk.edu.populationfitness.models.RepeatableRandom;
 import uk.edu.populationfitness.models.genes.Function;
 import uk.edu.populationfitness.models.genes.performance.GenesTimer;
 import uk.edu.populationfitness.models.genes.performance.GenesTimerFactory;
@@ -35,7 +38,7 @@ public class TuneFunctionsTest {
 
     private static final int NumberOfGenes = 8;
 
-    private static final int SizeOfGenes = 64;
+    private static final int SizeOfGenes = 10;
 
     private static final int PopulationRatio = 10; //100;
 
@@ -83,7 +86,7 @@ public class TuneFunctionsTest {
         config.setInitialPopulation(epochs.first().environment_capacity);
         config.setMutationsPerIndividual(MutationsPerIndividual);
 
-        return generations.tuneFitnessForAllEpochs(epochs, 0.0, maxFactor, 0.0000001, tuningPercentage);
+        return generations.tuneFitnessForAllEpochs(epochs, -maxFactor, maxFactor, 0.0000001, tuningPercentage);
     }
 
     private void checkTuningMeetsHypothesis(Epochs epochs, Config config, Tuning tuning, int tuningPercentage, boolean willPass){
@@ -94,7 +97,7 @@ public class TuneFunctionsTest {
         final FitnessStatistics historical = new FitnessStatistics(simulation.generations.history.stream()
                 .filter(s -> !s.epoch.modern() && s.epoch.start_year > FIRST_HISTORICAL_YEAR).collect(Collectors.toList()));
         final FitnessStatistics modern = new FitnessStatistics(simulation.generations.history.stream()
-                .filter(s -> s.epoch.modern()).collect(Collectors.toList()));
+                .filter(s -> s.epoch.modern() && !s.epoch.disease()).collect(Collectors.toList()));
         final FitnessStatistics historicalDisease = new FitnessStatistics(simulation.generations.history.stream()
                 .filter(s -> !s.epoch.modern() && s.epoch.start_year > FIRST_HISTORICAL_YEAR && s.epoch.disease()).collect(Collectors.toList()));
         final FitnessStatistics modernDisease = new FitnessStatistics(simulation.generations.history.stream()
@@ -186,17 +189,15 @@ public class TuneFunctionsTest {
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     private double findModernFitness(Epochs epochs) {
-        return epochs.epochs.stream().filter(epoch -> {
-            return epoch.modern();
-        }).mapToDouble(e -> e.fitness() * e.averageCapacityFactor()).max().getAsDouble();
+        return epochs.epochs.stream().filter(epoch -> epoch.modern()).mapToDouble(e -> e.fitness()).max().getAsDouble();
     }
 
     private double findHistoricalFitness(Epochs epochs) {
-        return epochs.epochs.stream().filter(e -> !e.modern() && !e.disease() && e.start_year > FIRST_HISTORICAL_YEAR).mapToDouble(e -> e.fitness() * e.averageCapacityFactor()).average().getAsDouble();
+        return epochs.epochs.stream().filter(e -> !e.modern() && !e.disease() && e.start_year > FIRST_HISTORICAL_YEAR).mapToDouble(e -> e.fitness()).average().getAsDouble();
     }
 
     private double findDiseaseFitness(Epochs epochs) {
-        return epochs.epochs.stream().filter(e -> e.disease() && !e.modern()).mapToDouble(e -> e.fitness() * e.averageCapacityFactor()).min().getAsDouble();
+        return epochs.epochs.stream().filter(e -> e.disease() && !e.modern()).mapToDouble(e -> e.fitness()).min().getAsDouble();
     }
 
     @Test public void testTuneRastrigin() throws IOException {
@@ -296,10 +297,6 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSinX() throws IOException {
-        tune(Function.SinX, 5, 20);
-    }
-
-    @Test public void testTuneSimpleSinX() throws IOException {
-        tune(Function.SimpleSinX, 1, 30);
+        tune(Function.SinX, 5.0, 20);
     }
 }

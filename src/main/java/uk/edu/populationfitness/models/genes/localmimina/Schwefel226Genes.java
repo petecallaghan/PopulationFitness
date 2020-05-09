@@ -1,10 +1,9 @@
 package uk.edu.populationfitness.models.genes.localmimina;
 
 import uk.edu.populationfitness.models.Config;
-import uk.edu.populationfitness.models.fastmaths.CosSineCache;
 import uk.edu.populationfitness.models.fastmaths.ExpensiveCalculatedValues;
 import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
-import uk.edu.populationfitness.models.genes.bitset.*;
+import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class Schwefel226Genes extends NormalizingBitSetGenes {
 
@@ -15,14 +14,14 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
     private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
         public Double calculateValue(long n) {
-            return SchwefelConstant * n + SchwefelConstant2 * CosSineCache.sin(Math.sqrt(SchwefelConstant2)) * n;
+            return SchwefelConstant * n + SchwefelConstant2 * Math.sin(Math.sqrt(SchwefelConstant2)) * n;
         }
     }
 
     private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new NormalizationRatioCalculator());
 
     public Schwefel226Genes(Config config) {
-        super(config, 50000.0);
+        super(config, SchwefelConstant);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class Schwefel226Genes extends NormalizingBitSetGenes {
         double fitness = SchwefelConstant * unknowns.length;
 
         for (double x :unknowns) {
-            fitness -= (x * CosSineCache.sin(Math.sqrt(Math.abs(x))));
+            fitness -= (x * Math.sin(Math.sqrt(Math.abs(x))));
         }
         return fitness;
     }

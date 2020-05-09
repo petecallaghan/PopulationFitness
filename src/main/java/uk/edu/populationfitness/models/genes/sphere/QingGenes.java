@@ -6,22 +6,25 @@ import uk.edu.populationfitness.models.fastmaths.ValueCalculator;
 import uk.edu.populationfitness.models.genes.bitset.NormalizingBitSetGenes;
 
 public class QingGenes extends NormalizingBitSetGenes {
+    private static final double MAX = 500.0;
+
     private static class NormalizationRatioCalculator implements ValueCalculator<Double> {
         @Override
         public Double calculateValue(long n) {
             double ratio = 0.0;
-            for(int i = 1; i <= n; i++){
-                double value = 250000.0  - i;
+
+            for(int i = 0; i < n; i++){
+                double value = (MAX * MAX) / 1.2;// - (i + 1);
                 ratio += value * value;
             }
-            return n > 0 ? ratio : 1.0;
+            return ratio;
         }
     }
 
     private static final ExpensiveCalculatedValues<Double> NormalizationRatios = new ExpensiveCalculatedValues(new QingGenes.NormalizationRatioCalculator());
 
     public QingGenes(Config config) {
-        super(config, 500.0);
+        super(config, MAX);
     }
 
     @Override

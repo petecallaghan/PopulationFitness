@@ -72,12 +72,6 @@ public class UkPopulationEpochs {
     }
 
     private static void addPrehistoricEpochs(Config config, Epochs epochs) {
-        /*epochs.addNextEpoch(new Epoch(config, -10000).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -9998).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -9000).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -8000).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -1050).capacity(1500));
-        epochs.addNextEpoch(new Epoch(config, -1048).capacity(1500));*/
         epochs.addNextEpoch(new Epoch(config, -50).capacity(1500));
     }
 }

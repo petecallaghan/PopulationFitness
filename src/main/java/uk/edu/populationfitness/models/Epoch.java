@@ -36,8 +36,6 @@ public class Epoch {
 
     private int max_breeding_age;
 
-    private double total_capacity_factor = 0;
-
     private boolean isModern = false;
 
     public Epoch(Config config, int start_year){
@@ -57,7 +55,6 @@ public class Epoch {
         this.min_fitness = source.min_fitness;
         this.isDisease = source.isDisease;
         this.probability_of_breeding = source.probability_of_breeding;
-        this.total_capacity_factor = source.total_capacity_factor;
         this.prev_environment_capacity = source.prev_environment_capacity;
         this.max_age = source.max_age;
         this.max_breeding_age = source.max_breeding_age;
@@ -109,6 +106,10 @@ public class Epoch {
         return isModern;
     }
 
+    public boolean historic(){
+        return !isModern && !isDisease;
+    }
+
     public Epoch fitness(double fitness_factor){
         this.min_fitness = fitness_factor;
         return this;
@@ -127,18 +128,6 @@ public class Epoch {
     public Epoch max(int expected_max_population){
         this.expected_max_population = expected_max_population;
         return this;
-    }
-
-    public Epoch addCapacityFactor(double capacity_factor){
-        this.total_capacity_factor += capacity_factor;
-        return this;
-    }
-
-    public double averageCapacityFactor(){
-        if (total_capacity_factor == 0){
-            return 1;
-        }
-        return this.total_capacity_factor / (this.end_year - this.start_year + 1);
     }
 
     public int maxAge() {
