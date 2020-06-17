@@ -10,7 +10,7 @@ class Killed {
         total_age_at_death += age;
     }
 
-    void setLimit(int max){
+    void reset(int max){
         this.max = max;
         count = 0;
         total_age_at_death = 0;

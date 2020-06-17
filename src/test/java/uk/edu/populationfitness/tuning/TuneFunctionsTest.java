@@ -26,7 +26,7 @@ import static org.junit.Assert.assertSame;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class TuneFunctionsTest {
-    private static final int DiseaseYears = 3;
+    private static final int DiseaseYears = 1;
     private static final int PostDiseaseYears = 30;
     private static final int RepresentativeRealNumberOfGenes = 20000;
 
@@ -40,7 +40,7 @@ public class TuneFunctionsTest {
 
     private static final int SizeOfGenes = 10;
 
-    private static final int PopulationRatio = 10; //100;
+    private static final int PopulationRatio = 1; //100;
 
     private static final String EpochsPath = "epochs";
 
@@ -86,7 +86,7 @@ public class TuneFunctionsTest {
         config.setInitialPopulation(epochs.first().environment_capacity);
         config.setMutationsPerIndividual(MutationsPerIndividual);
 
-        return generations.tuneFitnessForAllEpochs(epochs, -maxFactor, maxFactor, 0.0000001, tuningPercentage);
+        return generations.tuneFitnessForAllEpochs(epochs, 0, maxFactor, 0.0000001, tuningPercentage);
     }
 
     private void checkTuningMeetsHypothesis(Epochs epochs, Config config, Tuning tuning, int tuningPercentage, boolean willPass){
@@ -109,13 +109,14 @@ public class TuneFunctionsTest {
         modernDisease.printPopulations("Modern Disease");
 
         if (willPass) {
+            Assert.assertTrue("Historical fitness increases", historical.fitnessesTrend > 0);
             Assert.assertTrue("Modern fitness trend lower than historical", historical.fitnessesTrend > modern.fitnessesTrend);
             //Assert.assertTrue("Modern fitness declines", modern.fitnessesTrend < 0);
-            Assert.assertTrue("Modern deaths similar to historical", Math.abs(historicalDisease.percentKilled - modernDisease.percentKilled) < tuningPercentage);
+            Assert.assertTrue("Modern deaths similar to historical", Math.abs(historicalDisease.percentKilled - modernDisease.percentKilled) < tuningPercentage * 2);
             //Assert.assertTrue("More modern deaths", historicalDisease.percentKilled <= modernDisease.percentKilled);
         }
         else {
-            Assert.assertFalse(historicalDisease.percentKilled <= modernDisease.percentKilled);
+            Assert.assertFalse(historicalDisease.percentKilled < modernDisease.percentKilled);
             Assert.assertFalse(modern.fitnessesTrend < 0);
             Assert.assertFalse(historical.fitnessesTrend > modern.fitnessesTrend);
         }
@@ -141,9 +142,12 @@ public class TuneFunctionsTest {
             assertSame("Tuned", result, PopulationComparison.WithinRange);
 
             // Ensure that the tuning result is what we expect
-            Assert.assertTrue("Modern looser than disease", tuning.disease_fit < tuning.modern_fit);
-            Assert.assertTrue("Modern looser than historical", tuning.historic_fit < tuning.modern_fit);
-            Assert.assertTrue("Historical looser than disease", tuning.disease_fit < tuning.historic_fit);
+            /*
+            Assert.assertTrue("Modern looser than disease", tuning.disease_fit > tuning.modern_fit);
+            Assert.assertTrue("Modern looser than historical", tuning.historic_fit > tuning.modern_fit);
+            Assert.assertTrue("Historical looser than disease", tuning.disease_fit > tuning.historic_fit);
+
+             */
         }
         else {
             assertNotSame(result, PopulationComparison.WithinRange);
@@ -189,7 +193,7 @@ public class TuneFunctionsTest {
 
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     private double findModernFitness(Epochs epochs) {
-        return epochs.epochs.stream().filter(epoch -> epoch.modern()).mapToDouble(e -> e.fitness()).max().getAsDouble();
+        return epochs.epochs.stream().filter(epoch -> epoch.modern()).mapToDouble(e -> e.fitness()).average().getAsDouble();
     }
 
     private double findHistoricalFitness(Epochs epochs) {
@@ -197,7 +201,7 @@ public class TuneFunctionsTest {
     }
 
     private double findDiseaseFitness(Epochs epochs) {
-        return epochs.epochs.stream().filter(e -> e.disease() && !e.modern()).mapToDouble(e -> e.fitness()).min().getAsDouble();
+        return epochs.epochs.stream().filter(e -> e.disease() && !e.modern()).mapToDouble(e -> e.fitness()).max().getAsDouble();
     }
 
     @Test public void testTuneRastrigin() throws IOException {
@@ -221,11 +225,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
-        tune(Function.SumOfPowers, 0.4, 20);
+        tune(Function.SumOfPowers, 1.0, 20);
     }
 
     @Test public void testTuneSumSquares() throws IOException {
-        tune(Function.SumSquares, 5, 15);
+        tune(Function.SumSquares, 5, 20);
     }
 
     @Test public void testTuneAckleys() throws IOException {
@@ -261,7 +265,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSalomon() throws IOException {
-        tune(Function.Salomon, 0.0022*2, 15);
+        tune(Function.Salomon, 1.0, 15);
     }
 
     @Test public void testTuneSchumerSteiglitz() throws IOException {
@@ -269,7 +273,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneSchwefel220() throws IOException {
-        tune(Function.Schwefel220, 1.75*2, 15);
+        tune(Function.Schwefel220, 1.0, 15);
     }
 
     @Test public void testTuneTrid() throws IOException {
@@ -281,11 +285,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneFixedOne() throws IOException {
-        tune(Function.FixedOne, 1.0, 15, true, false);
+        tune(Function.FixedOne, 1.0, 15, false, false);
     }
 
     @Test public void testTuneFixedHalf() throws IOException {
-        tune(Function.FixedHalf, 2.0, 15, true, false);
+        tune(Function.FixedHalf, 1, 15, false, false);
     }
 
     @Test public void testTuneFixedZero() throws IOException {
@@ -293,10 +297,10 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRandom() throws IOException {
-        tune(Function.Random, 100, 15, false, false);
+        tune(Function.Random, 100, 15, true, false);
     }
 
     @Test public void testTuneSinX() throws IOException {
-        tune(Function.SinX, 5.0, 20);
+        tune(Function.SinX, 2.0, 20);
     }
 }

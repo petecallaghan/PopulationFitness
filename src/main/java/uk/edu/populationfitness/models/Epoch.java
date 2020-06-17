@@ -110,6 +110,14 @@ public class Epoch {
         return !isModern && !isDisease;
     }
 
+    public boolean historicDisease() {
+        return isDisease && !isModern;
+    }
+
+    public boolean modernDisease(){
+        return isDisease && isModern;
+    }
+
     public Epoch fitness(double fitness_factor){
         this.min_fitness = fitness_factor;
         return this;

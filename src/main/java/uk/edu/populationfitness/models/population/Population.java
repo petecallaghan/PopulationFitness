@@ -116,6 +116,18 @@ public class Population {
         return false;
     }
 
+    private boolean killRandomizedWithinCapacity(Individual individual, int current_year) {
+        double fitness = fitnesses.add(individual.genes.fitness());
+        if (killed.count() > 0 && killed.remaining() < 1){
+            return false;
+        }
+        if (individual.isReadyToDie(current_year) || RepeatableRandom.generateNext() > 0.9){
+            killed.add(individual.age(current_year));
+            return true;
+        }
+        return false;
+    }
+
     private void addSurvivors(Predicate<Individual> survivor){
         individuals = individuals.stream().filter(survivor).collect(Collectors.toCollection(ArrayList::new));
     }
@@ -129,7 +141,8 @@ public class Population {
      */
     public int killThoseUnfitOrReadyToDie(int current_year, Epoch epoch){
         final int capacity =  epoch.capacityForYear(current_year);
-        killed.setLimit(individuals.size() - capacity);
+        final double previousMeanHalfFitness = fitnesses.averageFitness() * 2.0;
+        killed.reset(individuals.size() - capacity);
         fitnesses.resetCounts();
 
         if (individuals.size() < 1)
@@ -137,17 +150,25 @@ public class Population {
 /*
 3. Add the use of the different fitness factors in the different epochs:
     a. Pre-black death - kill less than mean fitness: Historic
-    b. Black death - kill less than disease fitness: Disease
     c. post black death - kill less than mean fitness: Historic
-    d. modern - kill less than random  * min fitness: Modern
+    b. Black death - kill less than disease fitness: Disease
     e. Modern ebola - kill less than disease fitness: Disease
+    d. modern - kill less than random  * min fitness: Modern
 
  */
-        if (epoch.isCapacityUnlimited()){
+        if (!epoch.modern() && !epoch.disease()) {
+            // Pre-black death - kill less than mean fitness: Historic
+            // Post black death - kill less than mean fitness: Historic
+            addSurvivors(i -> !killWeakerThanMinWithinCapacity(i, current_year, previousMeanHalfFitness));
+        }
+        else if (epoch.disease()) {
+            // Black death - kill less than disease fitness: Disease
+            // Modern ebola - kill less than disease fitness: Disease
             addSurvivors(i -> !killWeakerThanMin(i, current_year, epoch.fitness()));
         }
         else {
-            addSurvivors(i -> !killWeakerThanMin(i, current_year, epoch.fitness()));
+            // modern - kill less than random  * min fitness: Modern
+            addSurvivors(i -> !killRandomizedWithinCapacity(i, current_year));
         }
 
         average_life_expectancy = killed.averageAgeKilled();

@@ -145,7 +145,7 @@ public class GenerationsWriter {
         final String previousFile = previousFileName.get();
         if (previousFile != null){
             final File file = new File(previousFile);
-            file.delete();
+            //file.delete();
         }
 
         previousFileName.set(resultsFile);
