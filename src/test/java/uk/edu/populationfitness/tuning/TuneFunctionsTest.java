@@ -36,11 +36,11 @@ public class TuneFunctionsTest {
 
     private static final double RealMutationsPerIndividual = 150.0;
 
-    private static final int NumberOfGenes = 8;
+    private static final int NumberOfGenes = 20000;
 
-    private static final int SizeOfGenes = 10;
+    private static final int SizeOfGenes = 1000;
 
-    private static final int PopulationRatio = 1; //100;
+    private static final int PopulationRatio = 20; //100;
 
     private static final String EpochsPath = "epochs";
 
@@ -48,7 +48,8 @@ public class TuneFunctionsTest {
 
     private static final int TuningPercentage = 15;
 
-    private static final double MutationsPerIndividual = 1.0 / NumberOfGenes * SizeOfGenes; //(NumberOfGenes * SizeOfGenes * RealMutationsPerIndividual)
+    private static final double MutationsPerIndividual = 1.0 / (NumberOfGenes * SizeOfGenes);
+    //(NumberOfGenes * SizeOfGenes * RealMutationsPerIndividual)
             /// (RepresentativeRealNumberOfGenes * RepresentativeRealSizeOfGenes);
 
     private void tune(Function function, double maxFactor) throws IOException {
@@ -82,7 +83,7 @@ public class TuneFunctionsTest {
     private PopulationComparison tuneEpochFitnessFactors(double maxFactor, int tuningPercentage, Config config, Epochs epochs) {
         final Generations generations = new Generations(new Population(config));
 
-        epochs.increasePopulation(PopulationRatio);
+        epochs.reducePopulation(PopulationRatio);
         config.setInitialPopulation(epochs.first().environment_capacity);
         config.setMutationsPerIndividual(MutationsPerIndividual);
 
@@ -90,6 +91,7 @@ public class TuneFunctionsTest {
     }
 
     private void checkTuningMeetsHypothesis(Epochs epochs, Config config, Tuning tuning, int tuningPercentage, boolean willPass){
+        RepeatableRandom.resetSeed();
         Simulations.addSimulatedEpochsToEndOfTunedEpochs(config, epochs, tuning, DiseaseYears, PostDiseaseYears);
         SimulationThread simulation = new SimulationThread(config, epochs, tuning, 1);
         simulation.run();
@@ -112,7 +114,7 @@ public class TuneFunctionsTest {
             Assert.assertTrue("Historical fitness increases", historical.fitnessesTrend > 0);
             Assert.assertTrue("Modern fitness trend lower than historical", historical.fitnessesTrend > modern.fitnessesTrend);
             //Assert.assertTrue("Modern fitness declines", modern.fitnessesTrend < 0);
-            Assert.assertTrue("Modern deaths similar to historical", Math.abs(historicalDisease.percentKilled - modernDisease.percentKilled) < tuningPercentage * 2);
+            Assert.assertTrue("Modern deaths similar to historical", Math.abs(historicalDisease.percentKilled - modernDisease.percentKilled) < tuningPercentage * 3);
             //Assert.assertTrue("More modern deaths", historicalDisease.percentKilled <= modernDisease.percentKilled);
         }
         else {
@@ -205,11 +207,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneRastrigin() throws IOException {
-        tune(Function.Rastrigin, 3.82*2, 13);
+        tune(Function.Rastrigin, 3.82*2, 20);
     }
 
     @Test public void testTuneSphere() throws IOException {
-        tune(Function.Sphere, 2.63*2.0, 15);
+        tune(Function.Sphere, 2.63*2.0, 20);
     }
 
     @Test public void testTuneStyblinksiTang() throws IOException {
@@ -217,11 +219,11 @@ public class TuneFunctionsTest {
     }
 
     @Test public void  testTuneSchwefel226() throws IOException {
-        tune(Function.Schwefel226, 1, 15);
+        tune(Function.Schwefel226, 1, 20);
     }
 
     @Test public void testTuneRosenbrock() throws IOException {
-        tune(Function.Rosenbrock, 8, 15);
+        tune(Function.Rosenbrock, 1.0, 20);
     }
 
     @Test public void testTuneSumOfPowers() throws IOException {
@@ -237,7 +239,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneAlpine() throws IOException {
-        tune(Function.Alpine, 10, 15); //, 30);
+        tune(Function.Alpine, 10, 20); //, 30);
     }
 
     @Test public void testTuneBrown() throws IOException {
@@ -253,7 +255,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneExponential() throws IOException {
-        tune(Function.Exponential, 1.9, 15);
+        tune(Function.Exponential, 1.9, 20);
     }
 
     @Test public void testTuneGriewank() throws IOException {
@@ -261,7 +263,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneQing() throws IOException {
-        tune(Function.Qing, 7, 15);
+        tune(Function.Qing, 7, 20);
     }
 
     @Test public void testTuneSalomon() throws IOException {
@@ -281,7 +283,7 @@ public class TuneFunctionsTest {
     }
 
     @Test public void testTuneZakharoy() throws IOException {
-        tune(Function.Zakharoy, 100.0, 15);
+        tune(Function.Zakharoy, 0.25, 15);
     }
 
     @Test public void testTuneFixedOne() throws IOException {
