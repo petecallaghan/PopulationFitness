@@ -2,7 +2,6 @@ test/__pycache__/
 .cache/
 __pycache__/
 out/
-target/
 *.yaml
 ~$fitnessfunctions.xlsx
 experiments/28-09-2017.zip
@@ -33,3 +32,11 @@ Scala/PopulationFitness/epochs/functionepochs-Undefined-4-10-1.csv
 Scala/PopulationFitness/epochs/functionepochs-Ackleys-20000-1000-150.csv
 Scala/PopulationFitness/tuning/
 Scala/PopulationFitness/epochs/
+/target/archive-tmp/
+/target/generated-test-sources/
+/target/classes/
+/target/surefire/
+/target/generated-sources/
+/target/maven-archiver/
+/target/test-classes/
+/target/surefire-reports/
